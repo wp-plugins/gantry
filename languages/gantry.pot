@@ -1,0 +1,867 @@
+# Translation of the WordPress plugin   by .
+# Copyright (C) 2010
+# This file is distributed under the same license as the  package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Rocketthem Gantry Framework\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/php\n"
+"POT-Creation-Date: 2010-07-17 18:59-0500\n"
+"PO-Revision-Date: 2010-07-20 14:22-0600\n"
+"Last-Translator: Rockettheme <support@rockettheme.com>\n"
+"Language-Team: Rockettheme <support@rockettheme.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: admin/ajax-models/diagnostics.php:110
+msgid "Safe Mode"
+msgstr "Safe Mode"
+
+#: admin/ajax-models/diagnostics.php:111
+msgid "Open basedir"
+msgstr "Open basedir"
+
+#: admin/ajax-models/diagnostics.php:111
+#: admin/ajax-models/diagnostics.php:118
+#: admin/ajax-models/diagnostics.php:122
+msgid "none"
+msgstr "none"
+
+#: admin/ajax-models/diagnostics.php:112
+msgid "Display Errors"
+msgstr "Display Errors"
+
+#: admin/ajax-models/diagnostics.php:113
+msgid "Short Open Tags"
+msgstr "Short Open Tags"
+
+#: admin/ajax-models/diagnostics.php:114
+msgid "File Uploads"
+msgstr "File Uploads"
+
+#: admin/ajax-models/diagnostics.php:115
+msgid "Magic Quotes"
+msgstr "Magic Quotes"
+
+#: admin/ajax-models/diagnostics.php:116
+msgid "Register Globals"
+msgstr "Register Globals"
+
+#: admin/ajax-models/diagnostics.php:117
+msgid "Output Buffering"
+msgstr "Output Buffering"
+
+#: admin/ajax-models/diagnostics.php:118
+msgid "Session Save Path"
+msgstr "Session Save Path"
+
+#: admin/ajax-models/diagnostics.php:119
+msgid "Session Auto Start"
+msgstr "Session Auto Start"
+
+#: admin/ajax-models/diagnostics.php:120
+msgid "XML Enabled"
+msgstr "XML Enabled"
+
+#: admin/ajax-models/diagnostics.php:120
+#: admin/ajax-models/diagnostics.php:121
+#: admin/ajax-models/diagnostics.php:123
+#: admin/ajax-models/diagnostics.php:124
+#: widgets/RokMenu/themes/fusion/options.php:41
+#: widgets/RokMenu/themes/fusion/options.php:47
+#: widgets/RokMenu/themes/fusion/options.php:103
+#: widgets/RokMenu/themes/fusion/options.php:147
+#: widgets/RokMenu/themes/fusion/options.php:165
+#: widgets/rokmenu.php:109
+#: widgets/rokmenu.php:121
+#: widgets/rokmenu.php:136
+msgid "Yes"
+msgstr "Yes"
+
+#: admin/ajax-models/diagnostics.php:120
+#: admin/ajax-models/diagnostics.php:121
+#: admin/ajax-models/diagnostics.php:123
+#: admin/ajax-models/diagnostics.php:124
+#: widgets/RokMenu/themes/fusion/options.php:43
+#: widgets/RokMenu/themes/fusion/options.php:49
+#: widgets/RokMenu/themes/fusion/options.php:105
+#: widgets/RokMenu/themes/fusion/options.php:149
+#: widgets/RokMenu/themes/fusion/options.php:167
+#: widgets/rokmenu.php:111
+#: widgets/rokmenu.php:123
+#: widgets/rokmenu.php:138
+msgid "No"
+msgstr "No"
+
+#: admin/ajax-models/diagnostics.php:121
+msgid "Zlib Enabled"
+msgstr "Zlib Enabled"
+
+#: admin/ajax-models/diagnostics.php:122
+msgid "Disabled Functions"
+msgstr "Disabled Functions"
+
+#: admin/ajax-models/diagnostics.php:123
+msgid "Mbstring Enabled"
+msgstr "Mbstring Enabled"
+
+#: admin/ajax-models/diagnostics.php:124
+msgid "Iconv Available"
+msgstr "Iconv Available"
+
+#: admin/ajax-models/diagnostics.php:128
+msgid "WYSIWYG Editor"
+msgstr "WYSIWYG Editor"
+
+#: admin/ajax-models/diagnostics.php:236
+#: admin/ajax-models/diagnostics.php:237
+msgid "Cache Directory"
+msgstr "Cache Directory"
+
+#: admin/ajax-models/diagnostics.php:238
+msgid "Log Directory"
+msgstr "Log Directory"
+
+#: admin/ajax-models/diagnostics.php:240
+msgid "Temp Directory"
+msgstr "Temp Directory"
+
+#: admin/assignment_functions.php:166
+#: admin/assignment_functions.php:242
+#: admin/assignment_functions.php:282
+msgid "No items."
+msgstr "No items."
+
+#: admin/assignment_functions.php:189
+#, php-format
+msgctxt "nav menu front page title"
+msgid "Home: %s"
+msgstr "Home: %s"
+
+#: admin/assignment_functions.php:199
+msgctxt "nav menu home label"
+msgid "Home"
+msgstr "Home"
+
+#: admin/assignment_functions.php:399
+msgid "Custom"
+msgstr "Custom"
+
+#: admin/forms/fields/gspacer.php:31
+msgid "PRESET_SAVER_DESC"
+msgstr ""
+
+#: admin/forms/fields/gspacer.php:32
+msgid "PRESET_SAVER"
+msgstr ""
+
+#: admin/forms/fields/positions.php:137
+msgid "Current Positions"
+msgstr "Current Positions"
+
+#: admin/index.php:3
+#: admin/override.php:3
+#: admin_functions.php:98
+msgid "Settings"
+msgstr "Settings"
+
+#: admin/index.php:93
+#: admin/override.php:97
+msgid "Reset to Defaults"
+msgstr "Reset to Defaults"
+
+#: admin/index.php:93
+#: admin/override.php:97
+msgid "Reset all theme settings to the default values? Are you sure?"
+msgstr "Reset all theme settings to the default values? Are you sure?"
+
+#: admin/index.php:95
+#: admin/override.php:99
+msgid "Save Changes"
+msgstr "Save Changes"
+
+#: admin/index.php:100
+#: admin/override.php:104
+#: admin_functions.php:132
+msgid "Settings saved."
+msgstr "Settings saved."
+
+#: admin/index.php:100
+#: admin/index.php:105
+#: admin/override.php:104
+#: admin/override.php:109
+#: admin_functions.php:132
+msgid "View site"
+msgstr "View site"
+
+#: admin/index.php:105
+#: admin/override.php:109
+msgid "Settings reset to defaults."
+msgstr "Settings reset to defaults."
+
+#: admin/override.php:164
+msgid "Assignments"
+msgstr "Assignments"
+
+#: admin_functions.php:35
+msgid "PRESET_TITLE"
+msgstr ""
+
+#: admin_functions.php:36
+msgid "PRESET_SELECT"
+msgstr ""
+
+#: admin_functions.php:37
+msgid "PRESET_NAME"
+msgstr ""
+
+#: admin_functions.php:38
+msgid "KEY_NAME"
+msgstr ""
+
+#: admin_functions.php:39
+msgid "PRESET_NAMING"
+msgstr ""
+
+#: admin_functions.php:40
+msgid "PRESET_SKIP"
+msgstr ""
+
+#: admin_functions.php:41
+msgid "SUCCESS_SAVE"
+msgstr ""
+
+#: admin_functions.php:42
+msgid "SUCCESS_MSG"
+msgstr ""
+
+#: admin_functions.php:43
+msgid "FAIL_SAVE"
+msgstr ""
+
+#: admin_functions.php:44
+msgid "FAIL_MSG"
+msgstr ""
+
+#: admin_functions.php:45
+msgid "CANCEL"
+msgstr "Cancel"
+
+#: admin_functions.php:46
+msgid "SAVE"
+msgstr "Save"
+
+#: admin_functions.php:47
+msgid "RETRY"
+msgstr "Retry"
+
+#: admin_functions.php:48
+msgid "CLOSE"
+msgstr "Close"
+
+#: admin_functions.php:49
+msgid "SHOW_PARAMETERS"
+msgstr "Show Parameters"
+
+#: admin_functions.php:79
+msgid "Class Suffix:"
+msgstr "Class Suffix:"
+
+#: admin_functions.php:99
+msgid "You are not authorised to perform this operation."
+msgstr "You are not authorised to perform this operation."
+
+#: core/config/gantryform.class.php:1528
+msgid "JLIB_FORM_ERROR_VALIDATE_FIELD"
+msgstr ""
+
+#: core/config/gantryparameters.class.php:112
+msgid "Element not defined for type"
+msgstr "Element not defined for type"
+
+#: core/gantry.class.php:1528
+msgid "Error Loading Modules"
+msgstr "Error Loading Modules"
+
+#: core/utilities/gantrydate.class.php:266
+msgid "JANUARY_SHORT"
+msgstr "Jan"
+
+#: core/utilities/gantrydate.class.php:266
+msgid "JANUARY"
+msgstr "January"
+
+#: core/utilities/gantrydate.class.php:267
+msgid "FEBRUARY_SHORT"
+msgstr "Feb"
+
+#: core/utilities/gantrydate.class.php:267
+msgid "FEBRUARY"
+msgstr "February"
+
+#: core/utilities/gantrydate.class.php:268
+msgid "MARCH_SHORT"
+msgstr "Mar"
+
+#: core/utilities/gantrydate.class.php:268
+msgid "MARCH"
+msgstr "March"
+
+#: core/utilities/gantrydate.class.php:269
+msgid "APRIL_SHORT"
+msgstr "Apr"
+
+#: core/utilities/gantrydate.class.php:269
+msgid "APRIL"
+msgstr "April"
+
+#: core/utilities/gantrydate.class.php:270
+msgid "MAY_SHORT"
+msgstr "May"
+
+#: core/utilities/gantrydate.class.php:270
+msgid "MAY"
+msgstr "May"
+
+#: core/utilities/gantrydate.class.php:271
+msgid "JUNE_SHORT"
+msgstr "Jun"
+
+#: core/utilities/gantrydate.class.php:271
+msgid "JUNE"
+msgstr "June"
+
+#: core/utilities/gantrydate.class.php:272
+msgid "JULY_SHORT"
+msgstr "Jul"
+
+#: core/utilities/gantrydate.class.php:272
+msgid "JULY"
+msgstr "July"
+
+#: core/utilities/gantrydate.class.php:273
+msgid "AUGUST_SHORT"
+msgstr "Aug"
+
+#: core/utilities/gantrydate.class.php:273
+msgid "AUGUST"
+msgstr "August"
+
+#: core/utilities/gantrydate.class.php:274
+msgid "SEPTEMBER_SHORT"
+msgstr "Sept"
+
+#: core/utilities/gantrydate.class.php:274
+msgid "SEPTEMBER"
+msgstr "September"
+
+#: core/utilities/gantrydate.class.php:275
+msgid "OCTOBER_SHORT"
+msgstr "Oct"
+
+#: core/utilities/gantrydate.class.php:275
+msgid "OCTOBER"
+msgstr "October"
+
+#: core/utilities/gantrydate.class.php:276
+msgid "NOVEMBER_SHORT"
+msgstr "Nov"
+
+#: core/utilities/gantrydate.class.php:276
+msgid "NOVEMBER"
+msgstr "November"
+
+#: core/utilities/gantrydate.class.php:277
+msgid "DECEMBER_SHORT"
+msgstr "Dec"
+
+#: core/utilities/gantrydate.class.php:277
+msgid "DECEMBER"
+msgstr "December"
+
+#: core/utilities/gantrydate.class.php:293
+msgid "SUN"
+msgstr "Sun"
+
+#: core/utilities/gantrydate.class.php:293
+msgid "SUNDAY"
+msgstr "Sunday"
+
+#: core/utilities/gantrydate.class.php:294
+msgid "MON"
+msgstr "Mon"
+
+#: core/utilities/gantrydate.class.php:294
+msgid "MONDAY"
+msgstr "Monday"
+
+#: core/utilities/gantrydate.class.php:295
+msgid "TUE"
+msgstr "Tue"
+
+#: core/utilities/gantrydate.class.php:295
+msgid "TUESDAY"
+msgstr "Tuesday"
+
+#: core/utilities/gantrydate.class.php:296
+msgid "WED"
+msgstr "Wed"
+
+#: core/utilities/gantrydate.class.php:296
+msgid "WEDNESDAY"
+msgstr "Wednesday"
+
+#: core/utilities/gantrydate.class.php:297
+msgid "THU"
+msgstr "Thu"
+
+#: core/utilities/gantrydate.class.php:297
+msgid "THURSDAY"
+msgstr "Thursday"
+
+#: core/utilities/gantrydate.class.php:298
+msgid "FRI"
+msgstr "Fri"
+
+#: core/utilities/gantrydate.class.php:298
+msgid "FRIDAY"
+msgstr "Friday"
+
+#: core/utilities/gantrydate.class.php:299
+msgid "SAT"
+msgstr "Sat"
+
+#: core/utilities/gantrydate.class.php:299
+msgid "SATURDAY"
+msgstr "Saturday"
+
+#: facets/menu/themes/fusion/layout.php:28
+msgid "behavior.mootools"
+msgstr "behavior.mootools"
+
+#: features/fontsizer.php:57
+msgid "TEXT_SIZE"
+msgstr "Text Size"
+
+#: features/fontsizer.php:59
+#: widgets/fontsizer.php:74
+msgid "DEC_FONT_SIZE"
+msgstr "Decrease Font Size"
+
+#: features/fontsizer.php:60
+#: widgets/fontsizer.php:75
+msgid "INC_FONT_SIZE"
+msgstr "Increase Font Size"
+
+#: gantry-ajax.php:39
+msgid "Unable to find Gantry library.  Please make sure you have it installed."
+msgstr "Unable to find Gantry library.  Please make sure you have it installed."
+
+#: gizmos/title.php:50
+#, php-format
+msgid "Search results for %s"
+msgstr "Search results for %s"
+
+#: gizmos/title.php:54
+msgid "Not Found"
+msgstr "Not Found"
+
+#: html/layouts/comment_basic.php:45
+#, php-format
+msgid "<cite class=\"fn\">%s</cite>"
+msgstr "<cite class=\"fn\">%s</cite>"
+
+#: html/layouts/comment_basic.php:47
+#, php-format
+msgid "%1$s at %2$s"
+msgstr "%1$s at %2$s"
+
+#: html/layouts/comment_basic.php:48
+msgid "(Edit)"
+msgstr "(Edit)"
+
+#: html/layouts/comment_basic.php:54
+msgid "Your comment is awaiting moderation."
+msgstr "Your comment is awaiting moderation."
+
+#: html/layouts/commentstempl_basic.php:42
+msgid "This post is password protected. Enter the password to view comments."
+msgstr "This post is password protected. Enter the password to view comments."
+
+#: html/layouts/commentstempl_basic.php:51
+msgid "No Comments"
+msgstr "No Comments"
+
+#: html/layouts/commentstempl_basic.php:51
+msgid "1 Comment"
+msgstr "1 Comment"
+
+#: html/layouts/commentstempl_basic.php:51
+msgid "% Comments"
+msgstr "% Comments"
+
+#: html/layouts/commentstempl_basic.php:54
+msgid "Reply"
+msgstr "Reply"
+
+#: html/layouts/commentstempl_basic.php:57
+msgid "Older Comments"
+msgstr "Older Comments"
+
+#: html/layouts/commentstempl_basic.php:58
+msgid "Newer Comments"
+msgstr "Newer Comments"
+
+#: html/layouts/commentstempl_basic.php:67
+msgid "Comments are closed."
+msgstr "Comments are closed."
+
+#: html/layouts/commentstempl_basic.php:75
+msgid "Leave a Reply"
+msgstr "Leave a Reply"
+
+#: html/layouts/commentstempl_basic.php:75
+#, php-format
+msgid "Leave a Reply to %s"
+msgstr "Leave a Reply to %s"
+
+#: html/layouts/commentstempl_basic.php:82
+msgid "You must be"
+msgstr "You must be"
+
+#: html/layouts/commentstempl_basic.php:83
+msgid "logged in"
+msgstr "logged in"
+
+#: html/layouts/commentstempl_basic.php:83
+msgid "to post a comment."
+msgstr "to post a comment."
+
+#: html/layouts/commentstempl_basic.php:90
+msgid "Logged in as"
+msgstr "Logged in as"
+
+#: html/layouts/commentstempl_basic.php:93
+msgid "Log out of this account"
+msgstr "Log out of this account"
+
+#: html/layouts/commentstempl_basic.php:93
+msgid "Log out"
+msgstr "Log out"
+
+#: html/layouts/commentstempl_basic.php:97
+#: html/layouts/commentstempl_basic.php:98
+msgid "Name (Required)"
+msgstr "Name (Required)"
+
+#: html/layouts/commentstempl_basic.php:104
+#: html/layouts/commentstempl_basic.php:105
+msgid "E-mail (Required)"
+msgstr "E-mail (Required)"
+
+#: html/layouts/commentstempl_basic.php:111
+#: html/layouts/commentstempl_basic.php:112
+msgid "Website"
+msgstr "Website"
+
+#: html/layouts/commentstempl_basic.php:122
+msgid "Submit"
+msgstr "Submit"
+
+#: translate/pomo/sample/app.php:56
+#, php-format
+msgid "Welcome %s!"
+msgstr "Welcome %s!"
+
+#: translate/pomo/sample/app.php:60
+msgid "A string with low priority!"
+msgstr "A string with low priority!"
+
+#: translate/pomo/sample/app.php:62
+msgid "Bye\n"
+msgstr "Bye\n"
+
+#: widgets/RokMenu/themes/fusion/options.php:39
+msgid "Load CSS:"
+msgstr "Load CSS:"
+
+#: widgets/RokMenu/themes/fusion/options.php:45
+msgid "Enable Javascript:"
+msgstr "Enable Javascript:"
+
+#: widgets/RokMenu/themes/fusion/options.php:51
+msgid "Menu Opacity:"
+msgstr "Menu Opacity:"
+
+#: widgets/RokMenu/themes/fusion/options.php:54
+msgid "Menu Effect:"
+msgstr "Menu Effect:"
+
+#: widgets/RokMenu/themes/fusion/options.php:56
+msgid "Slide"
+msgstr "Slide"
+
+#: widgets/RokMenu/themes/fusion/options.php:57
+msgid "Slide &amp; Fade"
+msgstr "Slide &amp; Fade"
+
+#: widgets/RokMenu/themes/fusion/options.php:60
+msgid "Hide Delay:"
+msgstr "Hide Delay:"
+
+#: widgets/RokMenu/themes/fusion/options.php:63
+msgid "Menu Animation:"
+msgstr "Menu Animation:"
+
+#: widgets/RokMenu/themes/fusion/options.php:65
+#: widgets/RokMenu/themes/fusion/options.php:109
+msgid "linear"
+msgstr "linear"
+
+#: widgets/RokMenu/themes/fusion/options.php:66
+#: widgets/RokMenu/themes/fusion/options.php:110
+msgid "Quad.easeOut"
+msgstr "Quad.easeOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:67
+#: widgets/RokMenu/themes/fusion/options.php:111
+msgid "Quad.easeIn"
+msgstr "Quad.easeIn"
+
+#: widgets/RokMenu/themes/fusion/options.php:68
+#: widgets/RokMenu/themes/fusion/options.php:112
+msgid "Quad.easeInOut"
+msgstr "Quad.easeInOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:69
+#: widgets/RokMenu/themes/fusion/options.php:113
+msgid "Cubic.easeOut"
+msgstr "Cubic.easeOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:70
+#: widgets/RokMenu/themes/fusion/options.php:114
+msgid "Cubic.easeIn"
+msgstr "Cubic.easeIn"
+
+#: widgets/RokMenu/themes/fusion/options.php:71
+#: widgets/RokMenu/themes/fusion/options.php:115
+msgid "Cubic.easeInOut"
+msgstr "Cubic.easeInOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:72
+#: widgets/RokMenu/themes/fusion/options.php:116
+msgid "Quart.easeOut"
+msgstr "Quart.easeOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:73
+#: widgets/RokMenu/themes/fusion/options.php:117
+msgid "Quart.easeIn"
+msgstr "Quart.easeIn"
+
+#: widgets/RokMenu/themes/fusion/options.php:74
+#: widgets/RokMenu/themes/fusion/options.php:118
+msgid "Quart.easeInOut"
+msgstr "Quart.easeInOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:75
+#: widgets/RokMenu/themes/fusion/options.php:119
+msgid "Quint.easeOut"
+msgstr "Quint.easeOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:76
+#: widgets/RokMenu/themes/fusion/options.php:120
+msgid "Quint.easeIn"
+msgstr "Quint.easeIn"
+
+#: widgets/RokMenu/themes/fusion/options.php:77
+#: widgets/RokMenu/themes/fusion/options.php:121
+msgid "Quint.easeInOut"
+msgstr "Quint.easeInOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:78
+#: widgets/RokMenu/themes/fusion/options.php:122
+msgid "Expo.easeOut"
+msgstr "Expo.easeOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:79
+#: widgets/RokMenu/themes/fusion/options.php:123
+msgid "Expo.easeIn"
+msgstr "Expo.easeIn"
+
+#: widgets/RokMenu/themes/fusion/options.php:80
+#: widgets/RokMenu/themes/fusion/options.php:124
+msgid "Expo.easeInOut"
+msgstr "Expo.easeInOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:81
+#: widgets/RokMenu/themes/fusion/options.php:125
+msgid "Circ.easeOut"
+msgstr "Circ.easeOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:82
+#: widgets/RokMenu/themes/fusion/options.php:126
+msgid "Circ.easeIn"
+msgstr "Circ.easeIn"
+
+#: widgets/RokMenu/themes/fusion/options.php:83
+#: widgets/RokMenu/themes/fusion/options.php:127
+msgid "Circ.easeInOut"
+msgstr "Circ.easeInOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:84
+#: widgets/RokMenu/themes/fusion/options.php:128
+msgid "Sine.easeOut"
+msgstr "Sine.easeOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:85
+#: widgets/RokMenu/themes/fusion/options.php:129
+msgid "Sine.easeIn"
+msgstr "Sine.easeIn"
+
+#: widgets/RokMenu/themes/fusion/options.php:86
+#: widgets/RokMenu/themes/fusion/options.php:130
+msgid "Sine.easeInOut"
+msgstr "Sine.easeInOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:87
+#: widgets/RokMenu/themes/fusion/options.php:131
+msgid "Back.easeOut"
+msgstr "Back.easeOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:88
+#: widgets/RokMenu/themes/fusion/options.php:132
+msgid "Back.easeIn"
+msgstr "Back.easeIn"
+
+#: widgets/RokMenu/themes/fusion/options.php:89
+#: widgets/RokMenu/themes/fusion/options.php:133
+msgid "Back.easeInOut"
+msgstr "Back.easeInOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:90
+#: widgets/RokMenu/themes/fusion/options.php:134
+msgid "Bounce.easeOut"
+msgstr "Bounce.easeOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:91
+#: widgets/RokMenu/themes/fusion/options.php:135
+msgid "Bounce.easeIn"
+msgstr "Bounce.easeIn"
+
+#: widgets/RokMenu/themes/fusion/options.php:92
+#: widgets/RokMenu/themes/fusion/options.php:136
+msgid "Bounce.easeInOut"
+msgstr "Bounce.easeInOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:93
+#: widgets/RokMenu/themes/fusion/options.php:137
+msgid "Elastic.easeOut"
+msgstr "Elastic.easeOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:94
+#: widgets/RokMenu/themes/fusion/options.php:138
+msgid "Elastic.easeIn"
+msgstr "Elastic.easeIn"
+
+#: widgets/RokMenu/themes/fusion/options.php:95
+#: widgets/RokMenu/themes/fusion/options.php:139
+msgid "Elastic.easeInOut"
+msgstr "Elastic.easeInOut"
+
+#: widgets/RokMenu/themes/fusion/options.php:98
+msgid "Menu Duration:"
+msgstr "Menu Duration:"
+
+#: widgets/RokMenu/themes/fusion/options.php:101
+msgid "Enable Pill:"
+msgstr "Enable Pill:"
+
+#: widgets/RokMenu/themes/fusion/options.php:107
+msgid "Pill Animation:"
+msgstr "Pill Animation:"
+
+#: widgets/RokMenu/themes/fusion/options.php:142
+msgid "Pill Duration:"
+msgstr "Pill Duration:"
+
+#: widgets/RokMenu/themes/fusion/options.php:145
+msgid "Centered Dropdowns:"
+msgstr "Centered Dropdowns:"
+
+#: widgets/RokMenu/themes/fusion/options.php:151
+msgid "Level 2 X Offset:"
+msgstr "Level 2 X Offset:"
+
+#: widgets/RokMenu/themes/fusion/options.php:154
+msgid "Level 2 Y Offset:"
+msgstr "Level 2 Y Offset:"
+
+#: widgets/RokMenu/themes/fusion/options.php:157
+msgid "Submenus X Offset:"
+msgstr "Submenus X Offset:"
+
+#: widgets/RokMenu/themes/fusion/options.php:160
+msgid "Submenus Y Offset:"
+msgstr "Submenus Y Offset:"
+
+#: widgets/RokMenu/themes/fusion/options.php:163
+msgid "Enable Active ID:"
+msgstr "Enable Active ID:"
+
+#: widgets/divider.php:25
+msgid "Gantry Divider Widget"
+msgstr "Gantry Divider Widget"
+
+#: widgets/divider.php:27
+msgid "Gantry Divider"
+msgstr "Gantry Divider"
+
+#: widgets/rokmenu.php:35
+msgid "RocketTheme RokMenu Widget"
+msgstr "RocketTheme RokMenu Widget"
+
+#: widgets/rokmenu.php:37
+msgid "RokMenu"
+msgstr "RokMenu"
+
+#: widgets/rokmenu.php:107
+msgid "Show Home Menu Item:"
+msgstr "Show Home Menu Item:"
+
+#: widgets/rokmenu.php:115
+msgid "Home Menu Text:"
+msgstr "Home Menu Text:"
+
+#: widgets/rokmenu.php:119
+msgid "Limit Levels:"
+msgstr "Limit Levels:"
+
+#: widgets/rokmenu.php:126
+msgid "Start Level:"
+msgstr "Start Level:"
+
+#: widgets/rokmenu.php:130
+msgid "End Level:"
+msgstr "End Level:"
+
+#: widgets/rokmenu.php:134
+msgid "Show All Children:"
+msgstr "Show All Children:"
+
+#: widgets/rokmenu.php:141
+msgid "Maximum Depth:"
+msgstr "Maximum Depth:"
+
+#: widgets/rokmenu.php:145
+msgid "Exclude Pages:"
+msgstr "Exclude Pages:"
+
+msgid "Widgets"
+msgstr "Widgets"
+
