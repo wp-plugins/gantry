@@ -201,3 +201,8 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 
 = 1.0 =
 * Changelog Creation
+
+== Upgrade Notice ==
+
+= 1.19 =
+This version of plugin resolves previous directory-naming issues.
