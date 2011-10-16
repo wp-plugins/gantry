@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		1.19 September 20, 2011
+ * @version		1.20 October 16, 2011
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -23,12 +23,13 @@ class GantryGizmoJSTools extends GantryGizmo {
 
 	function query_parsed_init() {
         global $gantry;
+        
+        $gantry->addScript('mootools.js');
 		
 		// build spans
 		if ($gantry->get('buildspans-enabled')) {
 			$modules = "['rt-block']";
 			$headers = "['h3','h2','h1']";
-			$gantry->addScript('mootools.js');
 			$gantry->addScript('gantry-buildspans.js');
 			$gantry->addDomReadyScript($this->_buildSpans($modules, $headers));
 		}

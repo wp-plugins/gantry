@@ -4,7 +4,7 @@ Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.19
+Stable tag: 1.20
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -78,6 +78,18 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 1.20 =
+* Added a fix to prevent frozen widgets and widgets appearing in wrong overrides
+* Added a script that should automatically fix all existing frozen widgets and overrides
+* Added support for WordPress Multi Site installations
+* Added check for instance settings of WordPress widget classes
+* The $ signs in page titles should be now displayed properly
+* Added require_once parameter to the locate_type function
+* Updated the SmartLoad gizmo JS file to fix XPath Ignores
+* Fixed the situation when the MooTools would only get loaded when the Build Spans gizmo is enabled
+* Fixed the situation when front-page.php file wouldn't get loaded from the proper location
+* Modified the MU Register gizmo to add very basic width settings to the activate and signup pages
 
 = 1.19 =
 * Adjusted for WordPress plugin directory
@@ -168,7 +180,7 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Fixed swapping widget IDs in overrides
 
 = 1.5 =
-* Added check for empty widget postions in render
+* Added check for empty widget positions in render
 * Gantry Logo widget 'Per Style' setting is no longer hidden
 * Changed some JS binds to follow the new ES5 specs
 * Fixed Colorchooser and Gradient fields
@@ -191,8 +203,8 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 = 1.2 =
 * Added Minefield to the list of Browsers
 * Add support for Signup page to template page overrides
-* Force Widget Accessability Mode off for Gantry Themes
-* Fixed addStyle to better handle -override files and get propper css file overrides from template
+* Force Widget Accessebility Mode off for Gantry Themes
+* Fixed addStyle to better handle -override files and get proper css file overrides from template
 * Moved cache to be WP Transients based.
 * Added base level diagnostics
 
@@ -204,5 +216,5 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 
 == Upgrade Notice ==
 
-= 1.19 =
-This version of plugin resolves previous directory-naming issues.
+= 1.20 =
+This version includes several important fixes and it is highly recommended for everyone to update.

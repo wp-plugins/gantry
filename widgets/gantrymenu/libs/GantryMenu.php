@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.19 September 20, 2011
+ * @version   1.20 October 16, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -8,10 +8,22 @@
 
 if (class_exists('GantryRokMenu')) return;
 
-class GantryMenu extends RokMenu {
-    protected function getProvider() {
+class GantryMenu extends RokMenu
+{
+
+    private $theme;
+
+    public function __construct($theme, $instance)
+    {
+        $this->theme = $theme;
+        parent::__construct($instance);
+
+    }
+
+    protected function getProvider()
+    {
         global $gantry;
-        $providerClass = "GantryMenuProvider". ucfirst($gantry->platform->platform);
+        $providerClass = "GantryMenuProvider" . ucfirst($gantry->platform->platform);
         $file = dirname(__FILE__) . '/providers/' . $providerClass . '.php';
         if (!class_exists($providerClass) && file_exists($file)) {
             require_once($file);
@@ -24,7 +36,27 @@ class GantryMenu extends RokMenu {
         }
     }
 
-    public function enqueueHeaderFiles() {
+    protected function getRenderer()
+    {
+        global $gantry;
+        $rendererClass = "GantryMenuRenderer" . ucfirst($gantry->platform->platform);
+        $file = dirname(__FILE__) . '/renderers/' . $rendererClass . '.php';
+        if (!class_exists($rendererClass) && file_exists($file)) {
+            require_once($file);
+        }
+        if (class_exists($rendererClass)) {
+            /** @var $renderer GantryMenuRendererWordpress */
+            $renderer =  new $rendererClass($this->args);
+        }
+        else {
+            return false;
+        }
+        $renderer->setTheme($this->theme);
+        return $renderer;
+    }
+
+    public function enqueueHeaderFiles()
+    {
         global $gantry;
         foreach ($this->layout->getScriptFiles() as $name => $script) {
             $gantry->addScript($script['url']);
@@ -34,7 +66,8 @@ class GantryMenu extends RokMenu {
         }
     }
 
-    public function renderInlineHeader() {
+    public function renderInlineHeader()
+    {
         global $gantry;
         $style = $this->layout->getInlineStyle();
         if (!empty($style)) {
@@ -45,5 +78,11 @@ class GantryMenu extends RokMenu {
             $gantry->addInlineScript($js);
         }
         return;
+    }
+
+    public function render()
+    {
+        $this->renderHeader();
+        return $this->renderMenu();
     }
 }

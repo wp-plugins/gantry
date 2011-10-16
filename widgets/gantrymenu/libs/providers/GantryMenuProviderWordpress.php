@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.19 September 20, 2011
+ * @version   1.20 October 16, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -13,7 +13,7 @@ if (!class_exists('GantryMenuProviderWordpress')) {
         protected $current_url;
         const PREFIX = "gantrymenu_";
 
-        public function __construct($args) {
+        public function __construct(&$args) {
             parent::__construct($args);
             $this->current_url = $this->currentPageURL();
         }

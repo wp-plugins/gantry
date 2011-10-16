@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.19 September 20, 2011
+ * @version   1.20 October 16, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -35,8 +35,10 @@ function _getWidgetInstanceParams($widget_id){
 
         if (is_array($widget_info['callback'])){
             $widget =& $widget_info['callback'][0];
-            $instances = $widget->get_settings();
-            $instance_params = $instances[$widget_info['params'][0]['number']];
+            if (is_object($widget) && $widget instanceof WP_Widget) {
+	            $instances = $widget->get_settings();
+	            $instance_params = $instances[$widget_info['params'][0]['number']];
+            }
         }
         else {
             $instance_params = $wp_registered_widgets[$id]['params'];

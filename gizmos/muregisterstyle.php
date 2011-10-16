@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.19 September 20, 2011
+ * @version   1.20 October 16, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -25,11 +25,18 @@ class GantryGizmoMURegisterStyle extends GantryGizmo {
 
 
     function query_parsed_init() {
-        global $gantry;
+        global $gantry, $pagenow;
 
-		$css = '.mu_register {width: 900px;padding-bottom:10px;}';
- 		
- 		$gantry->addInlineStyle($css);
+        if ($pagenow == 'wp-signup.php') {
+            $css = '.mu_register {width: 900px;padding-bottom:10px;}';
+            $gantry->addInlineStyle($css);
+        }
+
+        if ($pagenow == 'wp-activate.php') {
+            $activation_css = '#content {width: 960px; margin: 0 auto;}'."\n";
+            $activation_css .= '#content h2, #content form {margin-left: 10px; margin-right: 10px;}';
+            $gantry->addInlineStyle($activation_css);
+        }
 
     }
 }

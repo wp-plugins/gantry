@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.19 September 20, 2011
+ * @version   1.20 October 16, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -428,7 +428,7 @@ class GantryBodyLayout extends GantryLayout {
     }
 
     function get_front_page_type() {
-        return apply_filters('front_page_type', locate_template(array('front-page.php')));
+        return apply_filters('front_page_type', $this->locate_type(array('front-page.php')));
     }
 
     /**
@@ -492,7 +492,7 @@ class GantryBodyLayout extends GantryLayout {
      * @param bool $load If true the template file will be loaded if it is found.
      * @return string The template filename if one is located.
      */
-    function locate_type($template_names, $load = false)
+    function locate_type($template_names, $load = false, $require_once = true)
     {
         global $gantry;
 
@@ -512,7 +512,7 @@ class GantryBodyLayout extends GantryLayout {
         }
 
         if ($load && '' != $located)
-            $this->load_type($located);
+            $this->load_type($located, $require_once);
 
         return $located;
     }

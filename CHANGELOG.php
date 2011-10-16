@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  * 
- * @version   1.19 September 20, 2011
+ * @version   1.20 October 16, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,21 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 1.20 Release [] ------
+# Added a fix to prevent frozen widgets and widgets appearing in wrong overrides
++ Added a script that should automatically fix all existing frozen widgets and overrides
++ Added support for WordPress Multi Site installations
+# Added check for instance settings of WordPress widget classes
+# The $ signs in page titles should be now displayed properly
+^ Added require_once parameter to the locate_type function
+# Updated the SmartLoad gizmo JS file to fix XPath Ignores
+# Fixed the situation when the MooTools would only get loaded when the Build Spans gizmo is enabled
+# Fixed the situation when front-page.php file wouldn't get loaded from the proper location
+^ Modified the MU Register gizmo to add very basic width settings to the activate and signup pages
+
+------- 1.19 Release [] ------
+! Adjusted for WordPress plugin directory
 
 ------- 1.18 Release [] ------
 # Fixed oddity in PHP 5.2.9 where some settings in the backend wouldn't load

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		1.19 September 20, 2011
+ * @version		1.20 October 16, 2011
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -10,7 +10,7 @@
 Plugin Name: Gantry Template Framework
 Plugin URI: http://www.gantry-framework.org/
 Description: This is a Framework to support easily modifiable themes that are very extensible.
-Version: 1.19
+Version: 1.20
 Author: Rockettheme
 Author URI: http://www.rockettheme.com/wordpress
 License: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -21,12 +21,20 @@ License: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 // Only run if a gantry template is active
 global $gantry_path;
-$gantry_path = dirname($plugin);
+if (!is_multisite())
+{
+    $gantry_path = dirname($plugin);
+}
+else {
+    $gantry_path = ABSPATH."/wp-content/plugins/gantry";
+}
+
 $gantry_templatepath = get_template_directory() . '/templateDetails.xml';
 if (file_exists($gantry_templatepath)) {
     global $ajaxurl;
     $ajaxurl = admin_url('admin-ajax.php');
     include(dirname(__FILE__) . '/functions.php');
+    include(dirname(__FILE__) . '/bugfixes.php');
     add_action('after_setup_theme', 'gantry_construct', -10000);
     add_action('after_setup_theme', 'gantry_mootools_init',-50);
     add_action('init', 'gantry_setup_override_widget_instances', 2);
@@ -60,6 +68,7 @@ if (file_exists($gantry_templatepath)) {
         add_action('plugins_loaded','gantry_widgets_admin_change_widget_init_action',2);
         add_action('sidebar_admin_setup','gantry_widgets_admin_force_accessibility_off',20);
         add_action('sidebar_admin_setup','gantry_widget_admin_clear_cache',19);
+        add_action('widgets.php', 'gantry_widget_admin_clear_widget_instance_overrides',10);
     }
  
     add_action('wp_ajax_gantry_admin', 'gantry_admin_ajax');

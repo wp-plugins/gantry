@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		1.19 September 20, 2011
+ * @version		1.20 October 16, 2011
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -85,8 +85,8 @@ function gantryLang() {
 
 function gantry_admin_menu() {
     global $gantry;
-    add_menu_page($gantry->get('template_author', 'RocketTheme') . ' ' . $gantry->get('template_full_name') . ' Theme Settings', $gantry->get('template_full_name') . ' Theme', 'edit_themes', 'gantry-theme-settings', 'gantry_show_theme_settings', $gantry->gantryUrl . '/admin/rt_fav.png');
-    add_submenu_page('gantry-theme-settings', $gantry->get('template_author', 'RocketTheme') . ' ' . $gantry->get('template_full_name') . ' Theme Override Settings', '', 'edit_themes', 'gantry-theme-overrides', 'gantry_show_theme_override_settings');
+    add_menu_page($gantry->get('template_author', 'RocketTheme') . ' ' . $gantry->get('template_full_name') . ' Theme Settings', $gantry->get('template_full_name') . ' Theme', 'edit_theme_options', 'gantry-theme-settings', 'gantry_show_theme_settings', $gantry->gantryUrl . '/admin/rt_fav.png');
+    add_submenu_page('gantry-theme-settings', $gantry->get('template_author', 'RocketTheme') . ' ' . $gantry->get('template_full_name') . ' Theme Override Settings', '', 'edit_theme_options', 'gantry-theme-overrides', 'gantry_show_theme_override_settings');
     add_action('admin_head', 'gantry_remove_menu_items');
 }
 
@@ -693,7 +693,8 @@ function gantry_widget_admin_load_override_widget_settings_filter($widget_instan
  * Init for render of an override widget admin page
  * @return void
  */
-function gantry_widgets_admin_page_init() {
+function gantry_widgets_admin_page_init()
+{
     global $pagenow;
     if ($pagenow == "widgets.php") {
         add_action("admin_notices", 'gantry_widgets_admin_insert_override_header', 100);
@@ -705,6 +706,18 @@ function gantry_widgets_admin_page_init() {
         }
     }
 }
+
+function gantry_widget_admin_clear_widget_instance_overrides()
+{
+    global $pagenow, $wp_registered_widget_updates;
+    if ($pagenow == "admin-ajax.php" && isset($_REQUEST['action']) && $_REQUEST['action'] == 'save-widget' && !isset($_REQUEST['override_id'])) {
+        $widget_names = array_keys($wp_registered_widget_updates);
+        foreach ($widget_names as $widget) {
+            remove_filter('option_widget_' . $widget, 'gantry_setup_override_widget_instances_intercept', -1000);
+        }
+    }
+}
+
 
 /**
  * Relocate the wp_widgets_init action hit to fire after we have loaded the actions for laoding sidebar_widgets and widet settings

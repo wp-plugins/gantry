@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.19 September 20, 2011
+ * @version   1.20 October 16, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -25,13 +25,24 @@ if (!class_exists('RokMenu')) {
      *
      */
     abstract class RokMenu {
-        protected $theme;
-        protected $args;
-        protected $formatter;
-        protected $layout;
-        protected $menu;
+        /**
+         * @var array
+         */
+        protected $args = array();
+
+        /**
+         * @var RokMenuProvider
+         */
         protected $provider;
 
+        /**
+         * @var RokMenuRenderer
+         */
+        protected $renderer;
+
+        /**
+         * @var
+         */
         protected static $menu_defaults = array(
             'limit_levels' => 0,
             'startLevel' => 0,
@@ -40,84 +51,74 @@ if (!class_exists('RokMenu')) {
             'maxdepth' => 10
         );
 
-        public function __construct(RokMenuTheme $theme, $args) {
-            $this->theme = $theme;
-
+        /**
+         * @param RokMenuRenderer $renderer
+         * @param  $args
+         * @return void
+         */
+        public function __construct($args) {
+            $this->args = $args;
+            
+            $this->renderer = $this->getRenderer();
             // get defaults for theme
-            $theme_defaults = $this->theme->getDefaults();
-
+            $renderer_defaults = $this->renderer->getDefaults();
             // merge theme defaults with class defaults theme defaults overrding
-            $defaults = array_merge(self::$menu_defaults, $theme_defaults);
-
+            $defaults = array_merge(self::$menu_defaults, $renderer_defaults);
             // merge defaults into passed args   passed args overriding
             $this->args = array_merge($defaults, $args);
 
-            $this->formatter = $this->theme->getFormatter($this->args);
-            $this->layout = $this->theme->getLayout($this->args);
+            $this->renderer->setArgs($this->args);
+            
             $this->provider = $this->getProvider();
         }
 
+
+        /**
+         * @static
+         * @return array
+         */
         public static function getDefaults() {
             return self::$menu_defaults;
         }
 
-        public function getArgs() {
-            return $this->args;
-        }
-
-        public function getTheme() {
-            return $this->theme;
-        }
-
+        /**
+         * @return void
+         */
         public function initialize() {
-            $nodes = $this->provider->getMenuItems();
-            $this->menu = $this->createMenuTree($nodes);
-            if (!empty($this->menu) && $this->menu !== false) {
-                $this->formatter->setActiveBranch($this->provider->getActiveBranch());
-                $this->formatter->setCurrentNodeId($this->provider->getCurrentNodeId());
-                $this->formatter->format_tree($this->menu);
-            }
+            $this->renderer->initialize($this->provider);
         }
 
-        public function render() {
-            $output = '';
-            if (!empty($this->menu) && $this->menu !== false) {
-                $output = $this->layout->renderMenu($this->menu);
-            }
+        /**
+         * @return string
+         */
+        public function renderMenu() {
+            $output = $this->renderer->renderMenu();
             return $output;
         }
 
+        /**
+         * @return string
+         */
         public function renderHeader() {
-            $this->layout->doStageHeader();
+            $output = $this->renderer->renderHeader();
+            return $output;            
         }
 
-        protected function createMenuTree(&$nodes) {
-            if (!empty($nodes)) {
-                $menu = new RokMenuNodeTree();
-                $maxdepth = $this->args['maxdepth'];
-                // Build Menu Tree root down (orphan proof - child might have lower id than parent)
-                $ids = array();
-                $ids[0] = true;
-                $last = null;
-                $unresolved = array();
-                // pop the first item until the array is empty if there is any item
-                if (is_array($nodes)) {
-                    while (count($nodes) && !is_null($row = array_shift($nodes)))
-                    {
-                        if (!$menu->addNode($row)) {
-                            if (!array_key_exists($row->getId(), $unresolved) || $unresolved[$row->getId()] < $maxdepth) {
-                                array_push($nodes, $row);
-                                if (!isset($unresolved[$row->getId()])) $unresolved[$row->getId()] = 1;
-                                else $unresolved[$row->getId()]++;
-                            }
-                        }
-                    }
-                }
-            }
-            return $menu;
+        /**
+         * @return string
+         */
+        public function renderFooter() {
+            $output = $this->renderer->renderFooter();
+            return $output;
         }
 
+        /**
+         * @abstract
+         * @return RokMenuProvider
+         */
         protected abstract function getProvider();
+
+        protected abstract function getRenderer();
     }
 }
 

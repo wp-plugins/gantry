@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.19 September 20, 2011
+ * @version   1.20 October 16, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -121,7 +121,7 @@ function gantry_construct() {
         /**
          * @name GANTRY_VERSION
          */
-        define('GANTRY_VERSION', '1.19');
+        define('GANTRY_VERSION', '1.20');
 
 
         if (!defined('DS')) {
@@ -353,6 +353,9 @@ function gantry_set_overrides($overrides, $priority = 10) {
         $gantry->addOverrides($overrides_to_force, $priority);
     }
 }
+
+
+
 
 
 
