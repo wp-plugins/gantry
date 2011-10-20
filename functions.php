@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.20 October 16, 2011
+ * @version   1.21 October 20, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -121,7 +121,7 @@ function gantry_construct() {
         /**
          * @name GANTRY_VERSION
          */
-        define('GANTRY_VERSION', '1.20');
+        define('GANTRY_VERSION', '1.21');
 
 
         if (!defined('DS')) {

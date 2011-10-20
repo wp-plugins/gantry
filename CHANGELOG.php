@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  * 
- * @version   1.20 October 16, 2011
+ * @version   1.21 October 20, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,9 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 1.21 Release [] ------
+# Fixed the incrementation bug in the bugfix.php script which could cause a widgets id conflict
 
 ------- 1.20 Release [] ------
 # Added a fix to prevent frozen widgets and widgets appearing in wrong overrides
