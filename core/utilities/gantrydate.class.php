@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.21 October 20, 2011
+ * @version   1.22 December 15, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -239,6 +239,10 @@ class GantryDate
 			$format = str_replace('%b', $this->_monthToString(date('n', $time), true), $format);
 		if(strpos($format, '%B') !== false)
 			$format = str_replace('%B', $this->_monthToString(date('n', $time)), $format);
+		if(PHP_OS == 'WINNT'){
+			$format = str_replace("%h", "%b", $format);
+			$format = str_replace("%e", "%#d", $format);
+		}
 		$date = strftime($format, $time);
 		return $date;
 	}

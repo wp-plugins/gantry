@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		1.21 October 20, 2011
+ * @version		1.22 December 15, 2011
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -116,7 +116,7 @@ function gantry_add_widget_styles_action(&$instance, &$return, $values) {
     if ($return != "noform") {
         global $gantry;
         $widget_styles = $gantry->getWidgetStyles();
-        foreach ($widget_styles as $style_info):
+        foreach ($widget_styles as $style_info) :
             if (!array_key_exists($style_info['name'], $values)) $values[$style_info['name']] = '';
                     ?>
             <p>
@@ -133,13 +133,18 @@ function gantry_add_widget_styles_action(&$instance, &$return, $values) {
                 </select>
             </p>
             <?php
-                    endforeach
-        ;
+        endforeach;
+        if($gantry->get('custom_widget_variations')) : ?>
+        	<p>
+        		<label for="<?php echo $instance->get_field_id('custom-variations');?>"><?php _ge('Custom Variations'); ?></label>
+        		<input type="text" id="<?php echo $instance->get_field_id('custom-variations');?>" name="<?php echo $instance->get_field_name('custom-variations')?>" value="<?php echo $values['custom-variations']; ?>" size="25" />
+        	</p>
+        <?php endif;
     }
 }
 
 /**
- * Filter to modify the widget instance save to include the temp[late details defined widget styles
+ * Filter to modify the widget instance save to include the template details defined widget styles
  * @param  $instance
  * @param  $new_instance
  * @param  $old_instance
@@ -152,6 +157,9 @@ function gantry_widget_style_udpate_filter($instance, $new_instance, $old_instan
         if (array_key_exists($style_info['name'], $new_instance)) {
             $instance[$style_info['name']] = $new_instance[$style_info['name']];
         }
+    }
+    if (array_key_exists('custom-variations', $new_instance)) {
+        $instance['custom-variations'] = $new_instance['custom-variations'];
     }
     return $instance;
 }

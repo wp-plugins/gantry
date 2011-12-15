@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  * 
- * @version   1.21 October 20, 2011
+ * @version   1.22 December 15, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,12 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 1.22 Release [] ------
++ Added support for the custom variations in widgets (custom CSS classes)
+# Fixed the count widgets in WP 3.3 theme settings page
+# Fixed the z-index value of the WP 3.3 flyout menus on admin pages with Gantry Overrides bar
+# Fixed Clear Cache button and Presets switcher
 
 ------- 1.21 Release [] ------
 # Fixed the incrementation bug in the bugfix.php script which could cause a widgets id conflict

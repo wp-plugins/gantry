@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.21 October 20, 2011
+ * @version   1.22 December 15, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -109,6 +109,19 @@ function gantry_change_widiget_init_action() {
     add_action('wp', 'wp_widgets_init', 1);
 }
 
+function gantry_force_base_widget_settings(){
+    /** @var $wp_widget_factory WP_Widget_Factory */
+    global $wp_widget_factory;
+    foreach($wp_widget_factory->widgets as $classname => $widget_instance)
+    {
+        /** @var $widget_instance WP_Widget */
+        if (!get_option($widget_instance->option_name))
+        {
+            $widget_instance->save_settings(array());
+        }
+    }
+}
+
 function gantry_construct() {
     global $gantry, $gantry_path, $wp_query, $current_blog;
     $gantry_templatepath = get_template_directory() . '/templateDetails.xml';
@@ -121,7 +134,7 @@ function gantry_construct() {
         /**
          * @name GANTRY_VERSION
          */
-        define('GANTRY_VERSION', '1.21');
+        define('GANTRY_VERSION', '1.22');
 
 
         if (!defined('DS')) {

@@ -3,8 +3,8 @@ Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.0
-Tested up to: 3.2.1
-Stable tag: 1.21
+Tested up to: 3.3
+Stable tag: 1.22
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -78,6 +78,12 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 1.22 =
+* Added support for the custom variations in widgets (custom CSS classes)
+* Fixed the count widgets in WP 3.3 theme settings page
+* Fixed the z-index value of the WP 3.3 flyout menus on admin pages with Gantry Overrides bar
+* Fixed Clear Cache button and Presets switcher
 
 = 1.21 =
 * Fixed the incrementation bug in the bugfix.php script which could cause a widgets id conflict
@@ -218,6 +224,9 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Changelog Creation
 
 == Upgrade Notice ==
+
+= 1.22 =
+This release addresses some small WordPress 3.3 compatibility issues. Please remember to **ALWAYS** do a database backup of your site before updating in case if something goes wrong.
 
 = 1.21 =
 This release fixes the bugfix script which could cause the sites to break. If after updating to 1.20 your site broke - please revert your database to the backup from before 1.20. If you already recreated the widgets you can skip this step, as the newly created widgets will already have proper data.

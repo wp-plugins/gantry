@@ -1,6 +1,6 @@
 /**
  * @package		Gantry Template Framework - RocketTheme
- * @version		1.21 October 20, 2011
+ * @version		1.22 December 15, 2011
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license		http://www.rockettheme.com/legal/license.php RocketTheme Proprietary Use License
@@ -329,11 +329,11 @@ Gantry.ToolBar = {
 				
 				$('#contextual-'+meta_name+'-wrap').slideToggle('fast', function() {
 					if ($(this).hasClass('contextual-'+meta_name+'-open')) {
-						$('#meta-'+meta_name+'-link').css({'backgroundImage':'url(images/screen-options-right.gif)'});
+						$('#meta-'+meta_name+'-link').css({'backgroundPosition':'top right'});
 						othersmeta.css('visibility', '');
 						$(this).removeClass('contextual-'+meta_name+'-open');
 					} else {
-						$('#meta-'+meta_name+'-link').css({'backgroundImage':'url(images/screen-options-right-up.gif)'});
+						$('#meta-'+meta_name+'-link').css({'backgroundPosition':'bottom right'});
 						$(this).addClass('contextual-'+meta_name+'-open');
 					}
 				});

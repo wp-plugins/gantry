@@ -63,7 +63,6 @@ class wsScreenMetaLinks10 {
 			}
 			$this->registered_links[$page_id][] = $link;
 		}
-		
 	}
 	
 	/**
@@ -78,16 +77,26 @@ class wsScreenMetaLinks10 {
 		
 		//Find links registered for this page
 		$links = $this->get_links_for_page($hook_suffix);
-
+		
 		if ( empty($links) ){
 			return;
 		}
 
+                global $wp_db_version;
+
+                if ( $wp_db_version < 18715 ) { // If this is less than Wordpress 3.3 Beta 1
+                    $screenmeta = '#screen-meta-links';
+                }
+                if ( $wp_db_version >= 18715 ) { // If this is equal to or greater than Wordpress 3.3 Beta 1
+                    echo '<div id="screen-meta-links-wpsc"></div>';
+                    $screenmeta = '#screen-meta-links-wpsc';
+                }
+
 		?>
+                
 		<script type="text/javascript">
-		//<![CDATA[
 			(function($, links){
-				var container = $('#screen-meta-links');
+				var container = $("<?PHP echo $screenmeta;?>");
 				for(var i = 0; i < links.length; i++){
 					container.append(
 						$('<div/>')
@@ -99,7 +108,6 @@ class wsScreenMetaLinks10 {
 					);
 				}
 			})(jQuery, <?php echo $this->json_encode($links); ?>);
-		//]]>
 		</script>
 		<?php
 	}
@@ -113,8 +121,11 @@ class wsScreenMetaLinks10 {
 	function get_links_for_page($page){
 		$links = array();
 		
+		if ( isset($this->registered_links[$page]) ){
+			$links = array_merge($links, $this->registered_links[$page]);
+		}
 		$page_as_screen = $this->page_to_screen_id($page);
-		if ( isset($this->registered_links[$page_as_screen]) ){
+		if ( ($page_as_screen != $page) && isset($this->registered_links[$page_as_screen]) ){
 			$links = array_merge($links, $this->registered_links[$page_as_screen]);
 		}
 		

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.21 October 20, 2011
+ * @version   1.22 December 15, 2011
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -46,8 +46,8 @@ class GantryLayoutChrome_Standard extends GantryLayout {
         $params[0]['after_title']  = '';
         $params[0]['after_widget']  = '';
 
-        if (array_key_exists('widgetstyle',$instance_params) && $instance_params['widgetstyle']!='') {
-            $params[0]['pre_widget'] = '<div class="'. $instance_params['widgetstyle'].'">';
+        if (array_key_exists('custom-variations', $instance_params) && $instance_params['custom-variations'] != '') {
+            $params[0]['pre_widget'] = '<div class="' . $instance_params['custom-variations'] . '">';
             $params[0]['post_widget'] = '</div>';
         }
 
