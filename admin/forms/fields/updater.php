@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   1.22 December 15, 2011
+ * @version   1.23 January 15, 2012
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -24,7 +24,7 @@ class GantryFormFieldUpdater extends GantryFormField {
 		
 		$currentVersion = GANTRY_VERSION;
 		
-		if ($currentVersion == "\1.22") $currentVersion = "[DEV]";
+		if ($currentVersion == "\1.23") $currentVersion = "[DEV]";
 		
 		// curl check
 		if (!function_exists('curl_version')) {

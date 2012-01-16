@@ -1,7 +1,7 @@
 /**
- * @version   1.22 December 15, 2011
+ * @version   1.23 January 15, 2012
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -62,7 +62,6 @@ body #overrides-first a {background: url(images/overrides-default.png) 0 50% no-
 .text-button.button-widget:hover { background-position: 0 -72px;}
 
 #overrides-switch {float:left;margin:6px 0 0 10px;position:relative;}
-
 
 /* Tabs (G 3.0) */
 #gantry-tabs{height:32px;position:relative;list-style:none;margin:0 2px -1px;padding:0 0 0  5px;border:1px solid #e3e3e3;background:-moz-linear-gradient(bottom,#e9e9e9,#f4f4f4 21%);background:-webkit-gradient(linear,left bottom,left top,from(#e9e9e9),to(#f4f4f4),color-stop(0.21,#f4f4f4));}

@@ -1,8 +1,8 @@
 /**
  * @package		Gantry Template Framework - RocketTheme
- * @version		1.22 December 15, 2011
+ * @version		1.23 January 15, 2012
  * @author		RocketTheme http://www.rockettheme.com
- * @copyright 	Copyright (C) 2007 - 2011 RocketTheme, LLC
+ * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license		http://www.rockettheme.com/legal/license.php RocketTheme Proprietary Use License
  */ 
 

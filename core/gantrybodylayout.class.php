@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   1.22 December 15, 2011
+ * @version   1.23 January 15, 2012
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -530,7 +530,7 @@ class GantryBodyLayout extends GantryLayout {
      * @param bool $require_once Whether to require_once or require. Default true.
      */
     function load_type($_template_file, $require_once = true) {
-        global $posts, $post, $wp_did_header, $wp_did_template_redirect, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
+        global $gantry, $posts, $post, $wp_did_header, $wp_did_template_redirect, $wp_query, $wp_rewrite, $wpdb, $wp_version, $wp, $id, $comment, $user_ID;
 
         if (is_array($wp_query->query_vars))
             extract($wp_query->query_vars, EXTR_SKIP);

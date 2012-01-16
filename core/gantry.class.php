@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   1.22 December 15, 2011
+ * @version   1.23 January 15, 2012
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -785,7 +785,7 @@ class Gantry extends GantrySingleton {
                         $path = '/'.preg_replace('#^'.quotemeta($this->baseUrl).'#',"",$path);
                     }
                     $filename = strtolower(basename($path, '.css')) . rand(0,1000);
-                    wp_enqueue_style($filename, $path, array(), '1.22');
+                    wp_enqueue_style($filename, $path, array(), '1.23');
                     $deps[]=$path;
                 }
             }
@@ -798,11 +798,11 @@ class Gantry extends GantrySingleton {
             if ($this->baseUrl != "/"){
                     $path = '/'.preg_replace('#^'.quotemeta($this->baseUrl).'#',"",$path);
             }
-            wp_enqueue_script($path, $path, $deps, '1.22');
+            wp_enqueue_script($path, $path, $deps, '1.23');
             $deps[]=$path;
 		}
         foreach ($this->_full_scripts as $strSrc) {
-            wp_enqueue_script( $strSrc, $strSrc, $deps, '1.22');
+            wp_enqueue_script( $strSrc, $strSrc, $deps, '1.23');
             $deps[]=$strSrc;
 		}
 

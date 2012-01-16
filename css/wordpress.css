@@ -1,7 +1,7 @@
 /**
- * @version   1.22 December 15, 2011
+ * @version   1.23 January 15, 2012
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
  
@@ -71,10 +71,14 @@ body.rtl ol.commentlist .comment_gravatar_wrapper, body.rtl ol.commentlist .comm
 /* Column Layout */
 .rt-wordpress .float-left {float: left;}
 .rt-wordpress .float-right {float: right;}
-.rt-wordpress .width25 {width: 24.999%;}
-.rt-wordpress .width33 {width: 33.333%;}
-.rt-wordpress .width50 {width: 49.999%;}
-.rt-wordpress .width100 {width: 100%;}
+.component-content .cols-1 {display: block;float: none !important;margin: 0 !important;} 
+.component-content .cols-2 .column-1, .component-content .cols-2 .column-2 {width: 50%;float: left;}
+.component-content .cols-3 .column-1, .component-content .cols-3 .column-2, .component-content .cols-3 .column-3 {float: left;width: 33.3%;padding: 0;margin: 0;}
+.component-content .items-row {overflow: hidden;margin-bottom: 10px !important;}
+.component-content .cols-4 .column-1, .component-content .cols-4 .column-2, .component-content .cols-4 .column-3, .component-content .cols-4 .column-4 {width: 25%;padding: 0;margin: 0;float: left;}
+.component-content .cols-2 .rt-article, .component-content .cols-3 .rt-article, .component-content .cols-4 .rt-article {margin: 0 10px 20px 10px;}
+.component-content .cols-2 .column-1 .rt-article, .component-content .cols-3 .column-1 .rt-article, .component-content .cols-4 .column-1 .rt-article {margin-left: 0;}
+.component-content .cols-2 .column-2 .rt-article, .component-content .cols-3 .column-3 .rt-article, .component-content .cols-4 .column-4 .rt-article {margin-right: 0;}
 
 /* User */
 #form-login .inputbox {border: 1px solid #ddd;font-size: 1.2em;padding: 2px;margin: 0;}

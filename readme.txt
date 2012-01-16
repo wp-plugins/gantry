@@ -3,8 +3,8 @@ Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.0
-Tested up to: 3.3
-Stable tag: 1.22
+Tested up to: 3.3.1
+Stable tag: 1.23
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -78,6 +78,10 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 1.23 =
+* Fixed the z-index of WordPress screen meta tabs on the widgets page
+* Added CSS code used for multi-column blog view
 
 = 1.22 =
 * Added support for the custom variations in widgets (custom CSS classes)
@@ -162,7 +166,7 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Fixed widget override selection bug! Yee Ha!
 
 = 1.8 =
-* Fixed Menu Items Assignements in Overrides
+* Fixed Menu Items Assignments in Overrides
 * Fixed Preset Saver in the backend
 * Added RokStyle gizmo
 * Added AutoParagraph gizmo
@@ -212,7 +216,7 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 = 1.2 =
 * Added Minefield to the list of Browsers
 * Add support for Signup page to template page overrides
-* Force Widget Accessebility Mode off for Gantry Themes
+* Force Widget Accessibility Mode off for Gantry Themes
 * Fixed addStyle to better handle -override files and get proper css file overrides from template
 * Moved cache to be WP Transients based.
 * Added base level diagnostics

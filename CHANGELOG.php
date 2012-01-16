@@ -2,9 +2,9 @@
 /**
  * Gantry For Wordpress
  * 
- * @version   1.22 December 15, 2011
+ * @version   1.23 January 15, 2012
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2011 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 die();
@@ -26,6 +26,10 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 1.23 Release [] ------
+# Fixed the z-index of WordPress screen meta tabs on the widgets page
++ Added CSS code used for multi-column blog view
 
 ------- 1.22 Release [] ------
 + Added support for the custom variations in widgets (custom CSS classes)
