@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  * 
- * @version   1.23 January 15, 2012
+ * @version   1.24 June 26, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,13 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 1.24 Release [] ------
+# Fix for the Warning:preg_match() on the Widgets page when The Events Calendar plugin was activated (possible solution for similar issues with other plugins)
++ Added some small CSS fixes for font-size of the meta elements
+^ Gantry iPhone Menu is now a Gantry Mobile Menu as it works both on iPhone and Android platforms
+# Fix for the same domain check which could cause issues ie. with Wordpress MU Domain Mapping
+# Fixed some Ajax behavior on the widget overrides page
 
 ------- 1.23 Release [] ------
 # Fixed the z-index of WordPress screen meta tabs on the widgets page

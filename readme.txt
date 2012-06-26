@@ -3,8 +3,8 @@ Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.0
-Tested up to: 3.3.1
-Stable tag: 1.23
+Tested up to: 3.4
+Stable tag: 1.24
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -78,6 +78,13 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 1.24 =
+* Fix for the Warning:preg_match() on the Widgets page when The Events Calendar plugin was activated (possible solution for similar issues with other plugins)
+* Added some small CSS fixes for font-size of the meta elements
+* Gantry iPhone Menu is now a Gantry Mobile Menu as it works both on iPhone and Android platforms
+* Fix for the same domain check which could cause issues ie. with Wordpress MU Domain Mapping
+* Fixed some Ajax behavior on the widget overrides page
 
 = 1.23 =
 * Fixed the z-index of WordPress screen meta tabs on the widgets page

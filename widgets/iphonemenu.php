@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		1.23 January 15, 2012
+ * @version		1.24 June 26, 2012
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -18,10 +18,10 @@ class GantryWidgetiPhoneMenu extends GantryWidgetMenu {
 
     var $short_name = 'iphonemenu';
     var $wp_name = 'gantry_iphonemenu';
-    var $long_name = 'Gantry iPhone Menu';
-    var $description = 'Gantry iPhone Description';
+    var $long_name = 'Gantry Mobile Menu';
+    var $description = 'Gantry iPhone/Android Menu';
     var $css_classname = 'widget_gantry_iphonemenu';
-    var $width = 300;
+    var $width = 200;
     var $height = 400;
     var $_defaults = array(
         'limit_levels' => 0,
@@ -41,7 +41,7 @@ class GantryWidgetiPhoneMenu extends GantryWidgetMenu {
 
     public function render($args, $instance) {
         global $gantry;
-        if ($gantry->browser->platform == 'iphone') {
+        if ($gantry->browser->platform == 'iphone' || $gantry->browser->platform == 'android') {
             parent::render($args, $instance);
         }
     }

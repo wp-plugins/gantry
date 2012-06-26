@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		1.23 January 15, 2012
+ * @version		1.24 June 26, 2012
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -544,7 +544,7 @@ function gantry_widgets_admin_force_accessibility_off() {
     if (is_array($filters)) {
         foreach ($filters as $priority_filters) {
             foreach ($priority_filters as $filter) {
-                if (preg_match('/lambda_/u', $filter['function'])) {
+                if (is_string($filter['function']) && preg_match('/lambda_/u', $filter['function'])) {
                     remove_filter('admin_body_class', $filter['function']);
                     set_user_setting('widgets_access', 'off');
                     add_action('admin_notices', create_function(null, 'echo "<div class=\'error\'><p>"._g("Gantry themes currently do not support Widget Accessability Mode")."</p></div>";'));
