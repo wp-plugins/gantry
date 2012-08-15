@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.24 June 26, 2012
+ * @version   1.25 August 15, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -487,7 +487,8 @@ abstract class GantryFormItem
 
         // Set the field default value.
         $this->value = $value;
-        if (null != $this->base_value && $this->base_value != $this->value) $this->variance = true;
+        if ($this->setinoverride & !is_null($this->base_value) && $this->base_value != $this->value) $this->variance = true;
+
         return true;
     }
 

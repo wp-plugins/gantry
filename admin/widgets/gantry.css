@@ -1,5 +1,5 @@
 /**
- * @version   1.24 June 26, 2012
+ * @version   1.25 August 15, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -25,7 +25,7 @@ html[dir=rtl] #wpbody-content {direction:ltr;}
 .template-preview {float:left;}
 
 /* Gantry */
-.gantry-wrapper {margin: 30px 0;position:relative;}
+.gantry-wrapper {margin: 30px 0;position:relative;overflow:hidden;}
 
 #gantry-logo {height:33px;width:125px;line-height:30px;position:absolute;top:8px;right:10px;background:url(images/gantry-small.png) 100% 0 no-repeat;z-index:10;font-size:85%;color:#ccc;}
 

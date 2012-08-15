@@ -3,8 +3,8 @@ Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.0
-Tested up to: 3.4
-Stable tag: 1.24
+Tested up to: 3.4.1
+Stable tag: 1.25
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -78,6 +78,15 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 1.25 =
+* Fix for custom post types and loop hierarchy not properly supported
+* Fix for missing $this in the gantrybodylayout.class.php
+* Custom Post Type archive theme files should be now loading properly
+* Fix a bug when certain options wouldn't be activated after reloading override settings
+* Fix for the overflow in the admin area
+* Fix for CSS overflow in the Mobile Menu
+* Added WooCommerce support
 
 = 1.24 =
 * Fix for the Warning:preg_match() on the Widgets page when The Events Calendar plugin was activated (possible solution for similar issues with other plugins)

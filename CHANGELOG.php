@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  * 
- * @version   1.24 June 26, 2012
+ * @version   1.25 August 15, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,15 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 1.25 Release [] ------
+# Fix for custom post types and loop hierarchy not properly supported
+# Fix for missing $this in the gantrybodylayout.class.php
+# Custom Post Type archive theme files should be now loading properly
+# Fix a bug when certain options wouldn't be activated after reloading override settings
+# Fix for the overflow in the admin area
+# Fix for CSS overflow in the Mobile Menu
++ Added WooCommerce support
 
 ------- 1.24 Release [] ------
 # Fix for the Warning:preg_match() on the Widgets page when The Events Calendar plugin was activated (possible solution for similar issues with other plugins)

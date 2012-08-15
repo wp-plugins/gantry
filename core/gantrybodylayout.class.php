@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.24 June 26, 2012
+ * @version   1.25 August 15, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -91,7 +91,7 @@ class GantryBodyLayout extends GantryLayout {
     }
 
     function get_index_type() {
-        return get_query_type('index');
+        return $this->get_query_type('index');
     }
 
     /**
@@ -113,7 +113,21 @@ class GantryBodyLayout extends GantryLayout {
      * @return string
      */
     function get_archive_type() {
-        return $this->get_query_type('archive');
+		global $gantry;
+		$template = 'archive';
+		if (version_compare($gantry->platform->platform_version, "3.0", ">=")) {
+			$post_type = get_query_var('post_type');
+
+			$templates = array();
+
+			if ($post_type)
+				$templates[] = "archive-{$post_type}.php";
+			$templates[] = 'archive.php';
+
+			$template = $this->locate_type($templates);
+		}
+
+		return apply_filters('gantry_mainbody_archive_type', $template);
     }
 
     /**
@@ -498,6 +512,8 @@ class GantryBodyLayout extends GantryLayout {
 
         if (!is_array($template_names))
             return '';
+		else
+			$template_names = array_reverse($template_names);
 
         $located = '';
         foreach ($template_names as $template_name)
