@@ -14,6 +14,7 @@ Gantry is a comprehensive set of building blocks to enable the rapid development
 
 Gantry is packed full of features to empower the development of designs into fully functional layouts with the absolute minimum of effort and fuss.
 
+* True "Drag and Drop" page builder
 * 960 Grid System
 * Stunning Administrator interface
 * XML driven and with overrides for unprecedented levels of customization
