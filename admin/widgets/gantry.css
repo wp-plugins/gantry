@@ -1,5 +1,5 @@
-/**
- * @version   1.25 August 15, 2012
+#gantry-panel .gantry-field > label/**
+ * @version   1.26 September 14, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -100,7 +100,7 @@ body #overrides-first a {background: url(images/overrides-default.png) 0 50% no-
 #gantry-panel .panel-overview h1 {margin-top: 10px;}
 
 #gantry-panel div.wrapper {padding: 0 5px;margin-left: 220px;min-height: 20px;position:relative;}
-#gantry-panel label {text-align: right;padding: 0;color: #444;}
+#gantry-panel label, #gantry-panel .selectedset-wrapper .selectedset-group > label {text-align: right;padding: 0;color: #444;}
 
 #gantry-panel .chain-label label, #gantry-panel .group-label label {width:auto;font-size:11px;padding:0 0 5px;color:#666;}
 #gantry-panel .group-label label {width: 100%;}
@@ -234,6 +234,12 @@ body #overrides-first a {background: url(images/overrides-default.png) 0 50% no-
 #assignments-panel ul ul {margin-left:18px;}
 
 #assigned_override_items {position:absolute;visibility:hidden;}
+
+/* SelectedSet */
+.selectedset-group {clear: both;position:relative;}
+.selectset-group-first {border-top: none;}
+.selectedset-fields, .selectedset-fields .gantry-field {position: relative;}
+.selectedset-hidden-field {visibility: hidden;position: absolute;top: -2000px;}
 
 /* Radios */
 .rokradios {background-image:url(radios/images/radio-states.png);background-repeat: no-repeat;margin-left: 0px; padding:1px 1px 7px 20px;color:#555; margin-top:3px;line-height:18px;}

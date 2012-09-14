@@ -1,10 +1,10 @@
 /**
  * @package		Gantry Template Framework - RocketTheme
- * @version		1.25 August 15, 2012
+ * @version		1.26 September 14, 2012
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license		http://www.rockettheme.com/legal/license.php RocketTheme Proprietary Use License
- */ 
+ */
 
 var Gantry = {
 	init: function() {
@@ -12,16 +12,17 @@ var Gantry = {
 		Gantry.cookie = Cookie.read('gantry-admin');
 		Gantry.cleanance();
 		Gantry.initTabs();
+		Gantry.selectedSets();
 		Gantry.inputs();
 		Gantry.Overlay = new Gantry.Layer();
 		Gantry.Tips.init();
 		Gantry.dropdown();
 		Gantry.notices();
 	},
-	
+
 	load: function() {
 	},
-	
+
 	notices: function() {
 		var notices = $$('.gantry-notice');
 		if (notices.length) {
@@ -35,14 +36,14 @@ var Gantry = {
 				}
 			});
 		}
-		
+
 		var deletOverride = $$('.overrides-button.button-del');
 		deletOverride.addEvent('click', function(e) {
 			var del = confirm(GantryLang['are_you_sure']);
 			if (!del) e.stop();
 		});
 	},
-	
+
 	dropdown: function() {
 		var inside = document.id('overrides-inside'), first = document.id('overrides-first'), delay = null;
 		var slide = new Fx.Slide('overrides-inside', {
@@ -64,14 +65,14 @@ var Gantry = {
 				first.addClass('slide-down');
 			}
 		};
-		
+
 		var leaveFunction = function() {
 			if (inside.hasClass('slideup')) {
 				slide.slideOut();
 			}
 		};
-		
-		
+
+
 		$$('#overrides-toggle, #overrides-inside').addEvents({
 			'mouseenter': function() {
 				$clear(delay);
@@ -80,15 +81,15 @@ var Gantry = {
 			},
 			'mouseleave': function() {
 				$clear(delay);
-				inside.removeClass('slidedown').addClass('slideup');	
+				inside.removeClass('slidedown').addClass('slideup');
 				leaveFunction.delay(300);
 			}
 		});
-		
+
 		Gantry.dropdownActions();
-		
+
 	},
-	
+
 	dropdownActions: function() {
 		var dropdown = document.id('overrides-actions'), tools = document.id('overrides-toolbar'), first = document.id('overrides-first');
 		var toggle = document.id('overrides-toggle');
@@ -129,30 +130,30 @@ var Gantry = {
 			}
 		}
 	},
-	
+
 	inputs: function() {
 		var inputs = $$('.text-short, .text-medium, .text-long, .text-color');
 		inputs.addEvents({
 			'attach': function() {
 				this.removeClass('disabled');
 			},
-			
+
 			'detach': function() {
 				this.addClass('disabled');
 			},
-			
+
 			'set': function(value) {
 				this.value = value;
 			},
-			
+
 			'keydown': function(e) {
 				if (this.hasClass('disabled')) { e.stop(); return; }
 			},
-			
+
 			'focus': function() {
 				if (this.hasClass('disabled')) this.blur();
 			},
-			
+
 			'keyup': function(e) {
 				if (this.hasClass('disabled')) { e.stop(); return; }
 				if (Gantry.MenuItemHead) {
@@ -163,7 +164,54 @@ var Gantry = {
 			}
 		});
 	},
-	
+
+		selectedSets: function(){
+		var sets = $$('.selectedset-switcher select');
+		var setsToggle;
+
+		sets.each(function(set, i){
+			var id = set.id.replace('_type', '');
+			//setsToggle = document.getElement('.selectedset-enabler input[id^='+id+']');
+			set.store('gantry:values', set.getElements('option').get('value'));
+			set.addEvent('change', function(){
+				this.retrieve('gantry:values').each(function(value){
+					var layer = document.id('set-' + value);
+					if (layer){
+						layer.removeClass('selectedset-hidden-field');
+						layer.setStyle('display', (value == this.value) ? 'block' : 'none');
+
+						if (window.selectboxes && value == this.value){
+							layer.getElements('.selectbox-wrapper').each(function(wrapper){
+								wrapper.getElements('.selectbox-top, .selectbox-dropdown').set('style', '');
+								window.selectboxes.updateSizes(wrapper);
+							});
+						}
+					}
+				}, this);
+
+			});
+		});
+
+		$$('.selectedset-enabler input[id]').each(function(set, j){
+			set.store('gantry:values', sets[j].retrieve('gantry:values'));
+			set.addEvent('onChange', function(){
+				this.retrieve('gantry:values').each(function(value){
+					var layer = document.id('set-' + value);
+					if (layer){
+						if (!this.value.toInt()) layer.setStyle('display', 'none');
+						else {
+							layer.removeClass('selectedset-hidden-field');
+							layer.setStyle('display', (value == sets[j].get('value')) ? 'block' : 'none');
+						}
+					}
+				}, this);
+			});
+		});
+
+		var menu = document.id(GantryParamsPrefix + 'menu_type');
+		if (menu) menu.fireEvent('change');
+	},
+
 	cleanance: function() {
 		Gantry.overridesBadges();
 		Gantry.tabs = [];
@@ -177,11 +225,11 @@ var Gantry = {
 		if (!wrapper) {
 			var wrapper = document.getElement('.gantry-wrapper');
 		}
-		
+
 		if (!container) {
 			var container = document.getElement('#gantry-panel');
 		}
-		
+
 		var widgets = document.getElements('#widget-list .widget .widget-top, #wp_inactive_widgets .widget .widget-top');
 		if (widgets.length) {
 			widgets.each(function(widget) {
@@ -189,13 +237,13 @@ var Gantry = {
 				if (parent.id.contains('gantrydivider')) parent.addClass('gantry-divider');
 			});
 		}
-		
+
 		var innerTabs = fieldsets.getElements('.inner-tabs ul').flatten();
-		
+
 		innerTabs.each(function(innertab){
 			var tabs = innertab.getElements('li'),
 				panels = innertab.getParent('.innertabs-field').getElements('.inner-panels .inner-panel');
-				
+
 			tabs.each(function(tab, i) {
 				tab.addEvents({
 					'mouseenter': function() {this.addClass('hover');},
@@ -211,25 +259,25 @@ var Gantry = {
 				});
 			});
 		}, this);
-		
+
 		Gantry.panels = $$('.gantry-panel');
 		Gantry.wrapper = wrapper;
 		Gantry.container = container;
 		Gantry.tabs = $$(Gantry.tabs);
-		
+
 		var dashboard = new Hash({'contextual-help-link-wrap': 'contextual-help-wrap', 'screen-options-link-wrap': 'screen-options-wrap'});
 		dashboard.each(function(wrap, lnk) {
 			var button = document.id(lnk);
 			var wrapper = document.id(wrap);
 			if (!button || !wrapper) return;
-			
+
 			var others = $$('#screen-meta-links > div[id!='+lnk+']');
 			button.addEvent('mouseup', function() {
 				if (!wrapper.hasClass('contextual-help-open')) others.setStyle('visibility', 'hidden');
 				else others.setStyle('visibility', 'visible');
 			});
 		});
-		
+
 		var clearCache = document.id('cache-clear-wrap');
 		if (clearCache) {
 			var ajaxloading = new Asset.image('images/wpspin_dark.gif', {
@@ -249,13 +297,13 @@ var Gantry = {
 			});
 		}
 	},
-	
+
 	overridesBadges: function() {
 		$$('.overrides-involved').filter(function(badge) {
 		    return badge.get('text').trim().clean().toInt();
 		}).setStyles({'display': 'block', 'opacity': 1});
 	},
-	
+
 	initTabs: function() {
 		var max = 0;
 		Gantry.panels.setStyle('position', 'absolute');
@@ -264,10 +312,10 @@ var Gantry = {
 		Gantry.panels.set('tween', {duration: 'short', onComplete: function() {
 			if (!this.to[0].value) this.element.setStyle('display', 'none');
 		}});
-		
+
 		Gantry.panels.each(function(panel, i) {
 			var height = panel.retrieve('gantry:height');
-			
+
 			Gantry.tabs[i].addEvents({
 				'mouseenter': function() {this.addClass('hover');},
 				'mouseleave': function() {this.removeClass('hover');},
@@ -284,7 +332,7 @@ var Gantry = {
 				}
 			});
 		});
-		
+
 		//Gantry.tabs[Cookie.read('gantry-admin-tab') || 0].fireEvent('click');
 	}
 };
@@ -326,7 +374,7 @@ Gantry.ToolBar = {
 			$('#meta-'+meta_name+'-link').click(function () {
 				if (!$('#contextual-'+meta_name+'-wrap').hasClass('contextual-'+meta_name+'-open'))
 					$('#screen-meta-links > div[id!=meta-'+meta_name+'-link-wrap]').css('visibility', 'hidden');
-				
+
 				$('#contextual-'+meta_name+'-wrap').slideToggle('fast', function() {
 					if ($(this).hasClass('contextual-'+meta_name+'-open')) {
 						$('#meta-'+meta_name+'-link').css({'backgroundPosition':'top right'});
@@ -337,9 +385,9 @@ Gantry.ToolBar = {
 						$(this).addClass('contextual-'+meta_name+'-open');
 					}
 				});
-				
+
 				return false;
-			});	
+			});
 		})(jQuery);
 	}
 };
@@ -348,14 +396,14 @@ Gantry.Layer = new Class({
 	Implements: [Events, Options],
 	options: {
 		duration: 200,
-		opacity: 0.8 
+		opacity: 0.8
 	},
-	
+
 	initialize: function(options) {
 		var self = this;
-		
+
 		this.setOptions(options);
-		
+
 		this.id = new Element('div', {id: 'gantry-layer'}).inject(document.body);
 		this.fx = new Fx.Tween(this.id, {
 			'duration': this.options.duration,
@@ -370,23 +418,23 @@ Gantry.Layer = new Class({
 			}
 		}).set('opacity', 0);
 		this.open = false;
-		
+
 	},
-	
+
 	show: function() {
 		this.calcSizes();
 		this.fx.start('opacity', this.options.opacity);
 	},
-	
+
 	hide: function() {
 		this.fireEvent('hide');
 		this.fx.start('opacity', 0);
 	},
-	
+
 	toggle: function() {
 		this[this.open ? 'hide' : 'show']();
 	},
-	
+
 	calcSizes: function() {
 		this.id.setStyles({
 			'width': window.getScrollSize().x,

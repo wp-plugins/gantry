@@ -2,6 +2,6 @@
 	<!-- $Id: style.xml 16565 2010-04-28 12:21:27Z ian $ -->
 <form>
 	<fieldset name="widget">
-		<field name="category" type="checkbox" default="0" value="1" label="Display Single Post Category"/>
+		<field name="category" type="checkbox" default="1" value="1" label="Display Single Post Category"/>
 	</fieldset>
 </form>

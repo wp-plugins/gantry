@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		1.25 August 15, 2012
+ * @version		1.26 September 14, 2012
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -65,7 +65,7 @@ class GantryWidgetMenu extends GantryWidget {
 
     public static function displayAdminHeader() {
         global $gantry;
-        $gantry->addStyle($gantry->gantryUrl . '/widgets/rokmenu/css/widget_admin.css');
+        $gantry->addStyle($gantry->gantryUrl . '/widgets/gantrymenu/css/widget_admin.css');
     }
 
     protected function getDefaults() {

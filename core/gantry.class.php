@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.25 August 15, 2012
+ * @version   1.26 September 14, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -785,7 +785,7 @@ class Gantry extends GantrySingleton {
                         $path = '/'.preg_replace('#^'.quotemeta($this->baseUrl).'#',"",$path);
                     }
                     $filename = strtolower(basename($path, '.css')) . rand(0,1000);
-                    wp_enqueue_style($filename, $path, array(), '1.25');
+                    wp_enqueue_style($filename, $path, array(), '1.26');
                     $deps[]=$path;
                 }
             }
@@ -798,16 +798,17 @@ class Gantry extends GantrySingleton {
             if ($this->baseUrl != "/"){
                     $path = '/'.preg_replace('#^'.quotemeta($this->baseUrl).'#',"",$path);
             }
-            wp_enqueue_script($path, $path, $deps, '1.25');
+            wp_enqueue_script($path, $path, $deps, '1.26');
             $deps[]=$path;
 		}
         foreach ($this->_full_scripts as $strSrc) {
-            wp_enqueue_script( $strSrc, $strSrc, $deps, '1.25');
+            wp_enqueue_script( $strSrc, $strSrc, $deps, '1.26');
             $deps[]=$strSrc;
 		}
 
         if (!$this->isAdmin()){
-        $strHtml .= $this->_renderTitle();
+            $strHtml .= $this->_renderCharset();
+            $strHtml .= $this->_renderTitle();
             add_action('wp_head', array($this,'_renderRemoteStyles'), 8);
             add_action('wp_head', array($this,'_renderRemoteScripts'), 9);
             ob_start();
@@ -857,6 +858,11 @@ class Gantry extends GantrySingleton {
             }
         }
         echo ob_get_clean();
+    }
+
+    function _renderCharset() {
+        $charset = '<meta http-equiv="Content-Type" content="' . get_bloginfo('html_type') . '; charset=' . get_bloginfo('charset') . '" />'."\n";
+        return $charset;
     }
 
     function _renderTitle() {
