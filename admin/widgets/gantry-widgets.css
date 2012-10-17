@@ -1,5 +1,5 @@
 /**
- * @version   1.26 September 14, 2012
+ * @version   1.27 October 17, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -7,7 +7,7 @@
 #screen-meta {z-index:5;}
 #screen-meta-links {position: relative; z-index: 2;}
 #screen-meta .screen-meta-toggle {background:#f4f4f4;}
-input.override-checkbox {float:left;margin:7px -5px 0 8px;}
+input.override-checkbox {float:left;margin:10px -5px 0 8px;}
 h3 input.override-checkbox {float:none;margin:-4px 4px 0 -3px;}
 
 #screen-meta #screen-meta-links {margin:0 18px 0;}

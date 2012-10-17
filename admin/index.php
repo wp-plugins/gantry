@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		1.26 September 14, 2012
+ * @version		1.27 October 17, 2012
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -263,7 +263,7 @@ $form->initialize();
 	    $css = ".text-short, .text-medium, .text-long, .text-color {padding-top: 4px;height:19px;}";
 	    $gantry->addInlineStyle($css);
 	}
-	
+
 	if ($gantry->browser->name == 'ie' && $gantry->browser->shortversion == '7') {
 	    $css = "
 	        .g-surround, .g-inner, .g-surround > div {zoom: 1;position: relative;}

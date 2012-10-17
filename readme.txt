@@ -4,7 +4,7 @@ Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 1.26
+Stable tag: 1.27
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -79,6 +79,10 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 1.27 =
+* Small CSS fix for the RTL featured image
+* Updated the version of MooTools to 1.4.5 with compatibility layer
 
 = 1.26 =
 * Gantry now properly loads the widget_admin.css file

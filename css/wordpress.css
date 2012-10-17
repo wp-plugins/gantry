@@ -1,5 +1,5 @@
 /**
- * @version   1.26 September 14, 2012
+ * @version   1.27 October 17, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -20,6 +20,9 @@ body.rtl .alignright {float:left;}
 
 .img-left {float: left;margin-right: 15px;}
 .img-right {float: right;margin-left: 15px;}
+
+body.rtl .img-left {float: right;margin-left: 15px; margin-right: 0;}
+body.rtl .img-right {float: left;margin-right: 15px; margin-left: 0;}
 
 /* Comments */
 

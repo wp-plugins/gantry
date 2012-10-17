@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  * 
- * @version   1.26 September 14, 2012
+ * @version   1.27 October 17, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,10 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 1.27 Release [] ------
+# Small CSS fix for the RTL featured image
+^ Updated the version of MooTools to 1.4.5 with compatibility layer
 
 ------- 1.26 Release [] ------
 # Gantry now properly loads the widget_admin.css file

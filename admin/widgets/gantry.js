@@ -1,6 +1,6 @@
 /**
  * @package		Gantry Template Framework - RocketTheme
- * @version		1.26 September 14, 2012
+ * @version		1.27 October 17, 2012
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license		http://www.rockettheme.com/legal/license.php RocketTheme Proprietary Use License
@@ -54,7 +54,7 @@ var Gantry = {
 				this.wrapper.setStyle('width', width + 4);
 			},
 			onComplete: function() {
-				if (!this.open) first.removeClass('slide-down');
+				if (inside.getStyle('margin-top').toInt() !== 0) first.removeClass('slide-down');
 			}
 		}).hide();
 		inside.setStyle('display', 'block');
@@ -73,16 +73,17 @@ var Gantry = {
 		};
 
 
-		$$('#overrides-toggle, #overrides-inside').addEvents({
+		$$('#overrides-inside, #overrides-toggle').addEvents({
 			'mouseenter': function() {
 				$clear(delay);
 				inside.removeClass('slideup').addClass('slidedown');
-				delay = enterFunction();
+				first.addClass('slide-down');
+				enterFunction();
 			},
 			'mouseleave': function() {
 				$clear(delay);
 				inside.removeClass('slidedown').addClass('slideup');
-				leaveFunction.delay(300);
+				delay = leaveFunction.delay(300);
 			}
 		});
 
@@ -306,9 +307,9 @@ var Gantry = {
 
 	initTabs: function() {
 		var max = 0;
-		Gantry.panels.setStyle('position', 'absolute');
+		Gantry.panels.setStyles({'position': 'absolute', 'visibility': 'hidden'});
 		var pan = document.getElement('#gantry-panel .active-panel');
-		(pan || Gantry.panels[0]).setStyle('position', 'relative');
+		(pan || Gantry.panels[0]).setStyles({'position': 'relative', visibility: 'visible'});
 		Gantry.panels.set('tween', {duration: 'short', onComplete: function() {
 			if (!this.to[0].value) this.element.setStyle('display', 'none');
 		}});
@@ -321,11 +322,11 @@ var Gantry = {
 				'mouseleave': function() {this.removeClass('hover');},
 				'click': function() {
 					Cookie.write('gantry-admin-tab', i);
+					panel.setStyle('visibility', 'visible');
 					if (this.hasClass('active')) return;
 					Gantry.panels.setStyle('position', 'absolute');
 					Gantry.panels.setStyles({'visibility': 'hidden', 'opacity': 0, 'z-index': 5});
-					panel.set('morph', {duration: 330});
-					panel.setStyles({'display': 'inline-block', 'position': 'relative', 'top': -20, 'z-index': 15}).morph({'top': 0, 'opacity': 1});
+					panel.setStyles({'display': 'inline-block', 'position': 'relative', 'top': -20, 'z-index': 15, visibility: 'visible'}).morph({'top': 0, 'opacity': 1});
 					//Gantry.container.tween('height', panel.retrieve('gantry:height'));
 					Gantry.tabs.removeClass('active');
 					this.addClass('active');

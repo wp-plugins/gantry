@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.26 September 14, 2012
+ * @version   1.27 October 17, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -785,7 +785,7 @@ class Gantry extends GantrySingleton {
                         $path = '/'.preg_replace('#^'.quotemeta($this->baseUrl).'#',"",$path);
                     }
                     $filename = strtolower(basename($path, '.css')) . rand(0,1000);
-                    wp_enqueue_style($filename, $path, array(), '1.26');
+                    wp_enqueue_style($filename, $path, array(), '1.27');
                     $deps[]=$path;
                 }
             }
@@ -798,11 +798,11 @@ class Gantry extends GantrySingleton {
             if ($this->baseUrl != "/"){
                     $path = '/'.preg_replace('#^'.quotemeta($this->baseUrl).'#',"",$path);
             }
-            wp_enqueue_script($path, $path, $deps, '1.26');
+            wp_enqueue_script($path, $path, $deps, '1.27');
             $deps[]=$path;
 		}
         foreach ($this->_full_scripts as $strSrc) {
-            wp_enqueue_script( $strSrc, $strSrc, $deps, '1.26');
+            wp_enqueue_script( $strSrc, $strSrc, $deps, '1.27');
             $deps[]=$strSrc;
 		}
 
@@ -1139,7 +1139,16 @@ class Gantry extends GantrySingleton {
 		if (is_array($file)) return $this->addScripts($file);
         //special case for main JS libs
         if ($file == 'mootools.js'){
-            wp_enqueue_script($file);
+	        global $wp_scripts;
+	        $found = false;
+	        foreach ($wp_scripts->registered as $script) {
+                if ((strpos($script->handle, 'mootools') !== false && strpos($script->handle, 'rok_') !== false) || (strpos($script->content_url, 'mootools') !== false && strpos($script->handle, 'rs_') !== false)) {
+                    $found = true;
+                }
+            }
+	        if (!$found){
+                wp_enqueue_script($file);
+	        }
             return;
         }
         $type = 'js';
