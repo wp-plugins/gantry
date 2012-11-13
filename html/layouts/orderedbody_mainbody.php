@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.27 October 17, 2012
+ * @version   1.28 November 13, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -23,6 +23,7 @@ class GantryLayoutOrderedBody_MainBody extends GantryBodyLayout {
         'sidebars'      =>  '',
         'contentTop'    =>  null,
         'contentBottom' =>  null,
+        'component_content' => '',
         'extraClass' => ''
     );
 
@@ -56,7 +57,13 @@ class GantryLayoutOrderedBody_MainBody extends GantryBodyLayout {
                                 <div class="rt-block">
                                     <div id="rt-mainbody">
 										<div class="component-content">
-                                        	<?php $this->include_type();?>
+                                        	<?php
+                                            if( '' == $fparams->component_content ) {
+                                                $this->include_type();
+                                            } else {
+                                                echo $fparams->component_content;
+                                            }
+                                            ?>
 										</div>
                                     </div>
                                 </div>

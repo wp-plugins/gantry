@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.27 October 17, 2012
+ * @version   1.28 November 13, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -13,7 +13,7 @@ defined('GANTRY_VERSION') or die();
 gantry_import('core.renderers.gantrywidgetsrenderer');
 class GantryOrderedMainBodyRenderer  {
 	// wrapper for mainbody display
-    function display($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard', $grid=null) {
+    function display($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard', $grid=null, $component_content = '') {
         global $gantry;
         global $wp_registered_sidebars, $wp_registered_widgets, $_wp_sidebars_widgets;
 
@@ -171,7 +171,7 @@ class GantryOrderedMainBodyRenderer  {
 
         $output = $gantry->renderLayout('orderedbody_'.$bodyLayout, array('schema'=>$schema,'pushPull'=>'','classKey'=>$classKey,
                                                         'sidebars'=>$sidebars, 'contentTop'=>$contentTop,
-                                                        'contentBottom'=>$contentBottom,'extraClass'=>$extraClass));
+                                                        'contentBottom'=>$contentBottom,'component_content' => $component_content,'extraClass'=>$extraClass));
         return $output;
 
 

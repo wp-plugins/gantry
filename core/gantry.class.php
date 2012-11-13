@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.27 October 17, 2012
+ * @version   1.28 November 13, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -669,17 +669,17 @@ class Gantry extends GantrySingleton {
     }
 
 	// wrapper for mainbody display
-    function displayMainbody($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard',  $gridsize = null) {
+    function displayMainbody($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard',  $gridsize = null, $component_content = '' ) {
         if (defined('GANTRY_FINALIZED')) return;
         gantry_import('core.renderers.gantrymainbodyrenderer');
-        return GantryMainBodyRenderer::display($bodyLayout, $sidebarLayout, $sidebarChrome, $contentTopLayout, $contentTopChrome, $contentBottomLayout, $contentBottomChrome, $gridsize);
+        return GantryMainBodyRenderer::display($bodyLayout, $sidebarLayout, $sidebarChrome, $contentTopLayout, $contentTopChrome, $contentBottomLayout, $contentBottomChrome, $gridsize, $component_content);
     }
 
     // wrapper for mainbody display
-    function displayOrderedMainbody($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard', $gridsize = null) {
+    function displayOrderedMainbody($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard', $gridsize = null, $component_content = '' ) {
         if (defined('GANTRY_FINALIZED')) return;
         gantry_import('core.renderers.gantryorderedmainbodyrenderer');
-        return GantryOrderedMainBodyRenderer::display($bodyLayout, $sidebarLayout, $sidebarChrome, $contentTopLayout, $contentTopChrome, $contentBottomLayout, $contentBottomChrome, $gridsize);
+        return GantryOrderedMainBodyRenderer::display($bodyLayout, $sidebarLayout, $sidebarChrome, $contentTopLayout, $contentTopChrome, $contentBottomLayout, $contentBottomChrome, $gridsize, $component_content);
     }
 
     // wrapper for display modules
@@ -785,7 +785,7 @@ class Gantry extends GantrySingleton {
                         $path = '/'.preg_replace('#^'.quotemeta($this->baseUrl).'#',"",$path);
                     }
                     $filename = strtolower(basename($path, '.css')) . rand(0,1000);
-                    wp_enqueue_style($filename, $path, array(), '1.27');
+                    wp_enqueue_style($filename, $path, array(), '1.28');
                     $deps[]=$path;
                 }
             }
@@ -798,11 +798,11 @@ class Gantry extends GantrySingleton {
             if ($this->baseUrl != "/"){
                     $path = '/'.preg_replace('#^'.quotemeta($this->baseUrl).'#',"",$path);
             }
-            wp_enqueue_script($path, $path, $deps, '1.27');
+            wp_enqueue_script($path, $path, $deps, '1.28');
             $deps[]=$path;
 		}
         foreach ($this->_full_scripts as $strSrc) {
-            wp_enqueue_script( $strSrc, $strSrc, $deps, '1.27');
+            wp_enqueue_script( $strSrc, $strSrc, $deps, '1.28');
             $deps[]=$strSrc;
 		}
 

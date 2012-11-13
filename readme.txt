@@ -4,7 +4,7 @@ Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.0
 Tested up to: 3.4.2
-Stable tag: 1.27
+Stable tag: 1.28
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -79,6 +79,11 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 1.28 =
+* Much improved 3rd party plugin compatibility - please note that you need to update your theme for this to work
+* WooCommerce gizmo is now Compatibility gizmo which will be used to add support to various 3rd party plugins and keep them in one place
+* Add to Cart should now work fine with the WooCommerce product variants
 
 = 1.27 =
 * Small CSS fix for the RTL featured image
@@ -256,6 +261,10 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Changelog Creation
 
 == Upgrade Notice ==
+
+= 1.28 =
+This update focuses on the 3rd party plugin compatibility improvements and fixes. Thanks to that we'll be able to support BuddyPress 1.6 (updated version of Gantry BuddyPress plugin is still required), WooCommerce (WP E-Commerce patch is on the way ;)), WHMCS Bridge and many many more. 
+In order to support Gantry Framework 1.28 Compatibility fixes you will have to update your theme. You can either install an updated Gantry Default Theme or modify your existing one by following this guide : http://goo.gl/m6k20
 
 = 1.22 =
 This release addresses some small WordPress 3.3 compatibility issues. Please remember to **ALWAYS** do a database backup of your site before updating in case if something goes wrong.
