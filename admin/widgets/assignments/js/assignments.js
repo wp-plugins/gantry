@@ -1,5 +1,5 @@
 /**
- * @version   1.28 November 13, 2012
+ * @version   1.29 December 11, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -58,7 +58,8 @@ Gantry.Assignments = {
 					Gantry.Assignments.updateBadge('+', this);
 
 					fields.each(function(field) {
-						field.fireEvent('set', obj[field.id]);
+						if (field.hasClass('toggle-input')) field.fireEvent('set', [field.retrieve('details'), obj[field.id]]);
+						else field.fireEvent('set', obj[field.id]);
 					});
 				}
 				else {
@@ -68,7 +69,8 @@ Gantry.Assignments = {
 
 					fields.each(function(field) {
 						obj[field.id] = field.get('value');
-						field.fireEvent('set', Gantry.Assignments.defaults.get(field.id));
+						if (field.hasClass('toggle-input')) field.fireEvent('set', [field.retrieve('details'), Gantry.Assignments.defaults.get(field.id)]);
+						else field.fireEvent('set', Gantry.Assignments.defaults.get(field.id));
 					});
 				}
 			});

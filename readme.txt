@@ -3,8 +3,8 @@ Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.0
-Tested up to: 3.4.2
-Stable tag: 1.28
+Tested up to: 3.5
+Stable tag: 1.29
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -79,6 +79,13 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 1.29 =
+* BBPress is now fully supported
+* Added Maintenance Mode gizmo
+* Jigoshop compatibility fix
+* Fixed JS issue with gantry-layer that could block admin in certain themes (ie. Panacea)
+* Compatibility fixes for WordPress 3.5
 
 = 1.28 =
 * Much improved 3rd party plugin compatibility - please note that you need to update your theme for this to work

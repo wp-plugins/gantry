@@ -1,5 +1,5 @@
 /**
- * @version   1.28 November 13, 2012
+ * @version   1.29 December 11, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -54,7 +54,7 @@ var GantryWidgets = {
 		};
 
 
-		$$('#overrides-inside, #overrides-toggle').addEvents({
+		document.getElements('#overrides-inside, #overrides-toggle').addEvents({
 			'mouseenter': function() {
 				$clear(delay);
 				inside.removeClass('slideup').addClass('slidedown');
@@ -104,11 +104,11 @@ var GantryWidgets = {
 								url: AdminURI,
 								onRequest: function() {
 									var ajaxloading = document.id('overrides-toolbar').getElement('.ajax-loading');
-									if (ajaxloading) ajaxloading.setStyle('display', 'block');
+									if (ajaxloading) ajaxloading.setStyles({'display': 'block', 'visibility': 'visible'});
 								},
 								onSuccess: function() {
 									var ajaxloading = document.id('overrides-toolbar').getElement('.ajax-loading');
-									if (ajaxloading) ajaxloading.setStyle('display', 'none');
+									if (ajaxloading) ajaxloading.setStyles({'display': 'none', 'visibility': 'hidden'});
 
 									index = list.get('text').indexOf(first.get('text').clean().trim());
 									if (index != -1) list[index].set('text', value);
@@ -132,13 +132,13 @@ var GantryWidgets = {
 		}
 	},
 	newPageHook: function() {
-		var add = $$('.button-add')[0];
+		var add = document.getElements('.button-add')[0];
 		if (add) {
 			var ajax = new Request({
 				url: AdminURI,
 				onRequest: function() {
 					var ajaxloading = document.id('overrides-toolbar').getElement('.ajax-loading');
-					if (ajaxloading) ajaxloading.setStyle('display', 'block');
+					if (ajaxloading) ajaxloading.setStyles({'display': 'block', 'visibility': 'visible'});
 				},
 				onSuccess: function(response) {
 					var url = response.clean().trim();
@@ -157,12 +157,12 @@ var GantryWidgets = {
 		}
 	},
 	increase: function() {
-		$$('input.multi_number').each(function(input) {
+		document.getElements('input.multi_number').each(function(input) {
 			var value = input.get('value').toInt() || false;
 			if ($chk(value) && value < GantryWidgets.id * 10000) input.set('value', (GantryWidgets.id * 10000) + value);
 		});
 
-		$$('input[name=widget-id]').filter(function(item) {
+		document.getElements('input[name=widget-id]').filter(function(item) {
 			return !item.get('value').contains("__i__");
 		}).each(function(item) {
 			var number = item.getNext('input[name=widget_number]');
@@ -216,7 +216,7 @@ var GantryWidgets = {
 
 	overrideCheckboxes: function() {
 		GantryWidgets.unHookClick();
-		$$('.override-checkbox').each(function(check) {
+		document.getElements('.override-checkbox').each(function(check) {
 			var h3 = check.getParent('h3');
 			var wrapper = check.getParent('.widgets-holder-wrap');
 			var siblings = wrapper.getElements('.widgets-sortables').filter(function(sibling) {
@@ -224,7 +224,7 @@ var GantryWidgets = {
 			});
 			var arrow = check.getParent('.sidebar-name').getElement('.sidebar-name-arrow');
 			check.inject(h3, 'before');
-			$$(h3, arrow).addEvent('click', function(e) {
+			document.getElements(h3, arrow).addEvent('click', function(e) {
 				if (!check.get('checked') && e) e.stop();
 				else if (!check.get('checked') && wrapper.hasClass('closed')) {
 					(function($) {
@@ -326,9 +326,18 @@ var GantryWidgets = {
 				data = $(widget).find('form').serialize();
 			})(jQuery);
 
-			$$(widget[0]).getParent('.widgets-holder-wrap').getElement('.ajax-feedback').setStyle('visibility', 'visible');
-			$$(widget[0]).getElement('.ajax-feedback').setStyle('visibility', 'visible');
-			var checks = $$('.override-checkbox').filter(function(check) {
+			var feedback_spinner = document.getElements(widget[0]).getParent('.widgets-holder-wrap').getElement('.ajax-feedback'),
+				regular_spinner = document.getElements(widget[0]).getParent('.widgets-holder-wrap').getElement('.spinner');
+			if (feedback_spinner.length > 1 || feedback_spinner[0] != null) feedback_spinner.setStyles({'visibility': 'visible', display: 'inline-block'});
+			if (regular_spinner.length > 1 || regular_spinner[0] != null) regular_spinner.setStyles({'visibility': 'visible', display: 'inline-block'});
+
+
+			feedback_spinner = document.getElements(widget[0]).getElement('.ajax-feedback');
+			regular_spinner = document.getElements(widget[0]).getElement('.spinner');
+			if (feedback_spinner.length > 1 || feedback_spinner[0] != null) feedback_spinner.setStyles({'visibility': 'visible', display: 'inline-block'});
+			if (regular_spinner.length > 1 || regular_spinner[0] != null) regular_spinner.setStyles({'visibility': 'visible', display: 'inline-block'});
+
+			var checks = document.getElements('.override-checkbox').filter(function(check) {
 				return check.checked;
 			}).get('id');
 
@@ -375,7 +384,7 @@ var GantryWidgets = {
 									wpWidgets.resize();
 								}
 							} else {
-								$('.ajax-feedback').css('visibility', 'hidden');
+								$('.ajax-feedback, .spinner').css('visibility', 'hidden');
 								if (response && response.length > 2) {
 									$('div.widget-content', widget).html(response);
 									wpWidgets.appendTitle(widget);
@@ -397,7 +406,7 @@ var GantryWidgets = {
 			new Tips('.rok-tips', {title: 'data-tips'});
 
 			//if (sb) document.id(sb).closest('div.widgets-holder-wrap').find('img.ajax-feedback').css('visibility', 'visible');
-			var checks = $$('.override-checkbox').filter(function(check) {
+			var checks = document.getElements('.override-checkbox').filter(function(check) {
 				return check.checked;
 			}).get('id');
 			var post = {
@@ -413,7 +422,7 @@ var GantryWidgets = {
 
 			if (del) post['delete_widget'] = 1;
 
-			$$('div.widgets-sortables').each(function(item) {
+			document.getElements('div.widgets-sortables').each(function(item) {
 				var children = item.getChildren().filter(function(div) {
 					return div.get('id');
 				});
@@ -423,17 +432,23 @@ var GantryWidgets = {
 			new Request({
 				url: AdminURI,
 				onRequest: function() {
-					if (sb) document.id(sb).getParent('.widgets-holder-wrap').getElement('img.ajax-feedback').setStyle('visibility', 'visible');
+					if (sb){
+						(
+							document.id(sb).getParent('.widgets-holder-wrap').getElement('img.ajax-feedback') ||
+							document.id(sb).getParent('.widgets-holder-wrap').getElement('.spinner')
+						).setStyles({'visibility': 'visible', display: 'block'});
+					}
 				},
 				onSuccess: function() {
-					$$('img.ajax-feedback').setStyle('visibility', 'hidden');
+					var spinners = document.getElements('img.ajax-feedback, .spinner');
+					spinners.setStyles({'visibility': 'hidden', display: 'none'});
 					wpWidgets.resize();
 				}
 			}).post(post);
 		};
 	},
 	notices: function() {
-		var notices = $$('.gantry-notice');
+		var notices = document.getElements('.gantry-notice');
 		if (notices.length) {
 			notices.each(function(notice) {
 				var close = notice.getElement('.close');
@@ -446,7 +461,7 @@ var GantryWidgets = {
 			});
 		}
 
-		var deletOverride = $$('.overrides-button.button-del');
+		var deletOverride = document.getElements('.overrides-button.button-del');
 		deletOverride.addEvent('click', function(e) {
 			var del = confirm(GantryLang['are_you_sure']);
 			if (!del) e.stop();

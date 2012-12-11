@@ -1,6 +1,6 @@
 /**
  * @package		Gantry Template Framework - RocketTheme
- * @version		1.28 November 13, 2012
+ * @version		1.29 December 11, 2012
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license		http://www.rockettheme.com/legal/license.php RocketTheme Proprietary Use License
@@ -412,6 +412,7 @@ Gantry.Layer = new Class({
 			'onComplete': function() {
 				if (!this.to[0].value) {
 					self.open = false;
+					this.element.setStyle('visibility', 'hidden');
 				} else {
 					self.open = true;
 					self.fireEvent('show');
@@ -424,6 +425,7 @@ Gantry.Layer = new Class({
 
 	show: function() {
 		this.calcSizes();
+		this.fx.element.setStyle('visibility', 'visible');
 		this.fx.start('opacity', this.options.opacity);
 	},
 

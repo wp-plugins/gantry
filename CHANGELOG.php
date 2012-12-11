@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  * 
- * @version   1.28 November 13, 2012
+ * @version   1.29 December 11, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,13 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 1.29 Release [] ------
++ BBPress is now fully supported
++ Added Maintenance Mode gizmo
++ Jigoshop compatibility fix
+# Fixed JS issue with gantry-layer that could block admin in certain themes (ie. Panacea)
+# Compatibility fixes for WordPress 3.5
 
 ------- 1.28 Release [] ------
 ^ Much improved 3rd party plugin compatibility - please note that you need to update your theme for this to work

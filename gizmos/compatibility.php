@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.28 November 13, 2012
+ * @version   1.29 December 11, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -52,29 +52,44 @@ class GantryGizmoCompatibility extends GantryGizmo {
 		 */
 		
 		if(defined('WPSC_VERSION')) {
-			add_action('init', array(&$this, 'wpse_filter_template_parts'), 20);
+			add_action('init', array(&$this, 'wpsc_filter_template_parts'), 20);
 		}
+
+		/**
+		 * Jigoshop Compatibility
+		 */
+		
+		remove_action('jigoshop_sidebar', 'jigoshop_get_sidebar', 10);
+
 	}
 
 	function query_parsed_init() {
 		global $gantry;
+
+		/**
+		 * BBPress Compatibility
+		 */
+
+		if(function_exists('bbpress') && is_bbpress()) {
+			add_filter('gantry_mainbody_include', array(&$this, 'bb_fix_archive_page'));
+		}
 	}
 
-	function wpse_filter_template_parts() {
-		/**
-		 *	WP E-Commerce Compatibility
-		 */
-		
+	/**
+	 *	WP E-Commerce  - Ability to override plugin theme files
+	 */
+
+	function wpsc_filter_template_parts() {		
 		foreach(wpsc_get_theme_files() as $template) {
 			add_filter(WPEC_TRANSIENT_THEME_PATH_PREFIX . $template, array(&$this, 'wpsc_template_part'));
 		}
 	}
 
+	/**
+	 *	WP E-Commerce  - Ability to override plugin theme files
+	 */
+
 	function wpsc_template_part($tmpl) {
-		/**
-		 *	WP E-Commerce Compatibility
-		 */
-		
 		$file = basename($tmpl);
 		if(file_exists(trailingslashit(get_template_directory()) . $file)) {
 			return trailingslashit(get_template_directory()) . $file;
@@ -82,17 +97,31 @@ class GantryGizmoCompatibility extends GantryGizmo {
 		return $tmpl;
 	}
 
+	/**
+	 * 	WooCommerce - Fix for Add-To-Cart Variations
+	 */
+
 	function wc_cart_variation_script() {
 		global $gantry, $woocommerce;
-
-		/**
-		 * 	WooCommerce Compatibility
-		 */
 		
 		if(defined('WOOCOMMERCE_VERSION') && is_woocommerce()) {
 			if(is_single() && get_post_type() == 'product') {
 				wp_enqueue_script('wc-add-to-cart-variation', $woocommerce->plugin_url() . '/assets/js/frontend/add-to-cart-variation.js', array( 'jquery' ), '1.6', true);
 			}
 		}
+	}
+
+	/**
+	 * BBPress - Fix for the Forum archive post type
+	 */
+
+	function bb_fix_archive_page($tmpl) {
+		if(is_post_type_archive('forum')) {
+			foreach(array('archive-forum.php', 'page.php') as $template) {
+				if(file_exists(get_template_directory() . '/html/' . $template))
+					return get_template_directory() . '/html/' . $template;
+			}
+		}
+		return $tmpl;
 	}
 }

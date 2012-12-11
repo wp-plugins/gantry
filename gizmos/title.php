@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		1.28 November 13, 2012
+ * @version		1.29 December 11, 2012
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -139,7 +139,7 @@ class GantryGizmoTitle extends GantryGizmo {
 	        	$title = str_replace($token, $replace, $title);	
 	        	
 	       	// Archive Pages
-	        } elseif (is_day() || is_month() || is_year() || is_author()) {
+	        } elseif (is_day() || is_month() || is_year() || is_author() || is_archive()) {
 	        
 	        	$token = array(
         		    '%blog_title%',

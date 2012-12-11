@@ -1,5 +1,5 @@
 /**
- * @version   1.28 November 13, 2012
+ * @version   1.29 December 11, 2012
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -71,6 +71,9 @@ ul li.author {margin: 0;letter-spacing: 1px;list-style: none;font-weight: bold;t
 ul li.date {margin: 0;letter-spacing: 1px;list-style: none;text-align: right;font-weight: bold;}
 ul li.comments {list-style: none;text-align: right;font-weight: bold;}
 ul li.author span, ul li.date span, ul li.comments span {display: block;font-weight: normal;margin-bottom: 10px;line-height: 1em;}
+
+/* Maintenance Mode */
+#maintenance-notice {display: block; margin: 0 0 10px; text-align: center; padding: 5px 0; background: #FFF; font-weight: bold; border-bottom: 1px solid #CCC;}
 
 /* RTL */
 body.rtl {direction: rtl;}

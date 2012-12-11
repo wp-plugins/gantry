@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		1.28 November 13, 2012
+ * @version		1.29 December 11, 2012
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -10,7 +10,7 @@
 Plugin Name: Gantry Template Framework
 Plugin URI: http://www.gantry-framework.org/
 Description: This is a Framework to support easily modifiable themes that are very extensible.
-Version: 1.28
+Version: 1.29
 Author: RocketTheme
 Author URI: http://www.rockettheme.com/wordpress
 License: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
