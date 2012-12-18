@@ -1,9 +1,9 @@
 <?php
 /**
- * @version		1.29 December 11, 2012
- * @author		RocketTheme http://www.rockettheme.com
- * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ * @version   $Id: pages.php 58623 2012-12-15 22:01:32Z btowles $
+ * @author    RocketTheme http://www.rockettheme.com
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * Widget based on the WordPress core Pages Widget.
  */
@@ -11,62 +11,71 @@ defined('GANTRY_VERSION') or die();
 
 gantry_import('core.gantrywidget');
 
-add_action('widgets_init', array("GantryWidgetPages","init"));
+add_action('widgets_init', array("GantryWidgetPages", "init"));
 
-class GantryWidgetPages extends GantryWidget {
-    var $short_name = 'pages';
-    var $wp_name = 'gantry_pages';
-    var $long_name = 'Gantry Pages';
-    var $description = 'Gantry Pages Widget';
-    var $css_classname = 'widget_gantry_pages';
-    var $width = 200;
-    var $height = 400;
+class GantryWidgetPages extends GantryWidget
+{
+	var $short_name = 'pages';
+	var $wp_name = 'gantry_pages';
+	var $long_name = 'Gantry Pages';
+	var $description = 'Gantry Pages Widget';
+	var $css_classname = 'widget_gantry_pages';
+	var $width = 200;
+	var $height = 400;
 
-    function init() {
-        register_widget("GantryWidgetPages");
-    }
-    
-    function render_title($args, $instance) {
-    	global $gantry;
-    	if($instance['title'] != '') :
-    		echo $instance['title'];
-    	endif;
-    }
+	function init()
+	{
+		register_widget("GantryWidgetPages");
+	}
 
-    function render($args, $instance){
-        global $gantry, $post;
-	    ob_start();
-	    
-	    $sortby = $instance['sortby'];
-	    $menu_class = $instance['menu_class'];
-	    $depth = $instance['depth'];
+	function render_title($args, $instance)
+	{
+		global $gantry;
+		if ($instance['title'] != '') :
+			echo $instance['title'];
+		endif;
+	}
 
-		if($sortby == 'menu_order')
-			$sortby = 'menu_order, post_title';
-			
-		if($menu_class != '') :
-			$menu_class = ' class="'.$menu_class.'"';
-		else :
+	function render($args, $instance)
+	{
+		global $gantry, $post;
+		ob_start();
+
+		$sortby     = $instance['sortby'];
+		$menu_class = $instance['menu_class'];
+		$depth      = $instance['depth'];
+
+		if ($sortby == 'menu_order') $sortby = 'menu_order, post_title';
+
+		if ($menu_class != '') :
+			$menu_class = ' class="' . $menu_class . '"'; else :
 			$menu_class = '';
 		endif;
-		
-		$out = wp_list_pages(apply_filters('widget_pages_args', array('title_li' => '', 'echo' => 0, 'depth' => $depth, 'sort_column' => $sortby, 'exclude' => $instance['exclude'], 'link_before' => '<span>', 'link_after' => '</span>')));
-		
+
+		$out = wp_list_pages(apply_filters('widget_pages_args', array('title_li'   => '',
+		                                                             'echo'        => 0,
+		                                                             'depth'       => $depth,
+		                                                             'sort_column' => $sortby,
+		                                                             'exclude'     => $instance['exclude'],
+		                                                             'link_before' => '<span>',
+		                                                             'link_after'  => '</span>'
+		                                                        )));
+
 		$out = str_replace('current_page_item', 'current_page_item active', $out);
 
 		if (!empty($out)) {
-		
+
 			?>
-			
+
 			<ul<?php echo $menu_class; ?>>
 				<?php echo $out; ?>
 			</ul>
-			
-			<?php	    
-	    
+
+		<?php
+
 		}
-		
+
 		echo ob_get_clean();
-	    
+
 	}
 }

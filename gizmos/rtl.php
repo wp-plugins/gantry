@@ -1,9 +1,9 @@
 <?php
 /**
- * @version		1.29 December 11, 2012
- * @author		RocketTheme http://www.rockettheme.com
- * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ * @version   $Id: rtl.php 58623 2012-12-15 22:01:32Z btowles $
+ * @author    RocketTheme http://www.rockettheme.com
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
 
@@ -15,17 +15,19 @@ gantry_import('core.gantrygizmo');
  * @package     gantry
  * @subpackage  features
  */
-class GantryGizmoRTL extends GantryGizmo {
+class GantryGizmoRTL extends GantryGizmo
+{
 
-    var $_name = 'rtl';
+	var $_name = 'rtl';
 
-	function query_parsed_init() {
-        global $gantry;
-        
-        $document =& $gantry->document;
-        if (get_bloginfo('text_direction') == 'rtl' && $gantry->get('rtl-enabled')){
-            $gantry->addBodyClass("rtl");
-            $gantry->addStyle("rtl.css");
-        }
+	function query_parsed_init()
+	{
+		global $gantry;
+
+		$document =& $gantry->document;
+		if (get_bloginfo('text_direction') == 'rtl' && $gantry->get('rtl-enabled')) {
+			$gantry->addBodyClass("rtl");
+			$gantry->addStyle("rtl.css");
+		}
 	}
 }

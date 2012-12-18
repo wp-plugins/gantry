@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: position.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -13,33 +13,33 @@ gantry_import('core.config.gantryformgroup');
 
 class GantryFormGroupPosition extends GantryFormGroup
 {
-    protected $type = 'position';
-    protected $baseetype = 'group';
+	protected $type = 'position';
+	protected $baseetype = 'group';
 
-    public function getInput(){
-        global $gantry;
-        $clean_name=(string)$this->element['name'];
-        $position_info =  $gantry->getPositionInfo($clean_name);
+	public function getInput()
+	{
+		global $gantry;
+		$clean_name    = (string)$this->element['name'];
+		$position_info = $gantry->getPositionInfo($clean_name);
 
 
-        $buffer = '';
+		$buffer = '';
 
 		$buffer .= "<div class='wrapper'>\n";
-        foreach ($this->fields as $field) {
+		foreach ($this->fields as $field) {
 
-            if (!empty($position_info) && array_key_exists('position_info',get_object_vars($field)))
-                $field->position_info = $position_info;
+			if (!empty($position_info) && array_key_exists('position_info', get_object_vars($field))) $field->position_info = $position_info;
 
-            $itemName = $this->fieldname."-".$field->fieldname;
-            
-            $buffer .= '<div class="chain '.$itemName.' chain-'.strtolower($field->type).'">'."\n";
-            $buffer .= '<span class="chain-label">'._r($field->getLabel()).'</span>'."\n";
-            $buffer .= $field->getInput();
-            $buffer .= "</div>"."\n";
+			$itemName = $this->fieldname . "-" . $field->fieldname;
 
-        }
-		$buffer .= "</div>"."\n";
+			$buffer .= '<div class="chain ' . $itemName . ' chain-' . strtolower($field->type) . '">' . "\n";
+			$buffer .= '<span class="chain-label">' . _r($field->getLabel()) . '</span>' . "\n";
+			$buffer .= $field->getInput();
+			$buffer .= "</div>" . "\n";
 
-        return $buffer;
-    }
+		}
+		$buffer .= "</div>" . "\n";
+
+		return $buffer;
+	}
 }

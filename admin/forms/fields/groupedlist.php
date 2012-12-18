@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: groupedlist.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -12,37 +12,34 @@ gantry_import('core.config.gantryformfield');
 gantry_import('core.config.gantryhtmlselect');
 
 
-
 class GantryFormFieldGroupedList extends GantryFormField
 {
-
 
 
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since	1.6
+	 * @var        string
+	 * @since    1.6
 	 */
-     protected $type = 'groupedlist';
-     protected $basetype = 'select';
+	protected $type = 'groupedlist';
+	protected $basetype = 'select';
 
 	/**
 	 * Method to get the field option groups.
 	 *
-	 * @return	array	The field option objects as a nested array in groups.
-	 * @since	1.6
+	 * @return    array    The field option objects as a nested array in groups.
+	 * @since    1.6
 	 */
 	protected function getGroups()
 	{
 		// Initialize variables.
 		$groups = array();
-		$label = 0;
+		$label  = 0;
 
 		foreach ($this->element->children() as $element) {
 
-			switch ($element->getName())
-			{
+			switch ($element->getName()) {
 				// The element is an <option />
 				case 'option':
 
@@ -52,16 +49,13 @@ class GantryFormFieldGroupedList extends GantryFormField
 					}
 
 					// Create a new option object based on the <option /> element.
-					$tmp = GantryHTMLSelect::option(
-						($element['value']) ? (string) $element['value'] : trim((string) $element),
-						_r(trim((string) $element)), 'value', 'text',
-						((string) $element['disabled']=='true'));
+					$tmp = GantryHTMLSelect::option(($element['value']) ? (string)$element['value'] : trim((string)$element), _r(trim((string)$element)), 'value', 'text', ((string)$element['disabled'] == 'true'));
 
 					// Set some option attributes.
-					$tmp->class = (string) $element['class'];
+					$tmp->class = (string)$element['class'];
 
 					// Set some JavaScript option attributes.
-					$tmp->onclick = (string) $element['onclick'];
+					$tmp->onclick = (string)$element['onclick'];
 
 					// Add the option.
 					$groups[$label][] = $tmp;
@@ -71,7 +65,7 @@ class GantryFormFieldGroupedList extends GantryFormField
 				case 'group':
 
 					// Get the group label.
-					if ($groupLabel = (string) $element['label']) {
+					if ($groupLabel = (string)$element['label']) {
 						$label = $groupLabel;
 					}
 
@@ -81,24 +75,20 @@ class GantryFormFieldGroupedList extends GantryFormField
 					}
 
 					// Iterate through the children and build an array of options.
-					foreach ($element->children() as $option)
-					{
+					foreach ($element->children() as $option) {
 						// Only add <option /> elements.
 						if ($option->getName() != 'option') {
 							continue;
 						}
 
 						// Create a new option object based on the <option /> element.
-						$tmp = GantryHTMLSelect::option(
-							($element['value']) ? (string) $element['value'] : _r(trim((string) $element)),
-							_r(trim((string) $element)), 'value', 'text',
-							((string) $element['disabled']=='true'));
+						$tmp = GantryHTMLSelect::option(($element['value']) ? (string)$element['value'] : _r(trim((string)$element)), _r(trim((string)$element)), 'value', 'text', ((string)$element['disabled'] == 'true'));
 
 						// Set some option attributes.
-						$tmp->class = (string) $element['class'];
+						$tmp->class = (string)$element['class'];
 
 						// Set some JavaScript option attributes.
-						$tmp->onclick = (string) $element['onclick'];
+						$tmp->onclick = (string)$element['onclick'];
 
 						// Add the option.
 						$groups[$label][] = $tmp;
@@ -111,7 +101,7 @@ class GantryFormFieldGroupedList extends GantryFormField
 
 				// Unknown element type.
 				default:
-                    //TODO Handle Error
+					//TODO Handle Error
 					//JError::raiseError(500, JText::sprintf('JLIB_FORM_ERROR_FIELDS_GROUPEDLIST_ELEMENT_NAME', $element->getName()));
 					break;
 			}
@@ -125,8 +115,8 @@ class GantryFormFieldGroupedList extends GantryFormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @return    string    The field input markup.
+	 * @since    1.6
 	 */
 	public function getInput()
 	{
@@ -135,25 +125,36 @@ class GantryFormFieldGroupedList extends GantryFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
-		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+		$attr .= $this->element['class'] ? ' class="' . (string)$this->element['class'] . '"' : '';
+		$attr .= ((string)$this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$attr .= $this->element['size'] ? ' size="' . (int)$this->element['size'] . '"' : '';
 		$attr .= $this->multiple ? ' multiple="multiple"' : '';
 
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+		$attr .= $this->element['onchange'] ? ' onchange="' . (string)$this->element['onchange'] . '"' : '';
 
 		// Get the field groups.
-		$groups = (array) $this->getGroups();
+		$groups = (array)$this->getGroups();
 
 		// Create a read-only list (no name) with a hidden input to store the value.
-		if ((string) $this->element['readonly'] == 'true') {
-			$html[] =  GantryHTMLSelect::groupedlist( $groups, null, array('list.attr' => $attr, 'id' => $this->id, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false, 'option.text.toHtml' => false));
-			$html[] = '<input type="hidden" name="'.$this->name.'" value="'.$this->value.'"/>';
-		}
-		// Create a regular list.
+		if ((string)$this->element['readonly'] == 'true') {
+			$html[] = GantryHTMLSelect::groupedlist($groups, null, array('list.attr'         => $attr,
+			                                                            'id'                 => $this->id,
+			                                                            'list.select'        => $this->value,
+			                                                            'group.items'        => null,
+			                                                            'option.key.toHtml'  => false,
+			                                                            'option.text.toHtml' => false
+			                                                       ));
+			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
+		} // Create a regular list.
 		else {
-			$html[] = GantryHTMLSelect::groupedlist( $groups, $this->name, array('list.attr' => $attr, 'id' => $this->id, 'list.select' => $this->value, 'group.items' => null, 'option.key.toHtml' => false, 'option.text.toHtml' => false));
+			$html[] = GantryHTMLSelect::groupedlist($groups, $this->name, array('list.attr'         => $attr,
+			                                                                   'id'                 => $this->id,
+			                                                                   'list.select'        => $this->value,
+			                                                                   'group.items'        => null,
+			                                                                   'option.key.toHtml'  => false,
+			                                                                   'option.text.toHtml' => false
+			                                                              ));
 		}
 
 		return implode($html);

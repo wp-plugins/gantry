@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: RokMenuNodeBase.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -10,156 +10,178 @@ require_once(dirname(__FILE__) . '/RokMenuIterator.php');
 
 if (!class_exists('RokMenuNodeBase')) {
 
-    /**
-     *
-     */
-    class RokMenuNodeBase implements IteratorAggregate {
+	/**
+	 *
+	 */
+	class RokMenuNodeBase implements IteratorAggregate
+	{
 
-        function getIterator() {
-            return new RokMenuIterator($this);
-        }
+		function getIterator()
+		{
+			return new RokMenuIterator($this);
+		}
 
-        /**
-         * @var int
-         */
-        protected $id = 0;
+		/**
+		 * @var int
+		 */
+		protected $id = 0;
 
-        /**
-         * @var int
-         */
-        protected $parent = 0;
+		/**
+		 * @var int
+		 */
+		protected $parent = 0;
 
-        /**
-         * @var RokMenuNodeBase
-         */
-        protected $parentRef = null;
+		/**
+		 * @var RokMenuNodeBase
+		 */
+		protected $parentRef = null;
 
-        /**
-         * @var int
-         */
-        protected $level = -1;
+		/**
+		 * @var int
+		 */
+		protected $level = -1;
 
-        /**
-         * @var array
-         */
-        protected $children = array();
-
-
-        /**
-         * Gets the id
-         * @access public
-         * @return integer
-         */
-        public function getId() {
-            return $this->id;
-        }
-
-        /**
-         * Sets the id
-         * @access public
-         * @param integer $id
-         */
-        public function setId($id) {
-            $this->id = $id;
-        }
-
-        /**
-         * Gets the level
-         * @access public
-         * @return integer
-         */
-        public function getLevel() {
-            return $this->level;
-        }
-
-        /**
-         * Sets the level
-         * @access public
-         * @param integer $level
-         */
-        public function setLevel($level) {
-            $this->level = $level;
-        }
+		/**
+		 * @var array
+		 */
+		protected $children = array();
 
 
-        /**
-         * Gets the parent
-         * @access public
-         * @return integer
-         */
-        public function getParent() {
-            return $this->parent;
-        }
+		/**
+		 * Gets the id
+		 * @access public
+		 * @return integer
+		 */
+		public function getId()
+		{
+			return $this->id;
+		}
 
-        /**
-         * Sets the parent
-         * @access public
-         * @param integer $parent
-         */
-        public function setParent($parent) {
-            $this->parent = $parent;
-        }
+		/**
+		 * Sets the id
+		 * @access public
+		 *
+		 * @param integer $id
+		 */
+		public function setId($id)
+		{
+			$this->id = $id;
+		}
 
-        /**
-         * @return RokMenuNodeBase
-         */
-        public function getParentRef() {
-            return $this->parentRef;
-        }
+		/**
+		 * Gets the level
+		 * @access public
+		 * @return integer
+		 */
+		public function getLevel()
+		{
+			return $this->level;
+		}
 
-        /**
-         * @param RokmenuNodeBase $parentRef
-         * @return void
-         */
-        public function setParentRef(RokmenuNodeBase & $parentRef) {
-            $this->parentRef = &$parentRef;
-        }
+		/**
+		 * Sets the level
+		 * @access public
+		 *
+		 * @param integer $level
+		 */
+		public function setLevel($level)
+		{
+			$this->level = $level;
+		}
 
-        /**
-         * @param  $children
-         * @return void
-         */
-        public function setChildren(array $children) {
-            $this->children = $children;
-        }
 
-        /**
-         * @param RokMenuNodeBase $node
-         * @return void
-         */
-        public function addChild(RokMenuNodeBase &$node) {
-            if (null == $this->children) {
-                $this->children = array();
-            }
-            $node->setParentRef($this);
-            $node->setLevel($this->getLevel()+1);
-            $this->children[$node->getId()] = $node;
-        }
+		/**
+		 * Gets the parent
+		 * @access public
+		 * @return integer
+		 */
+		public function getParent()
+		{
+			return $this->parent;
+		}
 
-        /**
-         * @return bool
-         */
-        public function hasChildren() {
-            return (count($this->children)>0)?true:false;
-        }
+		/**
+		 * Sets the parent
+		 * @access public
+		 *
+		 * @param integer $parent
+		 */
+		public function setParent($parent)
+		{
+			$this->parent = $parent;
+		}
 
-        /**
-         * @return array
-         */
-        public function &getChildren() {
-            return $this->children;
-        }
+		/**
+		 * @return RokMenuNodeBase
+		 */
+		public function getParentRef()
+		{
+			return $this->parentRef;
+		}
 
-        /**
-         * @param  $node_id
-         * @return bool
-         */
-        public function removeChild($node_id) {
-            if (array_key_exists($node_id, $this->children)) {
-                unset($this->children[$node_id]);
-                return true;
-            }
-            return false;
-        }
-    }
+		/**
+		 * @param RokmenuNodeBase $parentRef
+		 *
+		 * @return void
+		 */
+		public function setParentRef(RokmenuNodeBase & $parentRef)
+		{
+			$this->parentRef = & $parentRef;
+		}
+
+		/**
+		 * @param  $children
+		 *
+		 * @return void
+		 */
+		public function setChildren(array $children)
+		{
+			$this->children = $children;
+		}
+
+		/**
+		 * @param RokMenuNodeBase $node
+		 *
+		 * @return void
+		 */
+		public function addChild(RokMenuNodeBase &$node)
+		{
+			if (null == $this->children) {
+				$this->children = array();
+			}
+			$node->setParentRef($this);
+			$node->setLevel($this->getLevel() + 1);
+			$this->children[$node->getId()] = $node;
+		}
+
+		/**
+		 * @return bool
+		 */
+		public function hasChildren()
+		{
+			return (count($this->children) > 0) ? true : false;
+		}
+
+		/**
+		 * @return array
+		 */
+		public function &getChildren()
+		{
+			return $this->children;
+		}
+
+		/**
+		 * @param  $node_id
+		 *
+		 * @return bool
+		 */
+		public function removeChild($node_id)
+		{
+			if (array_key_exists($node_id, $this->children)) {
+				unset($this->children[$node_id]);
+				return true;
+			}
+			return false;
+		}
+	}
 }

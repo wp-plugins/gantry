@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: ie6.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -13,19 +13,22 @@ gantry_import('core.gantrygizmo');
  * @package     gantry
  * @subpackage  features
  */
-class GantryGizmoIE6 extends GantryGizmo {
-    var $_name = 'ie6';
+class GantryGizmoIE6 extends GantryGizmo
+{
+	var $_name = 'ie6';
 
-    function isEnabled(){
-        return true;
-    }
+	function isEnabled()
+	{
+		return true;
+	}
 
-	function query_parsed_init() {
-        global $gantry;
+	function query_parsed_init()
+	{
+		global $gantry;
 
-        if ($gantry->browser->name == 'ie' && $gantry->browser->shortversion == '6') {
-        	$gantry->set('rtl-enabled',false); //disable problematic RTL for ie6
-            $gantry->addBodyClass('menu-type-suckerfishmenu');
-        }
-    }
+		if ($gantry->browser->name == 'ie' && $gantry->browser->shortversion == '6') {
+			$gantry->set('rtl-enabled', false); //disable problematic RTL for ie6
+			$gantry->addBodyClass('menu-type-suckerfishmenu');
+		}
+	}
 }

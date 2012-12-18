@@ -1,9 +1,9 @@
 <?php
 /**
- * @version		1.29 December 11, 2012
- * @author		RocketTheme http://www.rockettheme.com
- * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ * @version   $Id: iphoneimages.php 58623 2012-12-15 22:01:32Z btowles $
+ * @author    RocketTheme http://www.rockettheme.com
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
 
@@ -14,40 +14,43 @@ gantry_import('core.gantrygizmo');
  * @package     gantry
  * @subpackage  features
  */
-class GantryGizmoiPhoneImages extends GantryGizmo {
-    var $_name = 'iphoneimages';
+class GantryGizmoiPhoneImages extends GantryGizmo
+{
+	var $_name = 'iphoneimages';
 
-	function isEnabled() {
+	function isEnabled()
+	{
 		global $gantry;
 
 		if (!$gantry->browser) return false;
 
-		$prefix = $gantry->get('template_prefix');
-		$cookiename = $prefix.$gantry->browser->platform.'-switcher';
-		$cookie = (isset($_COOKIE[$cookiename]))?$_COOKIE[$cookiename]:false;
+		$prefix     = $gantry->get('template_prefix');
+		$cookiename = $prefix . $gantry->browser->platform . '-switcher';
+		$cookie     = (isset($_COOKIE[$cookiename])) ? $_COOKIE[$cookiename] : false;
 
 		if (!strlen($cookie) || $cookie === false) {
-			setcookie($cookiename, "1", time() + 60*60*24*365);
+			setcookie($cookiename, "1", time() + 60 * 60 * 24 * 365);
 			$cookie = "1";
 			$gantry->addTemp('platform', $cookiename, $cookie);
 		}
-		
-		if ($gantry->browser->platform == 'iphone' && $cookie == '1' && $this->get('enabled')) return true;
-		else return false;
+
+		if ($gantry->browser->platform == 'iphone' && $cookie == '1' && $this->get('enabled')) return true; else return false;
 	}
 
-	function query_parsed_init() {
-        global $gantry;
+	function query_parsed_init()
+	{
+		global $gantry;
 
 		$gantry->addInlineScript($this->_js());
 
 	}
 
-	function _js() {
+	function _js()
+	{
 		global $gantry;
 
 		$percentage = $this->get('percentage');
-		$minWidth = $this->get('minWidth');
+		$minWidth   = $this->get('minWidth');
 
 		return "
 			window.addEvent('load', function() {
@@ -61,8 +64,8 @@ class GantryGizmoiPhoneImages extends GantryGizmo {
 					};
 					backup = size;
 					size = {
-						width: size.width - (size.width * ".$percentage." / 100),
-						height: size.height - (size.height * ".$percentage." / 100)
+						width: size.width - (size.width * " . $percentage . " / 100),
+						height: size.height - (size.height * " . $percentage . " / 100)
 					};
 
 					if (size.width > winsize.x) {
@@ -73,7 +76,7 @@ class GantryGizmoiPhoneImages extends GantryGizmo {
 							height: height - 30
 						}
 					}
-					if (backup.width > ".$minWidth." && backup.width != 0) {
+					if (backup.width > " . $minWidth . " && backup.width != 0) {
 						img.set('width', size.width).set('height', size.height).setStyles(size);
 					}
 				});

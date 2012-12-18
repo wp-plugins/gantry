@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: gantryoverridesengine.class.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -24,66 +24,70 @@ gantry_import('core.rules.facttypes.post_type');
 gantry_import('core.rules.facttypes.taxonomy');
 gantry_import('core.rules.facttypes.templatepage');
 
-class GantryOverridesEngine {
-    protected $wm;
-    protected $session;
-    protected $fact_paths = array();
+class GantryOverridesEngine
+{
+	protected $wm;
+	protected $session;
+	protected $fact_paths = array();
 
 
-    public function __construct() {
-        $this->wm = new WorkingMemory();
-        $rr = new RuleReader();
-        $rulebase = $rr->parseFile(dirname(__FILE__) . '/stylerules.srl');
-        $this->session = new RuleSession($rulebase, $this->wm);
-    }
-    
+	public function __construct()
+	{
+		$this->wm      = new WorkingMemory();
+		$rr            = new RuleReader();
+		$rulebase      = $rr->parseFile(dirname(__FILE__) . '/stylerules.srl');
+		$this->session = new RuleSession($rulebase, $this->wm);
+	}
 
-    public function init($templateName) {
 
-        global $gantry_path;
-        $facttypes_location = $gantry_path.'/core/rules/facttypes/';
+	public function init($templateName)
+	{
 
-        $this->wm->insertActionFassade('output', new GantryOverrides());
-        $override_catalog = gantry_get_override_catalog($templateName);
-        foreach ($override_catalog as $override_id => $override_name) {
-            $assignments_option_name = $templateName . '-template-options-override-assignments-' . $override_id;
-            $assignments = get_option($assignments_option_name);
-            if ($assignments !== false){
-                foreach($assignments as $archetype => $types){
-                    $facttypeclass = "GantryFact".ucfirst($archetype);
-                    if (!class_exists($facttypeclass)){
-                        $facttypepath = $facttypes_location.$archetype.".class.php";
-                        require_once($facttypepath);
-                        $this->fact_paths[] = $facttypepath;
-                    }
-                    foreach($types as $type => $items){
-                        if ($items === true){
-                            $this->wm->insert(new $facttypeclass($override_id,$archetype,$type));
-                        }
-                        if (is_array($items)){
-                            foreach($items as $item){
-                                $this->wm->insert(new $facttypeclass($override_id,$archetype,$type, $item));
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+		global $gantry_path;
+		$facttypes_location = $gantry_path . '/core/rules/facttypes/';
 
-    public function run($wp_query) {
-        foreach($this->fact_paths as $path){
-            require_once($path);
-        }
-        $pagecall = new GantryPageCallFact();
-        $pagecall->query =& $wp_query;
-        $this->wm->insert($pagecall);
-        $this->session->maxFiringPerRule = 1;
-        $this->session->fireAll();
-        $ret = $this->wm->getActionFassades();
-        if (is_array($ret['output'])){
-            ksort($ret['output']);
-        }
-        return $ret['output'];
-    }
+		$this->wm->insertActionFassade('output', new GantryOverrides());
+		$override_catalog = gantry_get_override_catalog($templateName);
+		foreach ($override_catalog as $override_id => $override_name) {
+			$assignments_option_name = $templateName . '-template-options-override-assignments-' . $override_id;
+			$assignments             = get_option($assignments_option_name);
+			if ($assignments !== false) {
+				foreach ($assignments as $archetype => $types) {
+					$facttypeclass = "GantryFact" . ucfirst($archetype);
+					if (!class_exists($facttypeclass)) {
+						$facttypepath = $facttypes_location . $archetype . ".class.php";
+						require_once($facttypepath);
+						$this->fact_paths[] = $facttypepath;
+					}
+					foreach ($types as $type => $items) {
+						if ($items === true) {
+							$this->wm->insert(new $facttypeclass($override_id, $archetype, $type));
+						}
+						if (is_array($items)) {
+							foreach ($items as $item) {
+								$this->wm->insert(new $facttypeclass($override_id, $archetype, $type, $item));
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public function run($wp_query)
+	{
+		foreach ($this->fact_paths as $path) {
+			require_once($path);
+		}
+		$pagecall        = new GantryPageCallFact();
+		$pagecall->query =& $wp_query;
+		$this->wm->insert($pagecall);
+		$this->session->maxFiringPerRule = 1;
+		$this->session->fireAll();
+		$ret = $this->wm->getActionFassades();
+		if (is_array($ret['output'])) {
+			ksort($ret['output']);
+		}
+		return $ret['output'];
+	}
 }

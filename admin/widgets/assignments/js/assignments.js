@@ -1,5 +1,5 @@
 /**
- * @version   1.29 December 11, 2012
+ * @version $Id: assignments.js 58644 2012-12-17 22:52:30Z djamil $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -192,7 +192,7 @@ Gantry.Assignments = {
 			else {
 				if (badgeWrap.getPrevious('.presets-involved').getStyle('display') == 'block') badgeWrap.getParent('.badges-involved').addClass('double-badge');
 				else badgeWrap.getParent('.badges-involved').removeClass('double-badge');
-				badgeWrap.setStyles({'display': 'block', 'opacity': 1});
+				badgeWrap.setStyles({'display': 'block', 'opacity': 1, 'visibility': 'visible'});
 			}
 		}
 	},

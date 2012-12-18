@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: widget_basic.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -12,20 +12,23 @@ gantry_import('core.gantrylayout');
 
 /**
  *
- * @package gantry
+ * @package    gantry
  * @subpackage html.layouts
  */
-class GantryLayoutWidget_Basic extends GantryLayout {
-    var $render_params = array(
-        'gridCount'     =>  null,
-        'prefixCount'   =>  0,
-        'extraClass'      =>  ''
-    );
-    function render($params = array()){
-        global $gantry;
-        $params = $gantry->renderLayout("chrome_".$params[0]['chrome'], $params);
-        $params[0]['position_open'] ='';
-        $params[0]['position_close'] ='';
-        return $params;
-    }
+class GantryLayoutWidget_Basic extends GantryLayout
+{
+	var $render_params = array(
+		'gridCount'   => null,
+		'prefixCount' => 0,
+		'extraClass'  => ''
+	);
+
+	function render($params = array())
+	{
+		global $gantry;
+		$params                      = $gantry->renderLayout("chrome_" . $params[0]['chrome'], $params);
+		$params[0]['position_open']  = '';
+		$params[0]['position_close'] = '';
+		return $params;
+	}
 }

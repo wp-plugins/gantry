@@ -4,7 +4,7 @@ Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 1.29
+Stable tag: 1.30
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -79,6 +79,15 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 1.30 =
+* Fix for the "Fatal error: Call to a member function isEnabled()" in some rare cases
+* Fixed Notices appearing after enabling Debug mode
+* Fix to keep accessibility mode disabled
+* Fixed overrides behavior involving presets
+* Fixed overrides badges opacity
+* Removed some unnecessary CSS for the future theme compatibility
+* Framework modifications to allow usage of responsive layouts in the future
 
 = 1.29 =
 * BBPress is now fully supported

@@ -1,6 +1,6 @@
 /**
  * @package		Gantry Template Framework - RocketTheme
- * @version		1.29 December 11, 2012
+ * @version $Id: gantry.js 58644 2012-12-17 22:52:30Z djamil $
  * @author		RocketTheme http://www.rockettheme.com
  * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license		http://www.rockettheme.com/legal/license.php RocketTheme Proprietary Use License
@@ -301,8 +301,8 @@ var Gantry = {
 
 	overridesBadges: function() {
 		$$('.overrides-involved').filter(function(badge) {
-		    return badge.get('text').trim().clean().toInt();
-		}).setStyles({'display': 'block', 'opacity': 1});
+			return badge.get('text').trim().clean().toInt();
+		}).setStyles({'display': 'block', 'opacity': 1, 'visibility': 'visible'});
 	},
 
 	initTabs: function() {

@@ -1,14 +1,14 @@
 <?php
 /**
  *
- * @version		1.29 December 11, 2012
- * @author		RocketTheme http://www.rockettheme.com
- * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ * @version $Id: gantryxml.class.php 58595 2012-12-11 19:59:45Z btowles $
+ * @author RocketTheme http://www.rockettheme.com
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * original copyright 
  * 
- * @version		$Id: simplexml.php 10815 2008-08-27 01:15:56Z tcp $
+ * @version		$Id: gantryxml.class.php 58595 2012-12-11 19:59:45Z btowles $
  * @package		Joomla.Framework
  * @subpackage	Utilities
  * @copyright	Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.

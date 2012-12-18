@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: integer.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -11,7 +11,7 @@ gantry_import('core.config.gantryformfield');
 gantry_import('core.config.gantryhtmlselect');
 require_once('list.php');
 
-require_once(dirname(__FILE__).'/list.php');
+require_once(dirname(__FILE__) . '/list.php');
 
 
 class GantryFormFieldInteger extends GantryFormFieldList
@@ -19,17 +19,17 @@ class GantryFormFieldInteger extends GantryFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since	1.6
+	 * @var        string
+	 * @since    1.6
 	 */
 	protected $type = 'integer';
-    protected $basetype = 'none';
+	protected $basetype = 'none';
 
 	/**
 	 * Method to get the field options.
 	 *
-	 * @return	array	The field option objects.
-	 * @since	1.6
+	 * @return    array    The field option objects.
+	 * @since    1.6
 	 */
 	protected function getOptions()
 	{
@@ -37,9 +37,9 @@ class GantryFormFieldInteger extends GantryFormFieldList
 		$options = array();
 
 		// Initialize some field attributes.
-		$first	= (int) $this->element['first'];
-		$last	= (int) $this->element['last'];
-		$step	= (int) $this->element['step'];
+		$first = (int)$this->element['first'];
+		$last  = (int)$this->element['last'];
+		$step  = (int)$this->element['step'];
 
 		// Sanity checks.
 		if ($step == 0) {

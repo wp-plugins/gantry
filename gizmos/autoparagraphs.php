@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: autoparagraphs.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -14,21 +14,21 @@ gantry_import('core.gantrygizmo');
  * @package     gantry
  * @subpackage  features
  */
-class GantryGizmoAutoParagraphs extends GantryGizmo {
+class GantryGizmoAutoParagraphs extends GantryGizmo
+{
 
-    var $_name = 'autoparagraphs';
+	var $_name = 'autoparagraphs';
 
-    function query_parsed_init() {
-    	global $gantry;
+	function query_parsed_init()
+	{
+		global $gantry;
 
-		if($gantry->get('autoparagraphs-type') == 'content') :
-			remove_filter('the_content', 'wpautop');
-		elseif ($gantry->get('autoparagraphs-type') == 'excerpt') :
-			remove_filter('the_excerpt', 'wpautop');
-		else :
+		if ($gantry->get('autoparagraphs-type') == 'content') :
+			remove_filter('the_content', 'wpautop'); elseif ($gantry->get('autoparagraphs-type') == 'excerpt') :
+			remove_filter('the_excerpt', 'wpautop'); else :
 			remove_filter('the_content', 'wpautop');
 			remove_filter('the_excerpt', 'wpautop');
 		endif;
 
-    }
+	}
 }

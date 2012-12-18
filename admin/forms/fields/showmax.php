@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: showmax.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -12,35 +12,37 @@ gantry_import('core.config.gantryformfield');
 
 require_once(dirname(__FILE__) . '/selectbox.php');
 
-class GantryFormFieldShowMax extends GantryFormFieldSelectBox {
-    /**
-     * The form field type.
-     *
-     * @var        string
-     * @since    1.6
-     */
-    public $type = 'showmax';
-    protected $basetype = 'select';
+class GantryFormFieldShowMax extends GantryFormFieldSelectBox
+{
+	/**
+	 * The form field type.
+	 *
+	 * @var        string
+	 * @since    1.6
+	 */
+	public $type = 'showmax';
+	protected $basetype = 'select';
 
-    public $position_info = null;
+	public $position_info = null;
 
-    protected function getOptions() {
-        global $gantry;
+	protected function getOptions()
+	{
+		global $gantry;
 
-        $options = array();
-        $options = parent::getOptions();
+		$options = array();
+		$options = parent::getOptions();
 
-        if ($this->position_info != null) {
-			if ($this->position_info->max_positions < (int) $this->value) {
+		if ($this->position_info != null) {
+			if ($this->position_info->max_positions < (int)$this->value) {
 				$gantry->set($this->id, $this->position_info->max_positions);
 				$this->value = $this->position_info->max_positions;
 			}
-            for($i = 1; $i <= $this->position_info->max_positions ; $i++) {
-                // Create a new option object based on the <option /> element.
-                $tmp = GantryHtmlSelect::option($i, $i, 'value', 'text', false);
-                $options[] = $tmp;
-            }
-        }
-        return $options;
-    }
+			for ($i = 1; $i <= $this->position_info->max_positions; $i++) {
+				// Create a new option object based on the <option /> element.
+				$tmp       = GantryHtmlSelect::option($i, $i, 'value', 'text', false);
+				$options[] = $tmp;
+			}
+		}
+		return $options;
+	}
 }

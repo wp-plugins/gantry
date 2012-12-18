@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: gantry.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -12,24 +12,27 @@ defined('GANTRY_VERSION') or die();
  */
 gantry_import('core.config.gantryformfield');
 
-class GantryFormFieldGANTRY extends GantryFormField {
-    
-	protected $type = 'gantry';
-    protected $basetype = 'none';
+class GantryFormFieldGANTRY extends GantryFormField
+{
 
-	public function getInput(){
+	protected $type = 'gantry';
+	protected $basetype = 'none';
+
+	public function getInput()
+	{
 		global $gantry;
-		
+
 		if (!defined('GANTRY_CSS')) {
-			$gantry->addStyle($gantry->gantryUrl.'/admin/widgets/gantry.css');
+			$gantry->addStyle($gantry->gantryUrl . '/admin/widgets/gantry.css');
 			define('GANTRY_CSS', 1);
 		}
-		
+
 		return null;
 	}
-	
-	public function getLabel(){
-        return "";
-    }
-	
+
+	public function getLabel()
+	{
+		return "";
+	}
+
 }

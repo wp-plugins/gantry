@@ -1,5 +1,5 @@
 /**
- * @version   1.29 December 11, 2012
+ * @version $Id: wordpress.css 58620 2012-12-15 17:29:13Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -77,7 +77,7 @@ body.rtl ol.commentlist .comment_gravatar_wrapper, body.rtl ol.commentlist .comm
 .component-content .cols-1 {display: block;float: none !important;margin: 0 !important;} 
 .component-content .cols-2 .column-1, .component-content .cols-2 .column-2 {width: 50%;float: left;}
 .component-content .cols-3 .column-1, .component-content .cols-3 .column-2, .component-content .cols-3 .column-3 {float: left;width: 33.3%;padding: 0;margin: 0;}
-.component-content .items-row {overflow: hidden;margin-bottom: 10px !important;}
+.component-content .items-row {margin-bottom: 10px !important;}
 .component-content .cols-4 .column-1, .component-content .cols-4 .column-2, .component-content .cols-4 .column-3, .component-content .cols-4 .column-4 {width: 25%;padding: 0;margin: 0;float: left;}
 .component-content .cols-2 .rt-article, .component-content .cols-3 .rt-article, .component-content .cols-4 .rt-article {margin: 0 10px 20px 10px;}
 .component-content .cols-2 .column-1 .rt-article, .component-content .cols-3 .column-1 .rt-article, .component-content .cols-4 .column-1 .rt-article {margin-left: 0;}

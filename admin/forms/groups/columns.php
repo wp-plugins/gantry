@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: columns.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -12,44 +12,45 @@ gantry_import('core.config.gantryformgroup');
 
 class GantryFormGroupColumns extends GantryFormGroup
 {
-    protected $type = 'columns';
-    protected $baseetype = 'group';
+	protected $type = 'columns';
+	protected $baseetype = 'group';
 
-    public function getInput(){
-        $buffer = '';
-		
+	public function getInput()
+	{
+		$buffer = '';
+
 		$class = $this->element['class'];
-		$name = $this->id;
-		
-		$buffer .= "<div class=\"wrapper ".$class."\">\n";
-		
-		// Columns
-		$leftOpen = "<div class='group-left'>\n";
-		$rightOpen = "<div class='group-right'>\n";
-		$noneOpen = "<div class='group-none'>\n";
-		
-		$divClose = "</div>\n";
-		
-        foreach ($this->fields as $field) {
+		$name  = $this->id;
 
-			$position = ($field->element['position']) ? (string) $field->element['position'] : 'none';
+		$buffer .= "<div class=\"wrapper " . $class . "\">\n";
+
+		// Columns
+		$leftOpen  = "<div class='group-left'>\n";
+		$rightOpen = "<div class='group-right'>\n";
+		$noneOpen  = "<div class='group-none'>\n";
+
+		$divClose = "</div>\n";
+
+		foreach ($this->fields as $field) {
+
+			$position = ($field->element['position']) ? (string)$field->element['position'] : 'none';
 			$position .= "Open";
 			$bufferItem = "";
 
-			$fieldName = $this->fieldname."-".$field->element['name'];
-			
-			$bufferItem .= "<div class=\"group ".$fieldName." group-".$field->type."\">\n";
-            if ($field->show_label) $bufferItem .= "<span class=\"group-label\">".$field->getLabel()."</span>\n";
-            $bufferItem .= $field->getInput();
-            $bufferItem .= "</div>\n";
-			
+			$fieldName = $this->fieldname . "-" . $field->element['name'];
+
+			$bufferItem .= "<div class=\"group " . $fieldName . " group-" . $field->type . "\">\n";
+			if ($field->show_label) $bufferItem .= "<span class=\"group-label\">" . $field->getLabel() . "</span>\n";
+			$bufferItem .= $field->getInput();
+			$bufferItem .= "</div>\n";
+
 			$$position .= $bufferItem;
-        }
+		}
 
 		$buffer .= $leftOpen . $divClose . $rightOpen . $divClose . $noneOpen . $divClose;
 		$buffer .= "</div>\n";
 
-        return $buffer;
+		return $buffer;
 
-    }
+	}
 }

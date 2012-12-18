@@ -1,8 +1,8 @@
 /**
- * @version		1.29 December 11, 2012
- * @author		RocketTheme http://www.rockettheme.com
- * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ * @version $Id: toggle.js 58644 2012-12-17 22:52:30Z djamil $
+ * @author RocketTheme http://www.rockettheme.com
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
 (function(){
@@ -186,7 +186,7 @@ var Toggle = this.Toggle = new Class({
 
 		if (details.container.getParent().getParent() != details.container.getParent('.gantry-field').getFirst('.wrapper .wrapper')) return;
 
-		var nexts = [];//details.container.getParent('.chain').getAllNext('.chain');
+		var nexts = details.container.getParent('.chain').getAllNext('.chain');
 
 		if (nexts.length) {
 			nexts.each(function(chain) {
@@ -212,7 +212,7 @@ var Toggle = this.Toggle = new Class({
 						else text.fireEvent('detach');
 					}
 				}
-				if (['toggle'].contains(type) && chain != details.container.getParent('.wrapper').getFirst()) {
+				if ((['toggle'].contains(type) || ['checkbox'].contains(type)) && chain != details.container.getParent('.wrapper').getFirst()) {
 					var checkbox = chain.getElement('input[type=checkbox]');
 					if (checkbox) {
 						(function() {

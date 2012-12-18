@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id: style.xml 16565 2010-04-28 12:21:27Z ian $ -->
+<!-- $Id: copyright.xml 58623 2012-12-15 22:01:32Z btowles $ -->
 <form>
-	<fieldset name="widget">
-		<field
-			name="text"
-			type="text"
-			label="Text"
-			description="Text"
-			class="widefat"
-			size="30"
+    <fieldset name="widget">
+        <field
+            name="text"
+            type="text"
+            label="Text"
+            description="Text"
+            class="widefat"
+            size="30"
             default="Designed by RocketTheme"
-			readonly="false"/>
-	</fieldset>
+            readonly="false"/>
+    </fieldset>
 </form>

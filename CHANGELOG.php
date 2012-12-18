@@ -1,8 +1,8 @@
 <?php
 /**
  * Gantry For Wordpress
- * 
- * @version   1.29 December 11, 2012
+ *
+ * @version   $Id: CHANGELOG.php 58645 2012-12-18 01:18:19Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -27,6 +27,15 @@ Legend:
 - -> Removed
 ! -> Note
 
+------- 1.30 Release [] ------
+# Fix for the "Fatal error: Call to a member function isEnabled()" in some rare cases
+# Fixed Notices appearing after enabling Debug mode
+# Fix to keep accessibility mode disabled
+# Fixed overrides behavior involving presets
+# Fixed overrides badges opacity
+- Removed some unnecessary CSS for the future theme compatibility
++ Framework modifications to allow usage of responsive layouts in the future
+
 ------- 1.29 Release [] ------
 + BBPress is now fully supported
 + Added Maintenance Mode gizmo
@@ -46,7 +55,8 @@ Legend:
 ------- 1.26 Release [] ------
 # Gantry now properly loads the widget_admin.css file
 # Added missing CSS and JS code for the "selectedset" field type
-# Added missing charset <meta> tag in the displayHead function
+# Added missing charset
++ Added <meta> tag in the displayHead function
 # Proper fix for the Children items in the Mobile Menu
 ^ Display Single Post Category in Breadcrumbs widget is on by default
 

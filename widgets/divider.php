@@ -1,43 +1,49 @@
 <?php
 /**
- * @version		1.29 December 11, 2012
- * @author		RocketTheme http://www.rockettheme.com
- * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ * @version   $Id: divider.php 58623 2012-12-15 22:01:32Z btowles $
+ * @author    RocketTheme http://www.rockettheme.com
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
 defined('GANTRY_VERSION') or die();
 
 gantry_import('core.gantrywidget');
 
-add_action('widgets_init', array("GantryWidgetDivider","init"));
-add_action('admin_head-widgets.php', array('GantryWidgetDivider','addHeaders'),-1000);
+add_action('widgets_init', array("GantryWidgetDivider", "init"));
+add_action('admin_head-widgets.php', array('GantryWidgetDivider', 'addHeaders'), -1000);
 
-class GantryWidgetDivider extends WP_Widget {
-    var $_defaults = array();
+class GantryWidgetDivider extends WP_Widget
+{
+	var $_defaults = array();
 
-    function init() {
-        register_widget("GantryWidgetDivider");
-    }
-
-    function GantryWidgetDivider() {
-    	$widget_ops = array('classname' => 'widget_gantry_divider', 'description' => _g('Gantry Divider Widget'));
-    	$control_ops = array('width' => 0, 'height' => 0);
-        $this->WP_Widget('gantrydivider', _g('Gantry Divider'), $widget_ops, $control_ops);
-    }
-
-    function widget($args, $instance){
- 		extract($args);
-        $defaults = $this->_defaults;
+	function init()
+	{
+		register_widget("GantryWidgetDivider");
 	}
 
-    function form($instance){
-        return "noform";
-    }
+	function GantryWidgetDivider()
+	{
+		$widget_ops  = array('classname' => 'widget_gantry_divider', 'description' => _g('Gantry Divider Widget'));
+		$control_ops = array('width' => 0, 'height' => 0);
+		$this->WP_Widget('gantrydivider', _g('Gantry Divider'), $widget_ops, $control_ops);
+	}
 
-    function addHeaders(){
-        global $gantry;
-        $gantry->addScript('gantrydivider.js');
-        $gantry->addStyle('gantrydivider.css');
-    }
+	function widget($args, $instance)
+	{
+		extract($args);
+		$defaults = $this->_defaults;
+	}
+
+	function form($instance)
+	{
+		return "noform";
+	}
+
+	function addHeaders()
+	{
+		global $gantry;
+		$gantry->addScript('gantrydivider.js');
+		$gantry->addStyle('gantrydivider.css');
+	}
 }

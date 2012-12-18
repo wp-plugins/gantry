@@ -1,11 +1,11 @@
 <?php
 /**
- * @version		1.29 December 11, 2012
- * @author		RocketTheme http://www.rockettheme.com
- * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ * @version   $Id: overlays.php 58623 2012-12-15 22:01:32Z btowles $
+ * @author    RocketTheme http://www.rockettheme.com
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
- 
+
 defined('GANTRY_VERSION') or die();
 /**
  * @package     gantry
@@ -13,85 +13,87 @@ defined('GANTRY_VERSION') or die();
  */
 gantry_import('core.config.gantryformfield');
 
-class GantryFormFieldOverlays extends GantryFormField {
+class GantryFormFieldOverlays extends GantryFormField
+{
 
-    protected $type = 'overlays';
-    protected $basetype = 'none';
+	protected $type = 'overlays';
+	protected $basetype = 'none';
 
-    public function getInput() {
-        global $gantry;
-        $output = '';
+	public function getInput()
+	{
+		global $gantry;
+		$output = '';
 
-        $this->template = end(explode(DS, $gantry->templatePath));
+		$this->template = end(explode(DS, $gantry->templatePath));
 
-		$class = $this->element['class'] ? $this->element['class'] : '';
-        $preview = $this->element['preview'] ? $this->element['preview'] : "false";
-        $path = ($this->element['path']) ? $this->element['path'] : false;
-        $node = $this->element;
-        $control_name = $this->name;
-        
-        $name = substr(str_replace($gantry->templateName . '-template-options', "", $this->element['name']), 1, -1);
+		$class        = $this->element['class'] ? $this->element['class'] : '';
+		$preview      = $this->element['preview'] ? $this->element['preview'] : "false";
+		$path         = ($this->element['path']) ? $this->element['path'] : false;
+		$node         = $this->element;
+		$control_name = $this->name;
+
+		$name = substr(str_replace($gantry->templateName . '-template-options', "", $this->element['name']), 1, -1);
 		$name = str_replace("][", "-", $name);
-		
+
 		$name = $this->id;
-        
-        if (!$path) return "No path set in templateDetails.xml";
-        
-        if ($preview == 'true') $class .= " overlay-slider";
+
+		if (!$path) return "No path set in templateDetails.xml";
+
+		if ($preview == 'true') $class .= " overlay-slider";
 
 		if (!defined('GANTRY_CSS')) {
-			$gantry->addStyle($gantry->gantryUrl.'/admin/widgets/gantry.css');
+			$gantry->addStyle($gantry->gantryUrl . '/admin/widgets/gantry.css');
 			define('GANTRY_CSS', 1);
 		}
-        if (!defined('GANTRY_SLIDER')) {
-            $gantry->addScript($gantry->gantryUrl.'/admin/widgets/slider/js/slider.js');
+		if (!defined('GANTRY_SLIDER')) {
+			$gantry->addScript($gantry->gantryUrl . '/admin/widgets/slider/js/slider.js');
 			if (!defined('GANTRY_SLIDER')) define('GANTRY_SLIDER', 1);
-        }
-        if (!defined('GANTRY_OVERLAYS')) {
-            $gantry->addInlineScript('var GantryOverlays = {};');
-            define('GANTRY_OVERLAYS', 1);
-        }
+		}
+		if (!defined('GANTRY_OVERLAYS')) {
+			$gantry->addInlineScript('var GantryOverlays = {};');
+			define('GANTRY_OVERLAYS', 1);
+		}
 
 //        $this->value = $value;
 
-        $rootPath = str_replace("__TEMPLATE__", $gantry->templatePath, $path);
-        $urlPath = str_replace("__TEMPLATE__", $gantry->templateUrl, $path);
+		$rootPath = str_replace("__TEMPLATE__", $gantry->templatePath, $path);
+		$urlPath  = str_replace("__TEMPLATE__", $gantry->templateUrl, $path);
 
-        $this->_loadOverlays($name, $rootPath);
+		$this->_loadOverlays($name, $rootPath);
 
-        $overlays = array();
+		$overlays = array();
 
-        $__overlays = $gantry->retrieveTemp('overlays', 'overlays', array());
-        $__paths = $gantry->retrieveTemp('overlays', 'paths', array());
+		$__overlays = $gantry->retrieveTemp('overlays', 'overlays', array());
+		$__paths    = $gantry->retrieveTemp('overlays', 'paths', array());
 
-        $overlays[$name] = "'none': {'file': 'overlay-off.png', 'value': 'none', 'name': 'Off', 'path': '" . $gantry->gantryUrl . "/admin/widgets/overlays/images/overlay-off.png'}, ";
-        foreach ($__overlays[$name] as $title => $file) {
-            $overlays[$name] .= "'" . $file['name'] . "': {'file': '" . $file['file'] . "', 'value': '" . $file['name'] . "', 'name': '" . $title . "', 'path': '" . $urlPath . $file['file'] . "'}, ";
-        }
+		$overlays[$name] = "'none': {'file': 'overlay-off.png', 'value': 'none', 'name': 'Off', 'path': '" . $gantry->gantryUrl . "/admin/widgets/overlays/images/overlay-off.png'}, ";
+		foreach ($__overlays[$name] as $title => $file) {
+			$overlays[$name] .= "'" . $file['name'] . "': {'file': '" . $file['file'] . "', 'value': '" . $file['name'] . "', 'name': '" . $title . "', 'path': '" . $urlPath . $file['file'] . "'}, ";
+		}
 
-        $overlays[$name] = substr($overlays[$name], 0, -2);
+		$overlays[$name] = substr($overlays[$name], 0, -2);
 
-        $gantry->addInlineScript('GantryOverlays["' . $this->id . '"] = new Hash({' . $overlays[$name] . '});');
+		$gantry->addInlineScript('GantryOverlays["' . $this->id . '"] = new Hash({' . $overlays[$name] . '});');
 
-        $scriptinit = $this->sliderInit($this->id);		
+		$scriptinit = $this->sliderInit($this->id);
 		$gantry->addDomReadyScript($scriptinit);
 
-        $output = '
+		$output = '
 		<div class="wrapper">
 		';
 
 
-        $output .= '<div class="overlay-tip">
+		$output .= '<div class="overlay-tip">
 			<div class="overlay-tip-left"></div>
 			<div class="overlay-tip-mid"><span>Example</span></div>
 			<div class="overlay-tip-right"></div>
 		</div>';
 
-        if ($preview == 'true') {
-            $output .= '<div class="overlay-preview"><div></div></div>';
-        }
+		if ($preview == 'true') {
+			$output .= '<div class="overlay-preview"><div></div></div>';
+		}
 
-        $output .= '
+		$output .= '
 		<div id="' . $this->id . '-wrapper" class="' . $class . '">
 			<div class="slider">
 			    <div class="slider2"></div>
@@ -102,90 +104,97 @@ class GantryFormFieldOverlays extends GantryFormField {
 		</div>
 		';
 
-        $gantry->addTemp('overlays', 'overlays', $__overlays);
-        $gantry->addTemp('overlays', 'paths', $__paths);
+		$gantry->addTemp('overlays', 'overlays', $__overlays);
+		$gantry->addTemp('overlays', 'paths', $__paths);
 
-        return $output;
-    }
+		return $output;
+	}
 
-    function _loadOverlays($elementName, $path) {
-        global $gantry;
+	function _loadOverlays($elementName, $path)
+	{
+		global $gantry;
 
-        $overlays = $gantry->retrieveTemp('overlays', 'overlays', array());
-        $__paths = $gantry->retrieveTemp('overlays', 'paths', array());
+		$overlays = $gantry->retrieveTemp('overlays', 'overlays', array());
+		$__paths  = $gantry->retrieveTemp('overlays', 'paths', array());
 
-        $limit = $gantry->get('overlays_list_limit');
+		$limit = $gantry->get('overlays_list_limit');
 
-        $counter = 0;
-        if (is_dir($path) && !isset($__paths[$path])) {
-            if ($dh = opendir($path)) {
-                $overlays[$elementName] = array();
-                while (($file = readdir($dh)) !== false) {
-                    if (filetype($path . $file) == 'file' && $this->_isImage($file)) {
-                        if ($counter >= $limit) continue;
+		$counter = 0;
+		if (is_dir($path) && !isset($__paths[$path])) {
+			if ($dh = opendir($path)) {
+				$overlays[$elementName] = array();
+				while (($file = readdir($dh)) !== false) {
+					if (filetype($path . $file) == 'file' && $this->_isImage($file)) {
+						if ($counter >= $limit) continue;
 
-                        $ext = substr($file, strrpos($file, '.') + 1);
-                        $name = substr($file, 0, strrpos($file, '.'));
+						$ext  = substr($file, strrpos($file, '.') + 1);
+						$name = substr($file, 0, strrpos($file, '.'));
 
-                        $title = str_replace("-", " ", $name);
-                        $title = ucwords($title);
+						$title = str_replace("-", " ", $name);
+						$title = ucwords($title);
 
-                        $overlays[$elementName][$title] = array('name' => $name, 'ext' => $ext, 'file' => $name . "." . $ext);
+						$overlays[$elementName][$title] = array(
+							'name' => $name,
+							'ext'  => $ext,
+							'file' => $name . "." . $ext
+						);
 
-                        $counter++;
-                    }
-                }
-                closedir($dh);
-                $__paths[$path] = $overlays[$elementName];
-            }
-        } else {
-            $overlays[$elementName] = $__paths[$path];
-        }
+						$counter++;
+					}
+				}
+				closedir($dh);
+				$__paths[$path] = $overlays[$elementName];
+			}
+		} else {
+			$overlays[$elementName] = $__paths[$path];
+		}
 
-        ksort($overlays[$elementName]);
+		ksort($overlays[$elementName]);
 
-        $gantry->addTemp('overlays', 'overlays', $overlays);
-        $gantry->addTemp('overlays', 'paths', $__paths);
+		$gantry->addTemp('overlays', 'overlays', $overlays);
+		$gantry->addTemp('overlays', 'paths', $__paths);
 
-        return $overlays;
-    }
+		return $overlays;
+	}
 
-    function _isImage($file) {
-        $extension = strtolower(substr($file, -4));
+	function _isImage($file)
+	{
+		$extension = strtolower(substr($file, -4));
 
-        return ($extension == '.jpg' || $extension == '.bmp' || $extension == '.gif' || $extension == '.png');
-    }
+		return ($extension == '.jpg' || $extension == '.bmp' || $extension == '.gif' || $extension == '.png');
+	}
 
-    function sliderInit($name) {
-        global $gantry;
+	function sliderInit($name)
+	{
+		global $gantry;
 
 		$name = $name;
 		$name = str_replace("][", "-", $name);
 
-        $name2 = str_replace("-", "_", $name);
-		$id = str_replace("-", "_", $this->id);
+		$name2 = str_replace("-", "_", $name);
+		$id    = str_replace("-", "_", $this->id);
 
-        $valueName = $this->value;
+		$valueName = $this->value;
 
-        $current = $this->value;
-        if ($current === false) $current = "none";
+		$current = $this->value;
+		if ($current === false) $current = "none";
 
-        $slider = "document.id('".$this->id."').getPrevious('.slider')";
-        $knob = "document.id('".$this->id."').getPrevious('.slider').getElement('.knob')";
-        $hidden = "document.id('".$this->id."')";
-        $children = 'GantryOverlays["' . $name . '"].getKeys();';
+		$slider   = "document.id('" . $this->id . "').getPrevious('.slider')";
+		$knob     = "document.id('" . $this->id . "').getPrevious('.slider').getElement('.knob')";
+		$hidden   = "document.id('" . $this->id . "')";
+		$children = 'GantryOverlays["' . $name . '"].getKeys();';
 
-        $__overlays = $__overlays = $gantry->retrieveTemp('overlays', 'overlays', array());
+		$__overlays = $__overlays = $gantry->retrieveTemp('overlays', 'overlays', array());
 
-        $steps = count($__overlays[$name]);
-        $default = '"' . $this->default . '"';
+		$steps   = count($__overlays[$name]);
+		$default = '"' . $this->default . '"';
 
-        $js = "
+		$js = "
 			if (!window.sliders) window.sliders = {};
 			var current = GantryOverlays['" . $name . "'].getKeys().indexOf('" . $valueName . "');
 			$hidden.addEvents({
 				'set': function(value) {
-					var slider = window.sliders['".$id."'];
+					var slider = window.sliders['" . $id . "'];
 					var index = slider.list.indexOf(value);
 					slider.set(index);
 				}
@@ -233,7 +242,7 @@ class GantryFormFieldOverlays extends GantryFormField {
 			});
 			window.sliders['" . $id . "'].list = " . $children . ";
 			window.sliders['" . $id . "'].preview = document.id('" . $this->id . "').getParent('.wrapper').getElement('.overlay-preview');
-			window.sliders['" . $id . "'].hiddenEl = ".$hidden.";
+			window.sliders['" . $id . "'].hiddenEl = " . $hidden . ";
 			
 			if (window.sliders['" . $id . "'].preview && window.sliders['" . $id . "'].preview.hasClass('overlay-preview')) window.sliders['" . $id . "'].tiptitle = window.sliders['" . $id . "'].preview.getPrevious();
 			else window.sliders['" . $id . "'].tiptitle = document.id('" . $this->id . "').getParent('.wrapper').getElement('.overlay-tip');
@@ -293,8 +302,8 @@ class GantryFormFieldOverlays extends GantryFormField {
 			});
 			";
 
-        return $js;
-    }
+		return $js;
+	}
 }
 
 ?>

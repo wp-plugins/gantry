@@ -1,13 +1,12 @@
 <?php
 /**
- * @version		1.29 December 11, 2012
- * @author		RocketTheme http://www.rockettheme.com
- * @copyright 	Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ * @version   $Id: presets-saver.php 58623 2012-12-15 22:01:32Z btowles $
+ * @author    RocketTheme http://www.rockettheme.com
+ * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
 defined('GANTRY_VERSION') or die();
-gantry_import('core.gantryjson');
 
 global $gantry;
 
@@ -15,12 +14,12 @@ global $gantry;
 $file = $gantry->custom_presets_file;
 $action = $_POST['gantry_action'];
 
- if (!current_user_can('edit_theme_options')) die('-1');
+if (!current_user_can('edit_theme_options')) die('-1');
 
 if ($action == 'add') {
-    $jsonstring = stripslashes($_POST['presets-data']);
-    
-	$data = GantryJSON::decode($jsonstring, false);
+	$jsonstring = stripslashes($_POST['presets-data']);
+
+	$data = json_decode($jsonstring, false);
 
 	if (!file_exists($file)) {
 		$handle = @fopen($file, 'w');
@@ -29,20 +28,20 @@ if ($action == 'add') {
 
 	gantry_import('core.gantryini');
 	$newEntry = GantryINI::write($file, $data);
-    gantry_import('core.utilities.gantrycache');
-    $cache = GantryCache::getInstance();
-    $cache->clear('gantry','gantry');
+	gantry_import('core.utilities.gantrycache');
+	$cache = GantryCache::getInstance();
+	$cache->clear('gantry', 'gantry');
 
 	if ($newEntry) echo "success";
 } else if ($action == 'delete') {
 	$presetTitle = $_POST['preset-title'];
-	$presetKey = $_POST['preset-key'];
+	$presetKey   = $_POST['preset-key'];
 	if (!$presetKey || !$presetTitle) return "error";
 	GantryINI::write($file, array($presetTitle => array($presetKey => array())), 'delete-key');
-    gantry_import('core.utilities.gantrycache');
-    $cache = GantryCache::getInstance();
-    $cache->clear('gantry','gantry');
-	
+	gantry_import('core.utilities.gantrycache');
+	$cache = GantryCache::getInstance();
+	$cache->clear('gantry', 'gantry');
+
 } else {
 	return "error";
 }

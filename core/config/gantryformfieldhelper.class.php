@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: gantryformfieldhelper.class.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -8,85 +8,81 @@
 
 class GantryFormFieldHelper
 {
-    function get_field_id($fieldId, $group = null)
-    {
-        global $gantry;
+	function get_field_id($fieldId, $group = null)
+	{
+		global $gantry;
 
 
-        // Initialize variables.
-        $id = '';
+		// Initialize variables.
+		$id = '';
 
-        // If there is a form control set for the attached form add it first.
-        //		if ($this->formControl) {
-        //			$id .= $this->formControl;
-        //		}
+		// If there is a form control set for the attached form add it first.
+		//		if ($this->formControl) {
+		//			$id .= $this->formControl;
+		//		}
 
-        // If the field is in a group add the group control to the field id.
-        if ($group) {
-            // If we already have an id segment add the group control as another level.
-            if ($id) {
-                $id .= '_' . str_replace('.', '_', $group);
-            }
-            else {
-                $id .= str_replace('.', '_', $group);
-            }
-        }
+		// If the field is in a group add the group control to the field id.
+		if ($group) {
+			// If we already have an id segment add the group control as another level.
+			if ($id) {
+				$id .= '_' . str_replace('.', '_', $group);
+			} else {
+				$id .= str_replace('.', '_', $group);
+			}
+		}
 
-        // If we already have an id segment add the field id/name as another level.
-        if ($id) {
-            $id .= '_' . $fieldId;
-        }
-        else {
-            $id .= $fieldId;
-        }
+		// If we already have an id segment add the field id/name as another level.
+		if ($id) {
+			$id .= '_' . $fieldId;
+		} else {
+			$id .= $fieldId;
+		}
 
-        // Clean up any invalid characters.
-        $id = preg_replace('#\W#', '_', $id);
+		// Clean up any invalid characters.
+		$id = preg_replace('#\W#', '_', $id);
 
-        return $gantry->templateName . "-" . $id;
-    }
+		return $gantry->templateName . "-" . $id;
+	}
 
-    function get_field_name($fieldName, $group = null)
-    {
-        global $gantry;
+	function get_field_name($fieldName, $group = null)
+	{
+		global $gantry;
 
-        $name = '';
+		$name = '';
 
-        // If there is a form control set for the attached form add it first.
-        //		if ($this->formControl) {
-        //			$name .= $this->formControl;
-        //		}
+		// If there is a form control set for the attached form add it first.
+		//		if ($this->formControl) {
+		//			$name .= $this->formControl;
+		//		}
 
-        // If the field is in a group add the group control to the field name.
-        if ($group) {
-            // If we already have a name segment add the group control as another level.
-            $groups = explode('.', $group);
-            if ($name) {
-                foreach ($groups as $group) {
-                    $name .= '[' . $group . ']';
-                }
-            }
-            else {
-                $name .= array_shift($groups);
-                foreach ($groups as $group) {
-                    $name .= '[' . $group . ']';
-                }
-            }
-        }
+		// If the field is in a group add the group control to the field name.
+		if ($group) {
+			// If we already have a name segment add the group control as another level.
+			$groups = explode('.', $group);
+			if ($name) {
+				foreach ($groups as $group) {
+					$name .= '[' . $group . ']';
+				}
+			} else {
+				$name .= array_shift($groups);
+				foreach ($groups as $group) {
+					$name .= '[' . $group . ']';
+				}
+			}
+		}
 
-        // If we already have a name segment add the field name as another level.
-        if ($name) {
-            $name .= '[' . $fieldName . ']';
-        }
-        else {
-            $name .= $fieldName;
-        }
+		// If we already have a name segment add the field name as another level.
+		if ($name) {
+			$name .= '[' . $fieldName . ']';
+		} else {
+			$name .= $fieldName;
+		}
 
-        // If the field should support multiple values add the final array segment.
-        //		if ($this->multiple) {
-        //			$name .= '[]';
-        //		}
+		// If the field should support multiple values add the final array segment.
+		//		if ($this->multiple) {
+		//			$name .= '[]';
+		//		}
 
-        return $gantry->templateName . '-' . $name;
-    }
+		return $gantry->templateName . '-' . $name;
+	}
 }

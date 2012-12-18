@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: gantrydebugmainbodyrenderer.class.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -11,42 +11,55 @@ defined('GANTRY_VERSION') or die();
  * @package     gantry
  * @subpackage  core.renderers
  */
-class GantryDebugMainBodyRenderer  {
+class GantryDebugMainBodyRenderer
+{
 	// wrapper for mainbody display
-    function display($bodyLayout = 'debugmainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard') {
-        global $gantry;
+	function display($bodyLayout = 'debugmainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard')
+	{
+		global $gantry;
 
-        $columnIndex = 1;
-        $counter = 1;
-        $output      = '';
-        $sampleText  = "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>";
+		$columnIndex = 1;
+		$counter     = 1;
+		$output      = '';
+		$sampleText  = "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>";
 
-        foreach ($gantry->mainbodySchemasCombos[GRID_SYSTEM] as $schemas) {
-            $columnCount = $columnIndex++;
-            foreach ($schemas as $schema) {
-                $classKey   = $gantry->_getKey($schema);
-                $pushPull   = $gantry->pushPullSchemas[$classKey];
+		foreach ($gantry->mainbodySchemasCombos[GRID_SYSTEM] as $schemas) {
+			$columnCount = $columnIndex++;
+			foreach ($schemas as $schema) {
+				$classKey = $gantry->_getKey($schema);
+				$pushPull = $gantry->pushPullSchemas[$classKey];
 
-                $sidebars       = '';
-                $contentTop     = null;
-                $contentBottom  = null;
+				$sidebars      = '';
+				$contentTop    = null;
+				$contentBottom = null;
 
-                $index = 1;
+				$index = 1;
 
-                foreach($schema as $shortname => $cols) {
+				foreach ($schema as $shortname => $cols) {
 
-                    //only process for sidebars
-                    if ($shortname == "mb") continue;
-                    $position = $gantry->_getLongName($shortname);
-                    $contents = '<div class="rt-block"><h3>'.$position.'</h3>'.$sampleText.'</div>';
-                    $sidebars .= $gantry->renderLayout('mod_'.$sidebarLayout, array('contents'=>$contents,'position'=>$position,'gridCount'=>$schema[$shortname],'pushPull'=>$pushPull[$index++]));
-                }
+					//only process for sidebars
+					if ($shortname == "mb") continue;
+					$position = $gantry->_getLongName($shortname);
+					$contents = '<div class="rt-block"><h3>' . $position . '</h3>' . $sampleText . '</div>';
+					$sidebars .= $gantry->renderLayout('mod_' . $sidebarLayout, array(
+					                                                                 'contents'  => $contents,
+					                                                                 'position'  => $position,
+					                                                                 'gridCount' => $schema[$shortname],
+					                                                                 'pushPull'  => $pushPull[$index++]
+					                                                            ));
+				}
 
-                $contents = '<h3>Mainbody</h3>'.$sampleText;
-                $output .= $gantry->renderLayout('body_'.$bodyLayout, array('counter'=>$counter++,'schema'=>$schema,'pushPull'=>$pushPull,'classKey'=>$classKey,
-                                                        'contents'=>$contents,'sidebars'=>$sidebars));
-            }
-        }
-        return $output;
-    }
+				$contents = '<h3>Mainbody</h3>' . $sampleText;
+				$output .= $gantry->renderLayout('body_' . $bodyLayout, array(
+				                                                             'counter'  => $counter++,
+				                                                             'schema'   => $schema,
+				                                                             'pushPull' => $pushPull,
+				                                                             'classKey' => $classKey,
+				                                                             'contents' => $contents,
+				                                                             'sidebars' => $sidebars
+				                                                        ));
+			}
+		}
+		return $output;
+	}
 }

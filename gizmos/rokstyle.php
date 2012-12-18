@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   1.29 December 11, 2012
+ * @version   $Id: rokstyle.php 58623 2012-12-15 22:01:32Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -14,26 +14,28 @@ gantry_import('core.gantrygizmo');
  * @package     gantry
  * @subpackage  features
  */
- 
-class GantryGizmoRokStyle extends GantryGizmo {
 
-    var $_name = 'rokstyle';
+class GantryGizmoRokStyle extends GantryGizmo
+{
 
-    function query_parsed_init() {
-    	add_shortcode('rokstyle', array('GantryGizmoRokStyle', 'rokstyle_init'));
+	var $_name = 'rokstyle';
+
+	function query_parsed_init()
+	{
+		add_shortcode('rokstyle', array('GantryGizmoRokStyle', 'rokstyle_init'));
 	}
-	
-	function rokstyle_init($atts, $content = null) {
+
+	function rokstyle_init($atts, $content = null)
+	{
 		global $gantry;
 		extract(shortcode_atts(array(
-			'type' => '',
-		), $atts));
+		                            'type' => '',
+		                       ), $atts));
 
-		if($type == 'css') :
-			$gantry->addInlineStyle(trim($content));
-		elseif ($type == 'js') :
+		if ($type == 'css') :
+			$gantry->addInlineStyle(trim($content)); elseif ($type == 'js') :
 			$gantry->addInlineScript(trim($content));
 		endif;
 	}
-	
+
 }

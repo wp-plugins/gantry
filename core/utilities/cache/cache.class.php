@@ -2,7 +2,7 @@
 require_once 'cacheDriver.interface.php';
 
 /**
- * @version   1.29 December 11, 2012
+ * @version $Id: cache.class.php 58595 2012-12-11 19:59:45Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -20,12 +20,12 @@ require_once 'cacheDriver.interface.php';
  * @throws CacheException
  */
 class RokCache/**
- * @version   1.29 December 11, 2012
+ * @version $Id: cache.class.php 58595 2012-12-11 19:59:45Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *//**
- * @version   1.29 December 11, 2012
+ * @version $Id: cache.class.php 58595 2012-12-11 19:59:45Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
