@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 58645 2012-12-18 01:18:19Z jakub $
+ * @version   $Id: CHANGELOG.php 58653 2012-12-18 21:25:40Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,10 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 1.31 Release [] ------
+# Fix for the caching issue which caused the "Fatal error: Call to a member function getGridcss()"
+! Please clean your site/browser cache after updating Gantry to 1.31
 
 ------- 1.30 Release [] ------
 # Fix for the "Fatal error: Call to a member function isEnabled()" in some rare cases

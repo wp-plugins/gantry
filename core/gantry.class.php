@@ -839,7 +839,7 @@ class Gantry
 						$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 					}
 					$filename = strtolower(basename($path, '.css')) . rand(0, 1000);
-					wp_enqueue_style($filename, $path, array(), '1.30');
+					wp_enqueue_style($filename, $path, array(), '1.31');
 					$deps[] = $path;
 				}
 			}
@@ -852,11 +852,11 @@ class Gantry
 			if ($this->baseUrl != "/") {
 				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 			}
-			wp_enqueue_script($path, $path, $deps, '1.30');
+			wp_enqueue_script($path, $path, $deps, '1.31');
 			$deps[] = $path;
 		}
 		foreach ($this->_full_scripts as $strSrc) {
-			wp_enqueue_script($strSrc, $strSrc, $deps, '1.30');
+			wp_enqueue_script($strSrc, $strSrc, $deps, '1.31');
 			$deps[] = $strSrc;
 		}
 

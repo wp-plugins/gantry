@@ -147,7 +147,7 @@ function gantry_construct()
 		/**
 		 * @name GANTRY_VERSION
 		 */
-		define('GANTRY_VERSION', '1.30');
+		define('GANTRY_VERSION', '1.31');
 
 
 		if (!defined('DS')) {

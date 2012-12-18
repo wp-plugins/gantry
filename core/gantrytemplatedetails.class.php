@@ -1,6 +1,6 @@
 <?php
 /**
-`` * @version   $Id: gantrytemplatedetails.class.php 58626 2012-12-15 22:47:03Z btowles $
+ * @version   $Id: gantrytemplatedetails.class.php 58651 2012-12-18 17:34:30Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -72,7 +72,7 @@ class GantryTemplateDetails
 	 */
 	function __sleep()
 	{
-		return array('positions', 'params', 'widget_styles', '_template_settings');
+		return array('positions', 'params', 'widget_styles', '_template_settings','template_info');
 	}
 
 	/**

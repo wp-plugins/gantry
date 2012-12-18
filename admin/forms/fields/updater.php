@@ -26,7 +26,7 @@ class GantryFormFieldUpdater extends GantryFormField
 
 		$currentVersion = GANTRY_VERSION;
 
-		if ($currentVersion == "\1.30") $currentVersion = "[DEV]";
+		if ($currentVersion == "\1.31") $currentVersion = "[DEV]";
 
 		// curl check
 		if (!function_exists('curl_version')) {
