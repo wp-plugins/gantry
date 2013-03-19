@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: enabledgroup.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: enabledgroup.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -25,20 +25,25 @@ class GantryFormGroupEnabledGroup extends GantryFormGroup
 
 	public function getInput()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$buffer = '';
 
 		// get the sets just below
-		foreach ($this->fields as $field) {
-			if ($field->type == 'set') {
+        foreach ($this->fields as $field)
+        {
+            if ($field->type == 'set')
+            {
 				$this->sets[] = $field;
 			}
 		}
 
 		$buffer .= "<div class='wrapper'>\n";
-		foreach ($this->fields as $field) {
-			if ((string)$field->type != 'set') {
+        foreach ($this->fields as $field)
+        {
+            if ((string)$field->type != 'set')
+            {
 				$enabler = false;
 
 				if ($field->element['enabler'] && (string)$field->element['enabler'] == true) {
@@ -70,8 +75,12 @@ class GantryFormGroupEnabledGroup extends GantryFormGroup
 			}
 
 			$buffer .= '<div class="enabledset-fields' . $cls . '" id="set-' . (string)$set->element['name'] . '">';
-			foreach ($set->fields as $field) {
-				if ($field->type == 'hidden') $buffer .= $field->getInput(); else {
+            foreach ($set->fields as $field)
+            {
+                if ($field->type == 'hidden')
+                    $buffer .= $field->getInput();
+                else
+                {
 					$buffer .= $field->render($callback);
 				}
 			}

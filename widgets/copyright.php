@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: copyright.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: copyright.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -19,7 +19,7 @@ class GantryWidgetCopyright extends GantryWidget
 	var $long_name = 'Gantry Copyright';
 	var $description = 'Gantry Copyright Widget';
 	var $css_classname = 'widget_gantry_copyright';
-	var $width = 300;
+	var $width = 200;
 	var $height = 400;
 
 	function init()
@@ -37,7 +37,8 @@ class GantryWidgetCopyright extends GantryWidget
 
 	function render($args, $instance)
 	{
-		global $gantry;
+		/** @global $gantry Gantry */
+global $gantry;
 		ob_start();
 		?>
 		<a href="http://www.rockettheme.com/" title="rockettheme.com" id="rocket"></a>

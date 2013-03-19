@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: textarea.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: textarea.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die;
@@ -32,12 +32,10 @@ class GantryFormFieldTextarea extends GantryFormField
 		// Initialize some field attributes.
 		$class    = $this->element['class'] ? ' class="' . (string)$this->element['class'] . '"' : '';
 		$disabled = ((string)$this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$columns  = $this->element['cols'] ? ' cols="' . (int)$this->element['cols'] . '"' : '';
-		$rows     = $this->element['rows'] ? ' rows="' . (int)$this->element['rows'] . '"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string)$this->element['onchange'] . '"' : '';
 
-		return '<div class="wrapper"><textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class . $disabled . $onchange . '>' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea></div>';
+		return '<div class="wrapper"><textarea name="' . $this->name . '" id="' . $this->id . '"' . $class . $disabled . $onchange . '>' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea></div>';
 	}
 }

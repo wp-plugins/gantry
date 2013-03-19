@@ -1,8 +1,101 @@
-/**
- * @version $Id: tips.js 58623 2012-12-15 22:01:32Z btowles $
- * @author RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
- */
 
-var GantryTips={init:function(){var a=document.getElements(".gantrytips");if(!a){return;}a.each(function(c,e){var d=c.getElements(".gantrytips-controller .gantrytips-left, .gantrytips-controller .gantrytips-right");var g=c.getElement(".current-tip");var f=g.get("html").toInt();var b=c.getElements(".gantrytips-tip");b.each(function(j,h){j.set("opacity",(h==f-1)?1:0);});d.addEvents({click:function(){var i=this.hasClass("gantrytips-left");var h=f;if(i){f-=1;if(f<=0){f=b.length;}}else{f+=1;if(f>b.length){f=1;}}this.fireEvent("jumpTo",[f,h]);},jumpTo:function(j,i){if(!i){i=f;}f=j;if(!b[f-1]||!b[i-1]){return;}var k=c.getElement(".gantrytips-wrapper");var h=b[f-1].getSize().y+15;b.fade("out");if(h>=190){k.tween("height",h);}b[f-1].fade("in");g.set("text",f);},jumpById:function(k,i){if(!i){i=f;}f=b.indexOf(document.id(k))||0;if(f==-1){return;}var j=c.getElement(".gantrytips-wrapper");var h=b[f].getSize().y+15;b.fade("out");if(h>=190){j.tween("height",h);}b[f].fade("in");f+=1;g.set("text",f);},selectstart:function(h){h.stop();}});d[0].fireEvent("jumpTo",1);d[1].fireEvent("jumpTo",1);});}};window.addEvent("domready",GantryTips.init);
+var GantryTips = {
+	init: function() {
+		var gantrytips = document.getElements('.gantrytips');
+		if (!gantrytips) return;
+
+		gantrytips.each(function(gantrytip, i) {
+			var arrows = gantrytip.getElements('.gantrytips-controller .gantrytips-left, .gantrytips-controller .gantrytips-right');
+			var current = gantrytip.getElement('.current-tip');
+			var currentValue = current.get('html').toInt();
+			var tips = gantrytip.getElements('.gantrytips-tip');
+
+			tips.each(function(tip, i) {
+				tip.set('display', (i == currentValue - 1) ? 'block' : 'none');
+			});
+
+			arrows.addEvents({
+				'click': function() {
+					var left = this.hasClass('gantrytips-left');
+					var now = currentValue;
+					if (left) {
+						currentValue -= 1;
+						if (currentValue <= 0) currentValue = tips.length;
+					} else {
+						currentValue += 1;
+						if (currentValue > tips.length) currentValue = 1;
+					}
+					this.fireEvent('jumpTo', [currentValue, now]);
+				},
+				jumpTo: function(index, now) {
+					if (!now) now = currentValue;
+					currentValue = index;
+					if (!tips[currentValue - 1] || !tips[now - 1]) return;
+
+					tips.setStyle('display', 'none');
+					tips[currentValue - 1].setStyle('display', 'block');
+					current.set('text', currentValue);
+				},
+				jumpById: function(id, now) {
+					if (!now) now = currentValue;
+					currentValue = tips.indexOf(document.id(id)) || 0;
+					if (currentValue == -1) return;
+
+					tips.setStyle('display', 'none');
+					tips[currentValue].setStyle('display', 'block');
+					currentValue += 1;
+					current.set('text', currentValue);
+
+				},
+				'selectstart': function(e) {
+					e.stop();
+				}
+			});
+
+			arrows[0].fireEvent('jumpTo', 1);
+			arrows[1].fireEvent('jumpTo', 1);
+		});
+	},
+
+	pins: function(pins){
+		pins.each(function(pin, i){
+			var panels = pin.getParent('.gantry-panel').getElements('.gantry-panel-left, .gantry-panel-right');
+
+			var sizes = {'left': 0, 'right': 0};
+			panels.each(function(panel, i){
+				var size = panel.getSize().y;
+				sizes[(!i) ? 'left' : 'right'] = size;
+			});
+
+			pin.store('surround', {'panels': panels, 'sizes': sizes, 'parent': pin.getParent('.tips-field')});
+			if (sizes.left <= sizes.right + 50) pin.setStyle('display', 'none');
+			else GantryTips.attachPin(pin);
+		});
+	},
+
+	attachPin: function(pin){
+		if (!window.retrieve('pinAttached')){
+			window.store('pinAttached', true);
+		}
+
+		pin.addEvents({
+			'click': function(){
+				var parent = pin.retrieve('surround').parent;
+
+				pin.toggleClass('active');
+
+				if (pin.hasClass('active')){
+					parent.setStyles({
+						'top': parent.getPosition().y - window.getScroll().y
+					});
+				}
+
+				parent.toggleClass('fixed');
+			},
+			'dbclick': function(e){e.stop();},
+			'selectstart': function(e){e.stop();}
+		});
+	}
+};
+
+window.addEvent('domready', GantryTips.init);

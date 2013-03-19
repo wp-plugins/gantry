@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: overlays.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: overlays.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -21,10 +21,11 @@ class GantryFormFieldOverlays extends GantryFormField
 
 	public function getInput()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		$output = '';
 
-		$this->template = end(explode(DS, $gantry->templatePath));
+		$this->template = end(explode('/', $gantry->templatePath));
 
 		$class        = $this->element['class'] ? $this->element['class'] : '';
 		$preview      = $this->element['preview'] ? $this->element['preview'] : "false";
@@ -51,6 +52,7 @@ class GantryFormFieldOverlays extends GantryFormField
 		}
 		if (!defined('GANTRY_OVERLAYS')) {
 			$gantry->addInlineScript('var GantryOverlays = {};');
+			$gantry->addStyle($gantry->gantryUrl . '/admin/widgets/overlays/css/overlays.css');
 			define('GANTRY_OVERLAYS', 1);
 		}
 
@@ -112,6 +114,7 @@ class GantryFormFieldOverlays extends GantryFormField
 
 	function _loadOverlays($elementName, $path)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$overlays = $gantry->retrieveTemp('overlays', 'overlays', array());
@@ -166,6 +169,7 @@ class GantryFormFieldOverlays extends GantryFormField
 
 	function sliderInit($name)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$name = $name;

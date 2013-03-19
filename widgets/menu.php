@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: menu.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: menu.php 59389 2013-03-15 20:02:32Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -15,6 +15,7 @@ class GantryWidgetMenu extends GantryWidget
 {
 	static $themes = array();
 
+	private $error_message;
 	var $short_name = 'menu';
 	var $wp_name = 'gantry_menu';
 	var $long_name = 'Gantry Menu';
@@ -54,7 +55,12 @@ class GantryWidgetMenu extends GantryWidget
 			add_filter('wp_edit_nav_menu_walker', array("GantryWidgetMenu", "setupWalker"), 1000, 2);
 			add_action('wp_nav_menu_item_custom_fields', array("GantryWidgetMenu", "addThemeFormOptions"), 1, 4);
 			add_action('wp_update_nav_menu_item', array("GantryWidgetMenu", "updateNavMenuItems"), 1, 3);
+			add_action('delete_post', array("GantryWidgetMenu", "deleteNavMenuItem"), 1, 3);
 			add_filter('wp_get_nav_menu_items', array("GantryWidgetMenu", "getNavMenuItems"), 10, 3);
+			add_action('delete_term', array("GantryWidgetMenu", "deleteNavMenu"), 1, 4);
+			add_action('wp_update_nav_menu', array("GantryWidgetMenu", "clearMenuCache"), 1, 1);
+			add_action('load-nav-menus.php', array("GantryWidgetMenu", "loadMootools"));
+
 		} else {
 			add_filter('wp_get_nav_menu_items', array("GantryWidgetMenu", "getNavMenuItems"), 10, 3);
 		}
@@ -67,6 +73,7 @@ class GantryWidgetMenu extends GantryWidget
 
 	public static function displayAdminHeader()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		$gantry->addStyle($gantry->gantryUrl . '/widgets/gantrymenu/css/widget_admin.css');
 	}
@@ -88,27 +95,31 @@ class GantryWidgetMenu extends GantryWidget
 
 	public function render($args, $instance)
 	{
-		$menu        = $this->initializeMenu($instance);
-		$menu_render = $menu->render();
-		if (!$instance['show_empty_menu'] && !empty($menu_render)) {
-			$menu->renderHeader();
-			ob_start();
-			$this->render_pre_widget($args, $instance);
-			$this->render_widget_open($args, $instance);
-			ob_start();
-			$this->render_title($args, $instance);
-			$title = ob_get_clean();
-			if (!empty($title)) {
-				$this->render_title_open($args, $instance);
-				echo $title;
-				$this->render_title_close($args, $instance);
+		$menu = $this->initializeMenu($instance);
+		if (null != $menu) {
+			$menu_render = $menu->render();
+			if (!$instance['show_empty_menu'] && !empty($menu_render)) {
+				$menu->renderHeader();
+				ob_start();
+				$this->render_pre_widget($args, $instance);
+				$this->render_widget_open($args, $instance);
+				ob_start();
+				$this->render_title($args, $instance);
+				$title = ob_get_clean();
+				if (!empty($title)) {
+					$this->render_title_open($args, $instance);
+					echo $title;
+					$this->render_title_close($args, $instance);
+				}
+				$this->pre_render($args, $instance);
+				echo $menu->render();
+				$this->post_render($args, $instance);
+				$this->render_widget_close($args, $instance);
+				$this->render_post_widget($args, $instance);
+				echo ob_get_clean();
 			}
-			$this->pre_render($args, $instance);
-			echo $menu->render();
-			$this->post_render($args, $instance);
-			$this->render_widget_close($args, $instance);
-			$this->render_post_widget($args, $instance);
-			echo ob_get_clean();
+		} elseif (!empty($this->error_message)) {
+			echo '<p>' . $this->error_message . '</p>';
 		}
 	}
 
@@ -145,17 +156,21 @@ class GantryWidgetMenu extends GantryWidget
 		if (null == $instance) {
 			$instance = $this->getInstance();
 		}
-		$theme_info = self::$themes[$instance['theme']];
-		$theme      = new $theme_info['class'];
-
-		$menu = new GantryMenu($theme, $instance);
-		$menu->initialize();
+		if (array_key_exists($instance['theme'], self::$themes)) {
+			$theme_info = self::$themes[$instance['theme']];
+			$theme      = new $theme_info['class'];
+			$menu       = new GantryMenu($theme, $instance);
+			$menu->initialize();
+		} else {
+			$this->error_message = _g('MISSING_MENU_THEME_MESSAGE');
+		}
 		return $menu;
 	}
 
 	public function form($instance)
 	{
 		gantry_import('core.config.gantryform');
+		/** @global $gantry Gantry */
 		global $gantry;
 		GantryForm::addFieldPath($gantry->gantryPath . '/widgets/gantrymenu/admin/fields');
 		$themes = self::$themes;
@@ -217,6 +232,7 @@ class GantryWidgetMenu extends GantryWidget
 
 	public function setupWalker($walker_class, $menu_id)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		require_once($gantry->gantryPath . '/widgets/gantrymenu/admin/RokMenuWalkerNavMenuEdit.php');
 		return 'RokMenuWalkerNavMenuEdit';
@@ -230,22 +246,67 @@ class GantryWidgetMenu extends GantryWidget
 
 	public function updateNavMenuItems($menu_id, $menu_item_db_id, $args)
 	{
-		$menu              = wp_get_nav_menu_object($menu_id);
+		$menu = wp_get_nav_menu_object($menu_id);
+		if ($menu) {
+			$menu_slug = $menu->slug;
+		} else {
+			$menu_slug = 0;
+		}
 		$gantry_menu_items = get_option('gantry_menu_items');
 		if ($gantry_menu_items == false) {
 			$gantry_menu_items = array();
 		}
 		$theme_info = self::getItemFieldsInstance();
 		foreach ($theme_info->fields as $field) {
-			$gantry_menu_items[$menu->slug][$menu_item_db_id][$field] = $_POST['menu-item-' . $field][$menu_item_db_id];
+			if (isset($_POST['menu-item-' . $field][$menu_item_db_id])) {
+				$gantry_menu_items[$menu_slug][$menu_item_db_id][$field] = $_POST['menu-item-' . $field][$menu_item_db_id];
+			}
 		}
 		update_option('gantry_menu_items', $gantry_menu_items);
+	}
+
+	public function clearMenuCache($menu_id)
+	{
+		gantry_import('core.utilities.gantrycache');
+		$cache_handler = GantryCache::getCache('gantry-menu', 0, true);
+		$cache_handler->clearGroupCache();
+	}
+
+	public function loadMootools()
+	{
+		/** @global $gantry Gantry */
+		global $gantry;
+		$gantry->addScript('mootools.js');
+	}
+
+	public function deleteNavMenuItem($post_id)
+	{
+		if (is_nav_menu_item($post_id)) {
+			$rokmenu_menu_items = get_option('gantry_menu_items');
+			if ($rokmenu_menu_items) {
+				foreach ($rokmenu_menu_items as $menuid => &$menu_items) {
+					if (isset($menu_items[$post_id])) unset($menu_items[$post_id]);
+				}
+				update_option('gantry_menu_items', $rokmenu_menu_items);
+			}
+		}
+	}
+
+	public function deleteNavMenu($term, $tt_id, $taxonomy, $deleted_term)
+	{
+		if ($taxonomy == 'nav_menu') {
+			$rokmenu_menu_items = get_option('gantry_menu_items');
+			if ($rokmenu_menu_items) {
+				unset($rokmenu_menu_items[$deleted_term->slug]);
+				update_option('gantry_menu_items', $rokmenu_menu_items);
+			}
+		}
 	}
 
 	public function getNavMenuItems($items, $menu, $args)
 	{
 		$rokmenu_menu_items = get_option('gantry_menu_items');
-		if ($rokmenu_menu_items == false) return $items;
+		if ($rokmenu_menu_items == false || !isset($rokmenu_menu_items[$menu->slug])) return $items;
 		$menu_options = $rokmenu_menu_items[$menu->slug];
 		if ($menu_options == false) return $items;
 		$modded_items = array();
@@ -263,6 +324,7 @@ class GantryWidgetMenu extends GantryWidget
 
 	function getItemFieldsInstance()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		$item_files = array(
 			'GantryMenuItemFieldsDefault' => $gantry->templatePath . '/html/gantrymenu/themes/itemfields.php'
@@ -287,6 +349,7 @@ class GantryWidgetMenu extends GantryWidget
 
 	function render_title($args, $instance)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		if ($instance['title'] != '') :
 			echo $instance['title'];

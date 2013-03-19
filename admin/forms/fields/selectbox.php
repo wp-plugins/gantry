@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: selectbox.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: selectbox.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -27,17 +27,20 @@ class GantryFormFieldSelectBox extends GantryFormField
 
 	public function getInput()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
-		if (!defined('GANTRY_SELECTBOX')) {
-			$this->template = end(explode(DS, $gantry->templatePath));
-			$gantry->addScript($gantry->gantryUrl . '/admin/widgets/selectbox/js/selectbox.js');
+		// if (!defined('GANTRY_SELECTBOX'))
+		// {
+		//     $this->template = end(explode('/', $gantry->templatePath));
+		//     $gantry->addScript($gantry->gantryUrl . '/admin/widgets/selectbox/js/selectbox.js');
 
-			define('GANTRY_SELECTBOX', 1);
-		}
+		//     define('GANTRY_SELECTBOX', 1);
+		// }
 
 		$lis                     = $activeElement = "";
 		$this->translate_options = $this->getBool('translation', true);
+		$isisDropdowns 			 = !$gantry->get('isis-dropdowns',false) ? 'chzn-done':'';
 
 
 		$options       = $this->getOptions();
@@ -81,24 +84,24 @@ class GantryFormFieldSelectBox extends GantryFormField
 		$html = "<div class='wrapper'>";
 		$html .= "<div class='selectbox-wrapper" . $disabledField . "'>";
 
-		$html .= "	<div class='selectbox'>";
+		// $html .= "	<div class='selectbox'>";
 
-		$html .= "		<div class='selectbox-top'>";
-		$html .= "			<div class='selected'><span>" . $activeElement . "</span></div>";
-		$html .= "			<div class='arrow'></div>";
-		$html .= "		</div>";
-		$html .= "		<div class='selectbox-dropdown'>";
-		$html .= "			<ul>" . $lis . "</ul>";
-		$html .= "			<div class='selectbox-dropdown-bottom'><div class='selectbox-dropdown-bottomright'></div></div>";
-		$html .= "		</div>";
+		// $html .= "		<div class='selectbox-top'>";
+		// $html .= "			<div class='selected'><span>" . $activeElement . "</span></div>";
+		// $html .= "			<div class='arrow'></div>";
+		// $html .= "		</div>";
+		// $html .= "		<div class='selectbox-dropdown'>";
+		// $html .= "			<ul>" . $lis . "</ul>";
+		// $html .= "			<div class='selectbox-dropdown-bottom'><div class='selectbox-dropdown-bottomright'></div></div>";
+		// $html .= "		</div>";
 
-		$html .= "	</div>";
+		// $html .= "	</div>";
 
-		$html .= "	<select id='" . $this->id . "' name='" . $this->name . "' class='selectbox-real " . $imapreset . "'>";
+		$html .= "	<select id='" . $this->id . "' name='" . $this->name . "' class='selectbox-real " . $isisDropdowns . $imapreset . "'>";
 		$html .= $optionsOutput;
 		$html .= "	</select>";
 		$html .= "</div>";
-		$html .= "<div class='clr'></div>";
+		// $html .= "<div class='clr'></div>";
 		$html .= "</div>";
 
 		return $html;

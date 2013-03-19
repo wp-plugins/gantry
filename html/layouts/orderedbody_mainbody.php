@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: orderedbody_mainbody.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: orderedbody_mainbody.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  */
@@ -30,11 +30,13 @@ class GantryLayoutOrderedBody_MainBody extends GantryBodyLayout
 
 	function render($params = array())
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$fparams = $this->_getParams($params);
 
 		// logic to determine if the component should be displayed
+		$display_mainbody = !($gantry->get("mainbody-enabled", true) == false);
 		$display_component = !($gantry->get("component-enabled", true) == false);
 		ob_start();
 
@@ -43,6 +45,7 @@ class GantryLayoutOrderedBody_MainBody extends GantryBodyLayout
 
 		// XHTML LAYOUT
 		?>
+		<?php if ($display_mainbody) : ?>
 		<div id="rt-main" class="<?php echo $fparams->classKey; ?>">
 			<div class="rt-container">
 				<?php foreach ($fparams->schema as $position => $value): ?>
@@ -51,29 +54,29 @@ class GantryLayoutOrderedBody_MainBody extends GantryBodyLayout
 					<?php else: ?>
 						<div class="<?php echo $mbClasses; ?>">
 							<?php if (isset($fparams->contentTop)) : ?>
-								<div id="rt-content-top">
-									<?php echo $fparams->contentTop; ?>
-								</div>
+							<div id="rt-content-top">
+								<?php echo $fparams->contentTop; ?>
+							</div>
 							<?php endif; ?>
 							<?php if ($display_component) : ?>
-								<div class="rt-block">
-									<div id="rt-mainbody">
-										<div class="component-content">
-											<?php
-											if ('' == $fparams->component_content) {
-												$this->include_type();
-											} else {
-												echo $fparams->component_content;
-											}
-											?>
-										</div>
+							<div class="rt-block">
+								<div id="rt-mainbody">
+									<div class="component-content">
+										<?php
+										if ('' == $fparams->component_content) {
+											$this->include_type();
+										} else {
+											echo $fparams->component_content;
+										}
+										?>
 									</div>
 								</div>
+							</div>
 							<?php endif; ?>
 							<?php if (isset($fparams->contentBottom)) : ?>
-								<div id="rt-content-bottom">
-									<?php echo $fparams->contentBottom; ?>
-								</div>
+							<div id="rt-content-bottom">
+								<?php echo $fparams->contentBottom; ?>
+							</div>
 							<?php endif; ?>
 						</div>
 					<?php endif; ?>
@@ -81,6 +84,7 @@ class GantryLayoutOrderedBody_MainBody extends GantryBodyLayout
 				<div class="clear"></div>
 			</div>
 		</div>
+		<?php endif; ?>
 		<?php
 		return ob_get_clean();
 	}

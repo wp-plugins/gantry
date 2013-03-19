@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: bugfixes.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: bugfixes.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -14,7 +14,8 @@ if (!get_option('gantry_bugfix_WGANTRYFW_5')) {
 
 	function gantry_bugfix_WGANTRYFW_5()
 	{
-		global $gantry;
+		/** @global $gantry Gantry */
+global $gantry;
 		global $wp_registered_widget_updates;
 		global $wp_registered_sidebars;
 		global $_wp_sidebars_widgets;

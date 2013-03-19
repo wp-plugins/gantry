@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: selectedset.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: selectedset.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -23,20 +23,25 @@ class GantryFormGroupSelectedSet extends GantryFormGroup
 
 	public function getInput()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$buffer = '';
 
 		// get the sets just below
-		foreach ($this->fields as $field) {
-			if ($field->type == 'set') {
+        foreach ($this->fields as $field)
+        {
+            if ($field->type == 'set')
+            {
 				$this->sets[] = $field;
 			}
 		}
 
 		$buffer .= "<div class='wrapper'>\n";
-		foreach ($this->fields as $field) {
-			if ((string)$field->type != 'set') {
+        foreach ($this->fields as $field)
+        {
+            if ((string)$field->type != 'set')
+            {
 				$selector = false;
 				$enabler  = false;
 
@@ -46,7 +51,8 @@ class GantryFormGroupSelectedSet extends GantryFormGroup
 					$enabler       = true;
 				}
 
-				if ($field->element['selector'] && (string)$field->element['selector'] == true) {
+                if ($field->element['selector'] && (string)$field->element['selector'] == true)
+                {
 					$field->detached = false;
 					$selector        = true;
 
@@ -54,7 +60,8 @@ class GantryFormGroupSelectedSet extends GantryFormGroup
 						$field->detached = true;
 					}
 
-					foreach ($this->sets as $set) {
+                    foreach ($this->sets as $set)
+                    {
 						//Create a new option object based on the <option /> element.
 						$tmp = GantryHtmlSelect::option((string)$set->element['name'], _g(trim((string)$set->element['label'])), 'value', 'text', ((string)$set->element['disabled'] == 'true'));
 						// Set some option attributes.
@@ -88,9 +95,11 @@ class GantryFormGroupSelectedSet extends GantryFormGroup
 
 		$buffer = parent::render($callback);
 		$cls    = ' selectedset-hidden-field';
-		foreach ($this->sets as $set) {
+        foreach ($this->sets as $set)
+        {
 			if (isset($this->activeSet['selectbox'])) {
-				if ($this->activeSet['selectbox'] == (string)$set->element['name']) $cls = ''; else $cls = ' selectedset-hidden-field';
+				if ($this->activeSet['selectbox'] == (string) $set->element['name']) $cls = '';
+				else $cls = ' selectedset-hidden-field';
 
 				if (isset($this->activeSet['toggle']) && $this->activeSet['toggle'] == '0') {
 					$cls = ' selectedset-hidden-field';
@@ -98,8 +107,12 @@ class GantryFormGroupSelectedSet extends GantryFormGroup
 			}
 
 			$buffer .= '<div class="selectedset-fields' . $cls . '" id="set-' . (string)$set->element['name'] . '">';
-			foreach ($set->fields as $field) {
-				if ($field->type == 'hidden') $buffer .= $field->getInput(); else {
+            foreach ($set->fields as $field)
+            {
+                if ($field->type == 'hidden')
+                    $buffer .= $field->getInput();
+                else
+                {
 					$buffer .= $field->render($callback);
 				}
 			}

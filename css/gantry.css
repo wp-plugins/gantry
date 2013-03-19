@@ -1,7 +1,7 @@
 /**
- * @version $Id: gantry.css 58627 2012-12-16 00:55:49Z jakub $
+ * @version $Id: gantry.css 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -51,10 +51,10 @@ p {margin: 0 0 15px 0;}
 h1, h2, h3, h4, h5 {margin: 15px 0;line-height: 1.1em;}
 h1 {font-size: 260%;}
 h2 {font-size: 200%;}
+h2.title {font-size: 170%;}
 h3 {font-size: 175%;}
 h4 {font-size: 120%;}
 h5 {font-size: 120%;}
-h2.title {font-size: 170%;letter-spacing: -1px;line-height: 1em;}
 a {text-decoration: none;outline: none;}
 code {color: #000;margin: -1px 0 0 0;font: 10px Courier;}
 blockquote {font: italic 16px/22px Georgia, Serif;}
@@ -73,7 +73,7 @@ ul li.comments {list-style: none;text-align: right;font-weight: bold;}
 ul li.author span, ul li.date span, ul li.comments span {display: block;font-weight: normal;margin-bottom: 10px;line-height: 1em;}
 
 /* Maintenance Mode */
-#maintenance-notice {display: block; margin: 0 0 10px; text-align: center; padding: 5px 0; background: #FFF; font-weight: bold; border-bottom: 1px solid #CCC;}
+#maintenance-notice {display: block; margin: 0 0 10px; text-align: center; padding: 5px 0; background: #FFF; color: #333; font-weight: bold; border-bottom: 1px solid #CCC;}
 
 /* RTL */
 body.rtl {direction: rtl;}
@@ -82,14 +82,21 @@ body.rtl #rt-menu ul.menu li {float: right;}
 body.rtl #rt-content-top .rt-alpha, body.rtl #rt-content-bottom .rt-alpha {margin-right: 0;margin-left: 10px;}
 body.rtl #rt-content-top .rt-omega, body.rtl #rt-content-bottom .rt-omega {margin-left: 0;margin-right: 10px;}
 body.rtl {min-width: inherit;}
-body.rtl ul {list-style-position: inside;}
 
 /* Style */
 html,body {margin-bottom: 1px;}
+body {color: #333;}
+#rt-header, #rt-bottom {color: #aaa;}
+.rt-container {background: #fff;} 
+a:hover {color: #000;}
 #rt-logo {background: url(../images/header-assets.png) 0 0 no-repeat;}
 #rt-menu ul.menu li a {color: #fff;}
 #rt-menu ul.menu li a:hover {background: #444;color: #fff;}
 #rt-menu ul.menu li.active a, #rt-menu ul.menu li.active a:hover {background: #fff;color: #000;}
+#rt-footer, #rt-copyright {color: #ddd;}
+#rt-sidebar-a {background-color:#e0e0e0;}
+#rt-sidebar-b {background-color:#e9e9e9;}
+#rt-sidebar-c {background-color:#f0f0f0;}
 #rocket {background: url(../images/rocket.png) 0 0 no-repeat;}
 
 #gantry-viewswitcher {background-image: url(../images/iphone/switcher.png); background-repeat: no-repeat; background-position: top left; width: 60px; height: 20px;display:block;position:absolute;right: 10px;top:40%;}
@@ -102,9 +109,6 @@ html body * span.clear, html body * div.clear, html body * li.clear, html body *
 .clearfix {display: inline-block;}
 * html .clearfix {height: 1%;}
 .clearfix {display: block;}
-
-/* SmartLoad */
-img.spinner {background:url(../images/spinner.gif) center center no-repeat;}
 
 /* Debug only */
 #debug #rt-main {overflow:hidden;border-bottom: 4px solid #666; margin-top:15px;position:relative}

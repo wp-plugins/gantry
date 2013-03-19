@@ -1,7 +1,7 @@
 /**
- * @version $Id: assignments.js 58644 2012-12-17 22:52:30Z djamil $
+ * @version $Id: assignments.js 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -15,21 +15,22 @@ Gantry.Assignments = {
 		Gantry.Assignments.fireUp(); // 0ms
 		Gantry.Assignments.overlays(); // 500ms
 		Gantry.Assignments.blocks(); // 117ms
-		Gantry.Assignments.loadDefaults();
+		//Gantry.Assignments.loadDefaults();
 	},
 
 
 
 	overlays: function() {
 		var divCopy = new Element('div', {'class': 'inherit-overlay'});
-		var wrappers = $$('.gantry-field').getFirst('.wrapper').filter(function(wrapper) {
-			if (!wrapper) return false;
+		var wrappers = document.getElements('.gantry-field .g4-col2-wrap').filter(function(wrapper) {
+			if (!wrapper || wrapper.getParent('.assignments-field') || wrapper.getParent('.file-field') || wrapper.getParent('.html-field')) return false;
+
 			var input = wrapper.getParent('.gantry-field').getElement('.inherit-checkbox input[type=checkbox]');
 			if (input) wrapper.store('gantry:inherit_input', input);
 			else {
 				var div = divCopy.clone().inject(wrapper, 'top');
 				var label = wrapper.getParent('.gantry-field').getElement('label');
-				div.setStyle('height', wrapper.getParent('.gantry-field').getSize().y - 2).setStyle('opacity', Gantry.Assignments.opacity.overlay);
+				div.setStyle('opacity', Gantry.Assignments.opacity.overlay);
 				if (label) label.setStyle('opacity', Gantry.Assignments.opacity.label);
 			}
 			return input;
@@ -39,27 +40,52 @@ Gantry.Assignments = {
 			var label = input.getParent('.field-label').getElement('.base-label label');
 			var div = divCopy.clone().inject(wrapper, 'top');
 
-			var fields = input.getParent('.gantry-field').getElements('div.wrapper input, div.wrapper select'), obj = {};
+			var fields = input.getParent('.gantry-field').getElements('div.wrapper input[type!=hidden][name], div.wrapper input[class=toggle-input][name], div.wrapper input[class=layouts-input][name], div.wrapper select[name], div.wrapper input[class=slider][name]'), obj = {};
 			fields.each(function(field) {
 				var id = field.get('id'), value = field.get('value');
 
-				if (field.hasClass('toggle')) value = field.getPrevious().get('value');
+				//if (field.hasClass('toggle')) value = field.getPrevious().get('value');
 
 				if (id) obj[id] = value;
 				field.store('gantry:override_checkbox', input);
 			});
 			input.store('gantry:fields', obj);
 
-			div.setStyle('height', wrapper.getParent('.gantry-field').getSize().y - 2).setStyle('opacity', Gantry.Assignments.opacity.overlay);
+			div.setStyle('opacity', Gantry.Assignments.opacity.overlay);
+			if (label) label.addEvent('click', function(e){
+				e.preventDefault();
+
+				input.set('checked', (input.get('checked') ? null : 'checked')).fireEvent('click');
+			});
+
 			input.addEvent('click', function() {
+				var value, cls;
+
 				if (this.get('checked')) {
 					label.setStyle('opacity', 1);
 					div.setStyles({'display': 'none', 'visibility': 'hidden'});
 					Gantry.Assignments.updateBadge('+', this);
 
 					fields.each(function(field) {
-						if (field.hasClass('toggle-input')) field.fireEvent('set', [field.retrieve('details'), obj[field.id]]);
-						else field.fireEvent('set', obj[field.id]);
+						value = obj[field.id];
+						cls = field.get('class');
+						field.set('value', value);
+
+						field.fireEvent('change');
+
+						if (cls.contains('picker-input')) {
+							document.getElement('[data-moorainbow-trigger=' + field.id + '] .overlay').setStyle('background-color', value);
+						} else if (cls.contains('background-picker')){
+							field.fireEvent('keyup', value);
+						} else if (cls.contains('slider') || cls.contains('layouts-input')) {
+							var slider = window.sliders[field.id];
+							slider.hiddenEl.fireEvent('set', value);
+						} else if (cls.contains('toggle')) {
+							field.set('value', value);
+							field.getParent('.toggle').removeClass('toggle-off').removeClass('toggle-on').addClass(value == '1' ? 'toggle-on' : 'toggle-off');
+						} else if (field.get('tag') == 'select'){
+							if (typeof jQuery != 'undefined') jQuery("#" + field.id).trigger("liszt:updated");
+						}
 					});
 				}
 				else {
@@ -69,29 +95,149 @@ Gantry.Assignments = {
 
 					fields.each(function(field) {
 						obj[field.id] = field.get('value');
-						if (field.hasClass('toggle-input')) field.fireEvent('set', [field.retrieve('details'), Gantry.Assignments.defaults.get(field.id)]);
-						else field.fireEvent('set', Gantry.Assignments.defaults.get(field.id));
+						cls = field.get('class');
+						value = Gantry.defaults.get(field.id);
+						field.set('value', value);
+						field.fireEvent('change');
+
+						if (cls.contains('picker-input')) {
+							document.getElement('[data-moorainbow-trigger=' + field.id + '] .overlay').setStyle('background-color', value);
+						} else if (cls.contains('background-picker')){
+							field.fireEvent('keyup', value);
+						} else if (cls.contains('slider') || cls.contains('layouts-input')) {
+							var slider = window.sliders[field.id];
+							slider.hiddenEl.fireEvent('set', value);
+						} else if (cls.contains('toggle')) {
+							field.set('value', value);
+							field.getParent('.toggle').removeClass('toggle-off').removeClass('toggle-on').addClass(value == '1' ? 'toggle-on' : 'toggle-off');
+							//var field = (GantryParamsPrefix + key.replace(/-/, '_')).replace("-", '');
+							//field = document.id(field);
+							//field.getParent('.toggle-container').fireEvent('mouseenter');
+							//field.fireEvent('set', [field.retrieve('details'), value.toInt()]);
+							//field.fireEvent('onChange', value.toInt());
+						} else if (field.get('tag') == 'select'){
+							if (typeof jQuery != 'undefined') jQuery("#" + field.id).trigger("liszt:updated");
+						}
 					});
 				}
 			});
 			if (input.get('checked')) div.setStyles({'display': 'none', 'visibility': 'hidden'});
-			else label.setStyles({'display': 'block', 'opacity': Gantry.Assignments.opacity.label});
+			else if (label) label.setStyles({'display': 'block', 'opacity': Gantry.Assignments.opacity.label});
 		});
 	},
 
 	blocks: function() {
-		Gantry.Assignments.blocks = $$('.assignments-block');
+		//Gantry.Assignments.blocks = $$('.assignments-block');
 		Gantry.Assignments.List = document.id('assigned-list');
 		Gantry.Assignments.ClearList = document.id('selection-list').getElement('.footer-block a');
 		Gantry.Assignments.Empty = new Element('li', {'class': 'empty'}).set('text', 'No Item.');
-		Gantry.Assignments.blocks.each(function(block) {
+		/*Gantry.Assignments.blocks.each(function(block) {
 			Gantry.Assignments.manageBlock(block);
-		});
-
-		/*Gantry.Assignments.blocks.addEvents({
-			'mouseenter': function() { if (this.getElements('li[class!=empty][class!=list-type]').length) this.addClass('hover'); },
-			'mouseleave': function() { this.removeClass('hover'); }
 		});*/
+
+		document.addEvents({
+			'click:relay(.assignment-search-clear)': function(e, element){
+				var parent = element.getParent(),
+					input = parent.getElement('input');
+
+				input.set('value', '');
+
+				if (parent.hasClass('assignment-search')) document.fireEvent('keyup:relay(.assignments-block .assignment-search input)', {target: input});
+				else document.fireEvent('keyup:relay(.assignments-search input)', {target: input});
+
+				element.setStyle('display', 'none');
+			},
+			'click:relay(.assignments-block a.no-link-item)': function(e, element){ e.stop(); },
+			'click:relay(.assignments-block .select-all)': function(e, element){
+				e.preventDefault();
+
+				var checks = element.getParent('.assignments-block').getElements('.inside ul .assignment-checkbox'),
+					values = checks.get('checked');
+
+				if (!values.contains(true)) checks.set('checked', 'checked');
+				else if (!values.contains(false)) checks.set('checked', null);
+				else {
+					for (var i = values.length - 1; i >= 0; i--) {
+						if (!values[i]) checks[i].set('checked', checks[i].get('checked') ? null : 'checked');
+					}
+				}
+			},
+			'click:relay(.assignments-block .add-to-assigned)': function(e, element){
+				var list = Gantry.Assignments.List,
+					parent = element.getParent('.assignments-block'),
+					title = parent.getElement('h2 .assignment-checkbox');
+
+				if (!list) return true;
+
+				if (title && title.get('checked') && !title.retrieve('gantry:in_list', false)){
+					title.set('checked', title.get('checked') ? null : 'checked');
+					Gantry.Assignments.addAssigned(list, title, true);
+				} else {
+					var checks = parent.getElements('.inside ul .assignment-checkbox:checked');
+
+					checks = checks.filter(function(input){
+						input.set('checked', input.get('checked') ? null : 'checked');
+						return !input.retrieve('gantry:in_list', false);
+					}, this).reverse();
+
+					checks.forEach(function(item){
+						if (item.getParent('label').getStyle('display') != 'none') Gantry.Assignments.addAssigned(list, item);
+					});
+				}
+			},
+			'click:relay(.assignments-block h2 .assignment-checkbox)': function(e, element){
+				var labels = element.getParent('.assignments-block').getElements('.inside label, .select-all');
+
+				if (element.get('checked') || element.retrieve('gantry:in_list', false)) labels.setStyle('display', 'none');
+				else labels.setStyle('display', 'inline-block');
+			},
+			'keydown:relay(.assignments-block .assignment-search input)':function(e, element){
+				element = element || e.target;
+				var globalFilter = document.getElement('.assignments-search input');
+
+				if (globalFilter.get('value')){
+					globalFilter.set('value', null);
+					document.fireEvent('keyup:relay(.assignments-search input)', {target: globalFilter});
+				}
+			},
+			'keydown:relay(.assignments-search input)':function(e, element){
+				element = element || e.target;
+				document.getElements('.assignment-search input').set('value', null);
+			},
+			'keyup:relay(.assignments-block .assignment-search input)':function(e, element){
+				element = element || e.target;
+				var parent = element.getParent('.assignments-block'),
+					value = element.get('value'),
+					items = parent.getElements('.inside li'),
+					regexp = new RegExp(value, 'i'),
+					title, match;
+
+				element.getParent('.assignments-search, .assignment-search').getElement('.assignment-search-clear').setStyle('display', (value) ? 'block' : 'none');
+
+				items.forEach(function(item){
+					title = item.getElement('a').get('title') || item.get('text').trim().clean();
+					match = title.match(regexp);
+					item.getElements('> label, > a').setStyle('display', match ? 'inline-block' : 'none');
+					if (!match) item.getElement('input[type=checkbox]').set('checked', null);
+				}, this);
+			},
+			'keyup:relay(.assignments-search input)':function(e, element){
+				element = element || e.target;
+				var value = element.get('value'),
+					items = document.getElements('.assignments-block .inside li'),
+					regexp = new RegExp(value, 'i'),
+					title, match;
+
+				element.getParent('.assignments-search, .assignment-search').getElement('.assignment-search-clear').setStyle('display', (value) ? 'block' : 'none');
+
+				items.forEach(function(item){
+					title = item.getElement('a').get('title') || item.get('text').trim().clean();
+					match = title.match(regexp);
+					item.getElements('> label, > a').setStyle('display', match ? 'inline-block' : 'none');
+					if (!match) item.getElement('input[type=checkbox]').set('checked', null);
+				}, this);
+			}
+		});
 
 		if (Gantry.Assignments.ClearList) {
 			Gantry.Assignments.ClearList.addEvent('click', function(e) {
@@ -108,14 +254,14 @@ Gantry.Assignments = {
 
 	loadDefaults: function() {
 		Gantry.Assignments.defaultsXHR = new Request({
-		    url: AdminURI,
+			url: GantryAjaxURL,
 			onSuccess: function(response) {
 				Gantry.Assignments.defaults = new Hash(JSON.decode(response));
 			}
 		}).post({
-		    action: 'gantry_admin',
-		    model: 'overrides',
-		    gantry_action: 'get_base_values'
+			action: 'gantry_admin',
+			model: 'overrides',
+			gantry_action: 'get_base_values'
 		});
 	},
 
@@ -145,7 +291,7 @@ Gantry.Assignments = {
 				var labels = this.getParent('div').getElements('.inside label, .select-all');
 
 				if (this.checked || this.retrieve('gantry:in_list')) labels.setStyle('display', 'none');
-				else labels.setStyle('display', 'block');
+				else labels.setStyle('display', 'inline-block');
 			});
 		}
 
@@ -173,7 +319,7 @@ Gantry.Assignments = {
 	},
 
 	updateBadge: function(type, el) {
-		var panel = document.id(el).getParent('.gantry-panel').className.replace(/[panel|\-|\s|gantry]/g, '').toInt() - 1;
+		var panel = document.id(el).getParent('.g4-panel').className.replace(/(panel|\-|\s|g4)/g, '').toInt() - 1;
 		var tab = Gantry.tabs[panel];
 		if (tab) {
 			var badgeWrap = tab.getElement('.overrides-involved');
@@ -231,7 +377,7 @@ Gantry.Assignments = {
 							ref.getParent('.assignments-block').getElements('.inside, .inside li').removeClass('added');
 							//ref.getParent().getElement('.assignment-checkbox').fireEvent('click');
 							var labels = ref.getParent('div').getElements('.inside label, .select-all');
-							labels.setStyle('display', 'block');
+							labels.setStyle('display', 'inline-block');
 
 						} else {
 							ref.getParent('li').removeClass('added');
@@ -245,24 +391,24 @@ Gantry.Assignments = {
 			} else {
 
 			}
-			//item.store('gantry:in_list', true);
 		});
 	},
 
 	addAssigned: function(list, item, title) {
+		var titleSpan;
 		item.store('gantry:in_list', true);
 		item.getParent((title) ? 'h2' : 'li').addClass('added');
 		if (title) item.getParent('.assignments-block').getElement('.inside').addClass('added');
-		var deleter = new Element('span', {'class': 'delete-assigned'}), copy;
+		var deleter = new Element('span', {'class': 'delete-assigned', html: '&times;'}), copy;
 		if (!title) {
-			copy = new Element('li').adopt(
+			copy = new Element('li.clearfix').adopt(
 				new Element('span', {'class': 'type'}).set('text', item.getParent('.assignments-block').getElement('h2').className.replace(/\-/g, " ")),
 				deleter,
 				new Element('span', {'class': 'link'}).adopt(item.getParent('li').getElement('a').clone())
 			);
 		} else {
-			var titleSpan = item.getParent('h2').getElement('span');
-			copy = new Element('li', {'class': 'list-type'}).adopt(
+			titleSpan = item.getParent('h2').getElement('span');
+			copy = new Element('li', {'class': 'list-type clearfix'}).adopt(
 				new Element('span', {'class': 'type'}).set('text', "Type"),
 				deleter,
 				new Element('span', {'class': 'link'}).set('html', '<span class="'+titleSpan.className+'">'+titleSpan.get('text') + '</span>')
@@ -277,9 +423,9 @@ Gantry.Assignments = {
 			if (title) item.getParent('.assignments-block').getElements('.inside, .inside li').removeClass('added');
 			if (title) {
 				var labels = item.getParent('div').getElements('.inside label, .select-all');
-				labels.setStyle('display', 'block');
+				labels.setStyle('display', 'inline-block');
 
-			};
+			}
 			if (!list.getChildren().length) {
 				Gantry.Assignments.Empty.clone().inject(list);
 				if (list.getNext('.footer-block')) list.getNext('.footer-block').setStyle('display', 'none');
@@ -287,7 +433,7 @@ Gantry.Assignments = {
 		});
 		copy.store('gantry:ref_item', item);
 		if (list.getElement('.empty')) list.getElement('.empty').dispose();
-		if (list.getNext('.footer-block')) list.getNext('.footer-block').setStyle('display', 'block');
+		if (list.getNext('.footer-block')) list.getNext('.footer-block').setStyle('display', 'inline-block');
 		copy.inject(list, 'top');
 
 		if (title) {
@@ -330,15 +476,13 @@ Gantry.Assignments = {
 		}
 		if (GantryObjIsEmpty(Assigned[data.archetype])) delete Assigned[data.archetype];
 
-		//if (Assigned[data.archetype][data.type].length == 1 && Assigned[data.archetype][data.type][0] == -1) Assigned[data.archetype][data.type] = true;
-
 		if (!load) document.id('assigned_override_items').set('text', serialize(Assigned));
 	}
 };
 
 var GantryObjIsEmpty = function(obj) {
 	for(var i in obj){ return false;}
-  	return true;
+	return true;
 };
 
 window.addEvent('domready', Gantry.Assignments.init);

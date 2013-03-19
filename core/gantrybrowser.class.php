@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrybrowser.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantrybrowser.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -263,10 +263,10 @@ class GantryBrowser
 	 */
 	public function getChecks($file, $keep_path = false)
 	{
-		$checkfiles   = array();
-		$ext          = substr($file, strrpos($file, '.'));
+		$checkfiles = array();
+		$ext        = substr($file, strrpos($file, '.'));
 		$path       = ($keep_path) ? dirname($file) . '/' : '';
-		$filename     = basename($file, $ext);
+		$filename   = basename($file, $ext);
 		foreach ($this->_checks as $suffix) {
 			$checkfiles[] = $path . $filename . $suffix . $ext;
 		}

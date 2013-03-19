@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: body_iphonemainbody.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: body_iphonemainbody.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  */
@@ -24,6 +24,7 @@ class GantryLayoutBody_iPhoneMainBody extends GantryBodyLayout
 
 	function render($params = array())
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$fparams = $this->_getParams($params);
@@ -38,9 +39,11 @@ class GantryLayoutBody_iPhoneMainBody extends GantryBodyLayout
 				<div class="rt-grid-12">
 					<div class="rt-block">
 						<?php if ($display_component) : ?>
-							<div id="rt-mainbody">
+						<div id="rt-mainbody">
+							<div class="component-content">
 								<?php $this->include_type();?>
 							</div>
+						</div>
 						<?php endif; ?>
 					</div>
 				</div>

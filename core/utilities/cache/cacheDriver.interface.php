@@ -1,27 +1,28 @@
 <?php
 
 /**
- * @version $Id: cacheDriver.interface.php 58595 2012-12-11 19:59:45Z btowles $
+ * @version   $Id: cacheDriver.interface.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  *
  *
  * Original Author and Licence
- * @author Mateusz 'MatheW' Wójcik, <mat.wojcik@gmail.com>
- * @link http://mwojcik.pl
- * @version 1.0
- * @license GPL
+ * @author    Mateusz 'MatheW' Wójcik, <mat.wojcik@gmail.com>
+ * @link      http://mwojcik.pl
+ * @version   1.0
+ * @license   GPL
  */
-interface CacheDriver
+interface GantryCacheLibDriver
 {
 	/**
 	 * Sets data to cache
 	 *
-	 * @param string $groupName Name of group of cache
+	 * @param string $groupName  Name of group of cache
 	 * @param string $identifier Identifier of data
-	 * @param mixed $data Data
+	 * @param mixed  $data       Data
+	 *
 	 * @return boolean
 	 */
 	public function set($groupName, $identifier, $data);
@@ -29,8 +30,9 @@ interface CacheDriver
 	/**
 	 * Gets data from cache
 	 *
-	 * @param string $groupName Name of group
+	 * @param string $groupName  Name of group
 	 * @param string $identifier Identifier of data
+	 *
 	 * @return mixed
 	 */
 	public function get($groupName, $identifier);
@@ -38,8 +40,9 @@ interface CacheDriver
 	/**
 	 * Clears cache of specified identifier of group
 	 *
-	 * @param string $groupName Name of group
+	 * @param string $groupName  Name of group
 	 * @param string $identifier Identifier
+	 *
 	 * @return boolean
 	 */
 	public function clearCache($groupName, $identifier);
@@ -48,6 +51,7 @@ interface CacheDriver
 	 * Clears cache of specified group
 	 *
 	 * @param string $groupName Name of group
+	 *
 	 * @return boolean
 	 */
 	public function clearGroupCache($groupName);
@@ -62,8 +66,9 @@ interface CacheDriver
 	/**
 	 * Gets last modification time of specified cache data
 	 *
-	 * @param string $groupName Name of group
+	 * @param string $groupName  Name of group
 	 * @param string $identifier Identifier
+	 *
 	 * @return int
 	 */
 	public function modificationTime($groupName, $identifier);
@@ -71,12 +76,23 @@ interface CacheDriver
 	/**
 	 * Check if cache data exists
 	 *
-	 * @param string $groupName Name of group
+	 * @param string $groupName  Name of group
 	 * @param string $identifier Identifier
+	 *
 	 * @return boolean
 	 */
 	public function exists($groupName, $identifier);
 
-} /* end of interface CacheDriver */
 
-?>
+	/**
+	 * Sets the lifetime of the cache
+	 *
+	 * @abstract
+	 *
+	 * @param  int $lifeTime Lifetime of the cache
+	 *
+	 * @return void
+	 */
+	public function setLifeTime($lifeTime);
+
+} /* end of interface CacheDriver */

@@ -2,9 +2,9 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 58653 2012-12-18 21:25:40Z jakub $
+ * @version   $Id: CHANGELOG.php 59402 2013-03-19 09:38:21Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 die();
@@ -26,6 +26,19 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.0 Release [] ------
+! Next Gantry Framework Major Release. Please always do a full backup of your site before upgrading!
++ LESS support
++ Responsive layouts are fully supported
++ Brand new Admin UI
++ Caching improvements
++ Filtering in the Assignments tab
++ Ability to chose a chrome per widget
++ Support for the new Dropdown menu
++ New Search Highlight gizmo to allow to highlight search query without losing page content formatting
++ Added back the gantryjson.class.php file for backwards compatibility with Crystalline
++ Many more!
 
 ------- 1.31 Release [] ------
 # Fix for the caching issue which caused the "Fatal error: Call to a member function getGridcss()"

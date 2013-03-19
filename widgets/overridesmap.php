@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: overridesmap.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: overridesmap.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -25,7 +25,7 @@ class GantryWidgetOverridesMap extends GantryWidget
 	var $long_name = 'Gantry Overrides Map';
 	var $description = 'Gantry widget to show the overrides used on a page';
 	var $css_classname = 'widget_gantry_overrides_map';
-	var $width = 300;
+	var $width = 200;
 	var $height = 400;
 
 	function init()
@@ -35,7 +35,8 @@ class GantryWidgetOverridesMap extends GantryWidget
 
 	function render_title($args, $instance)
 	{
-		global $gantry;
+		/** @global $gantry Gantry */
+global $gantry;
 		if ($instance['title'] != '') :
 			echo $instance['title'];
 		endif;
@@ -43,7 +44,8 @@ class GantryWidgetOverridesMap extends GantryWidget
 
 	function render($args, $instance)
 	{
-		global $gantry;
+		/** @global $gantry Gantry */
+global $gantry;
 
 		$catalog       = gantry_get_override_catalog($gantry->templateName);
 		$override_tree = $gantry->_override_tree;

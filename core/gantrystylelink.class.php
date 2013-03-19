@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrystylelink.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantrystylelink.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -18,14 +18,43 @@ class GantryStyleLink
 	 * @access private
 	 * @var string (url or local)
 	 */
-	var $type;
+	protected $type;
+
+
+	/**
+	 * The local filesystem path for the style link
+	 * @access private
+	 * @var string
+	 */
+	protected  $path;
+
+	/**
+	 * The url for the style link, local or full
+	 * @access private
+	 * @var string
+	 */
+	protected $url;
+
+
+	/**
+	 * @param $type
+	 * @param $path
+	 * @param $url
+	 */
+	function __construct($type, $path, $url)
+	{
+		$this->type = $type;
+		$this->path = $path;
+		$this->url  = $url;
+	}
+
 
 	/**
 	 * Gets the type for gantry
 	 * @access public
-	 * @return type
+	 * @return string
 	 */
-	function getType()
+	public function getType()
 	{
 		return $this->type;
 	}
@@ -34,26 +63,20 @@ class GantryStyleLink
 	 * Sets the type for gantry
 	 * @access public
 	 *
-	 * @param type $type
+	 * @param string $type
 	 */
-	function setType($type)
+	public function setType($type)
 	{
 		$this->type = $type;
 	}
 
-	/**
-	 * The local filesystem path for the style link
-	 * @access private
-	 * @var string
-	 */
-	var $path;
 
 	/**
 	 * Gets the path for gantry
 	 * @access public
 	 * @return string
 	 */
-	function getPath()
+	public function getPath()
 	{
 		return $this->path;
 	}
@@ -64,24 +87,18 @@ class GantryStyleLink
 	 *
 	 * @param string $path
 	 */
-	function setPath($path)
+	public function setPath($path)
 	{
 		$this->path = $path;
 	}
 
-	/**
-	 * The url for the style link, local or full
-	 * @access private
-	 * @var string
-	 */
-	var $url;
 
 	/**
 	 * Gets the url for gantry
 	 * @access public
 	 * @return string
 	 */
-	function getUrl()
+	public function getUrl()
 	{
 		return $this->url;
 	}
@@ -92,20 +109,10 @@ class GantryStyleLink
 	 *
 	 * @param string $url
 	 */
-	function setUrl($url)
+	public function setUrl($url)
 	{
 		$this->url = $url;
 	}
 
-	/**
-	 * @param $type
-	 * @param $path
-	 * @param $url
-	 */
-	function GantryStyleLink($type, $path, $url)
-	{
-		$this->type = $type;
-		$this->path = $path;
-		$this->url  = $url;
-	}
+
 }

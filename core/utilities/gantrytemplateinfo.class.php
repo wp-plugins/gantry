@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrytemplateinfo.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantrytemplateinfo.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -14,8 +14,10 @@ class GantryTemplateInfo
 	 * @param null $group
 	 *
 	 * @return string
-	 */function get_field_id($fieldId, $group = null)
+	 */
+	function get_field_id($fieldId, $group = null)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 
@@ -48,14 +50,17 @@ class GantryTemplateInfo
 		$id = preg_replace('#\W#', '_', $id);
 
 		return $gantry->templateName . "-" . $id;
-}
+	}
 
 	/**
 	 * @param      $fieldName
 	 * @param null $group
+	 *
 	 * @return string
-	 */function get_field_name($fieldName, $group = null)
+	 */
+	function get_field_name($fieldName, $group = null)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$name = '';
@@ -94,11 +99,12 @@ class GantryTemplateInfo
 //		}
 
 		return $gantry->templateName . '-' . $name;
-}
+	}
 
 	/**
 	 * @var
-	 */var $multiple;
+	 */
+	var $multiple;
 	/**
 	 * Template Version
 	 * @access private

@@ -3,8 +3,8 @@ Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.0
-Tested up to: 3.5
-Stable tag: 1.31
+Tested up to: 3.5.1
+Stable tag: 4.0.0
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -15,6 +15,7 @@ Gantry is a comprehensive set of building blocks to enable the rapid development
 Gantry is packed full of features to empower the development of designs into fully functional layouts with the absolute minimum of effort and fuss.
 
 * True "Drag and Drop" page builder
+* Support for Responsive Layouts
 * 960 Grid System
 * Stunning Administrator interface
 * XML driven and with overrides for unprecedented levels of customization
@@ -79,6 +80,19 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 4.0.0 =
+* Next Gantry Framework Major Release. Please always do a full backup (files + database) of your site before upgrading!
+* LESS support
+* Responsive layouts are fully supported
+* Brand new Admin UI
+* Caching improvements
+* Filtering in the Assignments tab
+* Ability to choose a chrome per widget
+* Support for the new Dropdown menu
+* New Search Highlight gizmo to allow to highlight search query without losing page content formatting
+* Added back the gantryjson.class.php file for backwards compatibility with Crystalline
+* Many more!
 
 = 1.31 =
 * Fix for the caching issue which caused the "Fatal error: Call to a member function getGridcss()"
@@ -281,6 +295,9 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Changelog Creation
 
 == Upgrade Notice ==
+
+= 4.0.0 =
+Please remember to create a full site backup (files + database) before performing update.
 
 = 1.28 =
 This update focuses on the 3rd party plugin compatibility improvements and fixes. Thanks to that we'll be able to support BuddyPress 1.6 (updated version of Gantry BuddyPress plugin is still required), WooCommerce (WP E-Commerce patch is on the way ;)), WHMCS Bridge and many many more. 

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: updater.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: updater.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -22,11 +22,12 @@ class GantryFormFieldUpdater extends GantryFormField
 	public function getInput()
 	{
 
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$currentVersion = GANTRY_VERSION;
 
-		if ($currentVersion == "\1.31") $currentVersion = "[DEV]";
+		if ($currentVersion == "\4.0.0") $currentVersion = "[DEV]";
 
 		// curl check
 		if (!function_exists('curl_version')) {
@@ -43,6 +44,7 @@ class GantryFormFieldUpdater extends GantryFormField
 		gantry_import('core.gantryini');
 		gantry_import('core.utilities.gantryxml');
 
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$klass      = "noupdate";

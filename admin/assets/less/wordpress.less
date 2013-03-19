@@ -1,0 +1,129 @@
+@import 'assignments.less';
+
+.g4-wrap {
+	width: 100%;
+}
+
+#wpcontent {
+	margin-left: 147px;
+}
+
+@media only screen and (max-width: 900px) {
+	#wpcontent {
+		margin-left: 34px;
+	}
+}
+
+body .html-field {
+	background: transparent;
+	.border-radius(0);
+	border: none;
+	.box-shadow(none);
+}
+
+body #icon-themes {
+	margin: -10px 10px 0;
+}
+
+.g4-wrap {
+	input, textarea {
+		.box-sizing(inherit) !important;
+	}
+}
+
+.g4-notice {
+	position: relative;
+	.close {
+		position: absolute;
+		top: 6px;
+		right:9px;
+		cursor: pointer;
+	}
+}
+
+.g4-actions {
+	.spinner {
+		float: left;
+		display: inline-block;
+		display: none;
+	}
+}
+
+.inner-tabs {
+	.box-shadow(~'0 1px 0 0 #DDD inset, 0 2px 0 0 #FFF inset');
+	li {
+		cursor: pointer;
+		display: inline-block;
+		margin-bottom: -6px;
+		border-right: 1px solid #d1d1d1;
+		border-left: 1px solid #f1f1f1;
+
+		label {
+			font-weight: normal;
+		}
+
+		&.first {
+			border-left: 0;
+		}
+
+		&.hover label {
+			color: #000;
+		}
+
+		&.active label {
+			color: #2287C7;
+			font-weight: bold;
+		}
+
+		.g4-cell.g4-col1 {
+			background: transparent;
+			.box-shadow(none);
+			width: auto;
+
+			label {
+				padding-left: 0;
+			}
+		}
+	}
+}
+
+.inner-panel > .wrapper {
+	display: table;
+	width: 100%;
+}
+
+
+/* Gantry Overrides */
+#overrides-actions {float:left;margin:12px 0 0 8px;min-width:180px;position:relative;z-index:100;}
+#overrides-actions .add-edit-input {position: absolute;width:85%;height:9px;top:3px;font-size:90%;padding: 3px 0;}
+#overrides-first {padding:3px 30px 4px 12px;line-height:15px;border: 1px solid #c0c0c0;.border-radius(12px);background: -moz-linear-gradient(bottom, #e7e7e7, #fff);background: -webkit-gradient(linear, left bottom, left top, from(#e7e7e7), to(#fff));}
+#overrides-first.slide-down {border-bottom: none;.border-radius(12px 12px 0 0);}
+
+#overrides-actions a {color: #464646;display:block;font-size:11px;text-decoration:none;padding:3px 5px 3px 10px}
+body #overrides-first a {background: url(images/overrides-default.png) 0 50% no-repeat;padding: 0 0 0 18px;}
+#overrides-actions a:hover {color:#000;text-decoration:underline;}
+#overrides-first a:hover {text-decoration:none;}
+#overrides-toggle {background:url(images/overrides-arrow.gif) 0 -4px no-repeat;height: 22px;position:absolute;right:0px;top:1px; width:28px;cursor:pointer;}
+#overrides-toggle.hidden {display:none;}
+#overrides-inside {background-color:#FFFFFF;border-color:#C0C0C0;margin:0;padding:2px 1px;border-width:1px;border-style:solid;position:absolute;z-index:11;display:none;.border-radius(0 0 12px 12px);}
+
+#overrides-toolbar {float:left;margin:12px 0 0 5px;position:relative;}
+#overrides-toolbar .overrides-button {float: left;width:29px; height:24px;background:url(images/overrides-toolbar.png);cursor:pointer;}
+#overrides-toolbar .overrides-button span {display:none;}
+#overrides-toolbar .button-del {background-position:-29px 0;width:28px;}
+#overrides-toolbar .button-edit {background-position:-57px 0;}
+#overrides-toolbar .button-add:hover {background-position: 0 -24px;}
+#overrides-toolbar .button-del:hover {background-position: -29px -24px;}
+#overrides-toolbar .button-edit:hover {background-position: -57px -24px;}
+
+.text-button {display: inline-block;height: 24px;background: url(images/overrides-buttons-l.png) 0 0 no-repeat;text-decoration:none;}
+.text-button span {font-size:11px;font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif;color:#333;display: inline-block;background: url(images/overrides-buttons-r.png) 100% 0 no-repeat;margin-left: 20px;padding:0 10px 0 5px;line-height:24px;height:24px;}
+.text-button:hover span {color:#000;background-position: 100% -24px;}
+
+.text-button.button-widget { background-position: 0 -48px;}
+.text-button.button-widget:hover { background-position: 0 -72px;}
+
+#overrides-switch {float:left;margin:12px 0 0 5px;position:relative;}
+
+
+

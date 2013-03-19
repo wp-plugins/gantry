@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: tips.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: tips.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -17,52 +17,86 @@ class GantryFormFieldTips extends GantryFormField
 
 	protected $type = 'tips';
 	protected $basetype = 'none';
+	public static $assets_loaded = false;
 
 	public function getInput()
 	{
 
+		/** @global $gantry Gantry */
 		global $gantry;
 
-		$gantry->addScript($gantry->gantryUrl . '/admin/widgets/tips/js/tips.js');
+		$tabname = $this->element['tab'];
+		$output  = "";
 
-		$xmlist = $gantry->templatePath . '/admin/tips/' . $this->element['tab'] . '.xml';
+		if (!self::$assets_loaded){
+			$gantry->addScript($gantry->gantryUrl . '/admin/widgets/tips/js/tips.js');
+			$gantry->addInlineScript('var GantryPanelsTips = {};');
+
+			self::$assets_loaded = true;
+		}
+
+		$xmlist = $gantry->templatePath . '/admin/tips/' . $tabname . '.xml';
 		if (!file_exists($xmlist)) die($xmlist . ' file not found');
 
 		$xml    = simplexml_load_file($xmlist);
 		$count  = count($xml);
-		$random = rand(0, $count - 1);
+		$random = 0;
 
+		if ($tabname != "overview") {
+			$output = new stdClass;
+			$output->$tabname = new stdClass;
+			for ($i = 0; $i < $count; $i++) {
+				$tip_title = ($xml->tip[$i]['label']);
+				$tip_id    = (isset($xml->tip[$i]['id'])) ? $xml->tip[$i]['id'] : false;
 
-		$output = "
-		<div class=\"gantrytips\">\n
-			<div class=\"gantrytips-controller\">\n
-				<div class=\"gantrytips-arrow gantrytips-left\">&#x25c0;</div>\n
-				<div class=\"gantrytips-middle\"><span><span class=\"current-tip\">" . ($random + 1) . "</span> / " . $count . "</span></div>\n
-				<div class=\"gantrytips-arrow gantrytips-right\">&#x25b6;</div>\n
-			</div>\n
-			<div class=\"gantrytips-desc\">\n
-				<div class=\"gantrytips-wrapper\">\n";
+				if ($tip_id){
+					$tip_id = str_replace('-', '_', $tip_id);
 
-		for ($i = 0; $i < $count; $i++) {
-			$tip_title = ($xml->tip[$i]['label']);
-			$tip_id    = (isset($xml->tip[$i]['id'])) ? $xml->tip[$i]['id'] : false;
-			$cls       = ($i != $random) ? ' style="visibility: hidden; opacity: 0;"' : ' style="visibility: visible; opacity: 1;"';
+					$output->$tabname->$tip_id = array(
+						'title' => (string)$tip_title,
+						'content' => strip_tags((string)$xml->tip[$i])
+					);
+				}
+			}
 
-			if (!$tip_id) $outputID = ''; else $outputID = 'id="tip-' . str_replace('-', '_', $tip_id) . '"';
+			$gantry->addInlineScript("Object.merge(GantryPanelsTips, " . json_encode($output) . ");");
 
-			$output .= "<div " . $outputID . " class=\"gantrytips-tip\"" . $cls . ">\n";
-			$output .= "<div class=\"gantrytips-bar h2bar\">\n
-					<span>" . $tip_title . "</span>\n
-				</div>\n";
-			$output .= $xml->tip[$i] . "</div>\n";
+			return "";
+
+		} else {
+			$output = "
+			<div class=\"gantrytips\">\n
+				<div class=\"gantry-pin\"></div>\n
+				<div class=\"gantrytips-count\"><span class=\"current-tip\">" . ($random + 1) . "</span><span> / " . $count . "</span></div>\n
+				<div class=\"gantrytips-controller rok-buttons-group\">\n
+					<span class=\"rok-button gantrytips-arrow gantrytips-left\">&#9668;</span>\n
+					<span class=\"rok-button gantrytips-arrow gantrytips-right\">&#9658;</span>\n
+				</div>\n
+				<div class=\"gantrytips-desc\">\n
+					<div class=\"gantrytips-wrapper\">\n";
+
+			for ($i = 0; $i < $count; $i++) {
+				$tip_title = ($xml->tip[$i]['label']);
+				$tip_id    = (isset($xml->tip[$i]['id'])) ? $xml->tip[$i]['id'] : false;
+
+				if (!$tip_id) $outputID = ''; else $outputID = 'id="tip-' . str_replace('-', '_', $tip_id) . '"';
+
+				$output .= "<div " . $outputID . " class=\"gantrytips-tip\">\n";
+				$output .= "<div class=\"gantrytips-bar h2bar\">\n
+						<span>" . $tip_title . "</span>\n
+					</div>\n";
+				$output .= $xml->tip[$i] . "</div>\n";
+			}
+
+			$output .= "
+					</div>\n
+				</div>\n
+			</div>\n";
+
+			return $output;
+
 		}
 
-		$output .= "
-				</div>\n
-			</div>\n
-		</div>\n";
-
-		return $output;
 
 
 	}

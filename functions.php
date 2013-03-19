@@ -1,43 +1,62 @@
 <?php
 /**
- * @version   $Id: functions.php 58636 2012-12-16 20:22:27Z btowles $
+ * @version   $Id: functions.php 59365 2013-03-14 09:13:58Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
 function _g($str)
 {
-	return __($str, 'gantry');
+	$args = func_get_args();
+	if (count($args) == 1) {
+		return __($str, 'gantry');
+	} else {
+		array_shift($args);
+		array_unshift($args, __($str, 'gantry'));
+		return call_user_func_array('sprintf', $args);
+	}
 }
 
 function _ge($str)
 {
-	_e($str, 'gantry');
+	$args = func_get_args();
+	echo call_user_func_array('_g', $args);
 }
 
 function _gn($single, $plural, $number)
 {
-	_n($single, $plural, $number, 'gantry');
+	/** @global $gantry Gantry */
+	global $gantry;
+	return _n($single, $plural, $number, 'gantry');
 }
 
 
 function _r($str)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
-	return __($str, $gantry->templateName . '_lang');
+	$args = func_get_args();
+	if (count($args) == 1) {
+		return __($str, $gantry->templateName . '_lang');
+	} else {
+		array_shift($args);
+		array_unshift($args, __($str, $gantry->templateName . '_lang'));
+		return call_user_func_array('sprintf', $args);
+	}
 }
 
 function _re($str)
 {
-	global $gantry;
-	_e($str, $gantry->templateName . '_lang');
+	$args = func_get_args();
+	echo call_user_func_array('_r', $args);
 }
 
 function _rn($single, $plural, $number)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
-	_n($single, $plural, $number, $gantry->templateName . '_lang');
+	return _n($single, $plural, $number, $gantry->templateName . '_lang');
 }
 
 /**
@@ -63,13 +82,14 @@ function implode_with_key($glue = null, $pieces, $hifen = ',')
  */
 function gantry_import($path)
 {
-	require_once (realpath(dirname(__FILE__)) . '/core/gantryloader.class.php');
+	require_once (gantry_clean_path(realpath(dirname(__FILE__))) . '/core/gantryloader.class.php');
 	return GantryLoader::import($path);
 }
 
 function gantry_template_include_filter($filename)
 {
 	if (defined('NONGANTRY_TEMPLATE')) return $filename;
+	/** @global $gantry Gantry */
 	global $gantry;
 //    if (empty($filename)){
 //        $filename = "index.php";
@@ -111,6 +131,7 @@ function gantry_template_include_filter($filename)
 function gantry_mootools_init()
 {
 	if (defined('NONGANTRY_TEMPLATE')) return;
+	/** @global $gantry Gantry */
 	global $gantry;
 	@wp_register_script('mootools.js', $gantry->gantryUrl . '/js/mootools.js');
 }
@@ -147,11 +168,11 @@ function gantry_construct()
 		/**
 		 * @name GANTRY_VERSION
 		 */
-		define('GANTRY_VERSION', '1.31');
+		define('GANTRY_VERSION', '4.0.0');
 
 
 		if (!defined('DS')) {
-			define('DS', DIRECTORY_SEPARATOR);
+			define('DS', '/');
 		}
 
 		// Turn on sessions for Wordpress
@@ -163,27 +184,27 @@ function gantry_construct()
 		}
 
 		$options        = get_option(get_template() . "-template-options");
-		$cache_enabled  = $options['cache']['enabled'];
-		$cache_lifetime = $options['cache']['time'];
 
-		load_plugin_textdomain('gantry', false, basename($gantry_path) . '/languages');
+
 
 		// Get the gantry instance
 		gantry_import('core.gantry');
 
-		if ($cache_enabled) {
-			gantry_import('core.utilities.gantrycache');
-			$cache = GantryCache::getInstance();
-			$cache->setLifetime($cache_lifetime);
-			$cache->init();
-			$gantry = $cache->get('gantry', 'gantry', array('Gantry', 'getInstance'));
-		} else {
+		gantry_import('core.utilities.gantrycache');
+		$cache = GantryCache::getInstance(is_admin());
+		$gantry = $cache->get('gantry');
+		if (is_null($gantry) || $gantry === false) {
 			$gantry = Gantry::getInstance();
+			$cache->set('gantry', $gantry);
 		}
 
+		load_theme_textdomain('gantry');
+		load_theme_textdomain('gantry', $gantry->templatePath . '/languages');
+		load_plugin_textdomain('gantry', false, basename($gantry_path) . '/languages/');
+
 		// Load the widget positions for the template
-		$gantry->_loadWidgetPositions();
-		add_filter('query_vars', array('GantryTemplateDetails', 'addUrlVars'));
+		$gantry->loadWidgetPositions();
+		//add_filter('query_vars', array('GantryTemplate', 'addUrlVars'));
 	}
 }
 
@@ -191,13 +212,16 @@ function gantry_construct()
 function gantry_load_template_lang_action()
 {
 	if (defined('NONGANTRY_TEMPLATE')) return;
+	/** @global $gantry Gantry */
 	global $gantry;
 	load_theme_textdomain($gantry->templateName . '_lang');
+	load_theme_textdomain($gantry->templateName . '_lang', $gantry->templatePath . '/languages');
 }
 
 function gantry_init_action()
 {
 	if (defined('NONGANTRY_TEMPLATE')) return;
+	/** @global $gantry Gantry */
 	global $gantry;
 	$gantry->init();
 	$gantry->basicLoad();
@@ -206,12 +230,14 @@ function gantry_init_action()
 function gantry_post_parse_load_action()
 {
 	if (defined('NONGANTRY_TEMPLATE')) return;
+	/** @global $gantry Gantry */
 	global $gantry;
 	$gantry->postParseLoad();
 }
 
 function gantry_admin_ajax()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$model = $gantry->getAjaxModel($_POST['model'], true);
 	if ($model === false) die();
@@ -221,6 +247,7 @@ function gantry_admin_ajax()
 
 function gantry_ajax()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$model = $gantry->getAjaxModel($_POST['model'], false);
 	if ($model === false) die();
@@ -231,6 +258,7 @@ function gantry_ajax()
 function gantry_force_blank_comment($path)
 {
 	if (defined('NONGANTRY_TEMPLATE')) return $path;
+	/** @global $gantry Gantry */
 	global $gantry;
 	if ($path == $gantry->templatePath . '/comments.php') {
 		return $path;
@@ -249,6 +277,7 @@ function gantry_get_override_catalog($templateName)
 
 function gantry_udpate_override_catalog($catalog = array())
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$override_catalog_name = $gantry->templateName . '-template-options-overrides';
 	update_option($override_catalog_name, $catalog);
@@ -257,6 +286,7 @@ function gantry_udpate_override_catalog($catalog = array())
 function gantry_load_sidebar_intercept($sidebar_widgets)
 {
 	if (defined('NONGANTRY_TEMPLATE')) return $sidebar_widgets;
+	/** @global $gantry Gantry */
 	global $gantry;
 	$override_tree = $gantry->_override_tree;
 	if (!empty($override_tree)) {
@@ -291,6 +321,7 @@ function gantry_setup_override_widget_instances()
 
 function gantry_setup_override_widget_instances_intercept($widget_instance)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$current_widget_type = str_replace('option_', '', current_filter());
 	$override_catalog    = gantry_get_override_catalog($gantry->templateName);
@@ -309,6 +340,7 @@ function gantry_setup_override_widget_instances_intercept($widget_instance)
 
 function gantry_load_sidebar_widgets_settings_intercept($widget_instance)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$current_widget_type = str_replace('option_', '', current_filter());
 	$override_tree       = $gantry->_override_tree;
@@ -336,6 +368,7 @@ function gantry_load_sidebar_widgets_settings_intercept($widget_instance)
 function gantry_get_template_page_filter($template)
 {
 	if (defined('NONGANTRY_TEMPLATE')) return $template;
+	/** @global $gantry Gantry */
 	global $gantry;
 	$newtemplate = $template;
 	$gantry->addTemp('template', 'page_name', $newtemplate);
@@ -350,6 +383,7 @@ function gantry_get_template_page_filter($template)
  */
 function gantry_force_mainbody_page($mainbody_page)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$gantry->addTemp('template', 'page_name', $mainbody_page);
 }
@@ -360,6 +394,7 @@ function gantry_force_mainbody_page($mainbody_page)
  */
 function gantry_clear_overrides()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$gantry->clearOverrides();
 }
@@ -376,6 +411,7 @@ function gantry_clear_overrides()
  */
 function gantry_set_overrides($overrides, $priority = 10)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 
 	if (!is_array($overrides)) {
@@ -399,11 +435,59 @@ function gantry_set_overrides($overrides, $priority = 10)
 }
 
 
+/**
+ * @param $aVars
+ *
+ * @return array
+ */
+function gantry_addUrlVars($aVars)
+{
+	/** @global $gantry Gantry */
+	global $gantry;
+	foreach ($gantry->_setbyurl as $queryvar) {
+		$aVars[] = $queryvar;
+	}
+	$aVars[] = 'reset-settings';
+	return $aVars;
+}
 
+function gantry_clean_path($path)
+{
+	if (!preg_match('#^/$#', $path)) {
+		$path = preg_replace('#[/\\\\]+#', '/', $path);
+		$path = preg_replace('#/$#', '', $path);
+	}
+	if (preg_match('/^WIN/', PHP_OS) && preg_match('#^[a-zA-Z]:#', $path)) {
+		$path = lcfirst($path);
+	}
+	return rtrim($path, '/\\');
+}
 
+function gantry_dirname($path)
+{
+	return gantry_clean_path(dirname($path));
+}
 
+function gantry_pretty_print($text)
+{
+	/** @global $gantry Gantry */
+	global $gantry;
+	global $gantry_prettyprint_loaded;
 
-
-
-
+	if (!$gantry_prettyprint_loaded && (strpos($text, '<code class="prettyprint') !== false || strpos($text, '<pre class="prettyprint') !== false)) {
+		if (!file_exists($gantry->templatePath . '/less/prettify.less')) {
+			if (file_exists($gantry->templatePath . '/css/prettify.css')) {
+				$gantry->addStyle($gantry->templateUrl . '/css/prettify.css');
+			} else {
+				$gantry->addStyle($gantry->gantryUrl . '/libs/google-code-prettify/prettify.css');
+			}
+		}
+		$gantry->addScript($gantry->gantryUrl . '/libs/google-code-prettify/prettify.js');
+		$gantry->addInlineScript("\nwindow.addEvent('domready', function() { prettyPrint();});\n");
+		$gantry_prettyprint_loaded = true;
+		return $text;
+	}
+		
+	return $text;
+}
 

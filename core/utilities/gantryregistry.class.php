@@ -1,19 +1,20 @@
 <?php
 /**
- * @version $Id: gantryregistry.class.php 58595 2012-12-11 19:59:45Z btowles $
- * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ * @version        $Id: gantryregistry.class.php 59361 2013-03-13 23:10:27Z btowles $
+ * @author         RocketTheme http://www.rockettheme.com
+ * @copyright      Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @license        http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * derived from Joomla with original copyright and license
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright      Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
 defined('GANTRY_VERSION') or die;
 
 gantry_import('core.utilities.registry.gantryregistryformat');
+gantry_import('core.utilities.gantryarrayhelper');
 
 
 class GantryRegistry
@@ -28,8 +29,8 @@ class GantryRegistry
 	/**
 	 * Constructor
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return    void
+	 * @since    1.5
 	 */
 	public function __construct($data = null)
 	{
@@ -37,14 +38,10 @@ class GantryRegistry
 		$this->data = new stdClass();
 
 		// Optionally load supplied data.
-		if (is_array($data)) {
-			$this->loadArray($data);
-		}
-		elseif (is_object($data)) {
-			$this->loadObject($data);
-		}
-		elseif (!empty($data) && is_string($data)) {
-			$this->loadJSON($data);
+		if (is_array($data) || is_object($data)) {
+			$this->bindData($this->data, $data);
+		} elseif (!empty($data) && is_string($data)) {
+			$this->loadString($data);
 		}
 	}
 
@@ -67,15 +64,16 @@ class GantryRegistry
 	/**
 	 * Sets a default value if not alreay assigned.
 	 *
-	 * @param	string	The name of the parameter.
-	 * @param	string	An optional value for the parameter.
-	 * @param	string	An optional group for the parameter.
-	 * @return	string	The value set, or the default if the value was not previously set (or null).
-	 * @since	1.6
+	 * @param    string    The name of the parameter.
+	 * @param    string    An optional value for the parameter.
+	 * @param    string    An optional group for the parameter.
+	 *
+	 * @return    string    The value set, or the default if the value was not previously set (or null).
+	 * @since    1.6
 	 */
 	public function def($key, $default = '')
 	{
-		$value = $this->get($key, (string) $default);
+		$value = $this->get($key, (string)$default);
 		$this->set($key, $value);
 		return $value;
 	}
@@ -83,12 +81,12 @@ class GantryRegistry
 	/**
 	 * Check if a registry path exists.
 	 *
-	 * @param	string	Registry path (e.g. joomla.content.showauthor)
-	 * @param	mixed	Optional default value, returned if the internal value is null.
-	 * @return	boolean
-	 * @since	1.6
+	 * @param    string    Registry path (e.g. joomla.content.showauthor)
+	 *
+	 * @return    boolean
+	 * @since    1.6
 	 */
-	public function exists($path, $default = null)
+	public function exists($path)
 	{
 		// Explode the registry path into an array
 		if ($nodes = explode('.', $path)) {
@@ -96,14 +94,14 @@ class GantryRegistry
 			$node = $this->data;
 
 			// Traverse the registry to find the correct node for the result.
-			for ($i = 0,$n = count($nodes); $i < $n; $i++) {
+			for ($i = 0, $n = count($nodes); $i < $n; $i++) {
 				if (isset($node->$nodes[$i])) {
 					$node = $node->$nodes[$i];
 				} else {
 					break;
 				}
 
-				if ($i+1 == $n) {
+				if ($i + 1 == $n) {
 					return true;
 				}
 			}
@@ -115,38 +113,35 @@ class GantryRegistry
 	/**
 	 * Get a registry value.
 	 *
-	 * @param	string	Registry path (e.g. joomla.content.showauthor)
-	 * @param	mixed	Optional default value, returned if the internal value is null.
-	 * @return	mixed	Value of entry or null
-	 * @since	1.6
+	 * @param    string    Registry path (e.g. joomla.content.showauthor)
+	 * @param    mixed     Optional default value, returned if the internal value is null.
+	 *
+	 * @return    mixed    Value of entry or null
+	 * @since    1.6
 	 */
 	public function get($path, $default = null)
 	{
 		// Initialise variables.
 		$result = $default;
 
-		if(!strpos($path, '.'))
-		{
+		if (!strpos($path, '.')) {
 			return (isset($this->data->$path) && !is_null($this->data->$path)) ? $this->data->$path : $default;
 		}
 		// Explode the registry path into an array
 		$nodes = explode('.', $path);
 
 		// Initialize the current node to be the registry root.
-		$node = $this->data;
+		$node  = $this->data;
 		$found = false;
 		// Traverse the registry to find the correct node for the result.
 		foreach ($nodes as $n) {
 			if (is_object($node) && isset($node->$n)) {
-                $node = $node->$n;
+				$node  = $node->$n;
 				$found = true;
-            }
-            elseif (is_array($node) && array_key_exists($n, $node))
-            {
-                $node = $node[$n];
-                $found = true;
-            }
-            else {
+			} elseif (is_array($node) && array_key_exists($n, $node)) {
+				$node  = $node[$n];
+				$found = true;
+			} else {
 				$found = false;
 				break;
 			}
@@ -163,18 +158,19 @@ class GantryRegistry
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 *		<pre>$registry = GantryRegistry::getInstance($id);</pre>
+	 *        <pre>$registry = GantryRegistry::getInstance($id);</pre>
 	 *
-	 * @param	string	An ID for the registry instance
-	 * @return	object	The GantryRegistry object.
-	 * @since	1.5
+	 * @param    string    An ID for the registry instance
+	 *
+	 * @return    object    The GantryRegistry object.
+	 * @since    1.5
 	 */
 	public static function getInstance($id)
 	{
 		static $instances;
 
 		if (!isset ($instances)) {
-			$instances = array ();
+			$instances = array();
 		}
 
 		if (empty ($instances[$id])) {
@@ -187,23 +183,15 @@ class GantryRegistry
 	/**
 	 * Load a associative array of values into the default namespace
 	 *
-	 * @param	array	Associative array of value to load
-	 * @param	string	The name of the namespace
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @param    array     Associative array of value to load
+	 * @param    string    The name of the namespace
+	 *
+	 * @return    boolean    True on success
+	 * @since    1.5
 	 */
 	public function loadArray($array)
 	{
-		// Load the variables into the registry's data object.
-		foreach ($array as $k => $v) {
-			if ((is_array($v) && GantryArrayHelper::isAssociative($v)) || is_object($v)) {
-				$this->data->$k = new stdClass();
-				$this->bindData($this->data->$k, $v);
-			}
-			else {
-				$this->data->$k = $v;
-			}
-		}
+		$this->bindData($this->data, $array);
 
 		return true;
 	}
@@ -211,24 +199,15 @@ class GantryRegistry
 	/**
 	 * Load the public variables of the object into the default namespace.
 	 *
-	 * @param	object	The object holding the public vars to load
-	 * @param	string	Namespace to load the INI string into [optional]
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @param    object    The object holding the public vars to load
+	 * @param    string    Namespace to load the INI string into [optional]
+	 *
+	 * @return    boolean    True on success
+	 * @since    1.5
 	 */
 	public function loadObject($object)
 	{
-		if (is_object($object)) {
-			foreach (get_object_vars($object) as $k => $v) {
-				if (is_scalar($v))
-				{
-					$this->data->$k = $v;
-				} elseif (is_object($v) || (is_array($v) && GantryArrayHelper::isAssociative($v))) {
-					$this->data->$k = new stdClass();
-					$this->bindData($this->data->$k, $v);
-				}
-			}
-		}
+		$this->bindData($this->data, $object);
 
 		return true;
 	}
@@ -236,99 +215,58 @@ class GantryRegistry
 	/**
 	 * Load the contents of a file into the registry
 	 *
-	 * @param	string	Path to file to load
-	 * @param	string	Format of the file [optional: defaults to JSON]
-	 * @param	string	Namespace to load the JSON string into [optional]
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @param    string    Path to file to load
+	 * @param    string    Format of the file [optional: defaults to JSON]
+	 * @param    mixed     Options used by the formatter
+	 *
+	 * @return    boolean    True on success
+	 * @since    1.5
 	 */
-//	public function loadFile($file, $format = 'JSON')
+//	public function loadFile($file, $format = 'JSON', $options = array())
 //	{
-//		// Load a file into the given namespace [or default namespace if not given]
-//		$handler = GantryRegistryFormat::getInstance($format);
-//
 //		// Get the contents of the file
-//        // TODO move this to php read for file
 //		jimport('joomla.filesystem.file');
 //		$data = JFile::read($file);
 //
-//		$obj = $handler->stringToObject($data);
-//		$this->loadObject($obj);
-//
-//		return true;
+//		return $this->loadString($data, $format, $options);
 //	}
 
 	/**
-	 * Load an XML string into the registry into the given namespace [or default if a namespace is not given]
-	 *
-	 * @param	string	XML formatted string to load into the registry
-	 * @param	string	Namespace to load the XML string into [optional]
-	 * @return	boolean	True on success
-	 * @since	1.5
-	 */
-	public function loadXML($data, $namespace = null)
-	{
-		// Load a string into the given namespace [or default namespace if not given]
-		$handler = GantryRegistryFormat::getInstance('XML');
+		 * Load a string into the registry
+		 *
+		 * @param    string    string to load into the registry
+		 * @param    string    format of the string
+		 * @param    mixed     Options used by the formatter
+		 *
+		 * @return    boolean    True on success
+		 * @since    1.5
+		 */
+		public function loadString($data, $format = 'JSON', $options = array())
+		{
+			// Load a string into the given namespace [or default namespace if not given]
+			$handler = GantryRegistryFormat::getInstance($format);
 
-		$obj = $handler->stringToObject($data);
-		$this->loadObject($obj);
+			$obj = $handler->stringToObject($data, $options);
+			$this->loadObject($obj);
 
-		return true;
-	}
-
-	/**
-	 * Load an INI string into the registry into the given namespace [or default if a namespace is not given]
-	 *
-	 * @param	string	INI formatted string to load into the registry
-	 * @param	string	Namespace to load the INI string into [optional]
-	 * @param	mixed	An array of options for the formatter, or boolean to process sections.
-	 * @return	boolean True on success
-	 * @since	1.5
-	 */
-	public function loadINI($data, $namespace = null, $options = array())
-	{
-		// Load a string into the given namespace [or default namespace if not given]
-		$handler = GantryRegistryFormat::getInstance('INI');
-
-		$obj = $handler->stringToObject($data, $options);
-		$this->loadObject($obj);
-
-		return true;
-	}
-
-	/**
-	 * Load an JSON string into the registry into the given namespace [or default if a namespace is not given]
-	 *
-	 * @param	string	JSON formatted string to load into the registry
-	 * @return	boolean True on success
-	 * @since	1.5
-	 */
-	public function loadJSON($data)
-	{
-		// Load a string into the given namespace [or default namespace if not given]
-		$handler = GantryRegistryFormat::getInstance('JSON');
-
-		$obj = $handler->stringToObject($data);
-		$this->loadObject($obj);
-
-		return true;
-	}
+			return true;
+		}
 
 	/**
 	 * Merge a GantryRegistry object into this one
 	 *
-	 * @param	object	Source GantryRegistry object ot merge
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @param    object    Source GantryRegistry object ot merge
+	 *
+	 * @return    boolean    True on success
+	 * @since    1.5
 	 */
 	public function merge(&$source)
 	{
 		if ($source instanceof GantryRegistry) {
 			// Load the variables into the registry's default namespace.
 			foreach ($source->toArray() as $k => $v) {
-				if (($v !== null) && ($v !== '')){
-					$this->data->$k = $v;
+				if (($v !== null) && ($v !== '')) {
+					$this->_mergeItem($k, $v);
 				}
 			}
 			return true;
@@ -336,13 +274,32 @@ class GantryRegistry
 		return false;
 	}
 
+	protected function _mergeItem($key, $value)
+	{
+		if (($value !== null) && ($value !== '')) {
+			if (is_object($value)) {
+				$object_vars = get_object_vars($value);
+				foreach ($object_vars as $subkey => $subvalue) {
+					$this->_mergeItem($key . '.' . $subkey, $subvalue);
+				}
+			} elseif (is_array($value)) {
+				foreach ($value as $subkey => $subvalue) {
+					$this->_mergeItem($key . '.' . $subkey, $subvalue);
+				}
+			} else {
+				$this->set($key, $value);
+			}
+		}
+	}
+
 	/**
 	 * Set a registry value.
 	 *
-	 * @param	string	Registry Path (e.g. joomla.content.showauthor)
-	 * @param 	mixed	Value of entry
-	 * @return 	mixed	The value of the that has been set.
-	 * @since	1.6
+	 * @param     string    Registry Path (e.g. joomla.content.showauthor)
+	 * @param     mixed     Value of entry
+	 *
+	 * @return     mixed    The value of the that has been set.
+	 * @since    1.6
 	 */
 	public function set($path, $value)
 	{
@@ -371,21 +328,23 @@ class GantryRegistry
 	/**
 	 * Transforms a namespace to an array
 	 *
-	 * @param	string	Namespace to return [optional: null returns the default namespace]
-	 * @return	array	An associative array holding the namespace data
-	 * @since	1.5
+	 * @param    string    Namespace to return [optional: null returns the default namespace]
+	 *
+	 * @return    array    An associative array holding the namespace data
+	 * @since    1.5
 	 */
 	public function toArray()
 	{
-		return (array) $this->asArray($this->data);
+		return (array)$this->asArray($this->data);
 	}
 
 	/**
 	 * Transforms a namespace to an object
 	 *
-	 * @param	string	Namespace to return [optional: null returns the default namespace]
-	 * @return	object	An an object holding the namespace data
-	 * @since	1.5
+	 * @param    string    Namespace to return [optional: null returns the default namespace]
+	 *
+	 * @return    object    An an object holding the namespace data
+	 * @since    1.5
 	 */
 	public function toObject()
 	{
@@ -395,40 +354,43 @@ class GantryRegistry
 	/**
 	 * Get a namespace in a given string format
 	 *
-	 * @param	string	Format to return the string in
-	 * @param	string	Namespace to return [optional: null returns the default namespace]
-	 * @param	mixed	Parameters used by the formatter, see formatters for more info
-	 * @return	string	Namespace in string format
-	 * @since	1.5
+	 * @param    string    Format to return the string in
+	 * @param    mixed     Parameters used by the formatter, see formatters for more info
+	 *
+	 * @return    string    Namespace in string format
+	 * @since    1.5
 	 */
-	public function toString($format = 'JSON', $namespace = null, $params = null)
+	public function toString($format = 'JSON', $options = array())
 	{
 		// Return a namespace in a given format
 		$handler = GantryRegistryFormat::getInstance($format);
 
-		return $handler->objectToString($this->data, $params);
+		return $handler->objectToString($this->data, $options);
 	}
 
 	/**
 	 * Method to recursively bind data to a parent object.
 	 *
-	 * @param	object	$parent	The parent object on which to attach the data values.
-	 * @param	mixed	$data	An array or object of data to bind to the parent object.
+	 * @param    object    $parent    The parent object on which to attach the data values.
+	 * @param    mixed     $data      An array or object of data to bind to the parent object.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return    void
+	 * @since    1.6
 	 */
 	protected function bindData(& $parent, $data)
 	{
 		// Ensure the input data is an array.
-		$data = (array) $data;
+		if (is_object($data)) {
+			$data = get_object_vars($data);
+		} else {
+			$data = (array)$data;
+		}
 
 		foreach ($data as $k => $v) {
 			if ((is_array($v) && GantryArrayHelper::isAssociative($v)) || is_object($v)) {
 				$parent->$k = new stdClass();
 				$this->bindData($parent->$k, $v);
-			}
-			else {
+			} else {
 				$parent->$k = $v;
 			}
 		}
@@ -437,16 +399,16 @@ class GantryRegistry
 	/**
 	 * Method to recursively convert an object of data to an array.
 	 *
-	 * @param	object	$data	An object of data to return as an array.
+	 * @param    object    $data    An object of data to return as an array.
 	 *
-	 * @return	array	Array representation of the input object.
-	 * @since	1.6
+	 * @return    array    Array representation of the input object.
+	 * @since    1.6
 	 */
 	protected function asArray($data)
 	{
 		$array = array();
 
-		foreach (get_object_vars((object) $data) as $k => $v) {
+		foreach (get_object_vars((object)$data) as $k => $v) {
 			if (is_object($v)) {
 				$array[$k] = $this->asArray($v);
 			} else {
@@ -462,11 +424,57 @@ class GantryRegistry
 	//
 
 	/**
+	 * Load an XML string into the registry into the given namespace [or default if a namespace is not given]
+	 *
+	 * @param    string    XML formatted string to load into the registry
+	 * @param    string    Namespace to load the XML string into [optional]
+	 *
+	 * @return    boolean    True on success
+	 * @since      1.5
+	 * @deprecated 1.6 - Oct 25, 2010
+	 */
+	public function loadXML($data, $namespace = null)
+	{
+		return $this->loadString($data, 'XML');
+	}
+
+	/**
+	 * Load an INI string into the registry into the given namespace [or default if a namespace is not given]
+	 *
+	 * @param    string    INI formatted string to load into the registry
+	 * @param    string    Namespace to load the INI string into [optional]
+	 * @param    mixed     An array of options for the formatter, or boolean to process sections.
+	 *
+	 * @return    boolean True on success
+	 * @since      1.5
+	 * @deprecated 1.6 - Oct 25, 2010
+	 */
+	public function loadINI($data, $namespace = null, $options = array())
+	{
+		return $this->loadString($data, 'INI', $options);
+	}
+
+	/**
+	 * Load an JSON string into the registry into the given namespace [or default if a namespace is not given]
+	 *
+	 * @param    string    JSON formatted string to load into the registry
+	 *
+	 * @return    boolean True on success
+	 * @since      1.5
+	 * @deprecated 1.6 - Oct 25, 2010
+	 */
+	public function loadJSON($data)
+	{
+		return $this->loadString($data, 'JSON');
+	}
+
+	/**
 	 * Create a namespace
 	 *
-	 * @param	string	Name of the namespace to create
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @param    string    Name of the namespace to create
+	 *
+	 * @return    boolean    True on success
+	 * @since      1.5
 	 * @deprecated 1.6 - Jan 19, 2010
 	 */
 	public function makeNameSpace($namespace)
@@ -478,7 +486,7 @@ class GantryRegistry
 	/**
 	 * Get the list of namespaces
 	 *
-	 * @return	array	List of namespaces
+	 * @return    array    List of namespaces
 	 * @deprecated 1.6 - Jan 19, 2010
 	 */
 	public function getNameSpaces()
@@ -490,12 +498,13 @@ class GantryRegistry
 	/**
 	 * Get a registry value
 	 *
-	 * @param	string	Registry path (e.g. joomla.content.showauthor)
-	 * @param	mixed	Optional default value
-	 * @return	mixed	Value of entry or null
+	 * @param    string    Registry path (e.g. joomla.content.showauthor)
+	 * @param    mixed     Optional default value
+	 *
+	 * @return    mixed    Value of entry or null
 	 * @deprecated 1.6 - Jan 19, 2010
 	 */
-	public function getValue($path, $default=null)
+	public function getValue($path, $default = null)
 	{
 		$parts = explode('.', $path);
 		if (count($parts) > 1) {
@@ -508,9 +517,10 @@ class GantryRegistry
 	/**
 	 * Set a registry value
 	 *
-	 * @param	string	Registry Path (e.g. joomla.content.showauthor)
-	 * @param	mixed	Value of entry
-	 * @return	mixed	The value after setting.
+	 * @param    string    Registry Path (e.g. joomla.content.showauthor)
+	 * @param    mixed     Value of entry
+	 *
+	 * @return    mixed    The value after setting.
 	 * @deprecated 1.6 - Jan 19, 2010
 	 */
 	public function setValue($path, $value)
@@ -521,5 +531,20 @@ class GantryRegistry
 			$path = implode('.', $parts);
 		}
 		return $this->set($path, $value);
+	}
+
+	/**
+	 * This method is added as an interim solution for API references in Joomla! 1.6 to the JRegistry
+	 * object where in 1.5 a JParameter object existed.  Because many extensions may call this method
+	 * we add it here as a means of "pain relief" until the 1.7 release.
+	 *
+	 * @return      boolean  True.
+	 *
+	 * @deprecated  1.6 - Jun 17, 2010
+	 * @todo        Remove this method for the 1.7 release.
+	 */
+	public function loadSetupFile()
+	{
+		return true;
 	}
 }

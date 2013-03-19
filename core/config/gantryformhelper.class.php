@@ -1,8 +1,8 @@
 <?php
 /**
- * @version        $Id: gantryformhelper.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version        $Id: gantryformhelper.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author         RocketTheme http://www.rockettheme.com
- * @copyright      Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright      Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license        http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * derived from Joomla with original copyright and license
@@ -211,7 +211,7 @@ class GantryFormHelper
 			// But when someday we would want to support more entities, then we should consider adding
 			// an inflector class to "libraries/joomla/utilities" and use it here (or somebody can use a real inflector in his subclass).
 			// see also: pluralization snippet by Paul Osman in JControllerForm's constructor.
-			$paths[] = dirname(__FILE__) . DS . $entity_plural;
+			$paths[] = gantry_dirname(__FILE__) . '/' . $entity_plural;
 		}
 
 		// Force the new path(s) to an array.
@@ -249,8 +249,8 @@ class GantryFormHelper
 			if (strpos($path, '://') === false) {
 				// not a stream, so do a realpath() to avoid directory
 				// traversal attempts on the local file system.
-				$path     = realpath($path); // needed for substr() later
-				$fullname = realpath($fullname);
+				$path     = gantry_clean_path(realpath($path)); // needed for substr() later
+				$fullname = gantry_clean_path(realpath($fullname));
 			}
 
 			// the substr() check added to make sure that the realpath()

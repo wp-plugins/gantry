@@ -1,13 +1,113 @@
-/**
- * @version $Id: toggle.js 58644 2012-12-17 22:52:30Z djamil $
- * @author RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
- */
 
 (function(){
 
 var Toggle = this.Toggle = new Class({
+	Implements: [Options, Events],
+
+	initialize: function(options){
+		this.setOptions(options);
+		this.container = document.id('g4-panels');
+
+		if (!this.container) return false;
+
+		this.attach();
+	},
+
+	attach: function(){
+		var click = this.container.retrieve('g4:toggle:click', function(event){
+				this._clearSelection.call(this);
+				this.click.call(this, event, event.target);
+			}.bind(this)),
+			dblclick = this.container.retrieve('g4:toggle:dblclick', function(event){
+				this._clearSelection.call(this, event);
+			}.bind(this)),
+			attach = this.container.retrieve('g4:toggle:attach', function(event){
+				this.enable.call(this, event.target);
+			}.bind(this)),
+			detach = this.container.retrieve('g4:toggle:detach', function(event){
+				this.disable.call(this, event.target);
+			}.bind(this));
+
+		this.container.addEvents({
+			'click:relay(.toggle)': click,
+			'attach:relay(.toggle-input)': attach,
+			'detach:relay(.toggle-input)': detach
+		});
+	},
+
+	detach: function(event){
+		var click = this.container.retrieve('g4:toggle:click'),
+			dblclick = this.container.retrieve('g4:toggle:dblclick'),
+			detach = this.container.retrieve('g4:toggle:detach');
+
+		this.container.removeEvents({
+			'click:relay(.toggle)': click,
+			'detach:relay(.toggle-input)': detach
+		})
+	},
+
+	click: function(event, element){
+		if (element.retrieve('g4:toggle:disabled')) return;
+
+		element = element.get('tag') == 'input' ? element.getParent('.toggle') : element;
+		var input = element.getElement('input.toggle-input'),
+			value = input.get('value');
+
+		if (!input.get('value') || input.get('value') == '0'){
+			element.removeClass('toggle-off').addClass('toggle-on');
+			input.set('value', 1);
+		} else {
+			element.removeClass('toggle-on').addClass('toggle-off');
+			input.set('value', 0);
+		}
+
+		input.fireEvent('change', value);
+
+		//this._chainSwitch(element, input.get('value'));
+	},
+
+	set: function(event, element){
+		console.log('set', event.target, element);
+	},
+
+	enable: function(element){
+		var toggle = element.getParent('.toggle');
+		toggle.removeClass('disabled');
+		toggle.store('g4:toggle:disabled', false);
+	},
+
+	disable: function(element){
+		var toggle = element.getParent('.toggle');
+		toggle.addClass('disabled');
+		toggle.store('g4:toggle:disabled', true);
+	},
+
+	_chainSwitch: function(element, value){
+		var chain = element.getParent('.chain');
+		if (!chain || element.getParent('.wrapper .chain') != chain) return false;
+
+		var elements = chain.getAllNext('.chain input, .chain select');
+
+		elements.each(function(element){
+			if (element.hasClass('toggle-input')) this.container.fireEvent((value == '0' ? 'detach' : 'attach') + ':relay(.toggle-input)', {target: element});
+		}, this);
+	},
+
+	_clearSelection: function(){
+		if (document.selection && document.selection.empty){
+			document.selection.empty();
+		} else if (window.getSelection) {
+			var sel = window.getSelection();
+			sel.removeAllRanges();
+		}
+	}
+});
+
+window.addEvent('domready', function(){
+	new this.Toggle();
+});
+
+/*var Toggle = this.Toggle = new Class({
 
 	Implements: [Options, Events],
 
@@ -180,7 +280,7 @@ var Toggle = this.Toggle = new Class({
 	},
 
 	onChange: function(details, state){
-		var value = (state) ? 1 : 0;
+		var value = (state) ? '1' : '0';
 
 		details.input.getPrevious().set('value', value);
 
@@ -212,7 +312,7 @@ var Toggle = this.Toggle = new Class({
 						else text.fireEvent('detach');
 					}
 				}
-				if ((['toggle'].contains(type) || ['checkbox'].contains(type)) && chain != details.container.getParent('.wrapper').getFirst()) {
+				if (['toggle'].contains(type) && chain != details.container.getParent('.wrapper').getFirst()) {
 					var checkbox = chain.getElement('input[type=checkbox]');
 					if (checkbox) {
 						(function() {
@@ -279,6 +379,6 @@ var Toggle = this.Toggle = new Class({
 		sides.style.backgroundPosition = pos;
 	}
 
-});
+});*/
 
 })();

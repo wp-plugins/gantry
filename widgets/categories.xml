@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- $Id: categories.xml 58623 2012-12-15 22:01:32Z btowles $ -->
+<!-- $Id: categories.xml 59361 2013-03-13 23:10:27Z btowles $ -->
 <form>
     <fieldset name="widget">
         <field name="title" type="text" label="Title" description="Title" class="widefat" size="30" default="Categories"
@@ -17,7 +17,7 @@
             <option value="ID">Category ID</option>
         </field>
         <field name="menu_class" type="text" label="List Class" description="List Class" class="widefat" size="30"
-               default="menu" readonly="false"/>
+               default="" readonly="false"/>
         <field name="show_count" type="list" class="widefat" label="Show Post Count (only Dropdown)"
                description="Displays post count of each category" default="0" readonly="false">
             <option value="0">No</option>

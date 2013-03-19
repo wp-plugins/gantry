@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: RokMenu.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: RokMenu.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -24,8 +24,7 @@ if (!class_exists('RokMenu')) {
 	/**
 	 *
 	 */
-	abstract class RokMenu
-	{
+    abstract class RokMenu {
 		/**
 		 * @var array
 		 */
@@ -55,11 +54,9 @@ if (!class_exists('RokMenu')) {
 		/**
 		 * @param RokMenuRenderer $renderer
 		 * @param                 $args
-		 *
 		 * @return void
 		 */
-		public function __construct($args)
-		{
+        public function __construct($args) {
 			$this->args = $args;
 
 			$this->renderer = $this->getRenderer();
@@ -80,24 +77,21 @@ if (!class_exists('RokMenu')) {
 		 * @static
 		 * @return array
 		 */
-		public static function getDefaults()
-		{
+        public static function getDefaults() {
 			return self::$menu_defaults;
 		}
 
 		/**
 		 * @return void
 		 */
-		public function initialize()
-		{
+        public function initialize() {
 			$this->renderer->initialize($this->provider);
 		}
 
 		/**
 		 * @return string
 		 */
-		public function renderMenu()
-		{
+        public function renderMenu() {
 			$output = $this->renderer->renderMenu();
 			return $output;
 		}
@@ -105,8 +99,7 @@ if (!class_exists('RokMenu')) {
 		/**
 		 * @return string
 		 */
-		public function renderHeader()
-		{
+        public function renderHeader() {
 			$output = $this->renderer->renderHeader();
 			return $output;
 		}
@@ -114,8 +107,7 @@ if (!class_exists('RokMenu')) {
 		/**
 		 * @return string
 		 */
-		public function renderFooter()
-		{
+        public function renderFooter() {
 			$output = $this->renderer->renderFooter();
 			return $output;
 		}

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrygzipper.class.php 58625 2012-12-15 22:41:23Z btowles $
+ * @version   $Id: gantrygzipper.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -19,8 +19,9 @@ class GantryGZipper
 
 	}
 
-	function processCSSFiles()
+	public static function processCSSFiles()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$cache_time   = $gantry->get("gzipper-time");
@@ -32,7 +33,7 @@ class GantryGZipper
 
 		foreach ($gantry->_styles as $priorities) {
 			foreach ($priorities as $links) {
-				$css_links[$links->path] = $links->url;
+				$css_links[$links->getPath()] = $links->getUrl();
 			}
 		}
 
@@ -44,13 +45,13 @@ class GantryGZipper
 			$order_keeper = 0;
 			$bump_ok      = false;
 			foreach ($styles as $style_entry) {
-				if ($style_entry->type == 'url') {
+				if ($style_entry->getType() == 'url') {
 					$directory = 'REMOTE_URL';
-					$filename  = $style_entry->url;
+					$filename  = $style_entry->getUrl();
 					$bump_ok   = true;
 				} else {
-					$directory = dirname($style_entry->path);
-					$filename  = basename($style_entry->path);
+					$directory = dirname($style_entry->getPath());
+					$filename  = basename($style_entry->getPath());
 				}
 				$grouped_priories[$style_priority][$order_keeper][$directory][$filename] = $style_entry;
 				if ($bump_ok) {
@@ -82,15 +83,15 @@ class GantryGZipper
 
 						//first trip through to build filename
 						foreach ($files as $file => $details) {
-							$md5sum .= md5($details->url);
-							$detailspath = $dir . DS . $file;
+							$md5sum .= md5($details->getUrl());
+							$detailspath = $dir . '/' . $file;
 							if (file_exists($detailspath)) {
-								$path = dirname($details->url);
+								$path = dirname($details->getUrl());
 							}
 						}
 
 						$cache_filename = "css-" . md5($md5sum) . ".php";
-						$cache_fullpath = $dir . DS . $cache_filename;
+						$cache_fullpath = $dir . '/' . $cache_filename;
 
 						//see if file is stale
 						if (file_exists($cache_fullpath)) {
@@ -102,7 +103,7 @@ class GantryGZipper
 						if ($diff > $cache_time) {
 							$outfile = GantryGZipper::_getOutHeader("css", $expires_time);
 							foreach ($files as $file => $details) {
-								$detailspath = $dir . DS . $file;
+								$detailspath = $dir . '/' . $file;
 
 								if (file_exists($detailspath)) {
 									$css_content = file_get_contents($detailspath);
@@ -124,8 +125,9 @@ class GantryGZipper
 		$gantry->_styles = & $output;
 	}
 
-	function processJsFiles()
+	public static function processJsFiles()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$path         = $gantry->basePath;
@@ -146,7 +148,7 @@ class GantryGZipper
 		}
 
 		if (!is_writable($cache_dir)) {
-			foreach ($this->_scripts as $js_file) {
+			foreach ($gantry->_scripts as $js_file) {
 				$output[] = $js_file;
 			}
 			return;
@@ -178,6 +180,7 @@ class GantryGZipper
 						if (strpos($filename, 'joomla.javascript.js') !== false or strpos($filename, 'mambojavascript.js') !== false) {
 							$jsfile = str_replace("// <?php !!", "// ", $jsfile);
 						}
+						$jsfile = self::cleanEndLines($jsfile);
 						$outfile .= "\n\n/*** " . $filename . " ***/\n\n" . $jsfile;
 					}
 				}
@@ -190,6 +193,24 @@ class GantryGZipper
 		}
 		$gantry->_scripts = & $output;
 	}
+
+	protected static function cleanEndLines($data)
+	{
+		$file_lines = explode("\n", $data);
+		while (($line = array_pop($file_lines)) != null) {
+			$clean_line = rtrim($line);
+			if (strlen($clean_line) > 0) {
+				$end_char = substr($line, strlen($clean_line), 1);
+				array_push($file_lines, $line);
+				if ($end_char != ';') {
+					array_push($file_lines, ";");
+				}
+				break;
+			}
+		}
+		return implode($file_lines, "\n");
+	}
+
 
 	function _getOutHeader($type = "css", $expires_time = 1440)
 	{
@@ -221,7 +242,7 @@ header($ExpStr);
 		return $header;
 	}
 
-	function _stripCSSWhiteSpace($css_content)
+	protected static function _stripCSSWhiteSpace($css_content)
 	{
 		// remove comments
 		$css_content = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css_content);

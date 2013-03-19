@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: preset.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: preset.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -25,6 +25,7 @@ class GantryFormFieldPreset extends GantryFormField
 	public function getInput()
 	{
 
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$name = (string)$this->element['name'];
@@ -53,6 +54,8 @@ class GantryFormFieldPreset extends GantryFormField
 
 			if (isset($gantry->customPresets[$name])) {
 				$gantry->addInlineScript('var CustomPresets = ' . json_encode($gantry->customPresets[$name]) . ';');
+			} else {
+				$gantry->addInlineScript('var CustomPresets = {};');
 			}
 
 			define('GANTRY_PRESET', 1);
@@ -75,6 +78,7 @@ class GantryFormFieldPreset extends GantryFormField
 
 	function populatePresets($name)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$output  = "";
@@ -107,14 +111,15 @@ class GantryFormFieldPreset extends GantryFormField
 
 	function scrollerLayout($element)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$name     = (string)$element['name'];
 		$realname = $name;
 		$presets  = $gantry->presets;
 		$totCount = count($presets[$name]);
-		$width    = $totCount * 198;
-		if ($width < 593) $width = 593;
+		$width    = $totCount * 200;
+		//if ($width < 593) $width = 593;
 
 		$html = "";
 		$html .= "
@@ -132,10 +137,11 @@ class GantryFormFieldPreset extends GantryFormField
 			$name = strtolower(str_replace(" ", "", $key));
 
 			$html .= "<div class='preset$i block$class'>";
-			$html .= "	<div style='background:url(../wp-content/themes/" . $gantry->templateName . "/admin/presets/$name.png) no-repeat'></div>";
 			$html .= "	<span>" . $preset_name . "</span>";
+			$html .= "	<div class=\"presets-bg\" style='background:url(" . $gantry->templateUrl . "/admin/presets/$name.png) no-repeat'></div>";
+
 			if (isset($gantry->customPresets[$realname][$key])) {
-				$html .= "<div id='keydelete-" . $key . "' class='delete-preset'><span>X</span></div>";
+				$html .= "<div id='keydelete-" . $key . "' class='delete-preset'><span>&times;</span></div>";
 			}
 			$html .= "</div>";
 
@@ -146,7 +152,7 @@ class GantryFormFieldPreset extends GantryFormField
 						</div>
 					</div>
 				</div>
-				<div class='bar'><div class='bar-right'></div></div>
+				<div class='bar'></div>
 			</div>
 			<div id='params" . $realname . "' class='im-a-preset'></div>
 		</div>

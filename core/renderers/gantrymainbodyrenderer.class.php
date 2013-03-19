@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrymainbodyrenderer.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantrymainbodyrenderer.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -11,11 +11,29 @@ defined('GANTRY_VERSION') or die();
  * @subpackage  core.renderers
  */
 gantry_import('core.renderers.gantrywidgetsrenderer');
+/**
+ *
+ */
 class GantryMainBodyRenderer
 {
-	// wrapper for mainbody display
-	function display($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard', $grid = null, $component_content = '')
+	/**
+	 * wrapper for mainbody display
+	 *
+	 * @param string $bodyLayout
+	 * @param string $sidebarLayout
+	 * @param string $sidebarChrome
+	 * @param string $contentTopLayout
+	 * @param string $contentTopChrome
+	 * @param string $contentBottomLayout
+	 * @param string $contentBottomChrome
+	 * @param null   $grid
+	 * @param string $component_content
+	 *
+	 * @return string
+	 */
+	public static function display($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard', $grid = null, $component_content = '')
 	{
+		/** @var $gantry Gantry */
 		global $gantry;
 		global $wp_registered_sidebars, $wp_registered_widgets;
 
@@ -40,11 +58,11 @@ class GantryMainBodyRenderer
 
 		// If RTL then flip the array
 		if (get_bloginfo('text_direction') == 'rtl' && $gantry->get('rtl-enabled')) {
-			$schema = $gantry->_flipBodyPosition($schema);
+			$schema = $gantry->flipBodyPosition($schema);
 		}
 
 
-		$classKey = $gantry->_getKey($schema);
+		$classKey = $gantry->getKey($schema);
 		$pushPull = $gantry->pushPullSchemas[$classKey];
 
 		$output        = '';
@@ -132,7 +150,12 @@ class GantryMainBodyRenderer
 
 	}
 
-	function invertPositionOrder($sidebar_widgets)
+	/**
+	 * @param $sidebar_widgets
+	 *
+	 * @return array
+	 */
+	public function invertPositionOrder($sidebar_widgets)
 	{
 
 		$inverted_sidebar_widgets = array();
@@ -159,8 +182,14 @@ class GantryMainBodyRenderer
 		return $inverted_sidebar_widgets;
 	}
 
-	function filterWidget($params)
+	/**
+	 * @param $params
+	 *
+	 * @return string
+	 */
+	public function filterWidget($params)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$widget_id = $params[0]['widget_id'];
@@ -180,8 +209,14 @@ class GantryMainBodyRenderer
 		return $params;
 	}
 
-	function countSidebars($widgets)
+	/**
+	 * @param $widgets
+	 *
+	 * @return int
+	 */
+	protected function countSidebars($widgets)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		$MAX_SIDEBARS = 3;
 		// TODO  make this pull from templates xml

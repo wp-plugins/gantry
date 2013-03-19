@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrywidgetsrenderer.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantrywidgetsrenderer.class.php 59376 2013-03-14 19:43:34Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -14,9 +14,18 @@ defined('GANTRY_VERSION') or die();
  */
 class GantryWidgetsRenderer
 {
-	// wrapper for modules display
-	function display($positionStub, $layout = 'standard', $chrome = 'standard', $gridsize = GRID_SYSTEM, $pattern = null)
+	/**
+	 * @param        $positionStub
+	 * @param string $layout
+	 * @param string $chrome
+	 * @param string $gridsize
+	 * @param null   $pattern
+	 *
+	 * @return string
+	 */
+	public static function display($positionStub, $layout = 'standard', $chrome = 'standard', $gridsize = GRID_SYSTEM, $pattern = null)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		global $wp_registered_sidebars, $wp_registered_widgets;
 
@@ -85,11 +94,11 @@ class GantryWidgetsRenderer
 
 
 			if ($showAllParam == 1 && !$widgets_in_position) {
-				$prefixCount += $gantry->_getPositionSchema($positionStub, $gridsize, $count, $index);
+				$prefixCount += $gantry->getPositionSchema($positionStub, $gridsize, $count, $index);
 				$index++;
 			} else if ($widgets_in_position) {
 				// Apply chrome and render module
-				$paramSchema                           = $gantry->_getPositionSchema($positionStub, $gridsize, $count, $index);
+				$paramSchema                           = $gantry->getPositionSchema($positionStub, $gridsize, $count, $index);
 				$widget_map[$position]['extraClass']   = $extraClass;
 				$widget_map[$position]['prefixCount']  = $prefixCount;
 				$widget_map[$position]['paramsSchema'] = $paramSchema;
@@ -116,7 +125,12 @@ class GantryWidgetsRenderer
 		return $output;
 	}
 
-	function invertPositionOrder($sidebar_widgets)
+	/**
+	 * @param $sidebar_widgets
+	 *
+	 * @return array
+	 */
+	public static function invertPositionOrder($sidebar_widgets)
 	{
 
 		$inverted_sidebar_widgets = array();
@@ -143,8 +157,14 @@ class GantryWidgetsRenderer
 		return $inverted_sidebar_widgets;
 	}
 
-	function filterWidget($params)
+	/**
+	 * @param $params
+	 *
+	 * @return string
+	 */
+	public static function filterWidget($params)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$widget_id = $params[0]['widget_id'];
@@ -164,12 +184,17 @@ class GantryWidgetsRenderer
 		return $params;
 	}
 
-	function filterWidgetCount($sidebars_widgets)
+	/**
+	 * @param $sidebars_widgets
+	 *
+	 * @return array
+	 */
+	public static function filterWidgetCount($sidebars_widgets)
 	{
 		global $gantry, $wp_registered_widgets;
 		$cleaned_sidebar_widgets = array();
 		foreach ($sidebars_widgets as $sidebar => $widgets) {
-			if ($sidebar == "wp_inactive_widgets") continue;
+			if ($sidebar == "wp_inactive_widgets" || strpos($sidebar,'orphaned_widgets_') === 0) continue;
 			$position_info  = $gantry->getPositionInfo($sidebar);
 			$max_positions  = $position_info->max_positions;
 			$position_count = 1;

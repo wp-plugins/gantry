@@ -1,25 +1,39 @@
 <?php
 /**
- * @version   $Id: gantryoverrides.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantryoverrides.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
 class GantryOverrides
 {
+	/**
+	 * @var array
+	 */
 	private $overrides = array();
 
+	/**
+	 * @param GantryOverrideItem $overrideItem
+	 */
 	public function addOverride(GantryOverrideItem $overrideItem)
 	{
 		$this->overrides[] = $overrideItem;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getOverrideList()
 	{
 		return GantryOverrides::sortOverridesList($this->overrides);
 	}
 
+	/**
+	 * @param $overrides
+	 *
+	 * @return array
+	 */
 	public static function sortOverridesList($overrides)
 	{
 		GantryOverrides::_sort($overrides, '!priority', 'distance');
@@ -35,6 +49,12 @@ class GantryOverrides
 		return $output;
 	}
 
+	/**
+	 * @param $base
+	 * @param $path
+	 *
+	 * @return null
+	 */
 	private static function _hod(&$base, $path)
 	{
 		$keys       = explode("->", $path);
@@ -42,6 +62,7 @@ class GantryOverrides
 		$ret        = null;
 		$expression = '$ret = ';
 		$expression .= '$';
+		$licz = 0;
 		foreach ($keys as $key) {
 			if (++$licz == 1) {
 				$expression .= 'base->';
@@ -55,6 +76,12 @@ class GantryOverrides
 		return $ret;
 	}
 
+	/**
+	 * @param      $a
+	 * @param null $b
+	 *
+	 * @return int
+	 */
 	private static function _sort_func($a, $b = NULL)
 	{
 		static $keys;
@@ -74,6 +101,11 @@ class GantryOverrides
 		return 0;
 	}
 
+	/**
+	 * @param $array
+	 *
+	 * @return array
+	 */
 	private static function _sort(&$array)
 	{
 		if (!$array) return array();
@@ -85,15 +117,44 @@ class GantryOverrides
 
 }
 
+/**
+ *
+ */
 class GantryOverrideItem
 {
+	/**
+	 * @var
+	 */
 	public $override_id;
+	/**
+	 * @var
+	 */
 	public $priority;
+	/**
+	 * @var null
+	 */
 	public $rulename;
+	/**
+	 * @var null
+	 */
 	public $matchdata;
+	/**
+	 * @var int
+	 */
 	public $distance;
+	/**
+	 * @var null
+	 */
 	public $nice_name;
 
+	/**
+	 * @param      $override_id
+	 * @param      $priority
+	 * @param int  $distance
+	 * @param null $rulename
+	 * @param null $matchdata
+	 * @param null $nice_name
+	 */
 	public function __construct($override_id, $priority, $distance = 0, $rulename = null, $matchdata = null, $nice_name = null)
 	{
 		$this->override_id = $override_id;

@@ -1,9 +1,3 @@
-/**
- * @version   1.31 December 18, 2012
- * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
- */
 
 var PresetDropdown = {
 	list: {},
@@ -12,12 +6,10 @@ var PresetDropdown = {
 
 		var objs = selectboxes.getObjects(PresetDropdown.list[cls].getPrevious());
 		objs.real.addEvent('change', PresetDropdown.select.bind(PresetDropdown, cls));
-
-		//PresetsBadges.init(cls);
 	},
 
 	newItem: function(cls, key, value) {
-		if (!PresetDropdown.list[cls] && $$('.' + cls).length) return Scroller.addBlock(cls, key, value);
+		if (!PresetDropdown.list[cls] && document.getElements('.' + cls).length) return Scroller.addBlock(cls, key, value);
 
 		var li = new Element('li').set('text', value);
 		var option = new Element('option', {value: key}).set('text', value);
@@ -59,7 +51,8 @@ var PresetDropdown = {
 			'mouseleave': function() {
 				this.removeClass('hover');
 			},
-			'click': function() {
+			'click': function(e) {
+				if (e.target.hasClass('delete-preset')) return false;
 				objs.list.removeClass('active');
 				this.addClass('active');
 				this.fireEvent('select', [objs, index]);
@@ -76,12 +69,10 @@ var PresetDropdown = {
 		var master = document.id('master-items');
 		if (master) master = master.hasClass('active');
 
-		$H(preset).each(function(value, key) {
+		new Hash(preset).each(function(value, key) {
 			var el = document.id(GantryParamsPrefix + key);
 
 			var type = el.get('tag');
-
-			if (master && Gantry.MenuItemHead) Gantry.MenuItemHead.getCheckbox(key).fireEvent('switchon');
 
 			switch(type) {
 				case 'select':
@@ -93,11 +84,12 @@ var PresetDropdown = {
 
 				case 'input':
 					var cls = el.getProperty('class');
-					el.set('value', value);
+					el.setProperty('value', value);
 
 					if (cls.contains('picker-input')) {
-						document.id(el).getParent().fireEvent('mouseenter');
-						el.fireEvent('set', value);
+						el.fireEvent('keyup');
+					} else if (cls.contains('background-picker')){
+						el.fireEvent('keyup', value);
 					} else if (cls.contains('slider')) {
 						var slider = window['slider' + key];
 						slider.set(slider.list.indexOf(value));
@@ -117,86 +109,161 @@ var PresetDropdown = {
 
 var Scroller = {
 	init: function(cls) {
-		Scroller.wrapper = $$('.' + cls + ' .scroller .wrapper')[0];
-		Scroller.bar = $$('.' + cls + ' .bar')[0];
+		Scroller.wrapper = document.getElements('.' + cls + ' .scroller .wrapper')[0];
+		Scroller.bar = document.getElements('.' + cls + ' .bar')[0];
 
 		if (!Scroller.wrapper || !Scroller.bar) return;
 
-		document.id('contextual-preset-wrap').setStyles({'position': 'absolute', 'top': -3000, 'display': 'block'});
+		var HookCookie = 'hide';
+
+		Scroller.hook = document.id('toolbar-show-presets') || document.id('meta-preset-link');
+		if (Scroller.hook){
+			HookCookie = Cookie.read('gantry-'+GantryTemplate+'-adminpresets') || 'hide';
+			/*Scroller.hook.getElement('a').onclick = function(){};
+			Scroller.hook.getElement('a').removeProperty('onclick');*/
+			//Scroller.buttonText('Show Presets');
+			Scroller.hook.removeClass('rok-button-active');
+
+			document.id('hack-panel').getFirst().setStyle('display', 'block');
+			Scroller.slide = new Fx.Slide('hack-panel', {
+				duration: 250,
+				transition: 'quad:out',
+				link: 'cancel',
+				resetHeight: true,
+				onStart: function(){
+					if (this.element.getStyle('margin').toInt() != 0){
+						//document.id('g4-details').setStyle('border-bottom-width', 0);
+						document.id('g4-details').addClass('presets-showing');
+						//document.id('g4-presets').setStyle('border-bottom-width', 1);
+					}
+
+					if (this.element.getStyle('margin').toInt() != 0) Scroller.attachResize();
+					else Scroller.detachResize();
+				},
+				onComplete: function(){
+					if (this.element.getStyle('margin').toInt() != 0){
+						//document.id('g4-details').setStyle('border-bottom-width', 1);
+						document.id('g4-details').removeClass('presets-showing');
+						//document.id('g4-presets').setStyle('border-bottom-width', 0);
+					}
+				}
+			});
+
+			//if (HookCookie == 'show') Scroller.buttonText('Hide Presets');
+			//else Scroller.buttonText('Show Presets');
+			Scroller.hook[HookCookie == 'show' ? 'addClass' : 'removeClass']('rok-button-active');
+
+			Scroller.hook.addEvent('click', function(e){
+				e.preventDefault();
+				if (!Scroller.slide.open) {
+					this.addClass('rok-button-active');
+					Scroller.slide.slideIn();
+					Cookie.write('gantry-'+GantryTemplate+'-adminpresets', 'show');
+				} else {
+					this.removeClass('rok-button-active');
+					Scroller.slide.slideOut();
+					Cookie.write('gantry-'+GantryTemplate+'-adminpresets', 'hide');
+				}
+			});
+
+			//document.id('g4-presets').setStyle('border-bottom', document.id('g4-details').getStyle('border-bottom'));
+			//document.id('g4-presets').setStyle('border-bottom-width', !Scroller.slide.open ? 0 : 1);
+			//document.id('g4-details').setStyle('border-bottom-width', Scroller.slide.open ? 0 : 1);
+			Scroller.slide[HookCookie == 'show' ? 'show' : 'hide']();
+			Scroller[HookCookie == 'show' ? 'attachResize' : 'detachResize']();
+			document.id('g4-details')[Scroller.slide.open ? 'addClass' : 'removeClass']('presets-showing');
+		}
 
 		Scroller.childrens = Scroller.wrapper.getChildren();
 
 		var size = Scroller.wrapper.getParent().getSize();
 		var wrapSize = Scroller.wrapper.getSize();
 		Scroller.barWrapper = new Element('div', {
+			'class': 'presets-scrollbar',
 			'styles': {
-				'position': 'absolute',
-				'left': 0,
-				'bottom': 0,
-				'width': Scroller.bar.getStyle('width'),
-				'height': Scroller.bar.getStyle('height')
+				'width': Scroller.bar.getSize().x
 			}
 		}).inject(Scroller.bar, 'before');
 
 		Scroller.getBarSize();
-		Scroller.bar.inject(Scroller.barWrapper).setStyles({'bottom': 1, 'left': 0});
+		Scroller.bar.inject(Scroller.barWrapper).setStyles({'left': 0});
 
 		Scroller.children(cls);
 
-		var deleters = $$('.delete-preset');
+		Scroller.slide[HookCookie == 'show' ? 'show' : 'hide']();
+
+		var deleters = document.getElements('.delete-preset');
 
 		deleters.each(function(deleter) {
 			deleter.addEvent('click', function(e) {
-				new Event(e).stop();
+				e.preventDefault();
 				Scroller.deleter(this, cls);
 			});
 		});
 
-		//PresetsBadges.init(cls);
-
-		if (Scroller.size > size.x) return;
-
 		Scroller.bar.setStyle('width', Scroller.size);
 		Scroller.drag(Scroller.wrapper, Scroller.bar);
 
-		document.id('contextual-preset-wrap').setStyles({'position': 'relative', 'top': 0, 'display': 'none'});
+		if (Scroller.size > size.x){
+			Scroller.barWrapper.setStyle('display', 'none');
+			Scroller.barWrapper.getPrevious('.scroller').setStyle('margin-bottom', 0);
+			Scroller.slide[HookCookie == 'show' ? 'show' : 'hide']();
+
+			return;
+		}
+
+
+	},
+
+	buttonText: function(txt){
+		Scroller.hook.set('text', txt);
 	},
 
 	deleter: function(item, cls) {
 		var key = item.id.replace('keydelete-', '');
+
+		item.getParent('.block').setStyle('opacity', 0.5);
 		new Request.HTML({
-			url: AdminURI + '?option=com_admin&tmpl=gantry-ajax-admin',
-			onSuccess: function(r) {Scroller.deleteAction(r, item, cls, key);}
+			url: GantryAjaxURL,
+			onSuccess: function(r) {
+				Scroller.deleteAction(r, item, cls, key);
+				growl.alert('Gantry', 'Preset "'+key+'" has been successfully deleted.', {duration: 6000});
+			}
 		}).post({
-			'action': 'gantry_admin',
+			action: 'gantry_admin',
 			'model': 'presets-saver',
 			'gantry_action': 'delete',
-			'template': Gantry.PresetsSaver.Template,
 			'preset-title': cls,
 			'preset-key': key
 		});
 	},
 
 	deleteAction: function(r, item, cls, key) {
+		var wrapperSize,
+			HookCookie = Cookie.read('gantry-'+GantryTemplate+'-adminpresets') || 'hide';
+
 		if (PresetsKeys[cls].contains(key)) {
 			item.dispose();
 		} else {
 			var block = item.getParent();
 			Scroller.childrens.erase(block);
-			var blockSize = block.getSize().x;
 			block.empty().dispose();
 
 			var last = Scroller.childrens.getLast().addClass('last');
 			var first = Scroller.childrens[0].addClass('first');
 
-			var wrapperSize = Scroller.wrapper.getStyle('width').toInt();
-			Scroller.wrapper.setStyle('width', wrapperSize - blockSize);
-			var overflow = Math.abs(Scroller.bar.getStyle('width').toInt() - Scroller.getBarSize());
+			wrapperSize = Scroller.wrapper.getStyle('width').toInt();
+			Scroller.wrapper.setStyle('width', wrapperSize - 200);
 			Scroller.bar.setStyle('width', Scroller.getBarSize());
-			if (Scroller.bar.getStyle('left').toInt() > Scroller.getBarSize() / 2) Scroller.bar.setStyle('left', Scroller.bar.getStyle('left').toInt() - overflow);
 		}
 
-		Scroller.wrapper.getParent().scrollTo(wrapperSize);
+		if (Scroller.size >= Scroller.wrapper.getParent().getSize().x){
+			Scroller.barWrapper.setStyle('display', 'none');
+			Scroller.barWrapper.getPrevious('.scroller').setStyle('margin-bottom', 0);
+			Scroller.slide[HookCookie == 'show' ? 'show' : 'hide']();
+		}
+
+		Scroller.bar.setStyle('left', -2 +(Scroller.barWrapper.getSize().x * Scroller.wrapper.getParent().getScroll().x / Scroller.wrapper.getParent().getScrollSize().x));
 
 		if (typeof CustomPresets != 'undefined' && CustomPresets[key]) delete CustomPresets[key];
 	},
@@ -210,7 +277,9 @@ var Scroller = {
 	},
 
 	addBlock: function(cls, key, value) {
-		var preset = Presets[cls].get(value);
+		var preset = Presets[cls].get(value),
+			HookCookie = Cookie.read('gantry-'+GantryTemplate+'-adminpresets') || 'hide';
+
 		if (!preset) {
 			if (document.id('contextual-preset-wrap').getStyle('display') == 'none') {
 				document.id('contextual-preset-wrap').setStyles({'position': 'absolute', 'top': -3000, 'display': 'block'});
@@ -226,24 +295,34 @@ var Scroller = {
 			var tmp = bg.split("/");
 
 			var img = tmp[tmp.length - 1];
-			var end = key + '.png")';
+			var end = 'url(' + key + '.png)';
 			var fin = tmp.join("/").replace(img, end);
 
-			newBlock.getFirst().setStyle('background-image', '');
-			newBlock.getFirst().setStyle('background-image', fin);
+			newBlock.getElement('.presets-bg').setStyle('background-image', '');
+			newBlock.getElement('.presets-bg').setStyle('background-image', fin);
 
 			var wrapperSize = Scroller.wrapper.getStyle('width').toInt();
 			var blockSize = newBlock.getSize().x;
-			Scroller.wrapper.setStyle('width', wrapperSize + 198);
+			Scroller.wrapper.setStyle('width', wrapperSize + 200);
 
 			Scroller.bar.setStyle('width', Scroller.getBarSize());
 			Scroller.childrens.push(newBlock);
 
+			if (Scroller.size >= Scroller.wrapper.getParent().getSize().x){
+				Scroller.barWrapper.setStyle('display', 'none');
+				Scroller.barWrapper.getPrevious('.scroller').setStyle('margin-bottom', 0);
+				Scroller.slide[HookCookie == 'show' ? 'show' : 'hide']();
+			} else {
+				Scroller.barWrapper.setStyle('display', 'block');
+				Scroller.barWrapper.getPrevious('.scroller').setStyle('margin-bottom', null);
+				Scroller.slide[HookCookie == 'show' ? 'show' : 'hide']();
+			}
+
 			Scroller.child(cls, newBlock);
 
-			var x = new Element('div', {id: 'keydelete-' + key, 'class': 'delete-preset'}).set('html', '<span>X</span>').inject(newBlock);
+			var x = new Element('div', {id: 'keydelete-' + key, 'class': 'delete-preset'}).set('html', '<span>&times;</span>').inject(newBlock);
 			x.addEvent('click', function(e) {
-				new Event(e).stop();
+				e.stop();
 				Scroller.deleter(this, cls);
 			});
 
@@ -256,6 +335,7 @@ var Scroller = {
 	drag: function(wrapper, bar) {
 		Scroller.dragger = new Drag.Move(bar, {
 			container: Scroller.barWrapper,
+			modifiers: {x: 'left', y: false},
 			onDrag: function() {
 				var parent = Scroller.wrapper.getParent();
 				var size = parent.getSize();
@@ -269,45 +349,73 @@ var Scroller = {
 	},
 
 	child: function(cls, child) {
-		child.getFirst().setStyle('border', '1px solid #000');
-		var fx = new Fx.Tween(child.getFirst(), {duration: 300}).set('border-color', '#000');
 		child.addEvent('click', function(e) {
-
-			new Event(e).stop();
-
-		fx.start('border-color', '#fff')
-			.chain(function() {this.start('border-color', '#000');})
-			.chain(function() {this.start('border-color', '#fff');})
-			.chain(function() {this.start('border-color', '#000');});
-
+			e.preventDefault();
 			Scroller.updateParams(cls, child);
+
+			this.addClass('pulsing');
+			this.removeClass.delay(250, this, 'pulsing');
+			this.addClass.delay(500, this, 'pulsing');
+			this.removeClass.delay(750, this, 'pulsing');
 		});
 	},
 
 	children: function(cls) {
 		Scroller.childrens.each(function(child, i) {
-			child.getFirst().setStyle('border', '1px solid #000');
-			var fx = new Fx.Tween(child.getFirst(), {duration: 300}).set('border-color', '#000');
-
 			Scroller.labs = new Hash({});
-			Scroller.involved = $$('.presets-involved');
+			Scroller.involved = document.getElements('.presets-involved');
 			Scroller.involvedFx = [];
 			Scroller.involved.each(function(inv) {
 				Scroller.involvedFx.push(new Fx.Tween(inv, {link: 'cancel'}).set('opacity', 0));
 			});
 
 			child.addEvent('click', function(e) {
-				new Event(e).stop();
-
-				fx.start('border-color', '#fff')
-					.chain(function() {this.start('border-color', '#000');})
-					.chain(function() {this.start('border-color', '#fff');})
-					.chain(function() {this.start('border-color', '#000');});
-
-
+				e.preventDefault();
 				Scroller.updateParams(cls, child, i);
+
+				this.addClass('pulsing');
+				this.removeClass.delay(250, this, 'pulsing');
+				this.addClass.delay(500, this, 'pulsing');
+				this.removeClass.delay(750, this, 'pulsing');
 			});
 		});
+	},
+
+	attachResize: function(){
+		if (window.retrieve('gantry:presets:resize')) return;
+
+		window.store('gantry:presets:resize', true);
+		window.addEvent('resize', Scroller.resize);
+		Scroller.resize.delay(5, Scroller.resize);
+	},
+
+	detachResize: function(){
+		if (!window.retrieve('gantry:presets:resize')) return;
+
+		window.store('gantry:presets:resize', false);
+		window.removeEvent('resize', Scroller.resize);
+	},
+
+	resize: function(){
+		var winsize = document.id('hack-panel').getSize().x,
+			HookCookie = Cookie.read('gantry-'+GantryTemplate+'-adminpresets') || 'hide';
+
+		winsize = winsize >= 1000 ? 1000 : winsize - 30;
+
+		Scroller.barWrapper.setStyle('width', winsize);
+		Scroller.barWrapper.getParent('.presets').setStyle('width', winsize);
+		Scroller.bar.setStyle('width', Scroller.getBarSize());
+		Scroller.bar.setStyle('left', -2 +(Scroller.barWrapper.getSize().x * Scroller.wrapper.getParent().getScroll().x / Scroller.wrapper.getParent().getScrollSize().x));
+
+		if (Scroller.size >= Scroller.wrapper.getParent().getSize().x){
+			Scroller.barWrapper.setStyle('display', 'none');
+			Scroller.barWrapper.getPrevious('.scroller').setStyle('margin-bottom', 0);
+			Scroller.slide[HookCookie == 'show' ? 'show' : 'hide']();
+		} else {
+			Scroller.barWrapper.setStyle('display', 'block');
+			Scroller.barWrapper.getPrevious('.scroller').setStyle('margin-bottom', null);
+			Scroller.slide[HookCookie == 'show' ? 'show' : 'hide']();
+		}
 	},
 
 	updateParams: function(cls, child, index) {
@@ -339,7 +447,7 @@ var Scroller = {
 			});
 		});
 
-		$H(preset).each(function(value, key) {
+		new Hash(preset).each(function(value, key) {
 
 			if (key == 'name') return;
 			var el = document.id(GantryParamsPrefix + key.replace(/-/, '_'));
@@ -348,8 +456,7 @@ var Scroller = {
 			if (!labels.get(keyPreset)) labels.set(keyPreset, []);
 			var type = el.get('tag');
 
-			var panel = el.getParent('.gantry-panel').className.replace(/[panel|\-|\s|gantry]/g, '').toInt() - 1;
-//			panel = panel.trim().clean() - 1;
+			var panel = el.getParent('.g4-panel').className.replace(/[panel|\-|\s|g4]/g, '').toInt() - 1;
 
 			if (!currentParams[panel]) currentParams[panel] = 0;
 			currentParams[panel]++;
@@ -362,45 +469,41 @@ var Scroller = {
 
 			if (!lKey.contains(label)) lKey.push(label);
 			if (!label.retrieve('gantry:notice', false)) {
-				label.store('gantry:text', label.get('text'));
-				label.set('html', '<span class="preset-info">&#9679;</span> ' + label.retrieve('gantry:text'));
+				label.store('gantry:text', label.get('html'));
+				label.set('html', '<span class="preset-info"></span> ' + label.retrieve('gantry:text'));
 				label.store('gantry:notice', true);
-			}
-
-			if (master && Gantry.MenuItemHead) Gantry.MenuItemHead.getCheckbox(key).fireEvent('switchon');
-
-			var inherit_input = el.retrieve('gantry:override_checkbox'),
-				inherit_input_obj = null;
-
-			if (inherit_input){
-				inherit_input_obj = inherit_input.retrieve('gantry:fields');
-				inherit_input_obj[el.id] = value;
-				inherit_input.store('gantry:fields', inherit_input_obj);
 			}
 
 			switch(type) {
 				case 'select':
-					var values = el.getElements('option').getProperty('value');
-					var objs = selectboxes.getObjects(el.getParent());
-					selectboxes.select(objs, values.indexOf(value));
-
+					//var values = el.getElements('option').getProperty('value');
+					//var objs = selectboxes.getObjects(el.getParent());
+					//selectboxes.select(objs, values.indexOf(value));
+					el.set('value', value);
+					el.fireEvent('change');
+					if (typeof jQuery != 'undefined') jQuery("#" + el.id).trigger("liszt:updated");
 					break;
 
 				case 'input':
-					var cls = el.getProperty('class');
+					var cls = el.get('class');
 					el.set('value', value);
 
 					if (cls.contains('picker-input')) {
-						document.id(el).getParent().fireEvent('mouseenter');
-						el.fireEvent('set', value);
+						document.getElement('[data-moorainbow-trigger=' + el.id + '] .overlay').setStyle('background-color', value);
+					} else if (cls.contains('background-picker')){
+						el.fireEvent('keyup', value);
 					} else if (cls.contains('slider')) {
-						var slider = window.sliders[(GantryParamsPrefix + key.replace(/-/, '_')).replace("-", "_")];
+						var slider = window.sliders[(GantryParamsPrefix + key)];
 						slider.set(slider.list.indexOf(value));
 						slider.hiddenEl.fireEvent('set', value);
 					} else if (cls.contains('toggle')) {
-						var n = (GantryParamsPrefix + key.replace(/-/, '_')).replace("-", '');
-						window['toggle' + n].set(value.toInt());
-						window['toggle' + n].fireEvent('onChange', value.toInt());
+						el.set('value', value);
+						el.getParent('.toggle').removeClass('toggle-off').removeClass('toggle-on').addClass(value == '1' ? 'toggle-on' : 'toggle-off');
+						//var field = (GantryParamsPrefix + key.replace(/-/, '_')).replace("-", '');
+						//field = document.id(field);
+						//field.getParent('.toggle-container').fireEvent('mouseenter');
+						//field.fireEvent('set', [field.retrieve('details'), value.toInt()]);
+						//field.fireEvent('onChange', value.toInt());
 					}
 
 					break;
@@ -413,7 +516,7 @@ var Scroller = {
 			var value = inv.get('text').toInt();
 			if (!value) {
 				Scroller.involvedFx[i].element.getParent().removeClass('double-badge');
-				Scroller.involvedFx[i].cancel().start('opacity', [1, 0]).chain(function() { Scroller.involvedFx[i].element.setStyle('visibility', 'hidden'); this.element.setStyle('display', 'none');});
+				Scroller.involvedFx[i].cancel().start('opacity', [1, 0]).chain(function() { this.element.setStyle('display', 'none');});
 				return;
 			}
 
@@ -421,7 +524,7 @@ var Scroller = {
 			if (overrides && overrides.getStyle('display') == 'block') Scroller.involvedFx[i].element.getParent().addClass('double-badge');
 			else Scroller.involvedFx[i].element.getParent().removeClass('double-badge');
 			inv.setStyle('display', 'block');
-			Scroller.involvedFx[i].element.setStyle('visibility', 'visible');
+			Scroller.involvedFx[i].element.setStyles({'visibility': 'visible', 'display': 'block', opacity: 0});
 			Scroller.involvedFx[i].start('opacity', [0, 1]);
 		});
 	}
@@ -457,21 +560,21 @@ var PresetsBadges = {
 
 		button.addEvents({
 			'click': function(e) {
-				new Event(e).stop();
+				e.preventDefault()
 
 				this.fireEvent('toggle');
 			},
 
 			'show': function() {
 				this.getElement('.number').setStyle('visibility', 'visible');
-				$$(PresetsBadges.list.get(cls)).setStyle('display', 'block');
+				document.getElements(PresetsBadges.list.get(cls)).setStyle('display', 'block');
 
 				this.showing = true;
 			},
 
 			'hide': function() {
 				this.getElement('.number').setStyle('visibility', 'hidden');
-				$$(PresetsBadges.list.get(cls)).setStyle('display', 'none');
+				document.getElements(PresetsBadges.list.get(cls)).setStyle('display', 'none');
 
 				this.showing = false;
 			},
@@ -498,7 +601,7 @@ var PresetsBadges = {
 			label.getElement('.hasTip').setStyle('line-height', height + 15);
 		}
 
-		var text = (parent) ? parent.getElement('.hasTip').innerHTML : GantryLang['show_parameters'];
+		var text = (parent) ? parent.getElement('.hasTip').innerHTML : GantryLang.show_parameters;
 
 		badge = new Element('div', {'class': 'presets-badge'}).inject(wrapper, 'top');
 

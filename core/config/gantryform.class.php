@@ -1,8 +1,8 @@
 <?php
 /**
- * @version        $Id: gantryform.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version        $Id: gantryform.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author         RocketTheme http://www.rockettheme.com
- * @copyright      Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright      Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license        http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * derived from Joomla with original copyright and license
@@ -366,7 +366,7 @@ class GantryForm
 
 		if ($group) {
 			// Get the fields elements for a given group.
-			$elements = & $this->findGroup($group);
+			$elements = $this->findGroup($group);
 
 			foreach ($elements as & $element) {
 				// Get an array of <fieldset /> elements and fieldset attributes within the fields element.
@@ -624,7 +624,7 @@ class GantryForm
 				$groups = array_map('strval', $attrs ? $attrs : array());
 
 				// Check to see if the field exists in the current form.
-				if ($current = & $this->findField((string)$field['name'], implode('.', $groups))) {
+				if ($current = $this->findField((string)$field['name'], implode('.', $groups))) {
 
 					// If set to replace found fields remove it from the current definition.
 					if ($replace) {
@@ -728,7 +728,7 @@ class GantryForm
 		}
 
 		// Get the fields elements for a given group.
-		$elements = & $this->findGroup($group);
+		$elements = $this->findGroup($group);
 		foreach ($elements as & $element) {
 			$dom = dom_import_simplexml($element);
 			$dom->parentNode->removeChild($dom);
@@ -785,7 +785,7 @@ class GantryForm
 		}
 
 		// Find the form field element from the definition.
-		$old = & $this->findField((string)$element['name'], $group);
+		$old = $this->findField((string)$element['name'], $group);
 
 		// If an existing field is found and replace flag is false do nothing and return true.
 		if (!$replace && !empty($old)) {
@@ -803,7 +803,7 @@ class GantryForm
 		if ($group) {
 
 			// Get the fields elements for a given group.
-			$fields = & $this->findGroup($group);
+			$fields = $this->findGroup($group);
 
 			// If an appropriate fields element was found for the group, add the element.
 			if (isset($fields[0]) && ($fields[0] instanceof GantrySimpleXMLElement)) {
@@ -840,7 +840,7 @@ class GantryForm
 		}
 
 		// Find the form field element from the definition.
-		$element = & $this->findField($name, $group);
+		$element = $this->findField($name, $group);
 
 		// If the element doesn't exist return false.
 		if (!$element instanceof GantrySimpleXMLElement) {
@@ -1061,7 +1061,7 @@ class GantryForm
 		if ($group) {
 
 			// Get the fields elements for a given group.
-			$elements = & $this->findGroup($group);
+			$elements =  $this->findGroup($group);
 
 			// Get all of the field elements with the correct name for the fields elements.
 			foreach ($elements as $element) {
@@ -1170,7 +1170,7 @@ class GantryForm
 		if ($group) {
 
 			// Get the fields elements for a given group.
-			$elements = & $this->findGroup($group);
+			$elements = $this->findGroup($group);
 
 			// Get all of the field elements for the fields elements.
 			foreach ($elements as $element) {
@@ -1425,8 +1425,7 @@ class GantryForm
 			$data = trim($data);
 
 			if (empty($data)) {
-				//TODO display error
-				//throw new Exception('JLIB_FORM_ERROR_NO_DATA');
+				throw new Exception(_g('JLIB_FORM_ERROR_NO_DATA'));
 			}
 
 			// Instantiate the form.
@@ -1435,8 +1434,8 @@ class GantryForm
 			// Load the data.
 			if (substr(trim($data), 0, 1) == '<') {
 				if ($forms[$name]->load($data, $replace, $xpath) == false) {
-					//TODO display error
-					//throw new Excpetion('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD');
+					throw new Exception(_g( 'JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD'));
+
 					return false;
 				}
 			} else {

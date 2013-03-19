@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrywidget.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantrywidget.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -146,6 +146,7 @@ class GantryWidget extends WP_Widget
 	{
 		gantry_import('core.config.gantryform');
 
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$defaults = $this->_defaults;

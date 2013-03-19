@@ -1,13 +1,13 @@
 <?php
 /**
- * @version $Id: ini.php 58595 2012-12-11 19:59:45Z btowles $
- * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ * @version        $Id: ini.php 59361 2013-03-13 23:10:27Z btowles $
+ * @author         RocketTheme http://www.rockettheme.com
+ * @copyright      Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @license        http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * derived from Joomla with original copyright and license
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright      Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
@@ -16,9 +16,9 @@ defined('GANTRY_VERSION') or die;
 /**
  * INI format handler for GantryRegistry.
  *
- * @package		Joomla.Framework
- * @subpackage	Registry
- * @since		1.5
+ * @package        Joomla.Framework
+ * @subpackage     Registry
+ * @since          1.5
  */
 class GantryRegistryFormatINI extends GantryRegistryFormat
 {
@@ -26,14 +26,15 @@ class GantryRegistryFormatINI extends GantryRegistryFormat
 
 	/**
 	 * Converts an object into an INI formatted string
-	 *	-	Unfortunately, there is no way to have ini values nested further than two
-	 *		levels deep.  Therefore we will only go through the first two levels of
-	 *		the object.
+	 *    -    Unfortunately, there is no way to have ini values nested further than two
+	 *        levels deep.  Therefore we will only go through the first two levels of
+	 *        the object.
 	 *
-	 * @param	object	Data source object.
-	 * @param	array	Options used by the formatter.
-	 * @return	string	INI formatted string.
-	 * @since	1.5
+	 * @param    object    Data source object.
+	 * @param    array     Options used by the formatter.
+	 *
+	 * @return    string    INI formatted string.
+	 * @since    1.5
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -47,15 +48,15 @@ class GantryRegistryFormatINI extends GantryRegistryFormat
 			if (is_object($value)) {
 				// Add the section line.
 				$local[] = '';
-				$local[] = '['.$key.']';
+				$local[] = '[' . $key . ']';
 
 				// Add the properties for this section.
 				foreach (get_object_vars($value) as $k => $v) {
-					$local[] = $k.'='.$this->_getValueAsINI($v);
+					$local[] = $k . '=' . $this->_getValueAsINI($v);
 				}
 			} else {
 				// Not in a section so add the property to the global array.
-				$global[] = $key.'='.$this->_getValueAsINI($value);
+				$global[] = $key . '=' . $this->_getValueAsINI($value);
 			}
 		}
 
@@ -65,10 +66,11 @@ class GantryRegistryFormatINI extends GantryRegistryFormat
 	/**
 	 * Parse an INI formatted string and convert it into an object.
 	 *
-	 * @param	string	INI formatted string to convert.
-	 * @param	mixed	An array of options used by the formatter, or a boolean setting to process sections.
-	 * @return	object	Data object.
-	 * @since	1.5
+	 * @param    string    INI formatted string to convert.
+	 * @param    mixed     An array of options used by the formatter, or a boolean setting to process sections.
+	 *
+	 * @return    object    Data object.
+	 * @since    1.5
 	 */
 	public function stringToObject($data, $options = array())
 	{
@@ -77,11 +79,11 @@ class GantryRegistryFormatINI extends GantryRegistryFormat
 			$sections = (isset($options['processSections'])) ? $options['processSections'] : false;
 		} else {
 			// Backward compatibility for 1.5 usage.
-			$sections = (boolean) $options;
+			$sections = (boolean)$options;
 		}
 
 		// Check the memory cache for already processed strings.
-		$hash = md5($data.':'.(int) $sections);
+		$hash = md5($data . ':' . (int)$sections);
 		if (isset(self::$cache[$hash])) {
 			return self::$cache[$hash];
 		}
@@ -92,9 +94,9 @@ class GantryRegistryFormatINI extends GantryRegistryFormat
 		}
 
 		// Initialize variables.
-		$obj = new stdClass();
+		$obj     = new stdClass();
 		$section = false;
-		$lines = explode("\n", $data);
+		$lines   = explode("\n", $data);
 
 		// Process the lines.
 		foreach ($lines as $line) {
@@ -110,8 +112,8 @@ class GantryRegistryFormatINI extends GantryRegistryFormat
 				$length = strlen($line);
 
 				// If we are processing sections and the line is a section add the object and continue.
-				if (($line[0] == '[') && ($line[$length-1] == ']')) {
-					$section = substr($line, 1, $length-2);
+				if (($line[0] == '[') && ($line[$length - 1] == ']')) {
+					$section       = substr($line, 1, $length - 2);
 					$obj->$section = new stdClass();
 					continue;
 				}
@@ -136,9 +138,9 @@ class GantryRegistryFormatINI extends GantryRegistryFormat
 
 			// If the value is quoted then we assume it is a string.
 			$length = strlen($value);
-			if ($length && ($value[0] == '"') && ($value[$length-1] == '"')) {
+			if ($length && ($value[0] == '"') && ($value[$length - 1] == '"')) {
 				// Strip the quotes and Convert the new line characters.
-				$value = stripcslashes(substr($value, 1, ($length-2)));
+				$value = stripcslashes(substr($value, 1, ($length - 2)));
 				$value = str_replace('\n', "\n", $value);
 			} else {
 				// If the value is not quoted, we assume it is not a string.
@@ -146,19 +148,16 @@ class GantryRegistryFormatINI extends GantryRegistryFormat
 				// If the value is 'false' assume boolean false.
 				if ($value == 'false') {
 					$value = false;
-				}
-				// If the value is 'true' assume boolean true.
+				} // If the value is 'true' assume boolean true.
 				elseif ($value == 'true') {
 					$value = true;
-				}
-				// If the value is numeric than it is either a float or int.
+				} // If the value is numeric than it is either a float or int.
 				elseif (is_numeric($value)) {
 					// If there is a period then we assume a float.
 					if (strpos($value, '.') !== false) {
-						$value = (float) $value;
-					}
-					else {
-						$value = (int) $value;
+						$value = (float)$value;
+					} else {
+						$value = (int)$value;
 					}
 				}
 			}
@@ -180,9 +179,10 @@ class GantryRegistryFormatINI extends GantryRegistryFormat
 	/**
 	 * Method to get a value in an INI format.
 	 *
-	 * @param	mixed	The value to convert to INI format.
-	 * @return	string	The value in INI format.
-	 * @since	1.6
+	 * @param    mixed    The value to convert to INI format.
+	 *
+	 * @return    string    The value in INI format.
+	 * @since    1.6
 	 */
 	protected function _getValueAsINI($value)
 	{
@@ -201,7 +201,7 @@ class GantryRegistryFormatINI extends GantryRegistryFormat
 
 			case 'string':
 				// Sanitize any CRLF characters..
-				$string = '"'.str_replace(array("\r\n", "\n"), '\\n', $value).'"';
+				$string = '"' . str_replace(array("\r\n", "\n"), '\\n', $value) . '"';
 				break;
 		}
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: AbstractRokMenuFormatter.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: AbstractRokMenuFormatter.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -22,7 +22,6 @@ abstract class AbstractRokMenuFormatter implements RokMenuFormatter
 
 	/**
 	 * @param  $args
-	 *
 	 * @return void
 	 */
 	public function __construct(&$args)
@@ -32,7 +31,6 @@ abstract class AbstractRokMenuFormatter implements RokMenuFormatter
 
 	/**
 	 * @param  $current_node
-	 *
 	 * @return void
 	 */
 	public function setCurrentNodeId($current_node)
@@ -42,7 +40,6 @@ abstract class AbstractRokMenuFormatter implements RokMenuFormatter
 
 	/**
 	 * @param  $active_branch
-	 *
 	 * @return void
 	 */
 	public function setActiveBranch(array $active_branch)
@@ -52,17 +49,18 @@ abstract class AbstractRokMenuFormatter implements RokMenuFormatter
 
 	/**
 	 * @param  $menu
-	 *
 	 * @return void
 	 */
 	public function format_tree(&$menu)
 	{
-		if (!empty($menu) && $menu !== false) {
+        if (!empty($menu) && $menu !== false)
+        {
 			$this->_default_format_menu($menu);
 			$this->format_menu($menu);
 
 			$nodeIterator = new RecursiveIteratorIterator($menu, RecursiveIteratorIterator::SELF_FIRST);
-			foreach ($nodeIterator as $node) {
+            foreach ($nodeIterator as $node)
+            {
 				$this->_format_subnodes($node);
 			}
 		}
@@ -71,15 +69,16 @@ abstract class AbstractRokMenuFormatter implements RokMenuFormatter
 
 	/**
 	 * @param  $node
-	 *
 	 * @return void
 	 */
 	protected function _format_subnodes(&$node)
 	{
-		if ($node->getId() == $this->current_node) {
+        if ($node->getId() == $this->current_node)
+        {
 			$node->setCssId('current');
 		}
-		if (array_key_exists($node->getId(), $this->active_branch)) {
+        if (array_key_exists($node->getId(), $this->active_branch))
+        {
 			$node->addListItemClass('active');
 		}
 		$this->format_subnode($node);
@@ -87,7 +86,6 @@ abstract class AbstractRokMenuFormatter implements RokMenuFormatter
 
 	/**
 	 * @param  $menu
-	 *
 	 * @return void
 	 */
 	protected function _default_format_menu(&$menu)
@@ -96,21 +94,27 @@ abstract class AbstractRokMenuFormatter implements RokMenuFormatter
 		$start = $this->args['startLevel'];
 		$end   = $this->args['endLevel'];
 
-		if ($this->args['limit_levels']) {
+        if ($this->args['limit_levels'])
+        {
 			//Limit to the active path if the start is more the level 0
-			if ($start > 0) {
+            if ($start > 0)
+            {
 				$found = false;
 				// get active path and find the start level that matches
-				if (count($this->active_branch)) {
-					foreach ($this->active_branch as $active_child) {
-						if ($active_child->getLevel() == $start - 1) {
+                if (count($this->active_branch))
+                {
+                    foreach ($this->active_branch as $active_child)
+                    {
+                        if ($active_child->getLevel() == $start - 1)
+                        {
 							$menu->resetTop($active_child->getId());
 							$found = true;
 							break;
 						}
 					}
 				}
-				if (!$found) {
+                if (!$found)
+                {
 					$menu->setChildren(array());
 				}
 			}
@@ -119,24 +123,37 @@ abstract class AbstractRokMenuFormatter implements RokMenuFormatter
 		}
 
 		$always_show_menu = false;
-		if (!array_key_exists('showAllChildren', $this->args) && $start == 0) {
+        if (!array_key_exists('showAllChildren', $this->args) && $start==0)
+        {
 			$always_show_menu = true;
-		} elseif (array_key_exists('showAllChildren', $this->args)) {
+        }
+        elseif (array_key_exists('showAllChildren', $this->args))
+        {
 			$always_show_menu = $this->args['showAllChildren'];
 		}
 
-		if (!$always_show_menu) {
-			if ($menu->hasChildren()) {
-				if (count($this->active_branch) == 0 || empty($this->active_branch)) {
+        if (!$always_show_menu)
+        {
+            if ($menu->hasChildren())
+            {
+                if (count($this->active_branch) == 0 || empty($this->active_branch))
+                {
 					$menu->removeLevel($start);
-				} else {
+                }
+                else
+                {
 					$active = array_keys($this->active_branch);
-					foreach ($menu->getChildren() as $toplevel) {
-						if (array_key_exists($toplevel->getId(), $this->active_branch) !== false) {
+                    foreach ($menu->getChildren() as $toplevel)
+                    {
+                        if (array_key_exists($toplevel->getId(), $this->active_branch) !== false)
+                        {
 							end($active);
 							$menu->removeIfNotInTree($active, current($active));
-						} else {
-							if (count($this->active_branch) > 0) $menu->removeLevelFromNonActive($this->active_branch, end($this->active_branch)->getLevel());
+                        }
+                        else
+                        {
+                            if (count($this->active_branch) > 0)
+                                $menu->removeLevelFromNonActive($this->active_branch, end($this->active_branch)->getLevel());
 						}
 					}
 				}
@@ -146,7 +163,6 @@ abstract class AbstractRokMenuFormatter implements RokMenuFormatter
 
 	/**
 	 * @param  $menu
-	 *
 	 * @return void
 	 */
 	public function format_menu(&$menu)

@@ -1,13 +1,14 @@
 <?php
 /**
- * @version   $Id: widgets.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: widgets.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
 defined('GANTRY_VERSION') or die();
 
+/** @global $gantry Gantry */
 global $gantry;
 
 $action = $_POST['gantry_action'];
@@ -21,9 +22,7 @@ $action = $_POST['gantry_action'];
  * @param array $sidebars_widgets Sidebar widgets and their settings.
  */
 
-gantry_import('core.utilities.gantrycache');
-$cache = GantryCache::getInstance();
-$cache->clear('gantry', 'gantry');
+gantry_admin_clear_cache();
 
 switch ($action) {
 	case 'create-new':
@@ -193,10 +192,11 @@ function gantry_widgets_save($batch = false)
 
 
 		$sidebar = array_diff($sidebar, array($widget_id));
-		$_POST   = array('sidebar'            => $sidebar_id,
-		                 'widget-' . $id_base => array(),
-		                 'the-widget-id'      => $widget_id,
-		                 'delete_widget'      => '1'
+		$_POST   = array(
+			'sidebar'            => $sidebar_id,
+			'widget-' . $id_base => array(),
+			'the-widget-id'      => $widget_id,
+			'delete_widget'      => '1'
 		);
 	} elseif ($settings && preg_match('/__i__|%i%/', key($settings))) {
 		if (!$multi_number) {
@@ -237,7 +237,7 @@ function gantry_widgets_save($batch = false)
 	}
 
 	if (!empty($_POST['add_new'])) {
-		if (!batch) die();
+		if (!$batch) die();
 		return;
 	}
 

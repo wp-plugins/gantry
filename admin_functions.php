@@ -1,13 +1,14 @@
 <?php
 /**
- * @version   $Id: admin_functions.php 58636 2012-12-16 20:22:27Z btowles $
+ * @version   $Id: admin_functions.php 59376 2013-03-14 19:43:34Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
 function gantry_admin_init()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$gantry->adminInit();
 }
@@ -20,7 +21,7 @@ function gantry_can_render_admin()
 		$gantry_pages = array(
 			"widgets",
 			"toplevel_page_gantry-theme-settings",
-			get_plugin_page_hook("gantry-theme-overrides", null)
+			get_plugin_page_hook("gantry-theme-settings", null)
 		);
 	}
 	return in_array($current_screen->id, $gantry_pages);
@@ -30,6 +31,7 @@ function gantry_can_render_admin()
 // Put the header token in the admin header
 function gantry_admin_head()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	if (gantry_can_render_admin()) {
 		echo $gantry->displayHead();
@@ -39,6 +41,7 @@ function gantry_admin_head()
 // Run the finalize for the admin side
 function gantry_admin_end()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	if (gantry_can_render_admin()) {
 		$gantry->finalizeAdmin();
@@ -47,6 +50,7 @@ function gantry_admin_end()
 
 function gantry_admin_register_theme_settings()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 
 	//    if (isset($_GET['page']) && $_GET['page'] == $gantry->templateName . '-settings') {
@@ -65,36 +69,37 @@ function gantry_admin_start_buffer()
 function gantryLang()
 {
 	global $ajaxurl, $gantry;
-	return "
-		var AdminURI = '" . $ajaxurl . "';
-		var GantryURL = '" . $gantry->gantryUrl . "';
-		var GantryParamsPrefix = '" . $gantry->templateName . "-template_options_';
-        var GantryLang = {
-            'preset_title': '" . _g('Gantry Presets Saver') . "',
-            'preset_select': '" . _g('Select the Presets you want to save and choose a new name for them. Hit "skip" on a Presets section if you do not want to save as new that specific Preset.') . "',
-            'preset_name': '" . _g('Preset Name') . "',
-            'key_name': '" . _g('Key Name') . "',
-            'preset_naming': '" . _g('Preset Naming for') . "',
-            'preset_skip': '" . _g('Skip') . "',
-            'success_save': '" . _g('NEW PRESET SAVED WITH SUCCESS!') . "',
-            'success_msg': '" . _g('<p>The new Presets have been successfully saved and they are ready to be used right now. You will find them from the list of the respective presets.</p><p>Click "Close" button below to close this window.</p>') . "',
-            'fail_save': '" . _g('SAVE FAILED') . "',
-            'fail_msg': '" . _g('<p>It looks like the saving of the new Preset did not succeed. Make sure your theme folder and "custom/presets.ini" at your theme folder root have write permissions.</p><p>Once you think you have fixed the permission, hit the button "Retry" below.</p><p>If it still fails, please ask for support on RocketTheme forums</p>') . "',
-            'cancel': '" . _g('Cancel') . "',
-            'save': '" . _g('Save') . "',
-            'retry': '" . _g('Retry') . "',
-            'close': '" . _g('Close') . "',
-            'show_parameters': '" . _g('Show Involved Params') . "',
-			'are_you_sure': '" . _g('This will delete all widgets and settings for this override.  Are you sure you want to do this?') . "'
-        };
-    ";
+	return "";
+//		var AdminURI = '" . $ajaxurl . "';
+//		var GantryURL = '" . $gantry->gantryUrl . "';
+//		var GantryParamsPrefix = '" . $gantry->templateName . "-template_options_';
+//        var GantryLang = {
+//            'preset_title': '" . _g('Gantry Presets Saver') . "',
+//            'preset_select': '" . _g('Select the Presets you want to save and choose a new name for them. Hit "skip" on a Presets section if you do not want to save as new that specific Preset.') . "',
+//            'preset_name': '" . _g('Preset Name') . "',
+//            'key_name': '" . _g('Key Name') . "',
+//            'preset_naming': '" . _g('Preset Naming for') . "',
+//            'preset_skip': '" . _g('Skip') . "',
+//            'success_save': '" . _g('NEW PRESET SAVED WITH SUCCESS!') . "',
+//            'success_msg': '" . _g('<p>The new Presets have been successfully saved and they are ready to be used right now. You will find them from the list of the respective presets.</p><p>Click "Close" button below to close this window.</p>') . "',
+//            'fail_save': '" . _g('SAVE FAILED') . "',
+//            'fail_msg': '" . _g('<p>It looks like the saving of the new Preset did not succeed. Make sure your theme folder and "custom/presets.ini" at your theme folder root have write permissions.</p><p>Once you think you have fixed the permission, hit the button "Retry" below.</p><p>If it still fails, please ask for support on RocketTheme forums</p>') . "',
+//            'cancel': '" . _g('Cancel') . "',
+//            'save': '" . _g('Save') . "',
+//            'retry': '" . _g('Retry') . "',
+//            'close': '" . _g('Close') . "',
+//            'show_parameters': '" . _g('Show Involved Params') . "',
+//			'are_you_sure': '" . _g('This will delete all widgets and settings for this override.  Are you sure you want to do this?') . "'
+//        };
+//    ";
 }
 
 function gantry_admin_menu()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	add_menu_page($gantry->get('template_author', 'RocketTheme') . ' ' . $gantry->get('template_full_name') . ' Theme Settings', $gantry->get('template_full_name') . ' Theme', 'edit_theme_options', 'gantry-theme-settings', 'gantry_show_theme_settings', $gantry->gantryUrl . '/admin/rt_fav.png');
-	add_submenu_page('gantry-theme-settings', $gantry->get('template_author', 'RocketTheme') . ' ' . $gantry->get('template_full_name') . ' Theme Override Settings', '', 'edit_theme_options', 'gantry-theme-overrides', 'gantry_show_theme_override_settings');
+	//add_submenu_page('gantry-theme-settings', $gantry->get('template_author', 'RocketTheme') . ' ' . $gantry->get('template_full_name') . ' Theme Override Settings', '', 'edit_theme_options', 'gantry-theme-overrides', 'gantry_show_theme_override_settings');
 	add_action('admin_head', 'gantry_remove_menu_items');
 }
 
@@ -106,12 +111,14 @@ function gantry_remove_menu_items()
 
 function gantry_show_theme_settings()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	include($gantry->gantryPath . '/admin/index.php');
 }
 
 function gantry_show_theme_override_settings()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	include($gantry->gantryPath . '/admin/override.php');
 }
@@ -128,32 +135,51 @@ function gantry_show_theme_override_settings()
 function gantry_add_widget_styles_action(&$instance, &$return, $values)
 {
 	if ($return != "noform") {
+		/** @global $gantry Gantry */
 		global $gantry;
 		$widget_styles = $gantry->getWidgetStyles();
 		foreach ($widget_styles as $style_info) :
 			if (!array_key_exists($style_info['name'], $values)) $values[$style_info['name']] = '';
 			?>
 			<p>
-				<label for="<?php echo $instance->get_field_id($style_info['name']);?>"><?php _ge($style_info['label']);?></label>
+				<label for="<?php echo $instance->get_field_id($style_info['name']); ?>"><?php _ge($style_info['label']);?></label>
 				<select id="<?php echo $instance->get_field_id($style_info['name']); ?>"
-				        name="<?php echo $instance->get_field_name($style_info['name'])?>">
+				        name="<?php echo $instance->get_field_name($style_info['name']) ?>">
 					<option value="" <?php if (empty($values[$style_info['name']])): ?>
 						selected="selected"<?php endif;?>>-
 					</option>
 					<?php foreach ($style_info['styles'] as $style_name => $style_label): ?>
-						<option value="<?php echo $style_name;?>" <?php if ($values[$style_info['name']] == $style_name): ?>
+						<option value="<?php echo $style_name; ?>" <?php if ($values[$style_info['name']] == $style_name): ?>
 							selected="selected"<?php endif;?>><?php _re($style_label);?></option>
 					<?php endforeach; ?>
 				</select>
 			</p>
 		<?php
 		endforeach;
-		if ($gantry->get('custom_widget_variations')) : ?>
+		$widget_chromes = $gantry->_template->getWidgetChromes();
+		if (!empty($widget_chromes)):
+			if (!array_key_exists('widget_chrome', $values)) $values['widget_chrome'] = '';?>
 			<p>
-				<label for="<?php echo $instance->get_field_id('custom-variations');?>"><?php _ge('Custom Variations'); ?></label>
-				<input type="text" id="<?php echo $instance->get_field_id('custom-variations');?>" name="<?php echo $instance->get_field_name('custom-variations')?>" value="<?php echo $values['custom-variations']; ?>" size="25"/>
+				<label for="<?php echo $instance->get_field_id('widget_chrome'); ?>"><?php _ge('Custom Chrome');?></label>
+				<select id="<?php echo $instance->get_field_id('widget_chrome'); ?>"
+				        name="<?php echo $instance->get_field_name('widget_chrome') ?>">
+					<option value="" <?php if (empty($values['widget_chrome'])): ?>
+						selected="selected"<?php endif;?>>-
+					</option>
+					<?php foreach ($widget_chromes as $widget_chrome_value => $widget_chrome_label): ?>
+							<option value="<?php echo $widget_chrome_value; ?>" <?php if ($values['widget_chrome'] == $widget_chrome_value): ?>
+								selected="selected"<?php endif;?>><?php _re($widget_chrome_label);?></option>
+					<?php endforeach;?>
+				</select>
 			</p>
 		<?php endif;
+		if ($gantry->get('custom_widget_variations')) : ?>
+			<p>
+				<label for="<?php echo $instance->get_field_id('custom-variations'); ?>"><?php _ge('Custom Variations'); ?></label>
+				<input type="text" id="<?php echo $instance->get_field_id('custom-variations'); ?>" name="<?php echo $instance->get_field_name('custom-variations') ?>" value="<?php if (isset($values['custom-variations'])) echo $values['custom-variations']; ?>" size="25"/>
+			</p>
+		<?php endif;
+
 	}
 }
 
@@ -168,8 +194,9 @@ function gantry_add_widget_styles_action(&$instance, &$return, $values)
  */
 function gantry_widget_style_udpate_filter($instance, $new_instance, $old_instance)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
-	$widget_styles = $gantry->_templateDetails->getWidgetStyles();
+	$widget_styles = $gantry->_template->getWidgetStyles();
 	foreach ($widget_styles as $style_info) {
 		if (array_key_exists($style_info['name'], $new_instance)) {
 			$instance[$style_info['name']] = $new_instance[$style_info['name']];
@@ -178,50 +205,53 @@ function gantry_widget_style_udpate_filter($instance, $new_instance, $old_instan
 	if (array_key_exists('custom-variations', $new_instance)) {
 		$instance['custom-variations'] = $new_instance['custom-variations'];
 	}
+	if (array_key_exists('widget_chrome', $new_instance)) {
+		$instance['widget_chrome'] = $new_instance['widget_chrome'];
+	}
 	return $instance;
 }
 
 function gantry_update_options()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
-	check_admin_referer('gantry-theme-settings');
+	$ret = new stdClass();
 	// enable theme settings for lower level users, but with limitations
-	if (!current_user_can('switch_themes')) wp_die(_g('You are not authorised to perform this operation.', $gantry->get('template_full_name', 'Gantry Template') . _g('Settings')));
+	check_admin_referer('gantry-theme-settings');
+	$ret = new stdClass();
+	if (!current_user_can('switch_themes')) {
+		$ret->status  = 'error';
+		$ret->message = _g('You are not authorised to perform this operation.');
+		echo json_encode($ret);
+		die();
+	}
 	$option = $gantry->templateName . '-template-options';
 
 	// clean the cache
-	gantry_import('core.utilities.gantrycache');
-	$cache = GantryCache::getInstance();
-	$cache->clear('gantry', 'gantry');
+	gantry_admin_clear_cache();
 
-	if (isset($_POST['reset'])) {
-		gantry_reset_theme_settings($option);
-		gantry_set_admin_message('gantry-theme-settings', sprintf(_g("%s have been reset."), 'Default Settings'));
-		wp_redirect(admin_url('admin.php?page=gantry-theme-settings'));
-	} else {
-		$option = trim($option);
-		$value  = null;
-		if (isset($_POST[$option])) $value = $_POST[$option];
-		if (!is_array($value)) $value = trim($value);
-		$value = stripslashes_deep($value);
-		update_option($option, $value);
-		gantry_set_admin_message('gantry-theme-settings', sprintf(_g("%s have been saved."), 'Default Settings'));
-		wp_redirect(admin_url('admin.php?page=gantry-theme-settings'));
-	}
+	$option = trim($option);
+	$value  = null;
+	if (isset($_POST[$option])) $value = $_POST[$option];
+	if (!is_array($value)) $value = trim($value);
+	$value = stripslashes_deep($value);
+	update_option($option, $value);
+
+	$ret->status  = 'success';
+	$ret->message = _g('%s have been saved.', _g('Default Settings'));
+	echo json_encode($ret);
+	die();
 
 }
 
 function gantry_update_override()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
-	check_admin_referer('gantry-theme-overrides-update');
-	// enable theme settings for lower level users, but with limitations
-	if (!current_user_can('switch_themes')) wp_die(_g('You are not authorised to perform this operation.', $gantry->get('template_full_name', 'Gantry Template') . _g('Settings')));
+	$ret = new stdClass();
 
 	// clean the cache
-	gantry_import('core.utilities.gantrycache');
-	$cache = GantryCache::getInstance();
-	$cache->clear('gantry', 'gantry');
+	gantry_admin_clear_cache();
 
 	$form_option_name = $gantry->templateName . '-template-options';
 
@@ -244,55 +274,146 @@ function gantry_update_override()
 	$override_option_name             = $gantry->templateName . '-template-options-override-' . $override_id;
 	$override_assignments_option_name = $gantry->templateName . '-template-options-override-assignments-' . $override_id;
 
-	if (isset($_POST['reset'])) {
-		//reset the override
-		gantry_reset_theme_settings($override_option_name);
-		gantry_set_admin_message('gantry-theme-settings', sprintf(_g("%s override has been reset to defaults."), $override_name));
-		wp_redirect(add_query_arg('override_id', $override_id, admin_url('admin.php?page=gantry-theme-overrides')));
-	} else {
-		// save the override data
-		$form_option_name = trim($form_option_name);
-		$value            = null;
-		if (isset($_POST[$form_option_name])) $value = $_POST[$form_option_name];
-		if (!is_array($value)) $value = trim($value);
-		$value       = stripslashes_deep($value);
+
+	// save the override data
+	$form_option_name = trim($form_option_name);
+	$value            = null;
+	if (isset($_POST[$form_option_name])) $value = $_POST[$form_option_name];
+	if (!is_array($value)) $value = trim($value);
+	$value       = stripslashes_deep($value);
+	$overriddens = array();
+	if (isset($_POST['overridden-' . $form_option_name])) {
 		$overriddens = $_POST['overridden-' . $form_option_name];
-
-		// strip to only changed options
-		$default_settings = array();
-		$default_settings = get_option($gantry->templateName . '-template-options');
-		$overrides        = gantry_array_recursive_get_matching_keys($overriddens, $value);
-
-		// save overide
-		update_option($override_option_name, $overrides);
-
-		// Get the assignments for the override
-		$assigned_override_items = array();
-		if (isset($_POST['assigned_override_items'])) {
-			$assigned_override_items = unserialize(stripcslashes($_POST['assigned_override_items']));
-		}
-
-		//save the assignments
-		update_option($override_assignments_option_name, $assigned_override_items);
-
-		//populate the facts
-
-		gantry_set_admin_message('gantry-theme-settings', sprintf(_g("%s override has been saved."), $override_name));
-		wp_redirect(add_query_arg('override_id', $override_id, admin_url('admin.php?page=gantry-theme-overrides')));
 	}
+	$overrides = gantry_array_recursive_get_matching_keys($overriddens, $value);
+
+	// save overide
+	update_option($override_option_name, $overrides);
+
+	// Get the assignments for the override
+	$assigned_override_items = array();
+	if (isset($_POST['assigned_override_items'])) {
+		$assigned_override_items = unserialize(stripcslashes($_POST['assigned_override_items']));
+	}
+
+	//save the assignments
+	update_option($override_assignments_option_name, $assigned_override_items);
+
+	//populate the facts
+	$ret->status        = 'success';
+	$ret->override_id   = $override_id;
+	$ret->override_name = $override_name;
+	$ret->message       = _g("%s override has been saved.", $override_name);
+
+	return $ret;
+
+}
+
+
+function gantry_post_update_override()
+{
+	global $gantry;
+	check_admin_referer('gantry-theme-settings');
+	// enable theme settings for lower level users, but with limitations
+	if (!current_user_can('switch_themes')) wp_die(_g('You are not authorised to perform this operation.'), $gantry->get('template_full_name', 'Gantry Template') . _g('Settings'));
+	$status = gantry_update_override();
+	gantry_set_admin_message('gantry-theme-settings', _g("%s override has been saved.", $status->override_name));
+	wp_redirect(add_query_arg('override_id', $status->override_id, admin_url('admin.php?page=gantry-theme-settings')));
+}
+
+function gantry_ajax_update_override()
+{
+
+	/** @global $gantry Gantry */
+	global $gantry;
+	check_admin_referer('gantry-theme-settings');
+	$ret = new stdClass();
+	if (!current_user_can('switch_themes')) {
+		$ret->status  = 'error';
+		$ret->message = _g('You are not authorised to perform this operation.');
+		echo json_encode($ret);
+		die();
+	}
+	$status       = gantry_update_override();
+	$ret->status  = 'success';
+	$ret->message = $status->message;
+	echo json_encode($ret);
+	die();
+}
+
+function gantry_override_save_as_copy()
+{
+	/** @global $gantry Gantry */
+	global $gantry;
+	check_admin_referer('gantry-theme-settings');
+	// enable theme settings for lower level users, but with limitations
+	if (!current_user_can('switch_themes')) wp_die(_g('You are not authorised to perform this operation.', $gantry->get('template_full_name', 'Gantry Template') . _g('Settings')));
+
+	// clean the cache
+	gantry_admin_clear_cache();
+
+	$form_option_name = $gantry->templateName . '-template-options';
+
+	// get the overrides catalog
+	$override_id      = 0;
+	$override_name    = _g('SAVE_AS_COPY_SUFFIX', $_POST['override_name']);
+	$override_catalog = gantry_get_override_catalog($gantry->templateName);
+
+	// if its a new override add the basics to the catalog
+	if ($override_id == 0) {
+		$new_override_id = (count($override_catalog) > 0) ? max(array_keys($override_catalog)) + 1 : 1;
+		$override_id     = $new_override_id;
+	}
+
+	$override_catalog[$override_id] = $override_name;
+	gantry_udpate_override_catalog($override_catalog);
+
+
+	// get the base override name
+	$override_option_name             = $gantry->templateName . '-template-options-override-' . $override_id;
+	$override_assignments_option_name = $gantry->templateName . '-template-options-override-assignments-' . $override_id;
+
+
+	// save the override data
+	$form_option_name = trim($form_option_name);
+	$value            = null;
+	if (isset($_POST[$form_option_name])) $value = $_POST[$form_option_name];
+	if (!is_array($value)) $value = trim($value);
+	$value       = stripslashes_deep($value);
+	$overriddens = array();
+	if (isset($_POST['overridden-' . $form_option_name])) {
+		$overriddens = $_POST['overridden-' . $form_option_name];
+	}
+	$overrides = gantry_array_recursive_get_matching_keys($overriddens, $value);
+
+	// save overide
+	update_option($override_option_name, $overrides);
+
+	// Get the assignments for the override
+	$assigned_override_items = array();
+	if (isset($_POST['assigned_override_items'])) {
+		$assigned_override_items = unserialize(stripcslashes($_POST['assigned_override_items']));
+	}
+
+	//save the assignments
+	update_option($override_assignments_option_name, $assigned_override_items);
+
+	//populate the facts
+
+	gantry_set_admin_message('gantry-theme-settings', sprintf(_g("%s override has been saved."), $override_name));
+	wp_redirect(add_query_arg('override_id', $override_id, admin_url('admin.php?page=gantry-theme-settings')));
 
 }
 
 function gantry_delete_override()
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	// enable theme settings for lower level users, but with limitations
 	if (!current_user_can('switch_themes')) wp_die(_g('You are not authorised to perform this operation.', $gantry->get('template_full_name', 'Gantry Template') . _g('Settings')));
 
 	// clean the cache
-	gantry_import('core.utilities.gantrycache');
-	$cache = GantryCache::getInstance();
-	$cache->clear('gantry', 'gantry');
+	gantry_admin_clear_cache();
 
 	$form_option_name = $gantry->templateName . '-template-options';
 
@@ -355,9 +476,10 @@ function gantry_show_updated_theme_message()
 
 function add_meta_button($id, $text, $url, $link, $options = null)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
-	$ds = DIRECTORY_SEPARATOR;
-	include_once(dirname(__FILE__) . '/admin/screen-meta-links.php');
+	$ds = '/';
+	include_once(gantry_clean_path(dirname(__FILE__)) . '/admin/screen-meta-links.php');
 	add_screen_meta_link($id, $text, $url, $link, $options);
 }
 
@@ -368,13 +490,10 @@ function gantry_add_meta_buttons()
 	                                                                          get_plugin_page_hook('gantry-theme-overrides', 'gantry-theme-settings')
 	                                                                     ));
 	$options = get_option(get_template() . "-template-options");
-	if ($options['cache']['enabled']) {
-		add_meta_button('cache-clear', 'Clear Cache', '?clear-cache', array(
-		                                                                   get_plugin_page_hook('gantry-theme-settings', ''),
-		                                                                   get_plugin_page_hook('gantry-theme-overrides', 'gantry-theme-settings')
-		                                                              ), array('class' => 'clear-cache'));
-	}
-
+	add_meta_button('cache-clear', 'Clear Cache', '?clear-cache', array(
+	                                                                   get_plugin_page_hook('gantry-theme-settings', ''),
+	                                                                   get_plugin_page_hook('gantry-theme-overrides', 'gantry-theme-settings')
+	                                                              ), array('class' => 'clear-cache'));
 }
 
 function gantry_array_recursive_get_matching_keys($keyArray, $valueArray)
@@ -433,6 +552,7 @@ function gantry_widgets_admin_add_filter_for_sidebar_title()
  */
 function gantry_admin_dynamic_sidebar($safe_text, $text)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$checked = '';
 	if (preg_match("/#override_checkbox#(.*)#/", $safe_text, $matches)) {
@@ -527,7 +647,7 @@ function gantry_widgets_admin_insert_override_header()
     								<a href=\"#\">" . ($isDefault ? "Default Settings" : $override_name) . "</a>\n
     							</div>\n
         						<div id=\"overrides-toggle\"" . $toggleStatus . "><br /></div>\n
-   								<div id=\"overrides-inside\" class=\"slideUp\">\n";
+   								<div id=\"overrides-inside\" class=\"slideup\">\n";
 		$buffer .= implode("\n", $overridesList);
 		$buffer .= "			</div>\n";
 		$buffer .= "		</div>\n";
@@ -546,7 +666,7 @@ function gantry_widgets_admin_insert_override_header()
 		$buffer .= "		</div>\n";
 		$buffer .= "		<div id=\"overrides-switch\">\n";
 		if ((!$isDefault)) {
-			$buffer .= '    		<a class="text-button button-widget" href="' . admin_url('admin.php?page=gantry-theme-overrides&amp;override_id=' . $override_id) . '"><span>Gantry Settings</span></a>' . "\n";
+			$buffer .= '    		<a class="text-button button-widget" href="' . admin_url('admin.php?page=gantry-theme-settings&amp;override_id=' . $override_id) . '"><span>Gantry Settings</span></a>' . "\n";
 		} else {
 			$buffer .= '    		<a class="text-button button-widget" href="' . admin_url('admin.php?page=gantry-theme-settings') . '"><span>Gantry Settings</span></a>' . "\n";
 		}
@@ -594,7 +714,8 @@ function gantry_widgets_admin_force_accessibility_off()
 	wp_enqueue_script('admin-widgets');
 }
 
-function gantry_filter_get_user_option_widgets_access($widgets_access){
+function gantry_filter_get_user_option_widgets_access($widgets_access)
+{
 	$widgets_access = 'off';
 	return 'off';
 }
@@ -629,6 +750,7 @@ function gantry_widget_admin_combined_sidebars_widgets_filter($sidebars_widgets)
  */
 function gantry_widget_admin_combined_sidebars_widgets_intercept($override_id, $sidebar_widgets)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$default_sidebar_widgets  = $sidebar_widgets;
 	$override_sidebar_widgets = get_option($gantry->templateName . '-template-options-override-sidebar-' . $override_id);
@@ -672,6 +794,7 @@ function gantry_widget_admin_register_combined_widget_settings($sidebars_widgets
  */
 function gantry_widget_admin_load_combined_widget_settings_filter($widget_instance)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$override                 = $_REQUEST['override_id'];
 	$current_widget_type      = str_replace('option_', '', current_filter());
@@ -713,6 +836,7 @@ function gantry_widget_admin_override_sidebars_widgets_filter($sidebars_widgets)
  */
 function gantry_widget_admin_get_override_sidebars_widget_intercept($override_id, $sidebar_widgets)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$option          = $gantry->templateName . '-template-options-override-sidebar-' . $override_id;
 	$sidebar_widgets = get_option($option);
@@ -750,6 +874,7 @@ function gantry_widget_admin_register_override_widget_settings($sidebars_widgets
  */
 function gantry_widget_admin_load_override_widget_settings_filter($widget_instance)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	$override                 = $_REQUEST['override_id'];
 	$current_widget_type      = str_replace('pre_option_', '', current_filter());
@@ -809,6 +934,7 @@ function gantry_widgets_admin_change_widget_init_action()
 
 function gantry_widget_admin_ajax_save_widget_option_intercept($newvalue, $oldvalue)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 
 	$options_name = str_replace('pre_update_option_', '', current_filter());
@@ -827,6 +953,7 @@ function gantry_widget_admin_ajax_save_widget_option_intercept($newvalue, $oldva
 
 function gantry_save_override_sidebars_widgets($override_id, $sidebars_widgets)
 {
+	/** @global $gantry Gantry */
 	global $gantry;
 	if (!isset($sidebars_widgets['array_version'])) $sidebars_widgets['array_version'] = 3;
 
@@ -856,9 +983,29 @@ function gantry_widget_admin_setup_override_widget_options_filters()
 	}
 }
 
-function gantry_widget_admin_clear_cache()
+function gantry_admin_clear_cache()
 {
 	gantry_import('core.utilities.gantrycache');
-	$cache = GantryCache::getInstance();
-	$cache->clear('gantry', 'gantry');
+	$cache = GantryCache::getCache(GantryCache::GROUP_NAME);
+	$cache->clearGroupCache();
+	$adminCache = GantryCache::getCache(GantryCache::ADMIN_GROUP_NAME);
+	$adminCache->clearGroupCache();
+}
+
+
+function gantry_theme_switched($name, $old_theme)
+{
+	/** @global $gantry Gantry */
+	global $gantry;
+	$gantry->templatePath = get_template_directory();
+	$gantry->templateName = $gantry->getCurrentTemplate();
+	$gantry->_template = new GantryTemplate();
+	$gantry->_template->init($gantry);
+	$gantry->templateInfo          = $gantry->_template->getTemplateInfo();
+	$gantry->_base_params_checksum = $gantry->_template->getParamsHash();
+	// Put a base copy of the saved params in the working params
+	$gantry->_working_params = $gantry->_template->getParams();
+	$gantry->_param_names    = array_keys($gantry->_template->getParams());
+	$gantry->template_prefix = $gantry->_working_params['template_prefix']['value'];
+	gantry_admin_clear_cache();
 }

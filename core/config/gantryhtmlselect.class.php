@@ -1,8 +1,8 @@
 <?php
 /**
- * @version        $Id: gantryhtmlselect.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version        $Id: gantryhtmlselect.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author         RocketTheme http://www.rockettheme.com
- * @copyright      Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright      Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license        http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * derived from Joomla with original copyright and license
@@ -16,9 +16,7 @@ gantry_import('core.utilities.gantryarrayhelper');
 abstract class GantryHtmlSelect
 {
 	static $formatOptions = array(
-		'format.depth'  => 0,
-		'format.eol'    => "\n",
-		'format.indent' => "\t"
+		'format.depth' => 0, 'format.eol' => "\n", 'format.indent' => "\t"
 	);
 
 	/**
@@ -52,8 +50,7 @@ abstract class GantryHtmlSelect
 	public static function booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false)
 	{
 		$arr = array(
-			GantryHTMLSelect::Option('0', _r($no)),
-			GantryHTMLSelect::Option('1', _r($yes))
+			GantryHTMLSelect::Option('0', _r($no)), GantryHTMLSelect::Option('1', _r($yes))
 		);
 		return GantryHTMLSelect::radiolist($arr, $name, $attribs, 'value', 'text', (int)$selected, $id);
 	}
@@ -86,8 +83,7 @@ abstract class GantryHtmlSelect
 	{
 		// Set default options
 		$options = array_merge(GantryHTMLSelect::$formatOptions, array(
-		                                                              'format.depth' => 0,
-		                                                              'id'           => false,
+		                                                              'format.depth' => 0, 'id' => false,
 		                                                         ));
 		if (is_array($attribs) && func_num_args() == 3) {
 			// Assume we have an options array

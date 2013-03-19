@@ -1,237 +1,132 @@
 <?php
 /**
- * @version   $Id: fonts.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: fonts.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die;
-
 gantry_import('core.config.gantryformfield');
 
-require_once(dirname(__FILE__) . '/selectbox.php');
-
-
-class GantryFormFieldFonts extends GantryFormFieldSelectBox
+class GantryFormFieldFonts extends GantryFormField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var        string
-	 * @since    1.6
-	 */
-	protected $type = 'fonts';
-	protected $basetype = 'select';
 
-	var $_google_fonts = array(
-		"Aclonica",
-		"Allan",
-		"Allerta",
-		"Allerta Stencil",
-		"Amaranth",
-		"Annie Use Your Telescope",
-		"Anonymous Pro",
-		"Anton",
-		"Architects Daughter",
-		"Arimo",
-		"Artifika",
-		"Arvo",
-		"Asset",
-		"Astloch",
-		"Bangers",
-		"Bentham",
-		"Bevan",
-		"Bigshot One",
-		"Brawler",
-		"Buda",
-		"Cabin",
-		"Cabin Sketch",
-		"Calligraffitti",
-		"Candal",
-		"Cantarell",
-		"Cardo",
-		"Carter One",
-		"Caudex",
-		"Cedarville Cursive",
-		"Cherry Cream Soda",
-		"Chewy",
-		"Coda",
-		"Coming Soon",
-		"Copse",
-		"Corben",
-		"Cousine",
-		"Covered By Your Grace",
-		"Crafty Girls",
-		"Crimson Text",
-		"Crushed",
-		"Cuprum",
-		"Damion",
-		"Dancing Script",
-		"Dawning of a New Day",
-		"Didact Gothic",
-		"Droid Sans",
-		"Droid Sans Mono",
-		"Droid Serif",
-		"EB Garamond",
-		"Expletus Sans",
-		"Fontdiner Swanky",
-		"Francois One",
-		"Geo",
-		"Goblin One",
-		"Goudy Bookletter 1911",
-		"Gravitas One",
-		"Gruppo",
-		"Hammersmith One",
-		"Holtwood One SC",
-		"Homemade Apple",
-		"IM Fell",
-		"Inconsolata",
-		"Indie Flower",
-		"Irish Grover",
-		"Josefin Sans",
-		"Josefin Slab",
-		"Judson",
-		"Jura",
-		"Just Another Hand",
-		"Just Me Again Down Here",
-		"Kameron",
-		"Kenia",
-		"Kranky",
-		"Kreon",
-		"Kristi",
-		"La Belle Aurore",
-		"Lato",
-		"League Script",
-		"Lekton",
-		"Limelight",
-		"Lobster",
-		"Lobster Two",
-		"Lora",
-		"Luckiest Guy",
-		"Maiden Orange",
-		"Mako",
-		"Maven Pro",
-		"Meddon",
-		"MedievalSharp",
-		"Megrim",
-		"Merriweather",
-		"Metrophobic",
-		"Michroma",
-		"Miltonian",
-		"Molengo",
-		"Monofett",
-		"Mountains of Christmas",
-		"Muli",
-		"Neucha",
-		"Neuton",
-		"News Cycle",
-		"Nixie One",
-		"Nobile",
-		"Nova",
-		"Nunito",
-		"OFL Sorts Mill Goudy TT",
-		"Old Standard TT",
-		"Open Sans",
-		"Orbitron",
-		"Oswald",
-		"Over the Rainbow",
-		"PT Sans",
-		"PT Serif",
-		"Pacifico",
-		"Paytone One",
-		"Permanent Marker",
-		"Philosopher",
-		"Play",
-		"Playfair Display",
-		"Podkova",
-		"Puritan",
-		"Quattrocento",
-		"Quattrocento Sans",
-		"Radley",
-		"Raleway",
-		"Redressed",
-		"Reenie Beanie",
-		"Rock Salt",
-		"Rokkitt",
-		"Ruslan Display",
-		"Schoolbell",
-		"Shadows Into Light",
-		"Shanti",
-		"Sigmar One",
-		"Six Caps",
-		"Slackey",
-		"Smythe",
-		"Sniglet",
-		"Special Elite",
-		"Sue Ellen Francisco",
-		"Sunshiney",
-		"Swanky and Moo Moo",
-		"Syncopate",
-		"Tangerine",
-		"Tenor Sans",
-		"Terminal Dosis Light",
-		"The Girl Next Door",
-		"Tinos",
-		"Ubuntu",
-		"Ultra",
-		"UnifrakturCook",
-		"UnifrakturMaguntia",
-		"Unkempt",
-		"VT323",
-		"Varela",
-		"Vibur",
-		"Vollkorn",
-		"Waiting for the Sunrise",
-		"Wallpoet",
-		"Walter Turncoat",
-		"Wire One",
-		"Yanone Kaffeesatz",
-		"Zeyada"
-	);
+	/*
+	  Google Fonts JSON retrieved from browser direct access to: https://www.googleapis.com/webfonts/v1/webfonts
+	*/
+
+	protected $type = 'fonts';
+	protected $basetype = 'fonts';
+	protected $translate_options = true;
+	protected $options = array();
+
+	static $assets_loaded = false;
+
+	public function getInput()
+	{
+		/** @var $gantry Gantry */
+		global $gantry;
+		$this->translate_options = $this->getBool('translation', true);
+		$optionsOutput           = array();
+
+		if (!self::$assets_loaded) {
+			$gantry->addScript($gantry->gantryUrl . '/admin/widgets/fonts/js/fonts.js');
+			$gantry->addDomReadyScript("\nGantryFonts.init({
+				param: '" . $this->id . "',
+				baseurl: '" . $gantry->gantryUrl . "/admin/widgets/fonts/js/',
+				paths: {
+					'Google Fonts': {
+						delim: 'g:',
+						json: 'google-fonts.json'
+					}
+				}
+			});\n");
+
+			self::$assets_loaded = true;
+		}
+
+		$options = $this->getOptions();
+		$primary = (string)$this->element['primary'];
+
+		if ($primary) {
+			foreach ($options as $index => $option) {
+				if ($option->value == $primary || $option->value == 's:' . $primary) {
+					$disabled = ($option->disable == 'disable') ? ' disabled="disabled"' : "";
+					$selected = ($this->value == $option->value) ? ' selected="selected"' : "";
+					if (!strpos($option->value, ':')) $option->value = 's:' . $option->value;
+
+					$optionsOutput[] = '<optgroup label="Template Fonts">';
+					$optionsOutput[] = '	<option value="' . $option->value . '"' . $selected . $disabled . '>' . $option->text . '</option>';
+					$optionsOutput[] = '</optgroup>';
+
+					unset($options[$index]);
+				}
+			}
+		}
+
+
+		$optionsOutput[] = '<optgroup label="Standard Fonts">';
+		foreach ($options as $option) {
+			$optionData     = $option->text;
+			$optionValue    = $option->value;
+			$optionDisabled = $option->disable;
+			$optionClass    = (isset($option->class)) ? $option->class : null;
+			$cls            = '';
+
+			$disabled = ($optionDisabled == 'disable') ? ' disabled="disabled"' : "";
+			$selected = ($this->value == $optionValue) ? ' selected="selected"' : "";
+			$active   = ($this->value == $optionValue) ? ' class="active"' : "";
+			if (strlen($active)) $activeElement = $optionData;
+
+			if (strlen($disabled)) $active = 'class="disabled"';
+			if (strlen($optionClass)) $cls = 'class="' . $optionClass . '"';
+
+
+			// complex classes
+			if (strlen($optionClass)) {
+				$crnt = $active = ($this->value == $optionValue) ? " active" : "";
+				if (strlen($disabled)) $active = ' class="disabled ' . $optionClass . $crnt . '"'; else $active = ' class="' . $optionClass . $crnt . '"';
+			}
+
+			$text = ($this->translate_options) ? _g($optionData) : $optionData;
+
+			$optionsOutput[] = '<option value="' . $optionValue . '"' . $cls . $selected . $disabled . '>' . $text . '</option>';
+		}
+		$optionsOutput[] = '</optgroup>';
+
+		if ($this->detached) $disabledField = ' disabled'; else $disabledField = '';
+
+		$html[] = '<div class="wrapper">';
+		$html[] = '	<div class="selectbox-wrapper' . $disabledField . '">';
+		$html[] = '		<select id="' . $this->id . '" data-value="' . $this->value . '" name="' . $this->name . '" class="selectbox-real">';
+		$html[] = implode("\n", $optionsOutput);
+		$html[] = '		</select>';
+		$html[] = '	</div>';
+		$html[] = '</div>';
+
+		return implode("\n", $html);
+	}
 
 	protected function getOptions()
 	{
+		/** @var $gantry Gantry */
 		global $gantry;
-		$options = array();
-		$options = parent::getOptions();
 
-		if (!defined("GANTRY_FONTS")) {
-			$gantry->addScript($gantry->gantryUrl . '/admin/widgets/fonts/js/fonts.js');
-			$gantry->addDomReadyScript("GantryFonts.init('webfonts_enabled', 'webfonts_source', 'font_family');");
-			define("GANTRY_FONTS", 1);
+		if (isset($this->element->option)) {
+			foreach ($this->element->option as $option) {
+				if ($option->getName() != 'option') continue;
+
+				$label = ($this->translate_options) ? _g(trim((string)$option)) : trim((string)$option);
+
+				$tmp             = GantryHtmlSelect::option('s:' . (string)$option['value'], $label, 'value', 'text', $this->getBool('disabled', false, $option));
+				$tmp->class      = (string)$option['class'];
+				$tmp->onclick    = (string)$option['onclick'];
+				$this->options[] = $tmp;
+			}
+
 		}
 
-
-		// only google right now
-		if ($gantry->get('webfonts-source') == 'google') {
-			$webfonts = $this->_google_fonts;
-		}
-
-		if ($gantry->get('webfonts-enabled')) $disabled = false; else $disabled = true;
-
-		foreach ($webfonts as $webfont) {
-			$webfontsData = $webfont;
-			$webfontsValue = $webfont;
-
-			$text = $webfontsData;
-
-			// Create a new option object based on the <option /> element.
-			$tmp = GantryHtmlSelect::option((string)$webfontsValue, _r(trim((string)$text)), 'value', 'text', $disabled);
-
-			// adding reference source class
-			if (in_array($webfont, $this->_google_fonts)) $option['class'] = 'google'; else $option['class'] = 'native';
-
-			// Set some option attributes.
-			$tmp->class = (string)$option['class'];
-
-			// Set some JavaScript option attributes.
-
-			$tmp->onclick = isset($option['onclick']) ? (string)$option['onclick'] : '';
-
-			// Add the option object to the result set.
-			$options[] = $tmp;
-		}
-
-		return $options;
+		reset($this->options);
+		return $this->options;
 	}
 }

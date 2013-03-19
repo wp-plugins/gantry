@@ -1,8 +1,124 @@
-/**
- * @version $Id: radios.js 58623 2012-12-15 22:01:32Z btowles $
- * @author RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
- */
 
-var InputsExclusion=[".content_vote"];var InputsMorph={version:1.7,init:function(d,e){if(!d){d="all";}if(!e){e="";}else{e+=" ";}InputsMorph.rtl=document.body.getStyle("direction")=="rtl";InputsMorph.list=new Hash({all:[]});if(d=="radio"||d=="all"){var a=$$(e+"input[type=radio]");var f=$$(InputsExclusion.join(" input[type=radio], ")+" input[type=radio]");f.each(function(b){a=a.erase(b);});a.each(function(b,c){InputsMorph.setArray("list","all",b);if(InputsMorph.list.has(b.name)){InputsMorph.setArray("list",b.name,b);}else{InputsMorph.list.set(b.name,[b]);}InputsMorph.morph(b,"radios").addEvent(b,"radios");});}if(d=="checkbox"||d=="all"){a=$$(e+"input[type=checkbox]");f=$$(InputsExclusion.join(" input[type=checkbox], ")+" input[type=checkbox]");f.each(function(b){a=a.erase(b);});a.each(function(b,c){InputsMorph.setArray("list","all",b);if(InputsMorph.list.has(b.name)){InputsMorph.setArray("list",b.name,b);}else{InputsMorph.list.set(b.name,[b]);}InputsMorph.morph(b,"checks").addEvent(b,"checks");});}},morph:function(f,e){var j=f.getNext(),h=f.getParent(),g=f.name.replace("[","").replace("]","");if(j&&j.get("tag")=="label"){f.setStyles({position:"absolute",left:"-10000px"});if(InputsMorph.rtl&&Browser.Engine.gecko){f.setStyles({position:"absolute",right:"-10000px"});}else{f.setStyles({position:"absolute",left:"-10000px"});}if(InputsMorph.rtl&&(Browser.Engine.presto)){f.setStyle("display","none");}if(Browser.Engine.trident5){f.setStyle("display","none");}j.addClass("rok"+e+" rok"+g);if(f.checked){j.addClass("rok"+e+"-active");}}else{if(h&&h.get("tag")=="label"){if(InputsMorph.rtl&&Browser.Engine.gecko){f.setStyles({position:"absolute",right:"-10000px"});}else{f.setStyles({position:"absolute",left:"-10000px"});}if(InputsMorph.rtl&&(Browser.Engine.presto)){f.setStyle("display","none");}h.addClass("rok"+e+" rok"+g);if(f.checked){h.addClass("rok"+e+"-active");}}else{var i=new Element("label").wraps(f);if(InputsMorph.rtl&&Browser.Engine.gecko){f.setStyles({position:"absolute",right:"-10000px"});}else{f.setStyles({position:"absolute",left:"-10000px"});}if(InputsMorph.rtl&&(Browser.Engine.presto)){f.setStyle("display","none");}i.addClass("rok"+e+" rok"+g);if(f.checked){i.addClass("rok"+e+"-active");}}}return InputsMorph;},addEvent:function(e,d){e.addEvent("click",function(){InputsMorph.switchReplacement(e,d);});if(Browser.Engine.trident){var g=e.getNext(),f=e.getParent().getParent();if(f&&f.get("tag")=="li"){f.addEvent("click",function(){e.fireEvent("click");});}}return InputsMorph;},switchReplacement:function(l,k){if(k=="checks"){var j=l.getNext(),c=l.getParent(),a="rok"+k+"-active";var i=((j)?j.get("tag")=="label":false);var b=((c)?c.get("tag")=="label":false);if(i||b){if(i){if(j.hasClass(a)&&i){j.removeClass(a);l.removeProperty("checked");}else{if(!j.hasClass(a)&&i){j.addClass(a);l.setProperty("checked","checked");}}}else{if(b){if(c.hasClass(a)&&b){c.removeClass(a);l.removeProperty("checked");}else{if(!c.hasClass(a)&&b){c.addClass(a);l.setProperty("checked","checked");}}}}}}else{InputsMorph.list.get(l.name).each(function(e){var d=e.getNext(),f=e.getParent();var h=l.getNext(),g=l.getParent();$$(d,f).removeClass("rok"+k+"-active");if(d&&d.get("tag")=="label"&&h==d){e.setProperty("checked","checked");d.addClass("rok"+k+"-active");}else{if(f&&f.get("tag")=="label"&&g==f){f.addClass("rok"+k+"-active");e.setProperty("checked","checked");}}});}},setArray:function(f,e,h){var g=InputsMorph[f].get(e);g.push(h);return InputsMorph[f].set(e,g);}};
+var InputsExclusion = ['.content_vote'];
+
+var InputsMorph = {
+	version: 1.7,
+	init: function() {
+		InputsMorph.rtl = $(document.body).getStyle('direction') == 'rtl';
+		InputsMorph.list = new Hash({
+			'all': []
+		});
+		var b = $$('.g-surround input[type=radio]');
+		var c = $$(InputsExclusion.join(' input[type=radio], ') + ' input[type=radio]');
+		c.each(function(a) {
+			b = b.remove(a);
+		});
+		b.each(function(a, i) {
+			InputsMorph.setArray('list', 'all', a);
+			if (InputsMorph.list.has(a.name)) InputsMorph.setArray('list', a.name, a);
+			else InputsMorph.list.set(a.name, [a]);
+			InputsMorph.morph(a, 'radios').addEvent(a, 'radios');
+		});
+		b = $$('input[type=checkbox]');
+		c = $$(InputsExclusion.join(' input[type=checkbox], ') + ' input[type=checkbox]');
+		c.each(function(a) {
+			b = b.remove(a);
+		});
+		b.each(function(a, i) {
+			InputsMorph.setArray('list', 'all', a);
+			if (InputsMorph.list.has(a.name)) InputsMorph.setArray('list', a.name, a);
+			else InputsMorph.list.set(a.name, [a]);
+			InputsMorph.morph(a, 'checks').addEvent(a, 'checks');
+		});
+	},
+	morph: function(a, b) {
+		var c = a.getNext(),
+			parent = a.getParent(),
+			name = a.name.replace('[', '').replace(']', '');
+		if (c && c.get('tag') == 'label') {
+			a.setStyles({'position': 'absolute', 'left': '-10000px'});
+
+			if (InputsMorph.rtl && window.gecko) a.setStyles({'position': 'absolute', 'right': '-10000px'});
+			else a.setStyles({'position': 'absolute', 'left': '-10000px'});
+
+			if (InputsMorph.rtl && (window.opera || window.ie)) {a.setStyle('display', 'none');}
+			if (window.ie7) a.setStyle('display', 'none');
+
+			c.addClass('rok' + b + ' rok' + name);
+			if (a.checked) c.addClass('rok' + b + '-active');
+		} else if (parent && parent.get('tag') == 'label') {
+
+			if (InputsMorph.rtl && window.gecko) a.setStyles({'position': 'absolute', 'right': '-10000px'});
+			else a.setStyles({'position': 'absolute', 'left': '-10000px'});
+
+			if (InputsMorph.rtl && (window.opera || window.ie)) {a.setStyle('display', 'none');}
+
+			parent.addClass('rok' + b + ' rok' + name);
+			if (a.checked) parent.addClass('rok' + b + '-active');
+		}
+		return InputsMorph;
+	},
+	addEvent: function(a, b) {
+		a.addEvent('click', function() {
+			if (window.opera || window.ie) {
+				if (a.opera) {InputsMorph.switchReplacement(a, b);}
+				a.opera = (b == 'checks') ? false : true;
+			} else InputsMorph.switchReplacement(a, b);
+		});
+		if (window.opera || window.ie || (a.getNext() && !a.getNext().getProperty('for'))) {
+			var c = a.getNext(),
+				parent = a.getParent();
+			if (c && c.get('tag') == 'label' && (window.ie || (window.opera && !a.opera))) {
+				c.addEvent('click', function() {
+					if ((window.opera || window.ie) && !a.opera) a.opera = true;
+					a.fireEvent('click');
+				});
+			} else if (parent && parent.get('tag') == 'label' || (a.getParent() && !a.getParent().getProperty('for'))) {
+				parent.addEvent('click', function() {
+					a.fireEvent('click');
+				});
+			}
+		}
+		return InputsMorph;
+	},
+	switchReplacement: function(d, e) {
+		if (e == 'checks') {
+			var f = d.getNext(),
+				parent = d.getParent(),
+				cls = "rok" + e + "-active";
+			var g = ((f) ? f.get('tag') == 'label' : false);
+			var h = ((parent) ? parent.get('tag') == 'label' : false);
+			if (g || h) {
+				if (g) {
+					if (f.hasClass(cls) && g) f.removeClass(cls);
+					else if (!f.hasClass(cls) && g) f.addClass(cls);
+				} else if (h) {
+					if (parent.hasClass(cls) && h) parent.removeClass(cls);
+					else if (!parent.hasClass(cls) && h) parent.addClass(cls);
+				}
+			}
+		} else {
+			InputsMorph.list.get(d.name).each(function(a) {
+				var b = a.getNext(),
+					parent = a.getParent();
+				var c = d.getNext(),
+					radioparent = d.getParent();
+				$$(b, parent).removeClass('rok' + e + '-active');
+				if (b && b.get('tag') == 'label' && c == b) {
+					a.setProperty('checked', 'checked');
+					b.addClass('rok' + e + '-active');
+				} else if (parent && parent.get('tag') == 'label' && radioparent == parent) {
+					parent.addClass('rok' + e + '-active');
+					a.setProperty('checked', 'checked');
+				}
+			});
+		}
+	},
+	setArray: function(a, b, c) {
+		var d = InputsMorph[a].get(b);
+		d.push(c);
+		return InputsMorph[a].set(b, d);
+	}
+};
+
+window.addEvent('domready', InputsMorph.init);

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: chain.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: chain.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -30,6 +30,7 @@ class GantryFormGroupChain extends GantryFormGroup
 
 	public function getInput()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		$buffer = '';
 
@@ -43,11 +44,12 @@ class GantryFormGroupChain extends GantryFormGroup
 			$itemName        = $this->fieldname . "-" . $field->fieldname;
 			$field->detached = false;
 
-			if ($field != $this->enabler && isset($this->enabler) && (int)$this->enabler->value == 0) {
+			/*if ($field != $this->enabler && isset($this->enabler) && (int)$this->enabler->value == 0) {
 				$field->detached = true;
-			}
+			}*/
 
-			if ($field->basetype == 'select') $basetype = ' base-selectbox'; else $basetype = ' base-' . $field->basetype;
+			if ($field->basetype == 'select') $basetype = ' base-selectbox';
+			else $basetype = ' base-' . $field->basetype;
 
 			$buffer .= '<div class="chain ' . $itemName . ' chain-' . strtolower($field->type) . $basetype . '">' . "\n";
 			if (strlen($field->getLabel())) $buffer .= '<span class="chain-label">' . _r($field->getLabel()) . '</span>' . "\n";

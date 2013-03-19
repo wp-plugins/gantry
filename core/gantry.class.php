@@ -1,14 +1,14 @@
 <?php
 /**
- * @version   $Id: gantry.class.php 58639 2012-12-17 17:57:41Z btowles $
+ * @version   $Id: gantry.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
 defined('GANTRY_VERSION') or die();
 
-gantry_import('core.gantrytemplatedetails');
+gantry_import('core.gantrytemplate');
 gantry_import('core.gantryini');
 gantry_import('core.gantrypositions');
 gantry_import('core.gantrystylelink');
@@ -26,8 +26,31 @@ gantry_import('core.utilities.gantryurl');
 class Gantry
 {
 
+	/**
+	 *
+	 */
+	const DEFAULT_STYLE_PRIORITY = 10;
+	/**
+	 *
+	 */
+	const DEFAULT_GRID_SIZE = 12;
+
+	/**
+	 * The max wait time for a less compile in microseconds
+	 */
+	const LESS_MAX_COMPILE_WAIT_TIME = 2;
+
+	const LESS_SITE_CACHE_GROUP = 'GantryLess';
+
+	const LESS_ADMIN_CACHE_GROUP = 'GantryAdminLess';
+
 	protected static $instance;
 
+	/**
+	 * @static
+	 *
+	 * @return mixed
+	 */
 	public static function getInstance()
 	{
 		if (!self::$instance) {
@@ -40,41 +63,48 @@ class Gantry
 	/**
 	 *
 	 */
-	var $basePath;
-	var $baseUrl;
-	var $templateName;
-	var $templateUrl;
-	var $templatePath;
-	var $gantryPath;
-	var $gantryUrl;
-	var $layoutSchemas = array();
-	var $mainbodySchemas = array();
-	var $pushPullSchemas = array();
-	var $mainbodySchemasCombos = array();
-	var $default_grid = 12;
-	var $presets = array();
-	var $originalPresets = array();
-	var $customPresets = array();
-	var $dontsetinoverride = array();
-	var $defaultMenuItem;
-	var $currentMenuItem;
-	var $currentMenuTree;
-	var $template_prefix;
-	var $custom_dir;
-	var $custom_menuitemparams_dir;
-	var $custom_presets_file;
-	var $positions = array();
-	var $altindex = false;
-	var $platform;
-	var $templateInfo;
+	public $basePath;
+	public $baseUrl;
+	public $templateName;
+	public $templateUrl;
+	public $templatePath;
+	public $gantryPath;
+	public $gantryUrl;
+	public $layoutSchemas = array();
+	public $mainbodySchemas = array();
+	public $pushPullSchemas = array();
+	public $mainbodySchemasCombos = array();
+	public $default_grid = self::DEFAULT_GRID_SIZE;
+	public $presets = array();
+	public $originalPresets = array();
+	public $customPresets = array();
+	public $dontsetinoverride = array();
+	public $defaultMenuItem;
+	public $currentMenuItem;
+	public $currentMenuTree;
+	public $template_prefix;
+	public $custom_dir;
+	public $custom_menuitemparams_dir;
+	public $custom_presets_file;
+	public $positions = array();
+	public $altindex = false;
+	public $platform;
+	public $templateInfo;
+	/**
+	 * @var Gantry_Uri_Util
+	 */
+	public $uriutil;
+
+
 
 	// Not cacheable
-	var $document;
-	var $browser;
-	var $language;
-	var $session;
-	var $currentUrl;
-	var $pageTitle;
+	/**
+	 * @var GantryBrowser
+	 */
+	public $browser;
+	public $language;
+	public $currentUrl;
+	public $pageTitle;
 
 
 	// Private Vars
@@ -86,32 +116,31 @@ class Gantry
 	// cacheable privates
 
 	/**
-	 * @var GantryTemplateDetails
+	 * @var GantryTemplate
 	 */
-	var $_templateDetails;
+	public $_template;
 
-	var $_aliases = array();
-	var $_preset_names = array();
-	var $_param_names = array();
-	var $_base_params_checksum = null;
-	var $_setbyurl = array();
-	var $_setbycookie = array();
-	var $_setbysession = array();
-	var $_setinsession = array();
-	var $_setincookie = array();
-	var $_setinoverride = array();
-	var $_setbyoverride = array();
-	var $_features = array();
-	var $_gizmos = array();
-	var $_widgets = array();
-	var $_widget_configs = array();
-	var $_ajaxmodels = array();
-	var $_adminajaxmodels = array();
-	var $_layouts = array();
-	var $_bodyclasses = array();
-	var $_classesbytag = array();
-	var $_ignoreQueryParams = array('reset-settings');
-	var $_config_vars = array(
+	public $_aliases = array();
+	public $_preset_names = array();
+	public $_param_names = array();
+	public $_base_params_checksum = null;
+	public $_setbyurl = array();
+	public $_setbycookie = array();
+	public $_setbysession = array();
+	public $_setinsession = array();
+	public $_setincookie = array();
+	public $_setinoverride = array();
+	public $_setbyoverride = array();
+	public $_gizmos = array();
+	public $_widgets = array();
+	public $_widget_configs = array();
+	public $_ajaxmodels = array();
+	public $_adminajaxmodels = array();
+	public $_layouts = array();
+	public $_bodyclasses = array();
+	public $_classesbytag = array();
+	public $_ignoreQueryParams = array('reset-settings');
+	public $_config_vars = array(
 		'layoutschemas'         => 'layoutSchemas',
 		'mainbodyschemas'       => 'mainbodySchemas',
 		'mainbodyschemascombos' => 'mainbodySchemasCombos',
@@ -120,30 +149,33 @@ class Gantry
 		'browser_params'        => '_browser_params',
 		'grid'                  => 'grid'
 	);
-	var $_working_params;
-	var $_override_engine = null;
-	var $_contentTypePaths = array();
+	public $_working_params;
+	public $_override_engine = null;
+	public $_contentTypePaths = array();
 
 	// non cachable privates
-	var $_bodyId = null;
-	var $_browser_params = array();
-	var $_menu_item_params = array();
-	var $_tmp_vars = array();
+	public $_bodyId = null;
+	public $_browser_params = array();
+	public $_menu_item_params = array();
+	public $_tmp_vars = array();
 
 
 	// reseetable noncache
-	var $_scripts = array();
-	var $_full_scripts = array();
-	var $_domready_script = '';
-	var $_loadevent_script = '';
-	var $_inline_script = '';
-	var $_inline_style = '';
-	var $_styles = array();
+	public $_scripts = array();
+	public $_styles = array();
+	public $_styles_available = array();
+	public $_full_scripts = array();
+	public $_domready_script = '';
+	public $_loadevent_script = '';
+	public $_inline_script = '';
+	public $_inline_style = '';
 
-	var $_override_tree = array();
+
+
+	public $_override_tree = array();
 	/**#@-*/
 
-	var $__cacheables = array(
+	protected $__cacheables = array(
 		'__cacheables',
 		'basePath',
 		'baseUrl',
@@ -169,7 +201,7 @@ class Gantry
 		'custom_menuitemparams_dir',
 		'custom_presets_file',
 		'positions',
-		'_templateDetails',
+		'_template',
 		'_aliases',
 		'_preset_names',
 		'_param_names',
@@ -181,7 +213,6 @@ class Gantry
 		'_setincookie',
 		'_setinoverride',
 		'_setbyoverride',
-		'_features',
 		'_ajaxmodels',
 		'_adminajaxmodels',
 		'_layouts',
@@ -194,7 +225,8 @@ class Gantry
 		'templateInfo',
 		'_override_engine',
 		'_gizmos',
-		'_contentTypePaths'
+		'_contentTypePaths',
+		'uriutil'
 	);
 
 	/**
@@ -206,10 +238,21 @@ class Gantry
 	}
 
 	/**
-	 * Constructor
-	 * @return void
+	 *
 	 */
-	protected function Gantry()
+	public function __wakeup()
+	{
+		// set the GRID_SYSTEM define;
+		if (!defined('GRID_SYSTEM')) {
+			define ('GRID_SYSTEM', $this->get('grid_system', $this->default_grid));
+		}
+	}
+
+	/**
+	 * Constructor
+	 * @return Gantry
+	 */
+	protected function __construct()
 	{
 		//global $mainframe;
 		global $gantry_path;
@@ -218,12 +261,8 @@ class Gantry
 		$this->gantryUrl  = WP_PLUGIN_URL . '/' . basename($this->gantryPath);
 
 		// set the base class vars
-		//$doc =& JFactory::getDocument();
-		//$this->document =& $doc;
-
-
-		$this->basePath                  = ABSPATH;
-		$this->templateName              = $this->_getCurrentTemplate();
+		$this->basePath                  = Gantry_Uri_Util::cleanFilesystemPath(ABSPATH);
+		$this->templateName              = $this->getCurrentTemplate();
 		$this->templatePath              = get_template_directory();
 		$this->custom_dir                = $this->templatePath . DS . 'custom';
 		$this->custom_menuitemparams_dir = $this->custom_dir . DS . 'menuitemparams';
@@ -234,14 +273,16 @@ class Gantry
 		$urlinfo           = parse_url(get_bloginfo('template_url'));
 		$this->templateUrl = $urlinfo["path"];
 
-		$this->_loadConfig();
+		$this->uriutil = new Gantry_Uri_Util(Gantry_Uri_Util::cleanFilesystemPath(ABSPATH),get_option('siteurl'));
+
+		$this->loadConfig();
 
 		// Load up the template details
-		$this->_templateDetails =new GantryTemplateDetails();
+		$this->_template = new GantryTemplate();
 
-		$this->_templateDetails->init($this);
-		$this->templateInfo          = $this->_templateDetails->getTemplateInfo();
-		$this->_base_params_checksum = $this->_templateDetails->getParamsHash();
+		$this->_template->init($this);
+		$this->templateInfo          = $this->_template->getTemplateInfo();
+		$this->_base_params_checksum = $this->_template->getParamsHash();
 
 		gantry_import('core.gantryplatform');
 		$this->platform = new GantryPlatform();
@@ -251,8 +292,8 @@ class Gantry
 		$this->_ignoreQueryParams[] = 'reset-settings'; //TODO  Add Filter
 
 		// Put a base copy of the saved params in the working params
-		$this->_working_params = $this->_templateDetails->getParams();
-		$this->_param_names    = array_keys($this->_templateDetails->getParams());
+		$this->_working_params = $this->_template->getParams();
+		$this->_param_names    = array_keys($this->_template->getParams());
 		$this->template_prefix = $this->_working_params['template_prefix']['value'];
 
 
@@ -264,17 +305,18 @@ class Gantry
 		// process the presets
 		if (!empty($this->presets)) {
 			// check for custom presets
-			$this->_customPresets();
+			$this->customPresets();
 			$this->_preset_names = array_keys($this->presets);
 			//$wp_keys = array_keys($this->_templateDetails->params);
 			//$this->_param_names = array_diff($wp_keys, $this->_preset_names);
 		}
 
-		$this->_loadLayouts();
-		$this->_loadGizmos();
+		$this->loadLayouts();
+		$this->loadGizmos();
 
-		$this->_loadAjaxModels();
-		$this->_loadAdminAjaxModels();
+		$this->loadAjaxModels();
+		$this->loadAdminAjaxModels();
+		$this->loadStyles();
 
 		// set up the positions object for all gird systems defined
 		foreach (array_keys($this->mainbodySchemasCombos) as $grid) {
@@ -282,7 +324,7 @@ class Gantry
 		}
 
 
-		$this->_override_engine = $this->_loadOverrideEngine();
+		$this->_override_engine = $this->loadOverrideEngine();
 
 //		// add GRID_SYSTEM class to body
 		$this->addBodyClass("col" . GRID_SYSTEM);
@@ -294,7 +336,7 @@ class Gantry
 	 * populate all user session level data
 	 * @return void
 	 */
-	function init()
+	public function init()
 	{
 		ob_start();
 		if (defined('GANTRY_INIT')) {
@@ -307,9 +349,9 @@ class Gantry
 		}
 		define('GANTRY_INIT', "GANTRY_INIT");
 
-		$this->_loadWidgets();
-		$this->_initWidgets();
-		$this->_loadGizmos();
+		$this->loadWidgets();
+		$this->initWidgets();
+		$this->loadGizmos();
 
 		// set the GRID_SYSTEM define;
 		if (!defined('GRID_SYSTEM')) {
@@ -336,7 +378,10 @@ class Gantry
 		$this->browser = new GantryBrowser();
 	}
 
-	function adminInit()
+	/**
+	 *
+	 */
+	public function adminInit()
 	{
 		if (defined('GANTRY_INIT')) {
 			return;
@@ -347,28 +392,32 @@ class Gantry
 		// Set the Platform info
 		gantry_import('core.gantryplatform');
 		$this->platform = new GantryPlatform();
-		$this->_loadWidgets();
-		$this->_initWidgets();
-		$this->_getWidgetConfigs();
+		$this->loadWidgets();
+		$this->initWidgets();
+		$this->getWidgetConfigs();
 
 		// Init all gizmos
 		foreach ($this->_gizmos as $gizmo) {
-			$gizmo_instance = $this->_getGizmo($gizmo);
+			/** @var $gizmo_instance GantryGizmo */
+			$gizmo_instance = $this->getGizmo($gizmo);
 			if ($gizmo_instance !== false && $gizmo_instance->isEnabled() && method_exists($gizmo_instance, 'init')) {
 				$gizmo_instance->admin_init();
 			}
 		}
 	}
 
-	function basicLoad()
+	/**
+	 *
+	 */
+	public function basicLoad()
 	{
 
-		if ($this->_templateDetails->getTemplateInfo()->getGridcss()) {
+		if ($this->_template->getTemplateInfo()->getGridcss()) {
 			//add correct grid system css
 			$this->addStyle('grid-' . GRID_SYSTEM . '.css', 5);
 		}
 
-		if ($this->_templateDetails->getTemplateInfo()->getLegacycss()) {
+		if ($this->_template->getTemplateInfo()->getLegacycss()) {
 			//add default gantry stylesheet
 			$this->addStyle('gantry.css', 5);
 			$this->addStyle('wordpress.css', 5);
@@ -377,7 +426,8 @@ class Gantry
 
 		// Init all gizmos
 		foreach ($this->_gizmos as $gizmo) {
-			$gizmo_instance = $this->_getGizmo($gizmo);
+			/** @var $gizmo_instance GantryGizmo */
+			$gizmo_instance = $this->getGizmo($gizmo);
 			if ($gizmo_instance !== false && $gizmo_instance->isEnabled() && method_exists($gizmo_instance, 'init')) {
 				$gizmo_instance->init();
 			}
@@ -387,26 +437,31 @@ class Gantry
 	/**
 	 * Function to init params, gizmos, and widgets once the http query string has been parsed
 	 * This should only be run once.
-	 * @return nothing
+	 * @return void
 	 */
-	function postParseLoad()
+	public function postParseLoad()
 	{
 		global $wp_query;
+		/** @var $engine_output GantryOverrides */
 		$engine_output        = $this->_override_engine->run($wp_query);
 		$this->_override_tree = $engine_output->getOverrideList();
 		$this->_postParseLoad();
-		$this->_loadWidgetPositions();
+		$this->loadWidgetPositions();
 		$this->currentUrl = $_SERVER['REQUEST_URI'];
 	}
 
-	function _postParseLoad()
+	/**
+	 *
+	 */
+	protected function _postParseLoad()
 	{
 		// Populate all the params for the session
-		$this->_populateParams();
-		$this->_loadBrowserConfig();
+		$this->populateParams();
+		$this->loadBrowserConfig();
 		// Init all gizmos
 		foreach ($this->_gizmos as $gizmo) {
-			$gizmo_instance = $this->_getGizmo($gizmo);
+			$gizmo_instance = $this->getGizmo($gizmo);
+			/** @var $gizmo_instance GantryGizmo */
 			if ($gizmo_instance !== false && $gizmo_instance->isEnabled() && method_exists($gizmo_instance, 'query_parsed_init')) {
 				$gizmo_instance->query_parsed_init();
 			}
@@ -419,7 +474,10 @@ class Gantry
 		}
 	}
 
-	function reset()
+	/**
+	 *
+	 */
+	protected function reset()
 	{
 		if (defined('GANTRY_FINALIZED')) return;
 		$this->_scripts          = array();
@@ -434,11 +492,14 @@ class Gantry
 		$this->_postParseLoad();
 	}
 
-	function finalize()
+	/**
+	 *
+	 */
+	public function finalize()
 	{
 		if (!defined('GANTRY_FINALIZED')) {
-			gantry_import('core.params.overrides.gantrycookieparams');
-			gantry_import('core.params.overrides.gantrysessionparams');
+			gantry_import('core.params.overrides.gantrycookieparamoverride');
+			gantry_import('core.params.overrides.gantrysessionparamoverride');
 
 			// finalize all widgets
 			foreach ($this->_widgets as $widget) {
@@ -449,7 +510,8 @@ class Gantry
 
 			// finalize all gizmos
 			foreach ($this->_gizmos as $gizmo) {
-				$gizmo_instance = $this->_getGizmo($gizmo);
+				/** @var $gizmo_instance GantryGizmo */
+				$gizmo_instance = $this->getGizmo($gizmo);
 				if ($gizmo_instance !== false && $gizmo_instance->isEnabled() && method_exists($gizmo_instance, 'finalize')) {
 					$gizmo_instance->finalize();
 				}
@@ -457,11 +519,11 @@ class Gantry
 
 			// Run the cleanup or store on cookies and sessions
 			if (isset($_REQUEST['reset-settings'])) {
-				GantrySessionParams::clean();
-				GantryCookieParams::clean();
+				GantrySessionParamOverride::clean();
+				GantryCookieParamOverride::clean();
 			} else {
-				GantrySessionParams::store();
-				GantryCookieParams::store();
+				GantrySessionParamOverride::store();
+				GantryCookieParamOverride::store();
 			}
 
 			// Apply compression if enabled
@@ -475,7 +537,7 @@ class Gantry
 		}
 
 		if ($this->altindex !== false) {
-			$contents = ob_get_contents();
+			ob_get_contents();
 			ob_end_clean();
 			ob_start();
 			echo $this->altindex;
@@ -490,7 +552,10 @@ class Gantry
 		echo $output;
 	}
 
-	function finalizeAdmin()
+	/**
+	 *
+	 */
+	public function finalizeAdmin()
 	{
 		if (!defined('GANTRY_FINALIZED')) {
 			// Apply compression if enabled
@@ -511,29 +576,44 @@ class Gantry
 		echo $output;
 	}
 
-	function isAdmin()
+	/**
+	 * @return bool
+	 */
+	public function isAdmin()
 	{
 		return is_admin();
 	}
 
-	function get($param = false, $default = "")
+	/**
+	 * @param bool   $param
+	 * @param string $default
+	 *
+	 * @return string
+	 */
+	public function get($param = false, $default = "")
 	{
 		if (array_key_exists($param, $this->_working_params)) $value = $this->_working_params[$param]['value']; else $value = $default;
 		return $value;
 	}
 
-	function getDefault($param = false)
+	/**
+	 * @param bool $param
+	 *
+	 * @return string
+	 */
+	public function getDefault($param = false)
 	{
 		$value = "";
 		if (array_key_exists($param, $this->_working_params)) $value = $this->_working_params[$param]['default'];
 		return $value;
 	}
 
-	function getFeatures()
-	{
-		return $this->_features;
-	}
-
+	/**
+	 * @param      $param
+	 * @param bool $value
+	 *
+	 * @return bool
+	 */
 	function set($param, $value = false)
 	{
 		$return = false;
@@ -544,7 +624,13 @@ class Gantry
 		return $return;
 	}
 
-	function getAjaxModel($model_name, $admin = false)
+	/**
+	 * @param      $model_name
+	 * @param bool $admin
+	 *
+	 * @return bool
+	 */
+	public function getAjaxModel($model_name, $admin = false)
 	{
 		$model_path = false;
 		if ($admin) {
@@ -559,26 +645,54 @@ class Gantry
 		return $model_path;
 	}
 
-	function getPositions($position = null, $pattern = null)
+	/**
+	 * @param null $position
+	 * @param null $pattern
+	 *
+	 * @return array
+	 */
+	public function getPositions($position = null, $pattern = null)
 	{
 		if ($position != null) {
-			$positions = $this->_templateDetails->parsePosition($position, $pattern);
+			$positions = $this->_template->parsePosition($position, $pattern);
 			return $positions;
 		}
-		return $this->_templateDetails->getPositions();
+		return $this->_template->getPositions();
 	}
 
-	function getUniquePositions()
+	/**
+	 * @return array
+	 */
+	public function getUniquePositions()
 	{
-		return $this->_templateDetails->getUniquePositions();
+		return $this->_template->getUniquePositions();
 	}
 
-	function getPositionInfo($position_name)
+	/**
+	 * @param $position_name
+	 *
+	 * @return mixed
+	 */
+	public function getPositionInfo($position_name)
 	{
-		return $this->_templateDetails->getPositionInfo($position_name);
+		return $this->_template->getPositionInfo($position_name);
 	}
 
-	function getParams($prefix = null, $remove_prefix = false)
+	/**
+	 * @return string
+	 */
+	public function getAjaxUrl()
+	{
+		return  admin_url('admin-ajax.php');
+	}
+
+	/**
+	 * @param null $prefix
+	 * @param bool $remove_prefix
+	 *
+	 * @return array
+	 */
+	public function getParams($prefix = null, $remove_prefix = false)
 	{
 		if (null == $prefix) {
 			return $this->_working_params;
@@ -600,11 +714,10 @@ class Gantry
 	 * Gets the current URL and query string and can ready it for more query string vars
 	 *
 	 * @param array $ignore
-	 * @param bool  $qs_preped
 	 *
 	 * @return mixed|string
 	 */
-	function getCurrentUrl($ignore = array())
+	public function getCurrentUrl($ignore = array())
 	{
 		gantry_import('core.utilities.gantryurl');
 
@@ -618,23 +731,32 @@ class Gantry
 		return GantryUrl::implode($url);
 	}
 
-	function addQueryStringParams($url, $params = array())
+	/**
+	 * @param       $url
+	 * @param array $params
+	 *
+	 * @return String
+	 */
+	public function addQueryStringParams($url, $params = array())
 	{
 		gantry_import('core.utilities.gantryurl');
 		return GantryUrl::updateParams($url, $params);
 	}
 
 	// wrapper for count modules
-	function countModules($positionStub, $pattern = null)
+	/**
+	 * @param      $positionStub
+	 *
+	 * @return int
+	 */
+	public function countModules($positionStub)
 	{
 		if (defined('GANTRY_FINALIZED')) return 0;
-		global $wp_registered_sidebars, $wp_registered_widgets;
 
 		$count = 0;
 		gantry_import('core.renderers.gantrywidgetsrenderer');
 		add_filter('sidebars_widgets', array('GantryWidgetsRenderer', 'filterWidgetCount'));
 		$sidebars_widgets = wp_get_sidebars_widgets();
-		//$sidebar = $wp_registered_sidebars[$index];
 
 		if (array_key_exists($positionStub, $sidebars_widgets) && !empty($sidebars_widgets[$positionStub])) {
 			$section_counted = false;
@@ -652,14 +774,12 @@ class Gantry
 
 	/**
 	 * @param  $position
-	 * @param  $pattern
 	 *
 	 * @return int
 	 */
-	function countSubPositionModules($position, $pattern = null)
+	public function countSubPositionModules($position)
 	{
 		if (defined('GANTRY_FINALIZED')) return 0;
-		global $wp_registered_sidebars, $wp_registered_widgets;
 
 		$count = 0;
 		gantry_import('core.renderers.gantrywidgetsrenderer');
@@ -677,10 +797,14 @@ class Gantry
 		return $count;
 	}
 
-	function countWidgetsBeforeDivider($position)
+	/**
+	 * @param $position
+	 *
+	 * @return int
+	 */
+	public function countWidgetsBeforeDivider($position)
 	{
 		if (defined('GANTRY_FINALIZED')) return 0;
-		global $wp_registered_sidebars, $wp_registered_widgets;
 
 		gantry_import('core.renderers.gantrywidgetsrenderer');
 		add_filter('sidebars_widgets', array('GantryWidgetsRenderer', 'filterWidgetCount'));
@@ -706,42 +830,81 @@ class Gantry
 
 	}
 
-	// wrapper for mainbody display
-	function displayMainbody($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard', $gridsize = null, $component_content = '')
+	/**
+	 * wrapper for mainbody display
+	 *
+	 * @param string $bodyLayout
+	 * @param string $sidebarLayout
+	 * @param string $sidebarChrome
+	 * @param string $contentTopLayout
+	 * @param string $contentTopChrome
+	 * @param string $contentBottomLayout
+	 * @param string $contentBottomChrome
+	 * @param null   $gridsize
+	 * @param string $component_content
+	 *
+	 * @return string
+	 */
+	public function displayMainbody($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard', $gridsize = null, $component_content = '')
 	{
-		if (defined('GANTRY_FINALIZED')) return;
+		if (defined('GANTRY_FINALIZED')) return '';
 		gantry_import('core.renderers.gantrymainbodyrenderer');
 		return GantryMainBodyRenderer::display($bodyLayout, $sidebarLayout, $sidebarChrome, $contentTopLayout, $contentTopChrome, $contentBottomLayout, $contentBottomChrome, $gridsize, $component_content);
 	}
 
-	// wrapper for mainbody display
-	function displayOrderedMainbody($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard', $gridsize = null, $component_content = '')
+
+	/**
+	 * wrapper for mainbody display
+	 *
+	 * @param string $bodyLayout
+	 * @param string $sidebarLayout
+	 * @param string $sidebarChrome
+	 * @param string $contentTopLayout
+	 * @param string $contentTopChrome
+	 * @param string $contentBottomLayout
+	 * @param string $contentBottomChrome
+	 * @param null   $gridsize
+	 * @param string $component_content
+	 *
+	 * @return string
+	 */
+	public function displayOrderedMainbody($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard', $gridsize = null, $component_content = '')
 	{
-		if (defined('GANTRY_FINALIZED')) return;
+		if (defined('GANTRY_FINALIZED')) return '';
 		gantry_import('core.renderers.gantryorderedmainbodyrenderer');
 		return GantryOrderedMainBodyRenderer::display($bodyLayout, $sidebarLayout, $sidebarChrome, $contentTopLayout, $contentTopChrome, $contentBottomLayout, $contentBottomChrome, $gridsize, $component_content);
 	}
 
-	// wrapper for display modules
-	function displayModules($positionStub, $layout = 'standard', $chrome = 'standard', $gridsize = GRID_SYSTEM, $pattern = null)
+
+	/**
+	 * wrapper for display modules
+	 *
+	 * @param        $positionStub
+	 * @param string $layout
+	 * @param string $chrome
+	 * @param string $gridsize
+	 * @param null   $pattern
+	 *
+	 * @return string
+	 */
+	public function displayModules($positionStub, $layout = 'standard', $chrome = 'standard', $gridsize = GRID_SYSTEM, $pattern = null)
 	{
-		if (defined('GANTRY_FINALIZED')) return;
+		if (defined('GANTRY_FINALIZED')) return '';
 		gantry_import('core.renderers.gantrywidgetsrenderer');
 		return GantryWidgetsRenderer::display($positionStub, $layout, $chrome, $gridsize, $pattern);
 	}
 
-	// wrapper for display modules
-	function displayFeature($feature, $layout = 'basic')
-	{
-		if (defined('GANTRY_FINALIZED')) return;
-		gantry_import('core.renderers.gantryfeaturerenderer');
-		return GantryFeatureRenderer::display($feature, $layout);
-	}
-
 	//
-	function displayComments($seperate_comments = false, $layout = 'basic', $commentLayout = 'basic')
+	/**
+	 * @param bool   $seperate_comments
+	 * @param string $layout
+	 * @param string $commentLayout
+	 *
+	 * @return string
+	 */
+	public function displayComments($seperate_comments = false, $layout = 'basic', $commentLayout = 'basic')
 	{
-		if (defined('GANTRY_FINALIZED')) return;
+		if (defined('GANTRY_FINALIZED')) return '';
 		// check to see if there is a comments.php in the root
 
 		if (file_exists($this->templatePath . '/comments.php')) {
@@ -755,14 +918,21 @@ class Gantry
 
 		gantry_import('core.renderers.gantrycommentsrenderer');
 		return GantryCommentsRenderer::display($layout, $commentLayout);
-
 	}
 
-	function getWidgetStyles()
+	/**
+	 * @return array
+	 */
+	public function getWidgetStyles()
 	{
-		return $this->_templateDetails->getWidgetStyles();
+		return $this->_template->getWidgetStyles();
 	}
 
+	/**
+	 * @param $namespace
+	 * @param $varname
+	 * @param $variable
+	 */
 	function addTemp($namespace, $varname, &$variable)
 	{
 		if (defined('GANTRY_FINALIZED')) return;
@@ -770,38 +940,59 @@ class Gantry
 		return;
 	}
 
-	function &retrieveTemp($namespace, $varname, $default = null)
+	/**
+	 * @param      $namespace
+	 * @param      $varname
+	 * @param null $default
+	 *
+	 * @return null
+	 */
+	public function &retrieveTemp($namespace, $varname, $default = null)
 	{
-		if (defined('GANTRY_FINALIZED')) return;
+		if (defined('GANTRY_FINALIZED')) return null;
 		if (!array_key_exists($namespace, $this->_tmp_vars) || !array_key_exists($varname, $this->_tmp_vars[$namespace])) {
 			return $default;
 		}
 		return $this->_tmp_vars[$namespace][$varname];
 	}
 
-	function setBodyId($id = null)
+	/**
+	 * @param null $id
+	 */
+	public function setBodyId($id = null)
 	{
 		$this->_bodyId = $id;
 	}
 
-	function addBodyClass($class)
+	/**
+	 * @param $class
+	 */
+	public function addBodyClass($class)
 	{
 		if (defined('GANTRY_FINALIZED')) return;
 		$this->_bodyclasses[] = $class;
 	}
 
-	function addClassByTag($id, $class)
+	/**
+	 * @param $id
+	 * @param $class
+	 */
+	public function addClassByTag($id, $class)
 	{
 		if (defined('GANTRY_FINALIZED')) return;
 		$this->_classesbytag[$id][] = $class;
 	}
 
-	function displayHead()
+	/**
+	 *
+	 */
+	public function displayHead()
 	{
 		if (defined('GANTRY_FINALIZED')) return;
 		foreach ($this->_gizmos as $gizmo) {
-			$gizmo_instance = $this->_getGizmo($gizmo);
-			if (method_exists( $gizmo_instance , 'isEnabled')) {
+			/** @var $gizmo_instance GantryGizmo */
+			$gizmo_instance = $this->getGizmo($gizmo);
+			if (method_exists($gizmo_instance, 'isEnabled')) {
 				if ($gizmo_instance->isEnabled() && method_exists($gizmo_instance, 'render')) {
 					$gizmo_instance->render();
 				}
@@ -813,33 +1004,38 @@ class Gantry
 		echo "<gantry:header/>";
 	}
 
-	function displayFooter()
+	/**
+	 *
+	 */
+	public function displayFooter()
 	{
 		if (defined('GANTRY_FINALIZED')) return;
 		do_action('get_footer', null);
 		echo "<gantry:footer/>";
 	}
 
-	function _displayHead(&$output)
+	/**
+	 * @param $output
+	 */
+	protected function _displayHead(&$output)
 	{
 		// get line endings
-		$lnEnd   = "\12";
-		$tab     = "\11";
-		$tagEnd  = ' />';
 		$strHtml = '';
 
 
 		// Enqueue Styles
 		$deps = array();
+		ksort($this->_styles);
 		foreach ($this->_styles as $style_priority) {
+			/** @var $strSrc GantryStyleLink */
 			foreach ($style_priority as $strSrc) {
-				if ($strSrc->type == 'local') {
-					$path = parse_url($strSrc->url, PHP_URL_PATH);
+				if ($strSrc->getType() == 'local') {
+					$path = parse_url($strSrc->getUrl(), PHP_URL_PATH);
 					if ($this->baseUrl != "/") {
 						$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 					}
 					$filename = strtolower(basename($path, '.css')) . rand(0, 1000);
-					wp_enqueue_style($filename, $path, array(), '1.31');
+					wp_enqueue_style($filename, $path, array(), '4.0.0');
 					$deps[] = $path;
 				}
 			}
@@ -852,11 +1048,11 @@ class Gantry
 			if ($this->baseUrl != "/") {
 				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 			}
-			wp_enqueue_script($path, $path, $deps, '1.31');
+			wp_enqueue_script($path, $path, $deps, '4.0.0');
 			$deps[] = $path;
 		}
 		foreach ($this->_full_scripts as $strSrc) {
-			wp_enqueue_script($strSrc, $strSrc, $deps, '1.31');
+			wp_enqueue_script($strSrc, $strSrc, $deps, '4.0.0');
 			$deps[] = $strSrc;
 		}
 
@@ -884,48 +1080,63 @@ class Gantry
 		$output = preg_replace("#<gantry:header/>#", $strHtml, $output);
 	}
 
-	function _displayFooter(&$output)
+	/**
+	 * @param $output
+	 */
+	protected function _displayFooter(&$output)
 	{
-		$strHtml = '';
-		
 		ob_start();
 		if (!$this->isAdmin()) wp_footer();
 		$strHtml = ob_get_clean();
-		$output = preg_replace("#<gantry:footer/>#", $strHtml, $output);
+		$output  = preg_replace("#<gantry:footer/>#", $strHtml, $output);
 	}
 
-	function _renderRemoteStyles()
+	/**
+	 *
+	 */
+	public function _renderRemoteStyles()
 	{
 		ob_start();
 		foreach ($this->_styles as $style_priority) {
+			/** @var $strSrc GantryStyleLink */
 			foreach ($style_priority as $strSrc) {
-				if ($strSrc->type == 'url') {
-					echo sprintf('<link rel="stylesheet" href="%s" type="text/css"/>', $strSrc->url);
+				if ($strSrc->getType() == 'url') {
+					echo sprintf('<link rel="stylesheet" href="%s" type="text/css"/>', $strSrc->getUrl());
 				}
 			}
 		}
 		echo ob_get_clean();
 	}
 
-	function _renderRemoteScripts()
+	/**
+	 *
+	 */
+	public function _renderRemoteScripts()
 	{
 		ob_start();
+		/** @var $strSrc GantryStyleLink */
 		foreach ($this->_scripts as $strSrc) {
-			if (is_object($strSrc) && $strSrc->type == 'url') {
-				echo sprintf('<script  type="text/javascript" src="%s"></script>', $strSrc->url);
+			if (is_object($strSrc) && $strSrc->getType() == 'url') {
+				echo sprintf('<script  type="text/javascript" src="%s"></script>', $strSrc->getUrl());
 			}
 		}
 		echo ob_get_clean();
 	}
 
 
-	function _renderCharset()
+	/**
+	 * @return string
+	 */
+	protected function _renderCharset()
 	{
 		$charset = '<meta http-equiv="Content-Type" content="' . get_bloginfo('html_type') . '; charset=' . get_bloginfo('charset') . '" />' . "\n";
 		return $charset;
 	}
 
-	function _renderTitle()
+	/**
+	 * @return string
+	 */
+	protected function _renderTitle()
 	{
 		if ($this->isAdmin()) return "";
 
@@ -938,12 +1149,14 @@ class Gantry
 		return $title;
 	}
 
-	function _renderScriptsHead()
+	/**
+	 * @return string
+	 */
+	protected function _renderScriptsHead()
 	{
 		// get line endings
 		$lnEnd   = "\12";
 		$tab     = "\11";
-		$tagEnd  = ' />';
 		$strHtml = '';
 
 
@@ -975,12 +1188,14 @@ class Gantry
 		return $strHtml;
 	}
 
-	function _renderStylesHead()
+	/**
+	 * @return string
+	 */
+	protected function _renderStylesHead()
 	{
 		// get line endings
 		$lnEnd   = "\12";
 		$tab     = "\11";
-		$tagEnd  = ' />';
 		$strHtml = '';
 
 		// Generate inline css
@@ -995,12 +1210,18 @@ class Gantry
 		return $strHtml;
 	}
 
-	function displayBodyTag()
+	/**
+	 * @return string
+	 */
+	public function displayBodyTag()
 	{
-		if (defined('GANTRY_FINALIZED')) return;
-		echo "<gantry:bodytag/>";
+		if (defined('GANTRY_FINALIZED')) return '';
+		return "<gantry:bodytag/>";
 	}
 
+	/**
+	 * @param $output
+	 */
 	function _displayBodyTag(&$output)
 	{
 		$body_classes = get_body_class();
@@ -1019,12 +1240,15 @@ class Gantry
 		$output   = preg_replace("#<gantry:bodytag/>#", $body_tag, $output);
 	}
 
-	function displayClassesByTag($tag)
+	/**
+	 * @param $tag
+	 *
+	 * @return string
+	 */
+	public function displayClassesByTag($tag)
 	{
-		if (defined('GANTRY_FINALIZED')) return;
+		if (defined('GANTRY_FINALIZED')) return '';
 		$tag_classes = array();
-
-		$output = "";
 
 		if (array_key_exists($tag, $this->_classesbytag)) {
 			foreach ($this->_classesbytag[$tag] as $param) {
@@ -1034,41 +1258,218 @@ class Gantry
 				} else {
 					$tag_classes[] = $param;
 				}
-
-
 			}
-			$output = 'class="' . implode(" ", $tag_classes) . '"';
-
 		}
 		return $this->renderLayout('doc_tag', array('classes' => implode(" ", $tag_classes)));
 	}
 
 	// debug function for body
+	/**
+	 * @param string $bodyLayout
+	 * @param string $sidebarLayout
+	 * @param string $sidebarChrome
+	 *
+	 * @return string
+	 */
 	function debugMainbody($bodyLayout = 'debugmainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard')
 	{
 		gantry_import('core.renderers.gantrydebugmainbodyrenderer');
 		return GantryDebugMainBodyRenderer::display($bodyLayout, $sidebarLayout, $sidebarChrome);
 	}
 
+	/**
+	 * @param string $lessfile
+	 * @param bool   $cssfile
+	 * @param int    $priority
+	 *
+	 * @param array  $options
+	 *
+	 * @throws RuntimeException
+	 * @throws Exception
+	 */
+	public function addLess($lessfile, $cssfile = null, $priority = self::DEFAULT_STYLE_PRIORITY, array $options = array())
+	{
+
+		$less_search_paths = array();
+		// setup the less filename
+		if (dirname($lessfile) == '.') {
+			//set up the check for template with plartform based dirs
+			$less_search_paths = $this->platform->getAvailablePlatformVersions($this->templatePath . '/less');
+			foreach ($less_search_paths as $less_path) {
+				if (is_dir($less_path)) {
+					$search_file = preg_replace('#[/\\\\]+#', '/', $less_path . '/' . $lessfile);
+					if (is_file($search_file)) {
+						$lessfile = $search_file;
+						break;
+					}
+				}
+			}
+		}
+		$lessfile_uri = new Gantry_Uri($lessfile);
+		$less_file_path = $this->uriutil->getFilesystemPath($lessfile_uri);
+		$less_file_url  = $this->uriutil->getUrlForPath($lessfile_uri);
+
+
+		// abort if the less file isnt there
+		if (!is_file($less_file_path)) {
+			return;
+		}
+
+		// get an md5 sum of any passed in options
+		$tmp_options = $options;
+		array_walk($tmp_options, create_function('&$v,$k', '$v = " * @".$k." = " .$v;'));
+		$options_string = implode($tmp_options, "\n");
+		$options_md5    = md5($options_string . (string)$this->get('less-compression', true));
+
+
+		$css_append = '';
+		if (!empty($options)) {
+			$css_append = '-' . $options_md5;
+		}
+
+		$default_compiled_css_dir = $this->templatePath . '/css-compiled';
+		if (!file_exists($default_compiled_css_dir)) {
+			@mkdir($default_compiled_css_dir, 0775,true);
+			if (!file_exists($default_compiled_css_dir)) {
+				throw new Exception(sprintf('Unable to create default directory (%s) for compiled less files.  Please check your filesystem permissions.', $default_compiled_css_dir));
+			}
+		}
+
+		// setup the output css file name
+		if (is_null($cssfile)) {
+			$css_file_path   = $default_compiled_css_dir . '/' . pathinfo($lessfile, PATHINFO_FILENAME) . $css_append . '.css';
+			$css_passed_path = pathinfo($css_file_path, PATHINFO_BASENAME);
+		} else {
+			if (dirname($cssfile) == '.') {
+				$css_file_path   = $default_compiled_css_dir . '/' . pathinfo($cssfile, PATHINFO_FILENAME) . $css_append . '.css';
+				$css_passed_path = pathinfo($css_file_path, PATHINFO_BASENAME);
+			} else {
+				$css_file_path   = dirname($this->uriutil->getFilesystemPath($cssfile)) . '/' . pathinfo($cssfile, PATHINFO_FILENAME) . $css_append . '.css';
+				$css_passed_path = $css_file_path;
+			}
+		}
+		$cssfile_md5 = md5($css_file_path);
+
+		// set base compile modes
+		$force_compile  = false;
+
+		if (!$this->isAdmin()) {
+			$cachegroup = self::LESS_SITE_CACHE_GROUP;
+		} else {
+			$cachegroup = self::LESS_ADMIN_CACHE_GROUP;
+		}
+
+
+		$runcompile    = false;
+
+		gantry_import('core.utilities.gantrycache');
+		$cache_handler = GantryCache::getCache($cachegroup, 0, true);
+
+		$cached_less_compile = $cache_handler->get($cssfile_md5, false);
+		if ($cached_less_compile === false || !file_exists($css_file_path)) {
+			$cached_less_compile = $less_file_path;
+			$runcompile          = true;
+		} elseif (is_array($cached_less_compile) && isset($cached_less_compile['root'])) {
+			if (isset($cached_less_compile['files']) and is_array($cached_less_compile['files'])) {
+				foreach ($cached_less_compile['files'] as $fname => $ftime) {
+					if (!file_exists($fname) or filemtime($fname) > $ftime) {
+						// One of the files we knew about previously has changed
+						// so we should look at our incoming root again.
+						$runcompile = true;
+						break;
+					}
+				}
+			}
+		}
+
+		if ($runcompile) {
+			gantry_import('core.utilities.gantrylesscompiler');
+			$quick_expire_cache = GantryCache::getCache($cachegroup, $this->get('less-compilewait', self::LESS_MAX_COMPILE_WAIT_TIME));
+
+			$timewaiting = 0;
+			while ($quick_expire_cache->get($cssfile_md5 . '-compiling') !== false) {
+				$wait = 100000; // 1/10 of a second;
+				usleep($wait);
+				$timewaiting += $wait;
+				if ($timewaiting >= $this->get('less-compilewait', self::LESS_MAX_COMPILE_WAIT_TIME) * 1000000) {
+					break;
+				}
+			}
+
+			$less = new GantryLessCompiler();
+			$less->setImportDir($less_search_paths);
+			$less->addImportDir($this->gantryPath . '/assets');
+
+			if (!empty($options)) {
+				$less->setVariables($options);
+			}
+
+			if ($this->get('less-compression', true)) {
+				$less->setFormatter("compressed");
+			}
+
+			$quick_expire_cache->set($cssfile_md5 . '-compiling', true);
+			try {
+				$new_cache = $less->cachedCompile($cached_less_compile, $force_compile);
+			} catch (Exception $ex) {
+				$quick_expire_cache->clear($cssfile_md5 . '-compiling');
+				throw new RuntimeException('Less Parse Error: ' . $ex->getMessage());
+			}
+			if (!is_array($cached_less_compile) || $new_cache['updated'] > $cached_less_compile['updated']) {
+				$cache_handler->set($cssfile_md5, $new_cache);
+				$tmp_ouput_file = tempnam(dirname($css_file_path), 'gantry_less');
+
+
+				$header = '';
+				if ($this->get('less-debugheader', false)) {
+					$header .= sprintf("/*\n * Main File : %s", str_replace($this->baseUrl, '', $less_file_url));
+					if (!empty($options)) {
+						$header .= sprintf("\n * Variables :\n %s", $options_string);
+					}
+					if (count($new_cache['files']) > 1) {
+						$included_files = array_keys($new_cache['files']);
+						unset($included_files[0]);
+						array_walk($included_files, create_function('&$v,$k', 'global $gantry;$v=" * ".$gantry->uriutil->getUrlForPath($v);'));
+						$header .= sprintf("\n * Included Files : \n%s", implode("\n", str_replace($this->baseUrl, '', $included_files)));
+					}
+					$header .= "\n */\n";
+				}
+				file_put_contents($tmp_ouput_file, $header . $new_cache['compiled']);
+
+				// Do the messed up file renaming for windows
+				if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+					$move_old_file_name = tempnam(dirname($css_file_path), 'gantry_less');
+					if (is_file($css_file_path)) @rename($css_file_path, $move_old_file_name);
+					@rename($tmp_ouput_file, $css_file_path);
+					@unlink($move_old_file_name);
+				} else {
+					@rename($tmp_ouput_file, $css_file_path);
+				}
+				@chmod($css_file_path,0644);
+			}
+			$quick_expire_cache->clear($cssfile_md5 . '-compiling');
+		}
+		$this->addStyle($css_passed_path, $priority);
+		if (!empty($css_append) && !is_null($cssfile) && dirname($cssfile) == '.') {
+			$this->addStyle($cssfile, $priority);
+		}
+	}
+
 	/* ------ Stylesheet Funcitons  ----------- */
 
-	function addStyle($file = '', $priority = 10, $template_files_override = false)
+	/**
+	 * @param string $file
+	 * @param int    $priority
+	 * @param bool   $template_files_override
+	 */
+	public function addStyle($file = '', $priority = self::DEFAULT_STYLE_PRIORITY, $template_files_override = false)
 	{
-		if (defined('GANTRY_FINALIZED')) return;
-		if (is_array($file)) return $this->addStyles($file, $priority);
-		$type = 'css';
+		if (is_array($file)) {
+			$this->addStyles($file, $priority);
+			return;
+		}
 
-		$template_path = $this->templatePath . DS . $type . DS;
-		$template_url  = $this->templateUrl . '/css/';
-		$gantry_path   = $this->gantryPath . DS . $type . DS;
-		$gantry_url    = $this->gantryUrl . '/css/';
-
-		$gantry_first_paths   = array(
-			$gantry_url   => $gantry_path,
-			$template_url => $template_path
-		);
-		$template_first_paths = array_reverse($gantry_first_paths, true);
-
+		/** @var $out_files GantryStyleLink[] */
 		$out_files     = array();
 		$ext           = substr($file, strrpos($file, '.'));
 		$filename      = basename($file, $ext);
@@ -1076,77 +1477,104 @@ class Gantry
 		$override_file = $filename . "-override" . $ext;
 
 		// get browser checks and remove base files
-		$checks = $this->_getBrowserBasedChecks(basename($file));
-		unset($checks[array_search($base_file, $checks)]);
+		$template_check_paths = $this->getBrowserBasedChecks(preg_replace('/-[0-9a-f]{32}\.css$/i', '.css', basename($file)));
+		unset($template_check_paths[array_search($base_file, $template_check_paths)]);
 
-		$override_checks = $this->_getBrowserBasedChecks(basename($override_file));
-		unset($override_checks[array_search($override_file, $override_checks)]);
 
 		// check to see if this is a full path file
 		$dir = dirname($file);
 		if ($dir != ".") {
 			// Add full url directly to document
-			if (preg_match('/^http/', $file)) {
+			$file_uri = new Gantry_Uri($file);
+			if ($this->uriutil->isExternal($file_uri)) {
 				$link                       = new GantryStyleLink('url', '', $file);
 				$this->_styles[$priority][] = $link;
 				return;
 			}
 
 			// process a url passed file and browser checks
-			$url_path         = $dir;
-			$file_path        = $this->_getFilePath($file);
+			$url_path         = $this->uriutil->getUrlForPath($file_uri);
+			$file_path        = $this->uriutil->getFilesystemPath($file_uri);
 			$file_parent_path = dirname($file_path);
 
 			if (file_exists($file_parent_path) && is_dir($file_parent_path)) {
 				$base_path = preg_replace("/\?(.*)/", '', $file_parent_path . DS . $base_file);
 				// load the base file
 				if (file_exists($base_path) && is_file($base_path) && is_readable($base_path)) {
-					$out_files[$base_path] = new GantryStyleLink('local', $base_path, $file);
+					$out_files[$base_path] = new GantryStyleLink('local', $base_path, $url_path);
 				}
-				foreach ($checks as $check) {
+				foreach ($template_check_paths as $check) {
 					$check_path     = preg_replace("/\?(.*)/", '', $file_parent_path . DS . $check);
 					$check_url_path = $url_path . "/" . $check;
 					if (file_exists($check_path) && is_readable($check_path)) {
 						$out_files[$check] = new GantryStyleLink('local', $check_path, $check_url_path);
 					}
 				}
+			} else {
+				//pass through no file path urls
+				$link                       = new GantryStyleLink('url', '', $url_path);
+				$this->_styles[$priority][] = $link;
 			}
 		} else {
+
+			// get the checks for override files
+			$override_checks = $this->getBrowserBasedChecks(basename($override_file));
+			unset($override_checks[array_search($override_file, $override_checks)]);
+
+			//set up the check for template with plartform based dirs
+			$template_check_p          = $this->platform->getPlatformChecks($this->templatePath . '/css');
+			$template_check_u          = $this->platform->getPlatformChecks($this->templateUrl . '/css');
+			$template_css_search_paths = array();
+			for ($i = 0; $i < count($template_check_p); $i++) {
+				$template_css_search_paths[$template_check_u[$i]] = $template_check_p[$i];
+			}
+
+			// set up the full path checks
+			$css_search_paths = array(
+				$this->gantryUrl . '/css/'            => $this->gantryPath . '/css/',
+				$this->templateUrl . '/css-compiled/' => $this->templatePath . '/css-compiled/'
+			);
+
+			$css_search_paths = array_merge($css_search_paths, $template_css_search_paths);
+
+
 			$base_override   = false;
 			$checks_override = array();
 
-			// Look for an base override file in the template dir
-			$template_base_override_file = $template_path . $override_file;
-			if (file_exists($template_path) && is_dir($template_path) && file_exists($template_base_override_file) && is_file($template_base_override_file)) {
-				$out_files[$template_base_override_file] = new GantryStyleLink('local', $template_base_override_file, $template_url . $override_file);
-				$base_override                           = true;
-			}
+			foreach ($template_css_search_paths as $template_url => $template_path) {
+				// Look for an base override file in the template dir
+				$template_base_override_file = $template_path . $override_file;
+				if ($this->isStyleAvailable($template_base_override_file)) {
+					$out_files[$template_base_override_file] = new GantryStyleLink('local', $template_base_override_file, $template_url . $override_file);
+					$base_override                           = true;
+				}
 
-			// look for overrides for each of the browser checks
-			foreach ($override_checks as $check_index => $override_check) {
-				$template_check_override       = preg_replace("/\?(.*)/", '', $template_path . $override_check);
-				$checks_override[$check_index] = false;
-				if (file_exists($template_path) && is_dir($template_path) && file_exists($template_check_override) && is_file($template_check_override)) {
-					$checks_override[$check_index] = true;
-					if ($base_override) {
-						$out_files[$template_check_override] = new GantryStyleLink('local', $template_check_override, $template_url . $override_check);
+				// look for overrides for each of the browser checks
+				foreach ($override_checks as $check_index => $override_check) {
+					$template_check_override       = preg_replace("/\?(.*)/", '', $template_path . $override_check);
+					$checks_override[$check_index] = false;
+					if ($this->isStyleAvailable($template_check_override)) {
+						$checks_override[$check_index] = true;
+						if ($base_override) {
+							$out_files[$template_check_override] = new GantryStyleLink('local', $template_check_override, $template_url . $override_check);
+						}
 					}
 				}
 			}
 
 			if (!$base_override) {
 				// Add the base files if there is no  base -override
-				foreach ($gantry_first_paths as $base_url => $path) {
+				foreach ($css_search_paths as $base_url => $path) {
 					// Add the base file
 					$base_path = preg_replace("/\?(.*)/", '', $path . $base_file);
 					// load the base file
-					if (file_exists($base_path) && is_file($base_path) && is_readable($base_path)) {
+					if ($this->isStyleAvailable($base_path)) {
 						$outfile_key             = ($template_files_override) ? $base_file : $base_path;
 						$out_files[$outfile_key] = new GantryStyleLink('local', $base_path, $base_url . $base_file);
 					}
 
 					// Add the browser checked files or its override
-					foreach ($checks as $check_index => $check) {
+					foreach ($template_check_paths as $check_index => $check) {
 						// replace $check with the override if it exists
 						if ($checks_override[$check_index]) {
 							$check = $override_checks[$check_index];
@@ -1154,7 +1582,7 @@ class Gantry
 
 						$check_path = preg_replace("/\?(.*)/", '', $path . $check);
 
-						if (file_exists($check_path) && is_file($check_path) && is_readable($check_path)) {
+						if ($this->isStyleAvailable($check_path)) {
 							$outfile_key             = ($template_files_override) ? $check : $check_path;
 							$out_files[$outfile_key] = new GantryStyleLink('local', $check_path, $base_url . $check);
 						}
@@ -1176,7 +1604,11 @@ class Gantry
 				}
 			}
 			if ($addit) {
-				$this->_styles[$priority][] = $link;
+				if (!defined('GANTRY_FINALIZED')) {
+					$this->_styles[$priority][] = $link;
+				} else {
+					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.0.0');
+				}
 			}
 		}
 
@@ -1188,13 +1620,38 @@ class Gantry
 		}
 	}
 
-	function addStyles($styles = array(), $priority = 10)
+	/**
+	 * @param $path
+	 *
+	 * @return bool
+	 */
+	protected function isStyleAvailable($path)
+	{
+		if (isset($this->_styles_available[$path])) {
+			return true;
+		} else if (file_exists($path) && is_file($path)) {
+			$this->_styles_available[$path] = $path;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * @param array $styles
+	 * @param int   $priority
+	 */
+	public function addStyles($styles = array(), $priority = self::DEFAULT_STYLE_PRIORITY)
 	{
 		if (defined('GANTRY_FINALIZED')) return;
 		foreach ($styles as $style) $this->addStyle($style, $priority);
 	}
 
-	function addInlineStyle($css = '')
+	/**
+	 * @param string $css
+	 *
+	 * @return null
+	 */
+	public function addInlineStyle($css = '')
 	{
 		if (defined('GANTRY_FINALIZED')) return;
 		if (!isset($this->_inline_style)) {
@@ -1204,21 +1661,24 @@ class Gantry
 		}
 	}
 
-	function addScript($file = '')
+	/**
+	 * @param string $file
+	 *
+	 * @return void
+	 */
+	public function addScript($file = '')
 	{
-		if (defined('GANTRY_FINALIZED')) return;
-		if (is_array($file)) return $this->addScripts($file);
+		if (is_array($file)) {
+			$this->addScripts($file);
+			return;
+		}
 		//special case for main JS libs
 		if ($file == 'mootools.js') {
 			global $wp_scripts;
 			$found = false;
 			foreach ($wp_scripts->registered as $script) {
-				if (
-					(strpos($script->handle, 'mootools') !== false && strpos($script->handle, 'rok_') !== false)
-					|| (isset($script->content_url) && strpos($script->content_url, 'mootools') !== false && strpos($script->handle, 'rs_') !== false)
-					|| (isset($script->src) && strpos($script->src, 'mootools') !== false && strpos($script->handle, 'rs_') !== false)
-				)
-				{
+				if ((strpos($script->handle, 'mootools') !== false && strpos($script->handle, 'rok_') !== false) || (isset($script->content_url) && strpos($script->content_url, 'mootools') !== false && strpos($script->handle, 'rs_') !== false) || (isset($script->src) && strpos($script->src, 'mootools') !== false && strpos($script->handle, 'rs_') !== false)
+				) {
 					$found = true;
 				}
 			}
@@ -1229,55 +1689,64 @@ class Gantry
 		}
 		$type = 'js';
 
-
+		$query_string = '';
 		// check to see if this is a full path file
-		$dir         = dirname($file);
-		$scripturl   = GantryUrl::explode($file);
-		$base        = GantryUrl::explode(get_option('siteurl'));
-		$same_domain = ($scripturl['host'] == $base['host'] && preg_match('#^' . $base['path'] . '#', $scripturl['path']));
-
+		$dir = dirname($file);
+		$file_uri = new Gantry_Uri($file);
 		if ($dir != ".") {
-			// full url
-			if (($scripturl['scheme'] == 'http' || $scripturl['scheme'] == 'https') && !$same_domain) {
+			// For remote url just add the url
+			if ($this->uriutil->isExternal($file_uri)) {
 				$this->_full_scripts[] = $file;
 				return;
 			}
 
-			if ($same_domain) {
-				$dir = dirname($scripturl['path']);
-			}
-
-
 			// For local url path get the local path based on checks
 			$url_path        = $dir;
-			$file_path       = $this->_getFilePath($file);
+			$file_path       = $this->uriutil->getFilesystemPath($file);
 			$url_file_checks = $this->platform->getJSChecks($file_path, true);
 			foreach ($url_file_checks as $url_file) {
-				$full_path = realpath($url_file);
+				$full_path = gantry_clean_path(realpath($url_file));
 				if ($full_path !== false && file_exists($full_path)) {
-					$check_url_path             = $url_path . '/' . basename($url_file);
-					$this->_scripts[$full_path] = $check_url_path;
+					$check_url_path = $url_path . '/' . basename($url_file);
+					if (!defined('GANTRY_FINALIZED')) {
+						$this->_scripts[$full_path] = $check_url_path . $query_string;
+					} else {
+						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.0');
+					}
 					break;
 				}
 			}
 			return;
 		}
 
-		$out_files = array();
+		//set up the check for template with plartform based dirs
+		$template_check_p      = $this->platform->getPlatformChecks($this->templatePath . '/js');
+		$template_check_u      = $this->platform->getPlatformChecks($this->templateUrl . '/js');
+		$template_search_paths = array();
+		for ($i = 0; $i < count($template_check_p); $i++) {
+			$template_search_paths[$template_check_u[$i]] = $template_check_p[$i];
+		}
 
 		$paths = array(
-			$this->templateUrl => $this->templatePath . DS . $type,
-			$this->gantryUrl   => $this->gantryPath . DS . $type
+			$this->gantryUrl . '/' . $type => $this->gantryPath . '/' . $type
 		);
+
+		$paths = array_merge($template_search_paths, $paths);
 
 		$checks = $this->platform->getJSChecks($file);
 		foreach ($paths as $baseurl => $path) {
+			$baseurl = rtrim($baseurl, '/');
+			$path    = rtrim($path, '/\\');
 			if (file_exists($path) && is_dir($path)) {
 				foreach ($checks as $check) {
-					$check_path     = preg_replace("/\?(.*)/", '', $path . DS . $check);
-					$check_url_path = $baseurl . "/" . $type . "/" . $check;
+					$check_path     = preg_replace("/\?(.*)/", '', $path . '/' . $check);
+					$check_url_path = $baseurl . "/" . $check;
 					if (file_exists($check_path) && is_readable($check_path)) {
-						$this->_scripts[$check_path] = $check_url_path;
+						if (!defined('GANTRY_FINALIZED')) {
+							$this->_scripts[$check_path] = $check_url_path . $query_string;
+						} else {
+							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.0');
+						}
 						break(2);
 					}
 				}
@@ -1286,13 +1755,19 @@ class Gantry
 	}
 
 
-	function addScripts($scripts = array())
+	/**
+	 * @param array $scripts
+	 */
+	public function addScripts($scripts = array())
 	{
 		if (defined('GANTRY_FINALIZED')) return;
 		foreach ($scripts as $script) $this->addScript($script);
 	}
 
-	function addInlineScript($js = '')
+	/**
+	 * @param string $js
+	 */
+	public function addInlineScript($js = '')
 	{
 		if (defined('GANTRY_FINALIZED')) return;
 		if (!isset($this->_inline_script)) {
@@ -1302,7 +1777,10 @@ class Gantry
 		}
 	}
 
-	function addDomReadyScript($js = '')
+	/**
+	 * @param string $js
+	 */
+	public function addDomReadyScript($js = '')
 	{
 		if (defined('GANTRY_FINALIZED')) return;
 		if (!isset($this->_domready_script)) {
@@ -1312,7 +1790,10 @@ class Gantry
 		}
 	}
 
-	function addLoadScript($js = '')
+	/**
+	 * @param string $js
+	 */
+	public function addLoadScript($js = '')
 	{
 		if (defined('GANTRY_FINALIZED')) return;
 		if (!isset($this->_loadevent_script)) {
@@ -1327,7 +1808,7 @@ class Gantry
 	 *
 	 * @return void
 	 */
-	function addContentTypePath($path)
+	public function addContentTypePath($path)
 	{
 		if (!empty($path) && is_dir($path)) {
 			array_unshift($this->_contentTypePaths, $path);
@@ -1337,7 +1818,7 @@ class Gantry
 	/**
 	 * @return array
 	 */
-	function getContentTypePaths()
+	public function getContentTypePaths()
 	{
 		if (empty($this->_contentTypePaths)) $this->_initContentTypePaths();
 		return $this->_contentTypePaths;
@@ -1346,7 +1827,7 @@ class Gantry
 	/**
 	 * @return void
 	 */
-	function _initContentTypePaths()
+	protected function _initContentTypePaths()
 	{
 		if (empty($this->_contentTypePaths)) {
 			$this->_contentTypePaths[] = $this->templatePath . '/html';
@@ -1354,56 +1835,19 @@ class Gantry
 		}
 	}
 
-	function readMenuItemParams($id, $asArray = false)
-	{
-		$outstring = '';
-
-		if (!array_key_exists($id, $this->_menu_item_params)) {
-			$menu_items_title = 'menu_item_overrides';
-			$prefix           = "menuitemparam";
-			$menu_params_file = $this->custom_menuitemparams_dir . DS . $id . '.menuparams.ini';
-			if (file_exists($menu_params_file) && is_readable($menu_params_file)) {
-				$outarray = GantryINI::read($menu_params_file, $menu_items_title, $prefix);
-				if ($outarray != null) {
-					$this->_menu_item_params[$id] = & $outarray;
-				}
-			}
-		}
-		if (array_key_exists($id, $this->_menu_item_params)) {
-			$outarray = & $this->_menu_item_params[$id];
-			if ($asArray) return $outarray;
-			if (count($outarray) > 0) {
-				$parts = array();
-				foreach ($outarray as $paramname => $paramvalue) {
-					$parts[] = $paramname . "=" . $paramvalue;
-				}
-				$outstring = implode("\n", $parts);
-			}
-		}
-		return $outstring;
-	}
-
-	function writeMenuItemParams($id, $data)
-	{
-		$menu_items_title = 'menu_item_overrides';
-		$prefix           = "menuitemparam";
-
-		if (file_exists($this->custom_menuitemparams_dir)) {
-
-			$menu_params_file = $this->custom_menuitemparams_dir . DS . $id . '.menuparams.ini';
-			if (is_array($data)) {
-				$in_data = array($menu_items_title => array($prefix => $data));
-				GantryINI::write($menu_params_file, $in_data, false);
-			}
-		}
-	}
-
-	function clearOverrides()
+	/**
+	 *
+	 */
+	public function clearOverrides()
 	{
 		$this->_override_tree = array();
 	}
 
-	function addOverrides($overrides, $priority)
+	/**
+	 * @param $overrides
+	 * @param $priority
+	 */
+	public function addOverrides($overrides, $priority)
 	{
 		if (!array($overrides)) {
 			$overrides = array($overrides);
@@ -1419,14 +1863,14 @@ class Gantry
 	}
 
 	/**
-	 * @param string $layout the layout name to render
+	 * @param        $layout_name
 	 * @param array  $params all parameters needed for rendering the layout as an associative array with 'parameter name' => parameter_value
 	 *
-	 * @return void
+	 * @return string
 	 */
-	function renderLayout($layout_name, $params = array())
+	public function renderLayout($layout_name, $params = array())
 	{
-		$layout = $this->_getLayout($layout_name);
+		$layout = $this->getLayout($layout_name);
 		if ($layout === false) {
 			return "<!-- Unable to render layout... can not find layout class for " . $layout_name . " -->";
 		}
@@ -1439,31 +1883,13 @@ class Gantry
 	 */
 
 	/**
-	 * @param  $url
-	 *
-	 * @return string
-	 */
-	function _getFilePath($url)
-	{
-		$parsedurl = parse_url(get_option('siteurl'));
-		$base      = $parsedurl['scheme'] . "://" . $parsedurl['host'];
-		if (array_key_exists('port', $parsedurl)) $base .= ':' . $parsedurl['port'];
-		$path = preg_replace("#/$#", "", $this->baseUrl);
-		if ($url && $base && strpos($url, $base) !== false) $url = preg_replace('#^' . quotemeta($base) . '#', "", $url);
-		if ($url && $path && strpos($url, $path) !== false) $url = preg_replace('#^' . quotemeta($path) . '#', "", $url);
-		if (substr($url, 0, 1) != DS) $url = DS . $url;
-		$filepath = preg_replace("#/$#", "", $this->basePath) . $url;
-		return $filepath;
-	}
-
-	/**
 	 * internal util function to get key from schema array
 	 *
 	 * @param  $schemaArray
 	 *
-	 * @return #Fimplode|?
+	 * @return string
 	 */
-	function _getKey($schemaArray)
+	public function getKey($schemaArray)
 	{
 
 		$concatArray = array();
@@ -1477,29 +1903,9 @@ class Gantry
 
 
 	/**
-	 * @return #M#Vdb.loadResult|#P#Vdefault_item.id|int|?
-	 */
-	function _getDefaultMenuItem()
-	{
-		if (!$this->isAdmin()) {
-			$menu         =& JSite::getMenu();
-			$default_item = $menu->getDefault();
-			return $default_item->id;
-		} else {
-			$db      =& JFactory::getDBO();
-			$default = 0;
-			$query   = 'SELECT id' . ' FROM #__menu AS m' . ' WHERE m.home = 1';
-
-			$db->setQuery($query);
-			$default = $db->loadResult();
-			return $default;
-		}
-	}
-
-	/**
 	 * @return void
 	 */
-	function _loadConfig()
+	protected function loadConfig()
 	{
 		// Process the config
 		$default_config_file = $this->gantryPath . DS . 'gantry.config.php';
@@ -1536,7 +1942,10 @@ class Gantry
 		}
 	}
 
-	function _loadWidgetPositions()
+	/**
+	 *
+	 */
+	public function loadWidgetPositions()
 	{
 		$positions = $this->getUniquePositions();
 
@@ -1561,7 +1970,7 @@ class Gantry
 	 * Gets the xml config for all gantry widgets
 	 * @return void
 	 */
-	function _getWidgetConfigs()
+	protected function getWidgetConfigs()
 	{
 		gantry_import('core.config.gantryform');
 
@@ -1600,9 +2009,18 @@ class Gantry
 	 * Load up any Browser config values set in the gantry.config.php files
 	 * @return void
 	 */
-	function _loadBrowserConfig()
+	public function loadBrowserConfig()
 	{
-		$checks = $this->browser->_checks;
+		$checks = array(
+			$this->browser->name,
+			$this->browser->platform,
+			$this->browser->name . '_' . $this->browser->platform,
+			$this->browser->name . $this->browser->shortversion,
+			$this->browser->name . $this->browser->version,
+			$this->browser->name . $this->browser->shortversion . '_' . $this->browser->platform,
+			$this->browser->name . $this->browser->version . '_' . $this->browser->platform
+		);
+
 		foreach ($checks as $check) {
 			if (array_key_exists($check, $this->_browser_params)) {
 				foreach ($this->_browser_params[$check] as $param_name => $param_value) {
@@ -1613,50 +2031,9 @@ class Gantry
 	}
 
 	/**
-	 * @param array $ignore
-	 *
-	 * @return string
-	 */
-	function _rebuildQueryString($ignore = array())
-	{
-		if (!empty($_SERVER['QUERY_STRING'])) {
-			$parts    = explode("&", $_SERVER['QUERY_STRING']);
-			$newParts = array();
-			$qs       = '';
-
-			foreach ($parts as $val) {
-				$val_parts = explode("=", $val);
-				if (!in_array($val_parts[0], $this->_setbyurl) && !in_array($val_parts[0], $this->_ignoreQueryParams) && !in_array($val_parts[0], $ignore)) {
-					if (empty($val_parts[1])) $val_parts[1] = '';
-					$newParts[$val_parts[0]] = $val_parts[1];
-				}
-			}
-			$newqs = array();
-			foreach ($newParts as $newparam => $newval) {
-				if (!empty($newval)) {
-					$newqs[] = $newparam . "=" . $newval;
-				} else {
-					$newqs[] = $newparam;
-				}
-			}
-
-			if (count($newqs) != 0) {
-				$qs = implode("&amp;", $newqs);
-			} else {
-				return "?";
-			}
-
-			return "?" . $qs . "&amp;"; // this is your new created query string
-		} else {
-			return "?";
-		}
-	}
-
-
-	/**
 	 * @return void
 	 */
-	function _customPresets()
+	protected function customPresets()
 	{
 		$this->originalPresets = $this->presets;
 		if (file_exists($this->custom_presets_file)) {
@@ -1665,7 +2042,7 @@ class Gantry
 			$this->customPresets   = $customPresets;
 			$this->originalPresets = $this->presets;
 			if (count($customPresets)) {
-				$this->presets = $this->_array_merge_replace_recursive($this->presets, $customPresets);
+				$this->presets = $this->array_merge_replace_recursive($this->presets, $customPresets);
 				foreach ($this->presets as $key => $preset) {
 					uksort($preset, array($this, "_compareKeys"));
 					$this->presets[$key] = $preset;
@@ -1681,7 +2058,7 @@ class Gantry
 	 *
 	 * @return int
 	 */
-	function _compareKeys($key1, $key2)
+	public function _compareKeys($key1, $key2)
 	{
 		if (strlen($key1) < strlen($key2)) return -1; else if (strlen($key1) > strlen($key2)) return 1; else {
 			if ($key1 < $key2) return -1; else return 1;
@@ -1694,14 +2071,14 @@ class Gantry
 	 *
 	 * @return array
 	 */
-	function _getPresetParams($name, $preset)
+	public function getPresetParams($name, $preset)
 	{
 		$return_params = array();
 		if (array_key_exists($preset, $this->presets[$name])) {
 			$preset_params = $this->presets[$name][$preset];
 			foreach ($preset_params as $preset_param_name => $preset_param_value) {
 				if (array_key_exists($preset_param_name, $this->_working_params) && $this->_working_params[$preset_param_name]['type'] == 'preset') {
-					$return_params = $this->_getPresetParams($preset_param_name, $preset_param_value);
+					$return_params = $this->getPresetParams($preset_param_name, $preset_param_value);
 				}
 			}
 			foreach ($preset_params as $preset_param_name => $preset_param_value) {
@@ -1716,46 +2093,28 @@ class Gantry
 	/**
 	 * @return void
 	 */
-	function _populateParams()
+	protected function populateParams()
 	{
-		gantry_import('core.params.overrides.gantryurlparams');
-		gantry_import('core.params.overrides.gantrysessionparams');
-		gantry_import('core.params.overrides.gantrycookieparams');
-		gantry_import('core.params.overrides.gantryoverrideparams');
+		gantry_import('core.params.overrides.gantryurlparamoverride');
+		gantry_import('core.params.overrides.gantrysessionparamoverride');
+		gantry_import('core.params.overrides.gantrycookieparamoverride');
+		gantry_import('core.params.overrides.gantryoverrideparamoverride');
 
 		// get a copy of the params for working with on this call
-		$this->_working_params = $this->_templateDetails->getParams();
+		$this->_working_params = $this->_template->getParams();
 
 		//$reset =  get_query_var('reset-settings');
 
 		if (!isset($_REQUEST['reset-settings'])) {
-			GantrySessionParams::populate();
-			GantryCookieParams::populate();
+			GantrySessionParamOverride::populate();
+			GantryCookieParamOverride::populate();
 		}
 
-		GantryOverrideParams::populate();
+		GantryOverrideParamOverride::populate();
 
 		if (!isset($_REQUEST['reset-settings'])) {
-			GantryUrlParams::populate();
+			GantryUrlParamOverride::populate();
 		}
-	}
-
-	/**
-	 * @param  $position
-	 *
-	 * @return array
-	 */
-	function _getFeaturesForPosition($position)
-	{
-		$return = array();
-		// Init all features
-		foreach ($this->_features as $feature) {
-			$feature_instance = $this->_getFeature($feature);
-			if ($feature_instance->isEnabled() && $feature_instance->isInPosition($position) && method_exists($feature_instance, 'render')) {
-				$return[] = $feature;
-			}
-		}
-		return $return;
 	}
 
 	/**
@@ -1765,7 +2124,7 @@ class Gantry
 	 *
 	 * @return string
 	 */
-	function _getShortName($longname)
+	public function getShortName($longname)
 	{
 		$shortname = $longname;
 		if (strlen($longname) > 2) {
@@ -1781,9 +2140,8 @@ class Gantry
 	 *
 	 * @return string
 	 */
-	function _getLongName($shortname)
+	public function getLongName($shortname)
 	{
-		$longname = $shortname;
 		switch (substr($shortname, 0, 1)) {
 			case "s":
 			default:
@@ -1796,18 +2154,6 @@ class Gantry
 
 
 	/**
-	 * internal util to retrieve the prefix of a position
-	 *
-	 * @param  $position
-	 *
-	 * @return #Fsubstr|?
-	 */
-	function _getPositionPrefix($position)
-	{
-		return substr($position, 0, strrpos($position, "-"));
-	}
-
-	/**
 	 * internal util to retrieve the stored position schema
 	 *
 	 * @param  $position
@@ -1815,9 +2161,9 @@ class Gantry
 	 * @param  $count
 	 * @param  $index
 	 *
-	 * @return #P#CGantry.layoutSchemas|boolean|?
+	 * @return array|boolean
 	 */
-	function _getPositionSchema($position, $gridsize, $count, $index)
+	public function getPositionSchema($position, $gridsize, $count, $index)
 	{
 		$param         = $position . '-layout';
 		$defaultSchema = false;
@@ -1844,11 +2190,13 @@ class Gantry
 
 
 	/**
-	 * @param  $filename
+	 * @param string $file
+	 * @param bool   $keep_path
 	 *
-	 * @return
+	 *
+	 * @return array
 	 */
-	function _getBrowserBasedChecks($file, $keep_path = false)
+	protected function getBrowserBasedChecks($file, $keep_path = false)
 	{
 		$ext      = substr($file, strrpos($file, '.'));
 		$path     = ($keep_path) ? dirname($file) . DS : '';
@@ -1857,7 +2205,6 @@ class Gantry
 		$checks = $this->browser->getChecks($file, $keep_path);
 
 		// check if RTL version needed
-		$document =& $this->document;
 		if (get_bloginfo('text_direction') == 'rtl' && $this->get('rtl-enabled')) {
 			$checks[] = $path . $filename . '-rtl' . $ext;
 		}
@@ -1865,9 +2212,9 @@ class Gantry
 	}
 
 	/**
-	 * @return
+	 * @return bool|string
 	 */
-	function _getCurrentTemplate()
+	public function getCurrentTemplate()
 	{
 		if (defined('TEMPLATEPATH')) {
 			return basename(TEMPLATEPATH);
@@ -1878,132 +2225,47 @@ class Gantry
 		}
 	}
 
+
 	/**
-	 * @param  $condition
 	 *
-	 * @return
 	 */
-	function _adminCountModules($condition)
+	protected function loadStyles()
 	{
-		$result = '';
 
-		$words = explode(' ', $condition);
-		for ($i = 0; $i < count($words); $i += 2) {
-			// odd parts (modules)
-			$name      = strtolower($words[$i]);
-			$words[$i] = ((isset($this->_buffer['modules'][$name])) && ($this->_buffer['modules'][$name] === false)) ? 0 : count($this->_getModulesFromAdmin($name));
-		}
-		$str = 'return ' . implode(' ', $words) . ';';
-		return eval($str);
-	}
+		$type          = 'css';
+		$template_path = $this->templatePath . '/' . $type . '/';
+		$gantry_path   = $this->gantryPath . '/' . $type . '/';
 
-	/**
-	 * Get modules by position
-	 *
-	 * @param string     $position    The position of the module
-	 *
-	 * @return array    An array of module objects
-	 */
-	function &_getModulesFromAdmin($position)
-	{
-		$position = strtolower($position);
-		$result   = array();
-
-		$modules = $this->_loadModulesFromAdmin();
-
-		$total = count($modules);
-		for ($i = 0; $i < $total; $i++) {
-			if ($modules[$i]->position == $position) {
-				$result[] =& $modules[$i];
-			}
-		}
-		return $result;
-	}
-
-	/**
-	 * @return #M#Vdb.loadObjectList|array|boolean|?
-	 */
-	function _loadModulesFromAdmin()
-	{
-		static $modules;
-
-		if (isset($modules)) {
-			return $modules;
-		}
-
-		$db =& JFactory::getDBO();
-
-		$modules = array();
-
-		$wheremenu = ' AND ( mm.menuid = ' . (int)$this->currentMenuItem . ' OR mm.menuid = 0 )';
-
-		$query = 'SELECT id, position' . ' FROM #__modules AS m' . ' LEFT JOIN #__modules_menu AS mm ON mm.moduleid = m.id' . ' WHERE m.published = 1' . ' AND m.access <= 0' . ' AND m.client_id = 0' . $wheremenu . ' ORDER BY position, ordering';
-
-		$db->setQuery($query);
-		if (null === ($modules = $db->loadObjectList())) {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('Error Loading Modules') . $db->getErrorMsg());
-			return false;
-		}
-
-		$total = count($modules);
-		for ($i = 0; $i < $total; $i++) {
-			$modules[$i]->position = strtolower($modules[$i]->position);
-		}
-		return $modules;
-	}
-
-	/**
-	 * @return void
-	 */
-	function _loadFeatures()
-	{
-		$feature_paths = array(
-			$this->templatePath . DS . 'features',
-			$this->gantryPath . DS . 'features'
+		$gantry_first_paths = array(
+			$gantry_path,
+			$template_path
 		);
 
-		$raw_features = array();
-		foreach ($feature_paths as $feature_path) {
-			if (file_exists($feature_path) && is_dir($feature_path)) {
-				$d = dir($feature_path);
-				while (false !== ($entry = $d->read())) {
-					if ($entry != '.' && $entry != '..') {
-						$feature_name = basename($entry, ".php");
-						$path         = $feature_path . DS . $feature_name . '.php';
-						$className    = 'GantryFeature' . ucfirst($feature_name);
-						if (!class_exists($className)) {
-							if (file_exists($path)) {
-								require_once($path);
-								if (class_exists($className)) {
-									$raw_features[$feature_name] = $feature_name;
-								}
-							}
+		if (empty($this->_styles_available)) {
+			$raw_styles = array();
+			foreach ($gantry_first_paths as $style_path) {
+				if (file_exists($style_path) && is_dir($style_path)) {
+					$d = dir($style_path);
+					while (false !== ($entry = $d->read())) {
+						if ($entry != '.' && $entry != '..') {
 
+							if (!isset($raw_styles[$style_path])) {
+								$raw_styles[$style_path . $entry] = $style_path . $entry;
+							}
 						}
 					}
+					$d->close();
 				}
-				$d->close();
 			}
-		}
 
-		$ordered_feature_string = $this->get('features-order');
-		$ordered_features       = explode(",", $ordered_feature_string);
-		foreach ($ordered_features as $ordered_feature) {
-			if (array_key_exists($ordered_feature, $raw_features)) {
-				$this->_features[$ordered_feature] = $ordered_feature;
-			}
-		}
-		foreach ($raw_features as $feature) {
-			if (!in_array($feature, $this->_features)) {
-				$this->_features[$feature] = $feature;
-			}
+			$this->_styles_available = $raw_styles;
 		}
 	}
 
 	/**
 	 * @return void
 	 */
-	function _loadGizmos()
+	protected function loadGizmos()
 	{
 		$gizmo_paths = array(
 			$this->templatePath . DS . 'gizmos',
@@ -2047,14 +2309,13 @@ class Gantry
 	/**
 	 * @return void
 	 */
-	function _loadWidgets()
+	protected function loadWidgets()
 	{
 		$widget_paths = array(
 			$this->templatePath . DS . 'widgets',
 			$this->gantryPath . DS . 'widgets'
 		);
 
-		$widgets = array();
 		foreach ($widget_paths as $widget_path) {
 			if (file_exists($widget_path) && is_dir($widget_path)) {
 				$d = dir($widget_path);
@@ -2062,7 +2323,6 @@ class Gantry
 					if ($entry != '.' && $entry != '..') {
 						$widget_name = basename($entry, ".php");
 						$path        = $widget_path . DS . $widget_name . '.php';
-						$plugin      = $path;
 						$className   = 'GantryWidget' . ucfirst($widget_name);
 						if (!class_exists($className)) {
 							if (file_exists($path)) {
@@ -2080,7 +2340,10 @@ class Gantry
 		}
 	}
 
-	function _initWidgets()
+	/**
+	 *
+	 */
+	protected function initWidgets()
 	{
 		foreach ($this->_widgets as $widgetClass) {
 			add_action('widgets_init', array($widgetClass, "init"));
@@ -2090,29 +2353,37 @@ class Gantry
 	/**
 	 * @return void
 	 */
-	function _loadAjaxModels()
+	protected function loadAjaxModels()
 	{
 		$models_paths = array(
 			$this->templatePath . DS . 'ajax-models',
 			$this->gantryPath . DS . 'ajax-models'
 		);
-		$this->_loadModels($models_paths, $this->_ajaxmodels);
+		$this->loadModels($models_paths, $this->_ajaxmodels);
 		return;
 	}
 
-	function _loadAdminAjaxModels()
+	/**
+	 * @return void
+	 */
+	protected function loadAdminAjaxModels()
 	{
 		$models_paths = array(
 			$this->templatePath . DS . 'admin' . DS . 'ajax-models',
 			$this->gantryPath . DS . 'admin' . DS . 'ajax-models'
 		);
-		$this->_loadModels($models_paths, $this->_adminajaxmodels);
+		$this->loadModels($models_paths, $this->_adminajaxmodels);
 		return;
 	}
 
-	function _loadModels($paths, &$results)
+	/**
+	 * Load up the ajax models from the passed paths
+	 *
+	 * @param $paths
+	 * @param $results
+	 */
+	protected function loadModels($paths, &$results)
 	{
-		$raw_models = array();
 		foreach ($paths as $model_path) {
 			if (file_exists($model_path) && is_dir($model_path)) {
 				$d = dir($model_path);
@@ -2132,16 +2403,16 @@ class Gantry
 
 
 	/**
-	 * @param  $feature_name
+	 * @param  $gizmo_name
 	 *
 	 * @return boolean
 	 */
-	function _getFeature($feature_name)
+	protected function getGizmo($gizmo_name)
 	{
-		$className = 'GantryFeature' . ucfirst($feature_name);
+		$className = 'GantryGizmo' . ucfirst($gizmo_name);
 
 		if (!class_exists($className)) {
-			$this->_loadFeatures();
+			$this->loadGizmos();
 		}
 
 		if (class_exists($className)) {
@@ -2151,32 +2422,15 @@ class Gantry
 	}
 
 	/**
-	 * @param  $gizmo_name
-	 *
-	 * @return boolean
+	 * load up the layouts in the defined paths
 	 */
-	function _getGizmo($gizmo_name)
-	{
-		$className = 'GantryGizmo' . ucfirst($gizmo_name);
-
-		if (!class_exists($className)) {
-			$this->_loadGizmos();
-		}
-
-		if (class_exists($className)) {
-			return new $className();
-		}
-		return false;
-	}
-
-	function _loadLayouts()
+	protected function loadLayouts()
 	{
 		$layout_paths = array(
 			$this->templatePath . DS . 'html' . DS . 'layouts',
 			$this->gantryPath . DS . 'html' . DS . 'layouts'
 		);
 
-		$raw_layouts = array();
 		foreach ($layout_paths as $layout_path) {
 			if (file_exists($layout_path) && is_dir($layout_path)) {
 				$d = dir($layout_path);
@@ -2200,11 +2454,16 @@ class Gantry
 		}
 	}
 
-	function _getLayout($layout_name)
+	/**
+	 * @param $layout_name
+	 *
+	 * @return GantryLayout|bool
+	 */
+	public function getLayout($layout_name)
 	{
 		$className = 'GantryLayout' . ucfirst($layout_name);
 		if (!class_exists($className)) {
-			$this->_loadLayouts();
+			$this->loadLayouts();
 		}
 
 		if (class_exists($className)) {
@@ -2218,7 +2477,7 @@ class Gantry
 	 *
 	 * @return array
 	 */
-	function _flipBodyPosition($schema)
+	public function flipBodyPosition($schema)
 	{
 
 		$backup         = array_keys($schema);
@@ -2250,18 +2509,18 @@ class Gantry
 	}
 
 	/**
-	 * @param  $array1
-	 * @param  $array2
+	 * @param  array $array1 primary array
+	 * @param  array $array2 adding array
 	 *
-	 * @return
+	 * @return array
 	 */
-	function _array_merge_replace_recursive(&$array1, &$array2)
+	protected function array_merge_replace_recursive(&$array1, &$array2)
 	{
 		$merged = $array1;
 
 		foreach ($array2 as $key => $value) {
 			if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
-				$merged[$key] = $this->_array_merge_replace_recursive($merged[$key], $value);
+				$merged[$key] = $this->array_merge_replace_recursive($merged[$key], $value);
 			} else {
 				$merged[$key] = $value;
 			}
@@ -2270,7 +2529,11 @@ class Gantry
 		return $merged;
 	}
 
-	function _loadOverrideEngine()
+
+	/**
+	 * @return GantryOverridesEngine
+	 */
+	protected function loadOverrideEngine()
 	{
 		$_override_engine = new GantryOverridesEngine();
 		$_override_engine->init($this->templateName);
@@ -2280,7 +2543,11 @@ class Gantry
 
 	/**#@-*/
 
-	function getCookiePath()
+	/**
+	 * get the url path for cookies
+	 * @return string
+	 */
+	public function getCookiePath()
 	{
 		$cookieUrl = '';
 		if (!empty($this->baseUrl)) {
@@ -2292,6 +2559,18 @@ class Gantry
 		}
 		return $cookieUrl;
 	}
+
+	/**
+	 * @param string $layout_name
+	 *
+	 * @deprecated use getLayout instead
+	 * @return GantryLayout|bool
+	 */
+	public function _getLayout($layout_name)
+	{
+		return $this->getLayout($layout_name);
+	}
+
 
 }
 

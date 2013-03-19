@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantryini.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantryini.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -19,13 +19,13 @@ class GantryINI
 	 * @param boolean $get_item
 	 * @param boolean $get_key
 	 *
-	 * @return #Ffile_get_contents|array|?
+	 * @return array|string
 	 */
-	function read($file, $get_title = false, $get_item = false, $get_key = false)
+	public static function read($file, $get_title = false, $get_item = false, $get_key = false)
 	{
 		$data = file_get_contents($file);
 
-		$inioutject = GantryINI::_readFile($data, true);
+		$inioutject = self::readFile($data, true);
 
 		$parse = get_object_vars($inioutject);
 
@@ -67,7 +67,7 @@ class GantryINI
 	 *
 	 * @return boolean
 	 */
-	function write($file, $data, $merge_data = true, $remove_empty = true)
+	public static function write($file, $data, $merge_data = true, $remove_empty = true)
 	{
 		$ini_array = array();
 
@@ -81,26 +81,37 @@ class GantryINI
 			}
 		}
 
-		if (count($ini_array)) {
+
 			$merged = $ini_array;
 
 			if ($merge_data || $merge_data === 'delete-key') {
-				$ini_content = GantryINI::read($file);
-				$merged      = GantryINI::_array_merge_replace_recursive($ini_content, $ini_array);
+			$ini_content = self::read($file);
+			$merged      = self::array_merge_replace_recursive($ini_content, $ini_array);
 
 				if ($merge_data === 'delete-key') {
-					$merged = GantryINI::_deleteKey($merged, $data);
+				$merged = self::deleteKey($merged, $data);
 				}
 			}
 
-			$output = "";
+		$isempty = true;
+		foreach ($merged as $title => $content) {
+			foreach ($content as $key => $values) {
+				foreach ($values as $prefix => $value) {
+					$isempty = false;
+					break(3);
+				}
+			}
+		}
 
+		if (!$isempty) {
+			$output = "";
 			foreach ($merged as $title => $content) {
 				$output .= "\n[" . $title . "]\n";
 				foreach ($content as $key => $values) {
 					$key = $key . "_";
 					foreach ($values as $prefix => $value) {
-						$output .= $key . $prefix . "=" . $value . "\n";
+						$value = preg_replace_callback("/.*/s", array('GantryINI', 'repquotes'), $value);
+						$output .= $key . $prefix . '="' . $value . '"' . "\n";
 					}
 				}
 			}
@@ -115,7 +126,15 @@ class GantryINI
 		}
 	}
 
-	function &_readFile($data, $process_sections = false)
+	/**
+	 * @static
+	 *
+	 * @param      $data
+	 * @param bool $process_sections
+	 *
+	 * @return stdClass
+	 */
+	protected static function &readFile($data, $process_sections = false)
 	{
 		static $inistocache;
 
@@ -270,7 +289,13 @@ class GantryINI
 		return $obj;
 	}
 
-	function _deleteKey($merged, $data)
+	/**
+	 * @param $merged
+	 * @param $data
+	 *
+	 * @return mixed
+	 */
+	protected function deleteKey($merged, $data)
 	{
 
 		foreach ($data as $title => $customs) {
@@ -282,18 +307,38 @@ class GantryINI
 		return $merged;
 	}
 
-	function _array_merge_replace_recursive(&$array1, &$array2)
+	/**
+	 * @static
+	 *
+	 * @param $array1
+	 * @param $array2
+	 *
+	 * @return array
+	 */
+	protected static function array_merge_replace_recursive(&$array1, &$array2)
 	{
 		$merged = $array1;
 
 		foreach ($array2 as $key => $value) {
 			if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
-				$merged[$key] = GantryINI::_array_merge_replace_recursive($merged[$key], $value);
+				$merged[$key] = self::array_merge_replace_recursive($merged[$key], $value);
 			} else {
 				$merged[$key] = $value;
 			}
 		}
 
 		return $merged;
+	}
+
+	/**
+	 * @static
+	 *
+	 * @param $matches
+	 *
+	 * @return mixed
+	 */
+	public static function repquotes($matches)
+	{
+		return preg_replace('/[\'"]/', '\\\$0', $matches[0]);
 	}
 }

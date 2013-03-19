@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: AbstractRokMenuProvider.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: AbstractRokMenuProvider.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -38,7 +38,6 @@ abstract class AbstractRokMenuProvider implements RokMenuProvider
 
 	/**
 	 * @param  $args
-	 *
 	 * @return void
 	 */
 	public function __construct(&$args)
@@ -86,10 +85,8 @@ abstract class AbstractRokMenuProvider implements RokMenuProvider
 
 	/**
 	 * Takes the menu item nodes and puts them into a tree structure
-	 *
 	 * @param  $nodes
 	 * @param  $maxdepth
-	 *
 	 * @return bool|RokMenuNodeTree
 	 */
 	protected function createMenuTree(&$nodes, $maxdepth)
@@ -103,11 +100,13 @@ abstract class AbstractRokMenuProvider implements RokMenuProvider
 
 			// pop the first item until the array is empty if there is any item
 			if (is_array($nodes)) {
-				while (count($nodes) && !is_null($node = array_shift($nodes))) {
+                while (count($nodes) && !is_null($node = array_shift($nodes)))
+                {
 					if (!$this->menu->addNode($node)) {
 						if (!array_key_exists($node->getId(), $unresolved) || $unresolved[$node->getId()] < $maxdepth) {
 							array_push($nodes, $node);
-							if (!isset($unresolved[$node->getId()])) $unresolved[$node->getId()] = 1; else $unresolved[$node->getId()]++;
+                            if (!isset($unresolved[$node->getId()])) $unresolved[$node->getId()] = 1;
+                            else $unresolved[$node->getId()]++;
 						}
 					}
 				}
@@ -117,7 +116,6 @@ abstract class AbstractRokMenuProvider implements RokMenuProvider
 
 	/**
 	 * @param  $nodeList
-	 *
 	 * @return void
 	 */
 	protected function populateActiveBranch($nodeList)

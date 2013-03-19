@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: assignment_functions.php 58640 2012-12-17 18:31:23Z btowles $
+ * @version   $Id: assignment_functions.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -85,11 +85,11 @@ class GantryAssignmentWalker extends Walker
 
 		$item_output = '';
 		if (isset($args->before)) $item_output = $args->before;
-		$item_output .= '<label class="rokchecks menu-item-' . $item->id . '">' . "\n";
+		$item_output .= '<label class="menu-item-' . $item->id . '">' . "\n";
 		$item_output .= '	<input class="assignment-checkbox" type="checkbox" name="menu-item-' . $item->id . '" value="' . $item->id . '" />' . "\n";
 		$item_output .= '</label>' . "\n";
 		$item_output .= ' 	<a class="' . (empty($item->url) ? 'no-link-item' : 'thickbox') . '"' . $attributes . '>' . "\n";
-		if (isset($args->link_before)) $item_output .= $args->link_before ;
+		if (isset($args->link_before)) $item_output .= $args->link_before;
 		$item_output .= apply_filters('the_title', $item->title, $item->id);
 		if (isset($args->link_after)) $item_output .= $args->link_after;
 		$item_output .= '</a>';
@@ -601,7 +601,7 @@ function do_assignment_meta_boxes($page, $context, $object, $assignments = array
 
 	$hidden = get_hidden_meta_boxes($page);
 
-	printf('<div id="%s-sortables" class="meta-box-sortables">', htmlspecialchars($context));
+	printf('<div id="%s-sortables" class="meta-box-sortables clearfix">', htmlspecialchars($context));
 
 	$i = 0;
 	do {
@@ -634,20 +634,25 @@ function do_assignment_meta_boxes($page, $context, $object, $assignments = array
 						$gantry_override_assignment_info[$data->archetype . '::' . $data->type] = $data;
 					}
 
+					$position = ($i % 3 == 0) ? 'right': (($i % 3 == 1) ? 'left' : 'center');
+					$position = 'assignments-block-' . $position;
 
-					echo '<div id="' . $box['id'] . '"  class="assignments-block">' . "\n";
+
+					echo '<div id="' . $box['id'] . '"  class="assignments-block '.$position.'">' . "\n";
 					echo "	<h2 class='" . strtolower(str_replace(" ", "-", $box['title'])) . "'>\n";
 					if (!in_array($data->archetype, $skip_checkbox)) {
-						echo "		<label class=\"rokchecks global menu-item-" . $box['id'] . "\">\n";
+						echo "		<label class=\"global menu-item-" . $box['id'] . "\">\n";
 						echo '			<input class="assignment-checkbox global" ' . $checked . ' type="checkbox" name="menu-item-' . $box['id'] . '" value="' . $box['id'] . '" />' . "\n";
 						echo " 		</label>\n";
 					}
 					echo '		<span class="' . $data->archetype . '::' . $data->type . '">' . $box['title'] . "</span></h2>\n";
+
+					echo '	<div class="assignment-search"><input type="text" placeholder="Start typing to filter the list."/><div class="assignment-search-clear">&times;</div></div>'."\n";
+
 					echo '	<div class="inside' . $assigned . '">' . "\n";
 					call_user_func($box['callback'], $object, $box, $assignments);
 					echo "	</div>\n";
-					echo "  <div class=\"clr\"></div>\n";
-					echo "	<div class=\"footer-block\">\n";
+					echo "	<div class=\"footer-block clearfix\">\n";
 					echo "		<div class=\"select-all\"><a href=\"#\">Select All</a></div>\n";
 					echo "		<div class=\"add-button\"><input class=\"button-secondary add-to-assigned\" type=\"button\" value=\"Add to Assigned\" /></div>\n";
 					echo "	</div>\n";
@@ -699,7 +704,7 @@ class AssignmentType
 function array_merge_replace_recursive()
 {
 	// Holds all the arrays passed
-	$params = & func_get_args();
+	$params = func_get_args();
 
 	// First array is used as the base, everything else overwrites on it
 	$ret = array_shift($params);

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: AbstractRokMenuLayout.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: AbstractRokMenuLayout.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -57,9 +57,7 @@ abstract class AbstractRokMenuLayout implements RokMenuLayout
 
 	/**
 	 * Enqeues a script file after doing the browser specific check.
-	 *
 	 * @param  $scriptFile the script file relative to the themes root dir
-	 *
 	 * @return void
 	 */
 	protected function addScript($scriptFile, $prefix = 'rokmenu_')
@@ -83,9 +81,7 @@ abstract class AbstractRokMenuLayout implements RokMenuLayout
 
 	/**
 	 * Add a css style file and any browser specific versions of it
-	 *
 	 * @param  $styleFile the css style file relative to the themes root dir
-	 *
 	 * @return void
 	 */
 	protected function addStyle($styleFile, $prefix = 'rokmenu_')

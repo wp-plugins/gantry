@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: RokMenuNodeBase.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: RokMenuNodeBase.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -157,9 +157,8 @@ if (!class_exists('RokMenuNodeBase')) {
 		/**
 		 * @return bool
 		 */
-		public function hasChildren()
-		{
-			return (count($this->children) > 0) ? true : false;
+        public function hasChildren() {
+            return !empty($this->children);
 		}
 
 		/**

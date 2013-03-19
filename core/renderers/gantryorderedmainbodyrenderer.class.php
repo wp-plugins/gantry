@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantryorderedmainbodyrenderer.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantryorderedmainbodyrenderer.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -13,9 +13,22 @@ defined('GANTRY_VERSION') or die();
 gantry_import('core.renderers.gantrywidgetsrenderer');
 class GantryOrderedMainBodyRenderer
 {
-	// wrapper for mainbody display
-	function display($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard', $grid = null, $component_content = '')
+	/**
+	 * @param string $bodyLayout
+	 * @param string $sidebarLayout
+	 * @param string $sidebarChrome
+	 * @param string $contentTopLayout
+	 * @param string $contentTopChrome
+	 * @param string $contentBottomLayout
+	 * @param string $contentBottomChrome
+	 * @param null   $grid
+	 * @param string $component_content
+	 *
+	 * @return string
+	 */
+	public static function display($bodyLayout = 'mainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $contentTopLayout = 'standard', $contentTopChrome = 'standard', $contentBottomLayout = 'standard', $contentBottomChrome = 'standard', $grid = null, $component_content = '')
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		global $wp_registered_sidebars, $wp_registered_widgets, $_wp_sidebars_widgets;
 
@@ -54,7 +67,7 @@ class GantryOrderedMainBodyRenderer
 		}
 
 
-		$classKey = $gantry->_getKey($schema);
+		$classKey = $gantry->getKey($schema);
 		$pushPull = $gantry->pushPullSchemas[$classKey];
 
 		$output        = '';
@@ -178,7 +191,7 @@ class GantryOrderedMainBodyRenderer
 
 	}
 
-	function invertPositionOrder($sidebar_widgets)
+	public static function invertPositionOrder($sidebar_widgets)
 	{
 
 		$inverted_sidebar_widgets = array();
@@ -205,8 +218,9 @@ class GantryOrderedMainBodyRenderer
 		return $inverted_sidebar_widgets;
 	}
 
-	function filterWidget($params)
+	public static function filterWidget($params)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$widget_id = $params[0]['widget_id'];
@@ -226,8 +240,9 @@ class GantryOrderedMainBodyRenderer
 		return $params;
 	}
 
-	function countSidebars($widgets)
+	protected static function countSidebars($widgets)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		$MAX_SIDEBARS = 3;
 		// TODO  make this pull from templates xml
@@ -253,7 +268,7 @@ class GantryOrderedMainBodyRenderer
 	 *
 	 * @return array    copy of source array
 	 */
-	static function array_copy($aSource)
+	public static function array_copy($aSource)
 	{
 		// check if input is really an array
 		if (!is_array($aSource)) {

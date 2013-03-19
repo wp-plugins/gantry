@@ -1,8 +1,8 @@
 <?php
 /**
- * @version        $Id: gantryparameters.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version        $Id: gantryparameters.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author         RocketTheme http://www.rockettheme.com
- * @copyright      Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright      Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license        http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * derived from Joomla with original copyright and license
@@ -49,6 +49,7 @@ class GantryParameters
 	 */
 	function GantryParameters(&$xml, &$values = array(), $paths = array())
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		if ($ps =& $xml->document->params) {
@@ -118,7 +119,7 @@ class GantryParameters
 		//get the type of the parameter
 		$type = $node->attributes('type');
 
-		$element =& $this->loadElement($type);
+		$element = $this->loadElement($type);
 
 		// error happened
 		if ($element === false) {

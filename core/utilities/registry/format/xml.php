@@ -1,13 +1,13 @@
 <?php
 /**
- * @version $Id: xml.php 58595 2012-12-11 19:59:45Z btowles $
- * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ * @version        $Id: xml.php 59361 2013-03-13 23:10:27Z btowles $
+ * @author         RocketTheme http://www.rockettheme.com
+ * @copyright      Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @license        http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * derived from Joomla with original copyright and license
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright      Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
@@ -16,21 +16,22 @@ defined('GANTRY_VERSION') or die;
 /**
  * XML format handler for GantryRegistry.
  *
- * @package		Joomla.Framework
- * @subpackage	Registry
- * @since		1.5
+ * @package        Joomla.Framework
+ * @subpackage     Registry
+ * @since          1.5
  */
 class GantryRegistryFormatXML extends GantryRegistryFormat
 {
 	/**
 	 * Converts an object into an XML formatted string.
-	 *	-	If more than two levels of nested groups are necessary, since INI is not
-	 *		useful, XML or another format should be used.
+	 *    -    If more than two levels of nested groups are necessary, since INI is not
+	 *        useful, XML or another format should be used.
 	 *
-	 * @param	object	Data source object.
-	 * @param	array	Options used by the formatter.
-	 * @return	string	XML formatted string.
-	 * @since	1.5
+	 * @param    object    Data source object.
+	 * @param    array     Options used by the formatter.
+	 *
+	 * @return    string    XML formatted string.
+	 * @since    1.5
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -39,11 +40,10 @@ class GantryRegistryFormatXML extends GantryRegistryFormat
 		$nodeName = (isset($options['nodeName'])) ? $options['nodeName'] : 'node';
 
 		// Create the root node.
-		$root = simplexml_load_string('<'.$rootName.' />');
+		$root = simplexml_load_string('<' . $rootName . ' />');
 
 		// Iterate over the object members.
-		foreach ((array) $object as $k => $v)
-		{
+		foreach ((array)$object as $k => $v) {
 			if (is_scalar($v)) {
 				$n = $root->addChild($nodeName, $v);
 				$n->addAttribute('name', $k);
@@ -63,10 +63,11 @@ class GantryRegistryFormatXML extends GantryRegistryFormat
 	/**
 	 * Parse a XML formatted string and convert it into an object.
 	 *
-	 * @param	string	XML formatted string to convert.
-	 * @param	array	Options used by the formatter.
-	 * @return	object	Data object.
-	 * @since	1.5
+	 * @param    string    XML formatted string to convert.
+	 * @param    array     Options used by the formatter.
+	 *
+	 * @return    object    Data object.
+	 * @since    1.5
 	 */
 	public function stringToObject($data, $options = array())
 	{
@@ -86,32 +87,33 @@ class GantryRegistryFormatXML extends GantryRegistryFormat
 	/**
 	 * Method to get a PHP native value for a SimpleXMLElement object. -- called recursively
 	 *
-	 * @param	object	SimpleXMLElement object for which to get the native value.
-	 * @return	mixed	Native value of the SimpleXMLElement object.
-	 * @since	2.0
+	 * @param    object    SimpleXMLElement object for which to get the native value.
+	 *
+	 * @return    mixed    Native value of the SimpleXMLElement object.
+	 * @since    2.0
 	 */
 	protected function _getValueFromNode($node)
 	{
 		switch ($node['type']) {
 			case 'integer':
-				$value = (string) $node;
-				return (int) $value;
+				$value = (string)$node;
+				return (int)$value;
 				break;
 			case 'string':
-				return (string) $node;
+				return (string)$node;
 				break;
 			case 'boolean':
-				$value = (string) $node;
-				return (bool) $value;
+				$value = (string)$node;
+				return (bool)$value;
 				break;
 			case 'double':
-				$value = (string) $node;
-				return (float) $value;
+				$value = (string)$node;
+				return (float)$value;
 				break;
 			case 'array':
 				$value = array();
 				foreach ($node->children() as $child) {
-					$value[(string) $child['name']] = $this->_getValueFromNode($child);
+					$value[(string)$child['name']] = $this->_getValueFromNode($child);
 				}
 				break;
 			default:
@@ -128,17 +130,17 @@ class GantryRegistryFormatXML extends GantryRegistryFormat
 	/**
 	 * Method to build a level of the XML string -- called recursively
 	 *
-	 * @param	object	SimpleXMLElement object to attach children.
-	 * @param	object	Object that represents a node of the xml document.
-	 * @param	string	The name to use for node elements.
-	 * @return	void
-	 * @since	2.0
+	 * @param    object    SimpleXMLElement object to attach children.
+	 * @param    object    Object that represents a node of the xml document.
+	 * @param    string    The name to use for node elements.
+	 *
+	 * @return    void
+	 * @since    2.0
 	 */
 	protected function _getXmlChildren(& $node, $var, $nodeName)
 	{
 		// Iterate over the object members.
-		foreach ((array) $var as $k => $v)
-		{
+		foreach ((array)$var as $k => $v) {
 			if (is_scalar($v)) {
 				$n = $node->addChild($nodeName, $v);
 				$n->addAttribute('name', $k);

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrydebugmainbodyrenderer.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantrydebugmainbodyrenderer.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -13,20 +13,34 @@ defined('GANTRY_VERSION') or die();
  */
 class GantryDebugMainBodyRenderer
 {
-	// wrapper for mainbody display
-	function display($bodyLayout = 'debugmainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard')
+
+	/**
+	 * wrapper for mainbody display in debug mode
+	 * @param string $bodyLayout
+	 * @param string $sidebarLayout
+	 * @param string $sidebarChrome
+	 * @param null   $grid
+	 *
+	 * @return string
+	 */
+	public static function display($bodyLayout = 'debugmainbody', $sidebarLayout = 'sidebar', $sidebarChrome = 'standard', $grid = null)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
+
+		if ($grid == null) {
+			$grid = GRID_SYSTEM;
+		}
 
 		$columnIndex = 1;
 		$counter     = 1;
 		$output      = '';
 		$sampleText  = "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>";
 
-		foreach ($gantry->mainbodySchemasCombos[GRID_SYSTEM] as $schemas) {
+		foreach ($gantry->mainbodySchemasCombos[$grid] as $schemas) {
 			$columnCount = $columnIndex++;
 			foreach ($schemas as $schema) {
-				$classKey = $gantry->_getKey($schema);
+				$classKey = $gantry->getKey($schema);
 				$pushPull = $gantry->pushPullSchemas[$classKey];
 
 				$sidebars      = '';
@@ -39,7 +53,7 @@ class GantryDebugMainBodyRenderer
 
 					//only process for sidebars
 					if ($shortname == "mb") continue;
-					$position = $gantry->_getLongName($shortname);
+					$position = $gantry->getLongName($shortname);
 					$contents = '<div class="rt-block"><h3>' . $position . '</h3>' . $sampleText . '</div>';
 					$sidebars .= $gantry->renderLayout('mod_' . $sidebarLayout, array(
 					                                                                 'contents'  => $contents,

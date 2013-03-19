@@ -1,15 +1,15 @@
 <?php
 /**
- * @version   $Id: animation.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: animation.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die;
 
 gantry_import('core.config.gantryformfield');
 gantry_import('core.config.gantryhtmlselect');
-require_once(dirname(__FILE__) . '/list.php');
+require_once(gantry_dirname(__FILE__) . '/selectbox.php');
 
 
 /**
@@ -18,7 +18,7 @@ require_once(dirname(__FILE__) . '/list.php');
  * @package    gantry
  * @subpackage admin.elements
  */
-class GantryFormFieldAnimation extends GantryFormFieldList
+class GantryFormFieldAnimation extends GantryFormFieldSelectBox
 {
 
 	protected $type = 'animation';
@@ -32,6 +32,7 @@ class GantryFormFieldAnimation extends GantryFormFieldList
 	 */
 	protected function getOptions()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		$options = array();
 		$options = parent::getOptions();

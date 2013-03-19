@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantryformitem.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantryformitem.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -48,6 +48,14 @@ abstract class GantryFormItem
 	 * @since    1.6
 	 */
 	protected $translateDescription = true;
+
+	/**
+	 * The description text for the form field.  Usually used in tooltips.
+	 *
+	 * @var     string
+	 * @since   1.6
+	 */
+	protected $description;
 
 	/**
 	 * The JXMLElement object of the <field /> XML element that describes the form field.
@@ -203,7 +211,7 @@ abstract class GantryFormItem
 		// Initialise variables.
 		$name = '';
 
-		if (is_a($this->form->control, 'GantryFormNamingHelper')) {
+		if ($this->form->control instanceof GantryFormNamingHelper) {
 			$name = $this->form->control->get_field_name($fieldName, $control_group);
 			return $name;
 		}
@@ -266,7 +274,7 @@ abstract class GantryFormItem
 		$text = $this->translateLabel ? _g($text) : $text;
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTip' : '';
+		$class = !empty($this->description) ? 'g4-tooltips' : '';
 		$class = $this->required == true ? $class . ' required' : $class;
 
 		// Add the opening label tag and main attributes attributes.
@@ -274,7 +282,7 @@ abstract class GantryFormItem
 
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description)) {
-			$label .= ' title="' . htmlspecialchars(trim($text, ':') . '::' . ($this->translateDescription ? _g($this->description) : $this->description), ENT_COMPAT, 'UTF-8') . '"';
+			$label .= ' title="' . htmlspecialchars(($this->translateDescription ? _g($this->description) : $this->description), ENT_COMPAT, 'UTF-8') . '"';
 		}
 
 		// Add the label text and closing tag.
@@ -314,7 +322,7 @@ abstract class GantryFormItem
 		// Initialise variables.
 		$id = '';
 
-		if (is_a($this->form->control, 'GantryFormNamingHelper')) {
+		if ($this->form->control instanceof GantryFormNamingHelper) {
 			$id = $this->form->control->get_field_id($fieldName, $control_group);
 			return $id;
 		}
@@ -398,6 +406,7 @@ abstract class GantryFormItem
 	 */
 	public function setup(& $element, $value, $group = null)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		// Make sure there is a valid JFormField XML element.
@@ -423,13 +432,17 @@ abstract class GantryFormItem
 
 
 		if (!empty($name)) {
+			if (empty($group)) {
+				$gantry_name = $name;
+			} else {
 			$groups = explode('.', $group);
 			if (count($groups > 0)) {
 				array_shift($groups);
 				$groups[]         = $name;
 				$gantry_name      = implode('-', $groups);
-				$this->base_value = $gantry->get($gantry_name, null);
+				}
 			}
+			$this->base_value = $gantry->get($gantry_name, null);
 		}
 
 		// Set the field description text.
@@ -457,8 +470,7 @@ abstract class GantryFormItem
 
 		// Set the field default value.
 		$this->value = $value;
-		if ($this->setinoverride & !is_null($this->base_value) && $this->base_value != $this->value) $this->variance = true;
-
+		if ($this->setinoverride && !is_null($this->base_value) && $this->base_value != $this->value) $this->variance = true;
 		return true;
 	}
 

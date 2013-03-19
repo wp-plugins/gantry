@@ -1,9 +1,3 @@
-/**
- * @version $Id: positions-utils.js 58623 2012-12-15 22:01:32Z btowles $
- * @author RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
- */
 
 var tip;
 window.sliders = {};
@@ -31,14 +25,14 @@ String.implement({
 
 		return num;
 	},
-	
+
 	hex2dec: function() {
 		if (!isNaN(this.toInt())) return this;
 		return this.baseConversion(24, 10);
 	},
-	
+
 	dec2hex: function() {
-		return this.baseConversion(10, 24);					
+		return this.baseConversion(10, 24);
 	}
 });
 
@@ -46,7 +40,7 @@ var tip;
 var createTip = function(id) {
 	var el = document.id(id);
 	if (el) return el;
-	
+
 	el = new Element('div', {'id': id}).inject(document.body).set('text', '2 | 2 | 2 | 2 | 2 | 2');
 	el.set('tween', {duration: 200, link: 'cancel'}).fade('out');
 
@@ -61,17 +55,17 @@ var updateTip = function(slider) {
 			output += grid.hex2dec() + ' | ';
 		}
 	});
-	
+
 	output = output.substring(0, output.length - 2);
-	
+
 	return output;
 };
 
 var updateSlider = function(slider, range) {
 	var x = slider;
 	range = range;
-	
-	x.min = 0; 
+
+	x.min = 0;
 	x.max = slider.RT.list[range].length - 1;
 	x.range = x.max - x.min;
 	x.steps = x.max;
@@ -80,10 +74,10 @@ var updateSlider = function(slider, range) {
 
 	var grid = (x.stepWidth == Infinity) ? x.full : x.stepWidth;
 	x.drag.options.grid = grid;
-	
+
 	if (!x.steps) x.drag.detach();
 	else x.drag.attach();
-	
+
 	slider.RT.current = range;
 };
 
@@ -94,12 +88,12 @@ var updateBlocks = function(slider, amount, step) {
 	amount = amount;
 	blocks.removeClass('main');
 	blocks.each(function(block, i) {
-		
+
 		if (i < slider.RT.current) blocks[i].setStyle('display', 'block');
 		else blocks[i].setStyle('display', 'none');
 		var grid = slider.RT.list[amount][Math.round(step, 0)].toString();
 		blocks[i].className = '';
-		
+
 		var chr = (amount == 1) ? slider.RT.gridSize : grid.charAt(i).hex2dec();
 		blocks[i].addClass('mini-grid').addClass('mini-grid-' + chr);
 
@@ -110,16 +104,16 @@ var updateBlocks = function(slider, amount, step) {
 
 var serializeSettings = function(slider, settings) {
 	var serial = '';
-	
+
 	// grid size
 	serial += 'a:1:{i:' + slider.RT.gridSize + ';';
-	
+
 	// main index
 	serial += 'a:' + settings.getLength() + ':{';
 	settings.each(function(val, key) {
 		// values of index
 		serial += 'i:' + key + ';a:' + val.length + ':{';
-		
+
 		for (i = 0, l = val.length; i < l; i++) {
 			if (slider.RT.type == 'custom') {
 				var tmp = slider.RT.store[key][i];
@@ -131,7 +125,7 @@ var serializeSettings = function(slider, settings) {
 
 		serial += '}';
 	});
-	
+
 	serial += '}}';
 
 	return serial;
@@ -143,7 +137,7 @@ var GantryPositions = {
 		var name2 = name.replace(/-/, '_'),
 			slider = document.id(name + '-grp').getElement('.position'),
 			knob = document.id(name + '-grp').getElement('.knob');
-		
+
 		if (!window.sliders) window.sliders = {};
 		GantryPositionsTools.setEvent(hidden, name2);
 		window.sliders[name2] = new RokSlider(slider, knob, {
@@ -163,15 +157,17 @@ var GantryPositions = {
 				this.RT.keyName = keyName || '';
 				this.RT.type = type;
 				this.RT.store = {};
-				
+
 				GantryPositionsTools.init.bind(this, [name2])();
 			},
-			
+
 			onComplete: function() {
-				GantryPositionsTools.complete.bind(this, [name, hidden])();
+				if (MooTools.lang) GantryPositionsTools.complete.bind(this, [name, hidden])();
+				else GantryPositionsTools.complete.bind(this, name, hidden)();
 			},
 			onDrag: function(now) {
-				GantryPositionsTools.drag.bind(this, [now, name2])();
+				if (MooTools.lang) GantryPositionsTools.drag.bind(this, [now, name2])();
+				else GantryPositionsTools.drag.bind(this, now, name2)();
 			},
 			onChange: function(position) {
 				GantryPositionsTools.change.bind(this, position)();
@@ -179,12 +175,12 @@ var GantryPositions = {
 		});
 
 		window.sliders[name2].RT.navigation[activeNav].fireEvent('click');
-		
+
 		knob.addEvents({
 			'mousedown': function() {this.addClass('down');},
 			'mouseup': function() {this.removeClass('down');}
 		});
-		
+
 		GantryPositionsTools.wrapperTip(name, name2);
 	}
 };
@@ -202,7 +198,7 @@ var GantryPositionsTools = {
 				if (event) event.stop();
 				navigation.removeClass('active');
 				this.addClass('active');
-			
+
 				updateSlider(window.sliders[name], this.getFirst().getFirst().innerHTML.toInt());
 
 				var value = window.sliders[name].RT.defaults[window.sliders[name].RT.current][0];
@@ -214,13 +210,13 @@ var GantryPositionsTools = {
 						if (key.compareArrays(defaults.keys)) tests.push(i);
 					});
 					var list = window.sliders[name].RT.list[window.sliders[name].RT.current];
-				
+
 					tests.each(function(test, j) {
 						if (list[test] == defaults.values[0]) {
 							window.sliders[name].set(test);
 						}
 					});
-				
+
 				} else {
 					window.sliders[name].set(window.sliders[name].RT.list[window.sliders[name].RT.current].indexOf(value));
 				}
@@ -250,23 +246,23 @@ var GantryPositionsTools = {
 		if (typeOf(now) == 'array') {
 			name = now[1];
 			now = now[0];
-		};
+		}
 		this.element.getFirst().setStyle('width', now + 10);
 		var step = this.step;
-		
+
 		var layout = this.RT.list[this.RT.current][Math.round(step, 0)], output = '';
 		if (!layout) return;
-		
+
 		layout = layout.toString();
 		this.RT.settings[this.RT.current] = [];
 		this.RT.store[this.RT.current] = [];
 		for (i = 0, len = this.RT.current; i < len; i++) {
-		    output += layout.charAt(i).hex2dec() + ((i == len - 1) ? '' : ' | ');
-			
+			output += layout.charAt(i).hex2dec() + ((i == len - 1) ? '' : ' | ');
+
 			if (this.RT.type == 'custom') {
 				this.RT.settings[this.RT.current].push(layout.charAt(i));
 				this.RT.store[this.RT.current].push(this.RT.keys[this.RT.current][Math.round(step,0)][i]);
-				
+
 			} else {
 				this.RT.settings[this.RT.current].push(layout.charAt(i));
 			}
@@ -275,20 +271,20 @@ var GantryPositionsTools = {
 				if (this.RT.type == 'custom') this.RT.blocks[i].set('text', keyIndex);
 			}
 		}
-		
+
 		if (!tip) tip = createTip('positions-tip');
 		tip.set('html', output);
-		
+
 		updateBlocks(window.sliders[name], this.RT.current, step);
 	},
-	
+
 	change: function(position) {
 		if(this.options.snap) position = this.toPosition(this.step);
 		position = position || 0;
 		this.knob.setStyle(this.property, position);
 		this.fireEvent('onDrag', position);
 	},
-	
+
 	wrapperTip: function(name, name2) {
 		document.id(name + '-wrapper').addEvents({
 			'mouseenter': function() {
@@ -306,18 +302,19 @@ var GantryPositionsTools = {
 			}
 		});
 	},
-	
+
 	showMax: function(name, name2) {
 		var wrapper = document.id(name+'-grp').getParent('.chain');
 		if (!wrapper) return;
 		wrapper = wrapper.getParent();
-		var toggle = wrapper.getElement('.chain-toggle input[type=checkbox]');
+		//var toggle = wrapper.getElement('.chain-toggle input[type=hidden]');
 		var select = wrapper.getElement('.chain-showmax select');
-		
-		if (!toggle || !select) return;
-		
+
+		if (!select) return;
+		//if (!toggle || !select) return;
+
 		var list = document.id(name+'-grp').getElements('ul.list li');
-		var tgl_name = 'toggle' + toggle.id.replace(/\-/g, '');
+		/*var tgl_name = 'toggle' + toggle.id.replace(/\-/g, '');
 		if (window[tgl_name]) window[tgl_name].addEvent('change', function(state) {
 			var value = select.get('value').toInt();
 			if (!state) {
@@ -330,28 +327,41 @@ var GantryPositionsTools = {
 				excluded.setStyle('display', 'none');
 				select.fireEvent('attach');
 			}
-		});
-		
+		});*/
+
 		select.addEvent('change', function(index) {
-			if (!index) index = this.value;
+			if (!index || typeof index == 'object') index = this.get('value').toInt();
 			else index += 1;
-			var excluded = $$(list.diff(list.slice(0, index), true));
-			var active = document.id(name+'-grp').getElement('li.active');
+
+			var active = document.id(name+'-grp').getElement('li.active'),
+				excluded = list.filter(function(item, i){
+					return i + 1 > index;
+				});
+
 			if (list.indexOf(active) > index - 1) list[index - 1].fireEvent('click');
-			list.setStyle('display', 'inline');
+			list.setStyle('display', 'inline-block');
 			excluded.setStyle('display', 'none');
-		});//.fireEvent('change');
-		
-		if (window[tgl_name]) {
+
+		}).fireEvent('change');
+
+		/*if (window[tgl_name]) {
 			window[tgl_name].fireEvent('change', window[tgl_name].state);
 			if (window[tgl_name].state) select.fireEvent('attach');
-		}
+		}*/
 	},
-	
+
 	setEvent: function(hidden, name) {
 		hidden.addEvent('set', function(value) {
 
-			var slider = window.sliders[name].RT;
+			var slider = window.sliders[name].RT, currentValue = value;
+
+			if (value.contains(',')) {
+				var split = currentValue.split(',');
+				value = {};
+				value[slider.gridSize] = {};
+				value[slider.gridSize][split.length] = split;
+				value = serialize(value);
+			}
 
 			if (!value.contains('{')) value = serialize(value.replace(/\s/g, '').split(','));
 			value = value.unserialize();
@@ -417,7 +427,7 @@ var GantryPositionsTools = {
 					}
 				});
 			}
-		});	
+		});
 	}
 };
 
@@ -428,7 +438,7 @@ Array.implement({
 		for (i = 0; i < compare.length; i++) {
 			if (daddy.contains(compare[i])) daddy.erase(compare[i]);
 		}
-		
+
 		return daddy;
 	}
 });

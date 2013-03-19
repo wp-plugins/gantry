@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: GantryMenuProviderWordpress.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: GantryMenuProviderWordpress.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -10,6 +10,7 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 
 	class GantryMenuProviderWordpress extends AbstractRokMenuProvider
 	{
+		const ROOT_ID = 0;
 
 		protected $current_url;
 		const PREFIX = "gantrymenu_";
@@ -20,9 +21,27 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 			$this->current_url = $this->currentPageURL();
 		}
 
-		function getMenuItems()
+		// Left over cause we are bypassing the abstract
+		public function getMenuItems()
 		{
-			$nav_menu_name = $this->args['nav_menu'];
+			$menuitems = $this->getFullMenuItems($this->args);
+			return $menuitems;
+		}
+
+
+		/**
+		 * @param  $nodeList
+		 *
+		 * @return void
+		 */
+		protected function populateActiveBranch($nodeList)
+		{
+
+		}
+
+		public function getFullMenuItems($args)
+		{
+			$nav_menu_name = $args['nav_menu'];
 			if (wp_get_nav_menu_object($nav_menu_name) == false) return array();
 			$menu_items  = wp_get_nav_menu_items($nav_menu_name);
 			$outputNodes = array();
@@ -53,8 +72,72 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 				if ($node->getLink() == $this->current_url && $this->current_node == 0) $this->current_node = $node->getId();
 				$outputNodes[$node->getId()] = $node;
 			}
-			$this->populateActiveBranch($outputNodes);
 			return $outputNodes;
+		}
+
+		public function getMenuTree()
+		{
+			gantry_import('core.utilities.gantrycache');
+			$cache_handler = GantryCache::getCache('gantry-menu', 0, true);
+			$menu_id       = 'menu-' . md5(implode('-', $this->args));
+			$menu          = $cache_handler->get($menu_id);
+			if ($menu == false) {
+				$menu = $this->getRealMenuTree();
+				$cache_handler->set($menu_id, $menu);
+			}
+			$this->menu = $menu;
+
+			// set the active item
+			$nodeIterator = new RecursiveIteratorIterator($menu, RecursiveIteratorIterator::SELF_FIRST);
+			/** @var $node RokMenuNode */
+			foreach ($nodeIterator as $node) {
+				if ($node->getLink() == $this->current_url && $this->current_node == 0) {
+					$this->current_node = $node->getId();
+					break;
+				}
+			}
+
+			$this->active_branch = $this->findActiveBranch($this->menu, $this->current_node);
+			return $this->menu;
+		}
+
+
+		/**
+		 * @return RokMenuNodeTree
+		 */
+		public function getRealMenuTree()
+		{
+
+			$menuitems = $this->getFullMenuItems($this->args);
+			$menu      = $this->createMenuTree($menuitems, $this->args['maxdepth']);
+
+
+			return $menu;
+		}
+
+		protected function createMenuTree(&$nodes, $maxdepth)
+		{
+			$menu = new RokMenuNodeTree(self::ROOT_ID);
+			// TODO: move maxdepth to higher processing level?
+			if (!empty($nodes)) {
+				// Build Menu Tree root down (orphan proof - child might have lower id than parent)
+				$ids        = array();
+				$ids[0]     = true;
+				$unresolved = array();
+
+				// pop the first item until the array is empty if there is any item
+				if (is_array($nodes)) {
+					while (count($nodes) && !is_null($node = array_shift($nodes))) {
+						if (!$menu->addNode($node)) {
+							if (!array_key_exists($node->getId(), $unresolved) || $unresolved[$node->getId()] < $maxdepth) {
+								array_push($nodes, $node);
+								if (!isset($unresolved[$node->getId()])) $unresolved[$node->getId()] = 1; else $unresolved[$node->getId()]++;
+							}
+						}
+					}
+				}
+			}
+			return $menu;
 		}
 
 		private function currentPageURL()
@@ -70,6 +153,29 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 				$pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
 			}
 			return $pageURL;
+		}
+
+		/**
+		 * Gets the current active based on the current_node
+		 *
+		 * @param RokMenuNodeTree $menu
+		 * @param                 $active_id
+		 *
+		 * @return array
+		 */
+		protected function findActiveBranch(RokMenuNodeTree $menu, $active_id)
+		{
+			$active_branch = array();
+			/** @var $current RokMenuNode */
+			$current = $menu->findNode($active_id);
+			if ($current) {
+				do {
+					$active_branch[$current->getId()] = $current;
+					if ($current->getParent() == self::ROOT_ID) break;
+				} while ($current = $current->getParentRef());
+				$active_branch = array_reverse($active_branch, true);
+			}
+			return $active_branch;
 		}
 	}
 }

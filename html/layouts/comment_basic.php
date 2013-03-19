@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: comment_basic.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: comment_basic.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  */
@@ -25,6 +25,7 @@ class GantryLayoutComment_Basic extends GantryLayout
 
 	function render($params = array())
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		$fparams = $this->_getParams($params);
 	}
@@ -54,7 +55,8 @@ class GantryLayoutComment_Basic extends GantryLayout
 			<?php endif; ?>
 			<?php comment_text() ?>
 			<div class="reply">
-				<?php comment_reply_link(array_merge($args, array('depth'    => $depth,
+				<?php comment_reply_link(array_merge($args, array(
+				                                                 'depth'     => $depth,
 				                                                 'max_depth' => $args['max_depth']
 				                                            ))) ?>
 			</div>

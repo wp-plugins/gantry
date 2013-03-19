@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: templatepage.class.php 58636 2012-12-16 20:22:27Z btowles $
+ * @version   $Id: templatepage.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -28,7 +28,7 @@ class GantryFactTemplatePage extends GantryOverrideFact
 				}
 				break;
 			default:
-				if (isset($query->$check)){
+				if (isset($query->$check)) {
 					$ret = $query->$check;
 				}
 		}

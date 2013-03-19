@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: recentposts.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: recentposts.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * Widget based on the WordPress core Recent Posts Widget.
@@ -38,7 +38,8 @@ class GantryWidgetRecentPosts extends GantryWidget
 
 	function render_title($args, $instance)
 	{
-		global $gantry;
+		/** @global $gantry Gantry */
+global $gantry;
 		if ($instance['title'] != '') :
 			echo $instance['title'];
 		endif;
@@ -46,7 +47,8 @@ class GantryWidgetRecentPosts extends GantryWidget
 
 	function render($args, $instance)
 	{
-		global $gantry;
+		/** @global $gantry Gantry */
+global $gantry;
 
 		ob_start();
 
@@ -73,7 +75,7 @@ class GantryWidgetRecentPosts extends GantryWidget
 		$rp = new WP_Query(array('showposts'       => $number,
 		                        'nopaging'         => 0,
 		                        'post_status'      => 'publish',
-		                        'caller_get_posts' => 1,
+		                        'ignore_sticky_posts' => 1,
 		                        'cat'              => $cat
 		                   ));
 		if ($rp->have_posts()) : ?>

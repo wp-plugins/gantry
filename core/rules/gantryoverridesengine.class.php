@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantryoverridesengine.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantryoverridesengine.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -24,22 +24,40 @@ gantry_import('core.rules.facttypes.post_type');
 gantry_import('core.rules.facttypes.taxonomy');
 gantry_import('core.rules.facttypes.templatepage');
 
+/**
+ *
+ */
 class GantryOverridesEngine
 {
+	/**
+	 * @var WorkingMemory
+	 */
 	protected $wm;
+	/**
+	 * @var RuleSession
+	 */
 	protected $session;
+	/**
+	 * @var array
+	 */
 	protected $fact_paths = array();
 
 
+	/**
+	 *
+	 */
 	public function __construct()
 	{
 		$this->wm      = new WorkingMemory();
 		$rr            = new RuleReader();
-		$rulebase      = $rr->parseFile(dirname(__FILE__) . '/stylerules.srl');
+		$rulebase      = $rr->parseFile(gantry_dirname(__FILE__) . '/stylerules.srl');
 		$this->session = new RuleSession($rulebase, $this->wm);
 	}
 
 
+	/**
+	 * @param $templateName
+	 */
 	public function init($templateName)
 	{
 
@@ -74,6 +92,11 @@ class GantryOverridesEngine
 		}
 	}
 
+	/**
+	 * @param $wp_query
+	 *
+	 * @return mixed
+	 */
 	public function run($wp_query)
 	{
 		foreach ($this->fact_paths as $path) {

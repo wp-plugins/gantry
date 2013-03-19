@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrybodylayout.class.php 58630 2012-12-16 10:08:13Z jakub $
+ * @version   $Id: gantrybodylayout.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -17,6 +17,7 @@ class GantryBodyLayout extends GantryLayout
 {
 	function include_type()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$is_wp3             = version_compare($gantry->platform->platform_version, "3.0", ">=");
@@ -118,6 +119,7 @@ class GantryBodyLayout extends GantryLayout
 	 */
 	function get_archive_type()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		$template = 'archive';
 		if (version_compare($gantry->platform->platform_version, "3.0", ">=")) {
@@ -143,6 +145,7 @@ class GantryBodyLayout extends GantryLayout
 	 */
 	function get_author_type()
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		$template = "author";
 		if (version_compare($gantry->platform->platform_version, "3.0", ">=")) {
@@ -163,6 +166,7 @@ class GantryBodyLayout extends GantryLayout
 
 	function get_author_page($page)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 		$template  = "author";
 		$templates = array();
@@ -514,6 +518,7 @@ class GantryBodyLayout extends GantryLayout
 	 */
 	function locate_type($template_names, $load = false, $require_once = true)
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		if (!is_array($template_names)) return ''; else
@@ -556,5 +561,39 @@ class GantryBodyLayout extends GantryLayout
 			require($_template_file);
 	}
 
+	/**
+	 * Load a template part into a template
+	 *
+	 * Makes it easy for a theme to reuse sections of code in a easy to overload way
+	 * for child themes.
+	 *
+	 * Includes the named template part for a theme or if a name is specified then a
+	 * specialised part will be included. If the theme contains no {slug}.php file
+	 * then no template will be included.
+	 *
+	 * The template is included using require, not require_once, so you may include the
+	 * same template part multiple times.
+	 *
+	 * For the $name parameter, if the file is called "{slug}-special.php" then specify
+	 * "special".
+	 *
+	 * @uses locate_template()
+	 * @since 3.0.0
+	 * @uses do_action() Calls 'get_template_part_{$slug}' action.
+	 *
+	 * @param string $slug The slug name for the generic template.
+	 * @param string $name The name of the specialised template.
+	 */
+	function gantry_get_template_part( $slug, $name = null ) {
+		do_action( "get_template_part_{$slug}", $slug, $name );
+
+		$templates = array();
+		if ( isset($name) )
+			$templates[] = "{$slug}-{$name}.php";
+
+		$templates[] = "{$slug}.php";
+
+		$this->locate_type($templates, true, false);
+	}
 
 }

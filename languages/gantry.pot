@@ -1,867 +1,715 @@
-# Translation of the WordPress plugin   by .
-# Copyright (C) 2010
-# This file is distributed under the same license as the  package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: Rocketthem Gantry Framework\n"
-"Report-Msgid-Bugs-To: http://wordpress.org/tag/php\n"
-"POT-Creation-Date: 2010-07-17 18:59-0500\n"
-"PO-Revision-Date: 2010-07-20 14:22-0600\n"
-"Last-Translator: Rockettheme <support@rockettheme.com>\n"
-"Language-Team: Rockettheme <support@rockettheme.com>\n"
-"Language: \n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Jakub Baran <jakub@rockettheme.com>\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-Country: UNITED STATES\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.5\n"
 
-#: admin/ajax-models/diagnostics.php:110
-msgid "Safe Mode"
-msgstr "Safe Mode"
+msgid "MISSING_MENU_THEME_MESSAGE"
+msgstr "In order to get your theme working properly, please go to the <strong>Admin Dashboard &rarr; Appearance &rarr; Widgets</strong> and re-save all of your <strong>Gantry Menu</strong> widget instances."
 
-#: admin/ajax-models/diagnostics.php:111
-msgid "Open basedir"
-msgstr "Open basedir"
-
-#: admin/ajax-models/diagnostics.php:111
-#: admin/ajax-models/diagnostics.php:118
-#: admin/ajax-models/diagnostics.php:122
-msgid "none"
-msgstr "none"
-
-#: admin/ajax-models/diagnostics.php:112
-msgid "Display Errors"
-msgstr "Display Errors"
-
-#: admin/ajax-models/diagnostics.php:113
-msgid "Short Open Tags"
-msgstr "Short Open Tags"
-
-#: admin/ajax-models/diagnostics.php:114
-msgid "File Uploads"
-msgstr "File Uploads"
-
-#: admin/ajax-models/diagnostics.php:115
-msgid "Magic Quotes"
-msgstr "Magic Quotes"
-
-#: admin/ajax-models/diagnostics.php:116
-msgid "Register Globals"
-msgstr "Register Globals"
-
-#: admin/ajax-models/diagnostics.php:117
-msgid "Output Buffering"
-msgstr "Output Buffering"
-
-#: admin/ajax-models/diagnostics.php:118
-msgid "Session Save Path"
-msgstr "Session Save Path"
-
-#: admin/ajax-models/diagnostics.php:119
-msgid "Session Auto Start"
-msgstr "Session Auto Start"
-
-#: admin/ajax-models/diagnostics.php:120
-msgid "XML Enabled"
-msgstr "XML Enabled"
-
-#: admin/ajax-models/diagnostics.php:120
-#: admin/ajax-models/diagnostics.php:121
-#: admin/ajax-models/diagnostics.php:123
-#: admin/ajax-models/diagnostics.php:124
-#: widgets/RokMenu/themes/fusion/options.php:41
-#: widgets/RokMenu/themes/fusion/options.php:47
-#: widgets/RokMenu/themes/fusion/options.php:103
-#: widgets/RokMenu/themes/fusion/options.php:147
-#: widgets/RokMenu/themes/fusion/options.php:165
-#: widgets/rokmenu.php:109
-#: widgets/rokmenu.php:121
-#: widgets/rokmenu.php:136
-msgid "Yes"
-msgstr "Yes"
-
-#: admin/ajax-models/diagnostics.php:120
-#: admin/ajax-models/diagnostics.php:121
-#: admin/ajax-models/diagnostics.php:123
-#: admin/ajax-models/diagnostics.php:124
-#: widgets/RokMenu/themes/fusion/options.php:43
-#: widgets/RokMenu/themes/fusion/options.php:49
-#: widgets/RokMenu/themes/fusion/options.php:105
-#: widgets/RokMenu/themes/fusion/options.php:149
-#: widgets/RokMenu/themes/fusion/options.php:167
-#: widgets/rokmenu.php:111
-#: widgets/rokmenu.php:123
-#: widgets/rokmenu.php:138
-msgid "No"
-msgstr "No"
-
-#: admin/ajax-models/diagnostics.php:121
-msgid "Zlib Enabled"
-msgstr "Zlib Enabled"
-
-#: admin/ajax-models/diagnostics.php:122
-msgid "Disabled Functions"
-msgstr "Disabled Functions"
-
-#: admin/ajax-models/diagnostics.php:123
-msgid "Mbstring Enabled"
-msgstr "Mbstring Enabled"
-
-#: admin/ajax-models/diagnostics.php:124
-msgid "Iconv Available"
-msgstr "Iconv Available"
-
-#: admin/ajax-models/diagnostics.php:128
-msgid "WYSIWYG Editor"
-msgstr "WYSIWYG Editor"
-
-#: admin/ajax-models/diagnostics.php:236
-#: admin/ajax-models/diagnostics.php:237
-msgid "Cache Directory"
-msgstr "Cache Directory"
-
-#: admin/ajax-models/diagnostics.php:238
-msgid "Log Directory"
-msgstr "Log Directory"
-
-#: admin/ajax-models/diagnostics.php:240
-msgid "Temp Directory"
-msgstr "Temp Directory"
-
-#: admin/assignment_functions.php:166
-#: admin/assignment_functions.php:242
-#: admin/assignment_functions.php:282
-msgid "No items."
-msgstr "No items."
-
-#: admin/assignment_functions.php:189
-#, php-format
-msgctxt "nav menu front page title"
-msgid "Home: %s"
-msgstr "Home: %s"
-
-#: admin/assignment_functions.php:199
-msgctxt "nav menu home label"
-msgid "Home"
-msgstr "Home"
-
-#: admin/assignment_functions.php:399
-msgid "Custom"
-msgstr "Custom"
-
-#: admin/forms/fields/gspacer.php:31
-msgid "PRESET_SAVER_DESC"
-msgstr ""
-
-#: admin/forms/fields/gspacer.php:32
-msgid "PRESET_SAVER"
-msgstr ""
-
-#: admin/forms/fields/positions.php:137
-msgid "Current Positions"
-msgstr "Current Positions"
-
-#: admin/index.php:3
-#: admin/override.php:3
-#: admin_functions.php:98
-msgid "Settings"
+msgid "SETTINGS"
 msgstr "Settings"
 
-#: admin/index.php:93
-#: admin/override.php:97
-msgid "Reset to Defaults"
-msgstr "Reset to Defaults"
+msgid "THEME_SETTINGS"
+msgstr "Theme Settings"
 
-#: admin/index.php:93
-#: admin/override.php:97
-msgid "Reset all theme settings to the default values? Are you sure?"
-msgstr "Reset all theme settings to the default values? Are you sure?"
+msgid "SUCCESS_MSG"
+msgstr "The new preset has been successfully saved and its ready to use.</p>"
 
-#: admin/index.php:95
-#: admin/override.php:99
-msgid "Save Changes"
-msgstr "Save Changes"
+msgid "SHOW"
+msgstr "Show"
 
-#: admin/index.php:100
-#: admin/override.php:104
-#: admin_functions.php:132
-msgid "Settings saved."
-msgstr "Settings saved."
+msgid "ENABLED"
+msgstr "Enabled"
 
-#: admin/index.php:100
-#: admin/index.php:105
-#: admin/override.php:104
-#: admin/override.php:109
-#: admin_functions.php:132
-msgid "View site"
-msgstr "View site"
+msgid "ENABLE"
+msgstr "Enable"
 
-#: admin/index.php:105
-#: admin/override.php:109
-msgid "Settings reset to defaults."
-msgstr "Settings reset to defaults."
+msgid "POSITION"
+msgstr "Position"
 
-#: admin/override.php:164
-msgid "Assignments"
+msgid "AUTO_SIZE"
+msgstr "Auto Size"
+
+msgid "LOW"
+msgstr "low"
+
+msgid "MED"
+msgstr "med"
+
+msgid "HIGH"
+msgstr "high"
+
+msgid "DELAY"
+msgstr "Delay"
+
+msgid "TYPE"
+msgstr "Type"
+
+msgid "X_OFFSET"
+msgstr "X-Offset"
+
+msgid "Y_OFFSET"
+msgstr "Y-Offset"
+
+msgid "MIN_WIDTH"
+msgstr "Min-Width"
+
+msgid "PREVIEW"
+msgstr "Preview"
+
+msgid "OPACITY"
+msgstr "Opacity"
+
+msgid "START"
+msgstr "Start"
+
+msgid "END"
+msgstr "End"
+
+msgid "TOOLBAR"
+msgstr "Toolbar"
+
+msgid "OVERVIEW"
+msgstr "Overview"
+
+msgid "CONTENT"
+msgstr "Content"
+
+msgid "EXCERPT"
+msgstr "Excerpt"
+
+msgid "BOTH"
+msgstr "Both"
+
+msgid "STYLE"
+msgstr "Style"
+
+msgid "LINK_COLOR"
+msgstr "Link Color"
+
+msgid "LINK_COLOR_DESC"
+msgstr "Select the default link and accent color."
+
+msgid "LOGO"
+msgstr "Logo"
+
+msgid "LOGO_DESC"
+msgstr "Enable or disable as well as select the default logo style."
+
+msgid "CUSTOM"
+msgstr "Custom"
+
+msgid "LIGHT"
+msgstr "Light"
+
+msgid "DARK"
+msgstr "Dark"
+
+msgid "HEADER_STYLE"
+msgstr "Header Style"
+
+msgid "LOGO_PICKER"
+msgstr "Custom Logo"
+
+msgid "LOGO_PICKER_DESC"
+msgstr "Use the Logo picker to select your custom logo image."
+
+msgid "LOGO_STYLE"
+msgstr "Logo Style"
+
+msgid "LOGO_STYLE_DESC"
+msgstr "Pick the Logo style from the built-in style options provided."
+
+msgid "FEATURED_IMAGE_SIZE"
+msgstr "Featured Image Size"
+
+msgid "FEATURED_IMAGE_SIZE_DESC"
+msgstr "Set the size and position of the displayed Featured Image."
+
+msgid "WIDTH"
+msgstr "Width"
+
+msgid "HEIGHT"
+msgstr "Height"
+
+msgid "LEFT"
+msgstr "Left"
+
+msgid "RIGHT"
+msgstr "Right"
+
+msgid "WEBFONTS"
+msgstr "WebFonts"
+
+msgid "WEBFONTS_DESC"
+msgstr "Enable or disable third party webfonts."
+
+msgid "WEBFONTS_SOURCE"
+msgstr "Source"
+
+msgid "FONT_SETTINGS"
+msgstr "Font Settings"
+
+msgid "FONT_SETTINGS_DESC"
+msgstr "Select the default font family."
+
+msgid "FONT_FAMILY"
+msgstr "Font Family"
+
+msgid "FONT_SIZE"
+msgstr "Font Size"
+
+msgid "F_XSMALL"
+msgstr "Extra Small"
+
+msgid "F_SMALL"
+msgstr "Small"
+
+msgid "F_DEFAULT"
+msgstr "Default"
+
+msgid "F_LARGE"
+msgstr "Large"
+
+msgid "F_XLARGE"
+msgstr "Extra Large"
+
+msgid "PAGINATION"
+msgstr "Pagination"
+
+msgid "PAGINATION_DESC"
+msgstr "Displays pagination between the content type pages."
+
+msgid "PAGINATION_SHOW_RESULTS"
+msgstr "Show Results"
+
+msgid "PAGINATION_SHOW_RESULTS_DESC"
+msgstr "Displays the number of current and all available pages."
+
+msgid "PAGINATION_SIDE_PAGES"
+msgstr "Side Pages"
+
+msgid "PAGINATION_SIDE_PAGES_DESC"
+msgstr "Number of side pages to display next the current page number."
+
+msgid "WORDPRESS_COMMENTS"
+msgstr "Use Wordpress Comments"
+
+msgid "WORDPRESS_COMMENTS_DESC"
+msgstr "Disable this if you are using different commenting system like Disqus."
+
+msgid "CUSTOM_CSS"
+msgstr "Custom CSS"
+
+msgid "CUSTOM_CSS_DESC"
+msgstr "Your own CSS code to be added inline in the <head> section."
+
+msgid "TEXT"
+msgstr "Text"
+
+msgid "GIZMOS"
+msgstr "Gizmos"
+
+msgid "FEATURES"
+msgstr "Features"
+
+msgid "DATE"
+msgstr "Date"
+
+msgid "DATE_DESC"
+msgstr ""
+"Enable or disable the date feature as well as assign its default position."
+
+msgid "DATE_CLIENTSIDE"
+msgstr "Client-Side Date"
+
+msgid "FONT_SIZER"
+msgstr "Font-Sizer"
+
+msgid "FONT_SIZER_DESC"
+msgstr ""
+"Enable or disable the font size feature as well as assign its default "
+"position."
+
+msgid "BRANDING"
+msgstr "Branding"
+
+msgid "BRANDING_DESC"
+msgstr ""
+"Enable or disable logo based branding as well as assign its default position."
+
+msgid "COPYRIGHT"
+msgstr "Copyright"
+
+msgid "COPYRIGHT_DESC"
+msgstr ""
+"Enable or disable the copyright feature as well as assign its default "
+"position."
+
+msgid "SMARTLOAD"
+msgstr "SmartLoad"
+
+msgid "SMARTLOAD_DESC"
+msgstr "Enable or disable the image smartloading feature"
+
+msgid "COMPONENT_IGNORES"
+msgstr "Component Ignores"
+
+msgid "XPATH_IGNORES"
+msgstr "XPath Ignores"
+
+msgid "TOTOP"
+msgstr "To-Top Scroller"
+
+msgid "TOTOP_DESC"
+msgstr ""
+"Enable or disable the back to top feature as well as assign its default "
+"position."
+
+msgid "RESETSETTINGS"
+msgstr "Reset Settings"
+
+msgid "RESETSETTINGS_DESC"
+msgstr ""
+"Enable or disable the reset settings link as well as assign its default "
+"position."
+
+msgid "ANALYTICS"
+msgstr "Google Analytics"
+
+msgid "ANALYTICS_DESC"
+msgstr "Enable or disable Google analytics logic."
+
+msgid "ANALYTICS_ENABLE"
+msgstr "Enable"
+
+msgid "ANALYTICS_CODE"
+msgstr "UA Code"
+
+msgid "MENU"
+msgstr "Menu"
+
+msgid "MENU_CTRL"
+msgstr "Menu Control"
+
+msgid "MENU_CTRL_DESC"
+msgstr "Enable or disable the menu as well as select the menu type."
+
+msgid "FUSION"
+msgstr "Fusion-Menu"
+
+msgid "DROPDOWN"
+msgstr "Dropdown-Menu"
+
+msgid "SPLITMENU"
+msgstr "Split-Menu"
+
+msgid "MENU_SELECT"
+msgstr "Select a Menu"
+
+msgid "MENU_SELECT_DESC"
+msgstr "Select a menu group to display in the main menu."
+
+msgid "POSITION_DESC"
+msgstr "Select the location to display the main menu."
+
+msgid "ENABLE_JS"
+msgstr "Enable JavaScript"
+
+msgid "ENABLE_JS_DESC"
+msgstr "Enable or disable javascript effects for the menu."
+
+msgid "MENU_OPACITY"
+msgstr "Menu Opacity"
+
+msgid "MENU_EFFECT"
+msgstr "Menu Effect"
+
+msgid "MENU_EFFECT_DESC"
+msgstr "Select an available menu dropdown effect."
+
+msgid "SLIDE"
+msgstr "Slide"
+
+msgid "SLIDEFADE"
+msgstr "Slide + Fade"
+
+msgid "MENU_DELAY"
+msgstr "Menu Delay"
+
+msgid "MENU_DELAY_DESC"
+msgstr "Set the amount of delay for the menu dropdowns."
+
+msgid "MENU_ANIMATION"
+msgstr "Menu Animation"
+
+msgid "MENU_ANIMATION_DESC"
+msgstr "Select an available animation type for the menu dropdowns."
+
+msgid "MENU_DURATION"
+msgstr "Menu Duration"
+
+msgid "MENU_DURATION_DESC"
+msgstr "Set the duration of the menu dropdowns."
+
+msgid "CENTERED_DROPDOWN"
+msgstr "Centered Drop-downs"
+
+msgid "ENABLE_ID"
+msgstr "Enable ID"
+
+msgid "ENABLE_ID_DESC"
+msgstr "Enable or disable the default WordPress menu active ID."
+
+msgid "MAINMENU_POS"
+msgstr "Main Menu Position"
+
+msgid "MAINMENU_POS_DESC"
+msgstr "Select the position for the top level of the splitmenu."
+
+msgid "SUBMENU_POS"
+msgstr "Sub Menu Position"
+
+msgid "SUBMENU_POS_DESC"
+msgstr "Select the position for the submenu of the splitmenu."
+
+msgid "SUBMENU_TITLE"
+msgstr "Submenu Title"
+
+msgid "SUBMENU_TITLE_DESC"
+msgstr "Enable or disable the module title for the submenu widget."
+
+msgid "SUBMENU_CLASS_SFX"
+msgstr "Sub Menu Class Suffix"
+
+msgid "SUBMENU_CLASS_SFX_DESC"
+msgstr "Set a class suffix for the overall splitmenu."
+
+msgid "SUBMENUMODULE_CLASS_SFX"
+msgstr "Sub Menu Module Class Suffix"
+
+msgid "SUBMENUMODULE_CLASS_SFX_DESC"
+msgstr "Set a class suffix for the splitmenu submenu widget."
+
+msgid "RESPONSIVE_MENU"
+msgstr "Responsive Menu"
+
+msgid "RESPONSIVE_MENU_DESC"
+msgstr "Select the rendering styling of the menu when in mobile/tablet view."
+
+msgid "PANEL"
+msgstr "Panel"
+
+msgid "SELECTBOX"
+msgstr "Selectbox"
+
+msgid "LAYOUTS"
+msgstr "Layouts"
+
+msgid "FULLWIDTH_POS"
+msgstr "Full Width Positions"
+
+msgid "TOP_POS"
+msgstr "Top Positions"
+
+msgid "HEADER_POS"
+msgstr "Header Positions"
+
+msgid "SHOWCASE_POS"
+msgstr "Showcase Positions"
+
+msgid "UTILITY_POS"
+msgstr "Utility Positions"
+
+msgid "FEATURE_POS"
+msgstr "Feature Positions"
+
+msgid "MAINTOP_POS"
+msgstr "MainTop Positions"
+
+msgid "MAINBODY_POS"
+msgstr "MainBody Positions"
+
+msgid "MAINBOTTOM_POS"
+msgstr "MainBottom Positions"
+
+msgid "EXTENSION_POS"
+msgstr "Extension Positions"
+
+msgid "BOTTOM_POS"
+msgstr "Bottom Positions"
+
+msgid "FOOTER_POS"
+msgstr "Footer Positions"
+
+msgid "COPYRIGHT_POS"
+msgstr "Copyright Positions"
+
+msgid "FORCE_POS"
+msgstr "Force Positions"
+
+msgid "POS_COUNT"
+msgstr "Position Count"
+
+msgid "LAYOUT_POS_DESC"
+msgstr ""
+"Use the layout slider to select the desired column distribution used for "
+"each amount of active widgets in the indicated position."
+
+msgid "ADVANCED"
+msgstr "Advanced"
+
+msgid "LAYOUT_MODE"
+msgstr "Layout Mode"
+
+msgid "LAYOUT_MODE_DESC"
+msgstr ""
+"Select between responsive and fixed layout modes. Fixed layout modes do not "
+"have mobile support."
+
+msgid "RESPONSIVE"
+msgstr "Responsive"
+
+msgid "1200FIXED"
+msgstr "1200px Fixed"
+
+msgid "960FIXED"
+msgstr "960px Fixed"
+
+msgid "MAINTENANCE_MODE"
+msgstr "Maintenance Mode"
+
+msgid "MAINTENANCE_MODE_DESC"
+msgstr ""
+"Allows you to put your site in the Maintenance Mode and block non-members"
+
+msgid "MAINTENANCE_MODE_MESSAGE"
+msgstr "Message"
+
+msgid "LOAD_TRANSITION"
+msgstr "Load Transition"
+
+msgid "LOAD_TRANSITION_DESC"
+msgstr "Enable or disable the page loading transition animation effects."
+
+msgid "GANTRY_CACHE"
+msgstr "Gantry Cache"
+
+msgid "GANTRY_CACHE_DESC"
+msgstr "Enable or disable Gantry caching functionality."
+
+msgid "CACHE_TIME"
+msgstr "Cache Timeout"
+
+msgid "COMPONENT_ENABLED"
+msgstr "Display Content"
+
+msgid "COMPONENT_ENABLED_DESC"
+msgstr "Enable or disable the content output."
+
+msgid "MAINBODY_ENABLED"
+msgstr "Mainbody Enabled"
+
+msgid "MAINBODY_ENABLED_DESC"
+msgstr ""
+"Enable or disable the content output as well as sidebars and other mainbody "
+"widgets on the frontpage."
+
+msgid "RTL"
+msgstr "RTL Support"
+
+msgid "RTL_DESC"
+msgstr "Enable or disable support for RTL support."
+
+msgid "DISABLE_AUTO_PARAGRAPHS"
+msgstr "Disable Auto Paragraphs"
+
+msgid "DISABLE_AUTO_PARAGRAPHS_DESC"
+msgstr ""
+"Prevent WordPress from automatically wrapping the content into paragraph "
+"tags."
+
+msgid "DISABLE_AUTO_PARAGRAPHS_TYPE"
+msgstr "Content Type"
+
+msgid "DISABLE_AUTO_PARAGRAPHS_TYPE_DESC"
+msgstr "Choose the type of content to be excluded from the <p> wrapping field"
+
+msgid "DISABLE_TEXTURIZE"
+msgstr "Disable Texturize"
+
+msgid "DISABLE_TEXTURIZE_DESC"
+msgstr ""
+"Prevents WordPress from prettifying some characters like quotes (useful on "
+"pages with code)."
+
+msgid "PAGE_TEMPLATES"
+msgstr "Page Templates"
+
+msgid "PAGESUFFIX"
+msgstr "Page Suffix"
+
+msgid "PAGESUFFIX_DESC"
+msgstr ""
+"Enable or disable pagesuffix support appending a class to the body tag."
+
+msgid "CLASS"
+msgstr "Class"
+
+msgid "FEED_LINKS"
+msgstr "Feed Links"
+
+msgid "FEED_LINKS_DESC"
+msgstr "Enable the WordPress Feeds."
+
+msgid "CUSTOM_TITLE_TAG"
+msgstr "Custom Title Tag"
+
+msgid "CUSTOM_TITLE_TAG_DESC"
+msgstr ""
+"Customize the <title> tag using tokens found at the Gantry Framework site."
+
+msgid "TITLE_FORMAT"
+msgstr "Title Format"
+
+msgid "SHORTCODES_WIDGETS"
+msgstr "Shortcodes in Widgets"
+
+msgid "SHORTCODES_WIDGETS_DESC"
+msgstr "Allows WordPress to parse shortcodes placed in the widgets contents."
+
+msgid "ROKSTYLE"
+msgstr "RokStyle"
+
+msgid "ROKSTYLE_DESC"
+msgstr ""
+"Allows you to add CSS or JavaScript code directly from the post/page content."
+
+msgid "TYPOGRAPHY"
+msgstr "Template Typography"
+
+msgid "TYPOGRAPHY_DESC"
+msgstr "Enable or disable built in template typography sets."
+
+msgid "TYPOGRAPHY_STYLE"
+msgstr "Typography Styling"
+
+msgid "SELECTIVIZR"
+msgstr "Selectivizr"
+
+msgid "SELECTIVIZR_DESC"
+msgstr ""
+"Enable or disable Selectivizr support for IE8 providing support for "
+"additional CSS selectors for better compatibility."
+
+msgid "LESS_COMPILER"
+msgstr "Less Compiler"
+
+msgid "LESS_COMPILER_DESC"
+msgstr "Select the conditions and options for the built in LESS compiler."
+
+msgid "LESS_COMPRESSION"
+msgstr "CSS Compression"
+
+msgid "LESS_COMPRESSION_DESC"
+msgstr "Enable or disable whitespace compression for the resulting css file."
+
+msgid "LESS_COMPILEWAIT"
+msgstr "Compile Wait"
+
+msgid "LESS_COMPILEWAIT_DESC"
+msgstr ""
+"The maximum time one php thread will wait while another compiles a css file."
+
+msgid "LESS_CACHE_CLEARED"
+msgstr "Less compiled cache cleared."
+
+msgid "LESS_COMPILE_CLEAR"
+msgstr "Cache"
+
+msgid "LESS_COMPILE_CLEAR_TEXT"
+msgstr "Clear Cache"
+
+msgid "LESS_DEBUGHEADER"
+msgstr "Debug Header"
+
+msgid "LESS_DEBUGHEADER_DESC"
+msgstr ""
+"Show info about the less compile in the header of the resulting CSS file."
+
+msgid "ASSIGNMENTS"
 msgstr "Assignments"
 
-#: admin_functions.php:35
 msgid "PRESET_TITLE"
-msgstr ""
+msgstr "Gantry Presets Saver"
 
-#: admin_functions.php:36
 msgid "PRESET_SELECT"
 msgstr ""
+"Select the Presets you want to save and choose a new name for them. Hit skip "
+"on a Presets section if you do not want to save as new that specific Preset."
 
-#: admin_functions.php:37
 msgid "PRESET_NAME"
-msgstr ""
+msgstr "Preset Name"
 
-#: admin_functions.php:38
 msgid "KEY_NAME"
-msgstr ""
+msgstr "Key Name"
 
-#: admin_functions.php:39
-msgid "PRESET_NAMING"
-msgstr ""
-
-#: admin_functions.php:40
 msgid "PRESET_SKIP"
-msgstr ""
+msgstr "Skip"
 
-#: admin_functions.php:41
+msgid "PRESET_NAMING"
+msgstr "Preset Naming for"
+
 msgid "SUCCESS_SAVE"
-msgstr ""
+msgstr "NEW PRESET SAVED WITH SUCCESS!"
 
-#: admin_functions.php:42
-msgid "SUCCESS_MSG"
-msgstr ""
-
-#: admin_functions.php:43
 msgid "FAIL_SAVE"
-msgstr ""
+msgstr "SAVE FAILED"
 
-#: admin_functions.php:44
 msgid "FAIL_MSG"
 msgstr ""
+"<p>It looks like the saving of the new Preset did not succeed. Make sure "
+"your template folder and custom/presets.ini at your template folder root "
+"have write permissions.</p><p>Once you think you have fixed the permission, "
+"hit the button Retry below.</p><p>If it still fails, please ask for support "
+"on RocketTheme forums</p>"
 
-#: admin_functions.php:45
-msgid "CANCEL"
-msgstr "Cancel"
-
-#: admin_functions.php:46
-msgid "SAVE"
-msgstr "Save"
-
-#: admin_functions.php:47
 msgid "RETRY"
 msgstr "Retry"
 
-#: admin_functions.php:48
-msgid "CLOSE"
-msgstr "Close"
+msgid "SAVE"
+msgstr "Save"
 
-#: admin_functions.php:49
-msgid "SHOW_PARAMETERS"
-msgstr "Show Parameters"
+msgid "CANCEL"
+msgstr "Cancel"
 
-#: admin_functions.php:79
-msgid "Class Suffix:"
-msgstr "Class Suffix:"
+msgid "BLOG_VIEW"
+msgstr "Blog View"
 
-#: admin_functions.php:99
-msgid "You are not authorised to perform this operation."
-msgstr "You are not authorised to perform this operation."
+msgid "PAGE_VIEW"
+msgstr "Page View"
 
-#: core/config/gantryform.class.php:1528
-msgid "JLIB_FORM_ERROR_VALIDATE_FIELD"
-msgstr ""
+msgid "POST_VIEW"
+msgstr "Post View"
 
-#: core/config/gantryparameters.class.php:112
-msgid "Element not defined for type"
-msgstr "Element not defined for type"
+msgid "CATEGORY_VIEW"
+msgstr "Category View"
 
-#: core/gantry.class.php:1528
-msgid "Error Loading Modules"
-msgstr "Error Loading Modules"
+msgid "ARCHIVE_VIEW"
+msgstr "Archive View"
 
-#: core/utilities/gantrydate.class.php:266
-msgid "JANUARY_SHORT"
-msgstr "Jan"
+msgid "TAG_VIEW"
+msgstr "Tag View"
 
-#: core/utilities/gantrydate.class.php:266
-msgid "JANUARY"
-msgstr "January"
+msgid "SEARCH_VIEW"
+msgstr "Search View"
 
-#: core/utilities/gantrydate.class.php:267
-msgid "FEBRUARY_SHORT"
-msgstr "Feb"
-
-#: core/utilities/gantrydate.class.php:267
-msgid "FEBRUARY"
-msgstr "February"
-
-#: core/utilities/gantrydate.class.php:268
-msgid "MARCH_SHORT"
-msgstr "Mar"
-
-#: core/utilities/gantrydate.class.php:268
-msgid "MARCH"
-msgstr "March"
-
-#: core/utilities/gantrydate.class.php:269
-msgid "APRIL_SHORT"
-msgstr "Apr"
-
-#: core/utilities/gantrydate.class.php:269
-msgid "APRIL"
-msgstr "April"
-
-#: core/utilities/gantrydate.class.php:270
-msgid "MAY_SHORT"
-msgstr "May"
-
-#: core/utilities/gantrydate.class.php:270
-msgid "MAY"
-msgstr "May"
-
-#: core/utilities/gantrydate.class.php:271
-msgid "JUNE_SHORT"
-msgstr "Jun"
-
-#: core/utilities/gantrydate.class.php:271
-msgid "JUNE"
-msgstr "June"
-
-#: core/utilities/gantrydate.class.php:272
-msgid "JULY_SHORT"
-msgstr "Jul"
-
-#: core/utilities/gantrydate.class.php:272
-msgid "JULY"
-msgstr "July"
-
-#: core/utilities/gantrydate.class.php:273
-msgid "AUGUST_SHORT"
-msgstr "Aug"
-
-#: core/utilities/gantrydate.class.php:273
-msgid "AUGUST"
-msgstr "August"
-
-#: core/utilities/gantrydate.class.php:274
-msgid "SEPTEMBER_SHORT"
-msgstr "Sept"
-
-#: core/utilities/gantrydate.class.php:274
-msgid "SEPTEMBER"
-msgstr "September"
-
-#: core/utilities/gantrydate.class.php:275
-msgid "OCTOBER_SHORT"
-msgstr "Oct"
-
-#: core/utilities/gantrydate.class.php:275
-msgid "OCTOBER"
-msgstr "October"
-
-#: core/utilities/gantrydate.class.php:276
-msgid "NOVEMBER_SHORT"
-msgstr "Nov"
-
-#: core/utilities/gantrydate.class.php:276
-msgid "NOVEMBER"
-msgstr "November"
-
-#: core/utilities/gantrydate.class.php:277
-msgid "DECEMBER_SHORT"
-msgstr "Dec"
-
-#: core/utilities/gantrydate.class.php:277
-msgid "DECEMBER"
-msgstr "December"
-
-#: core/utilities/gantrydate.class.php:293
-msgid "SUN"
-msgstr "Sun"
-
-#: core/utilities/gantrydate.class.php:293
-msgid "SUNDAY"
-msgstr "Sunday"
-
-#: core/utilities/gantrydate.class.php:294
-msgid "MON"
-msgstr "Mon"
-
-#: core/utilities/gantrydate.class.php:294
-msgid "MONDAY"
-msgstr "Monday"
-
-#: core/utilities/gantrydate.class.php:295
-msgid "TUE"
-msgstr "Tue"
-
-#: core/utilities/gantrydate.class.php:295
-msgid "TUESDAY"
-msgstr "Tuesday"
-
-#: core/utilities/gantrydate.class.php:296
-msgid "WED"
-msgstr "Wed"
-
-#: core/utilities/gantrydate.class.php:296
-msgid "WEDNESDAY"
-msgstr "Wednesday"
-
-#: core/utilities/gantrydate.class.php:297
-msgid "THU"
-msgstr "Thu"
-
-#: core/utilities/gantrydate.class.php:297
-msgid "THURSDAY"
-msgstr "Thursday"
-
-#: core/utilities/gantrydate.class.php:298
-msgid "FRI"
-msgstr "Fri"
-
-#: core/utilities/gantrydate.class.php:298
-msgid "FRIDAY"
-msgstr "Friday"
-
-#: core/utilities/gantrydate.class.php:299
-msgid "SAT"
-msgstr "Sat"
-
-#: core/utilities/gantrydate.class.php:299
-msgid "SATURDAY"
-msgstr "Saturday"
-
-#: facets/menu/themes/fusion/layout.php:28
-msgid "behavior.mootools"
-msgstr "behavior.mootools"
-
-#: features/fontsizer.php:57
-msgid "TEXT_SIZE"
-msgstr "Text Size"
-
-#: features/fontsizer.php:59
-#: widgets/fontsizer.php:74
-msgid "DEC_FONT_SIZE"
-msgstr "Decrease Font Size"
-
-#: features/fontsizer.php:60
-#: widgets/fontsizer.php:75
-msgid "INC_FONT_SIZE"
-msgstr "Increase Font Size"
-
-#: gantry-ajax.php:39
-msgid "Unable to find Gantry library.  Please make sure you have it installed."
-msgstr "Unable to find Gantry library.  Please make sure you have it installed."
-
-#: gizmos/title.php:50
-#, php-format
-msgid "Search results for %s"
-msgstr "Search results for %s"
-
-#: gizmos/title.php:54
-msgid "Not Found"
-msgstr "Not Found"
-
-#: html/layouts/comment_basic.php:45
-#, php-format
-msgid "<cite class=\"fn\">%s</cite>"
-msgstr "<cite class=\"fn\">%s</cite>"
-
-#: html/layouts/comment_basic.php:47
-#, php-format
-msgid "%1$s at %2$s"
-msgstr "%1$s at %2$s"
-
-#: html/layouts/comment_basic.php:48
-msgid "(Edit)"
-msgstr "(Edit)"
-
-#: html/layouts/comment_basic.php:54
-msgid "Your comment is awaiting moderation."
-msgstr "Your comment is awaiting moderation."
-
-#: html/layouts/commentstempl_basic.php:42
-msgid "This post is password protected. Enter the password to view comments."
-msgstr "This post is password protected. Enter the password to view comments."
-
-#: html/layouts/commentstempl_basic.php:51
-msgid "No Comments"
-msgstr "No Comments"
-
-#: html/layouts/commentstempl_basic.php:51
-msgid "1 Comment"
-msgstr "1 Comment"
-
-#: html/layouts/commentstempl_basic.php:51
-msgid "% Comments"
-msgstr "% Comments"
-
-#: html/layouts/commentstempl_basic.php:54
-msgid "Reply"
-msgstr "Reply"
-
-#: html/layouts/commentstempl_basic.php:57
-msgid "Older Comments"
-msgstr "Older Comments"
-
-#: html/layouts/commentstempl_basic.php:58
-msgid "Newer Comments"
-msgstr "Newer Comments"
-
-#: html/layouts/commentstempl_basic.php:67
-msgid "Comments are closed."
-msgstr "Comments are closed."
-
-#: html/layouts/commentstempl_basic.php:75
-msgid "Leave a Reply"
-msgstr "Leave a Reply"
-
-#: html/layouts/commentstempl_basic.php:75
-#, php-format
-msgid "Leave a Reply to %s"
-msgstr "Leave a Reply to %s"
-
-#: html/layouts/commentstempl_basic.php:82
-msgid "You must be"
-msgstr "You must be"
-
-#: html/layouts/commentstempl_basic.php:83
-msgid "logged in"
-msgstr "logged in"
-
-#: html/layouts/commentstempl_basic.php:83
-msgid "to post a comment."
-msgstr "to post a comment."
-
-#: html/layouts/commentstempl_basic.php:90
-msgid "Logged in as"
-msgstr "Logged in as"
-
-#: html/layouts/commentstempl_basic.php:93
-msgid "Log out of this account"
-msgstr "Log out of this account"
-
-#: html/layouts/commentstempl_basic.php:93
-msgid "Log out"
-msgstr "Log out"
-
-#: html/layouts/commentstempl_basic.php:97
-#: html/layouts/commentstempl_basic.php:98
-msgid "Name (Required)"
-msgstr "Name (Required)"
-
-#: html/layouts/commentstempl_basic.php:104
-#: html/layouts/commentstempl_basic.php:105
-msgid "E-mail (Required)"
-msgstr "E-mail (Required)"
-
-#: html/layouts/commentstempl_basic.php:111
-#: html/layouts/commentstempl_basic.php:112
-msgid "Website"
-msgstr "Website"
-
-#: html/layouts/commentstempl_basic.php:122
-msgid "Submit"
-msgstr "Submit"
-
-#: translate/pomo/sample/app.php:56
-#, php-format
-msgid "Welcome %s!"
-msgstr "Welcome %s!"
-
-#: translate/pomo/sample/app.php:60
-msgid "A string with low priority!"
-msgstr "A string with low priority!"
-
-#: translate/pomo/sample/app.php:62
-msgid "Bye\n"
-msgstr "Bye\n"
-
-#: widgets/RokMenu/themes/fusion/options.php:39
-msgid "Load CSS:"
-msgstr "Load CSS:"
-
-#: widgets/RokMenu/themes/fusion/options.php:45
-msgid "Enable Javascript:"
-msgstr "Enable Javascript:"
-
-#: widgets/RokMenu/themes/fusion/options.php:51
-msgid "Menu Opacity:"
-msgstr "Menu Opacity:"
-
-#: widgets/RokMenu/themes/fusion/options.php:54
-msgid "Menu Effect:"
-msgstr "Menu Effect:"
-
-#: widgets/RokMenu/themes/fusion/options.php:56
-msgid "Slide"
-msgstr "Slide"
-
-#: widgets/RokMenu/themes/fusion/options.php:57
-msgid "Slide &amp; Fade"
-msgstr "Slide &amp; Fade"
-
-#: widgets/RokMenu/themes/fusion/options.php:60
-msgid "Hide Delay:"
-msgstr "Hide Delay:"
-
-#: widgets/RokMenu/themes/fusion/options.php:63
-msgid "Menu Animation:"
-msgstr "Menu Animation:"
-
-#: widgets/RokMenu/themes/fusion/options.php:65
-#: widgets/RokMenu/themes/fusion/options.php:109
-msgid "linear"
-msgstr "linear"
-
-#: widgets/RokMenu/themes/fusion/options.php:66
-#: widgets/RokMenu/themes/fusion/options.php:110
-msgid "Quad.easeOut"
-msgstr "Quad.easeOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:67
-#: widgets/RokMenu/themes/fusion/options.php:111
-msgid "Quad.easeIn"
-msgstr "Quad.easeIn"
-
-#: widgets/RokMenu/themes/fusion/options.php:68
-#: widgets/RokMenu/themes/fusion/options.php:112
-msgid "Quad.easeInOut"
-msgstr "Quad.easeInOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:69
-#: widgets/RokMenu/themes/fusion/options.php:113
-msgid "Cubic.easeOut"
-msgstr "Cubic.easeOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:70
-#: widgets/RokMenu/themes/fusion/options.php:114
-msgid "Cubic.easeIn"
-msgstr "Cubic.easeIn"
-
-#: widgets/RokMenu/themes/fusion/options.php:71
-#: widgets/RokMenu/themes/fusion/options.php:115
-msgid "Cubic.easeInOut"
-msgstr "Cubic.easeInOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:72
-#: widgets/RokMenu/themes/fusion/options.php:116
-msgid "Quart.easeOut"
-msgstr "Quart.easeOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:73
-#: widgets/RokMenu/themes/fusion/options.php:117
-msgid "Quart.easeIn"
-msgstr "Quart.easeIn"
-
-#: widgets/RokMenu/themes/fusion/options.php:74
-#: widgets/RokMenu/themes/fusion/options.php:118
-msgid "Quart.easeInOut"
-msgstr "Quart.easeInOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:75
-#: widgets/RokMenu/themes/fusion/options.php:119
-msgid "Quint.easeOut"
-msgstr "Quint.easeOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:76
-#: widgets/RokMenu/themes/fusion/options.php:120
-msgid "Quint.easeIn"
-msgstr "Quint.easeIn"
-
-#: widgets/RokMenu/themes/fusion/options.php:77
-#: widgets/RokMenu/themes/fusion/options.php:121
-msgid "Quint.easeInOut"
-msgstr "Quint.easeInOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:78
-#: widgets/RokMenu/themes/fusion/options.php:122
-msgid "Expo.easeOut"
-msgstr "Expo.easeOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:79
-#: widgets/RokMenu/themes/fusion/options.php:123
-msgid "Expo.easeIn"
-msgstr "Expo.easeIn"
-
-#: widgets/RokMenu/themes/fusion/options.php:80
-#: widgets/RokMenu/themes/fusion/options.php:124
-msgid "Expo.easeInOut"
-msgstr "Expo.easeInOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:81
-#: widgets/RokMenu/themes/fusion/options.php:125
-msgid "Circ.easeOut"
-msgstr "Circ.easeOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:82
-#: widgets/RokMenu/themes/fusion/options.php:126
-msgid "Circ.easeIn"
-msgstr "Circ.easeIn"
-
-#: widgets/RokMenu/themes/fusion/options.php:83
-#: widgets/RokMenu/themes/fusion/options.php:127
-msgid "Circ.easeInOut"
-msgstr "Circ.easeInOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:84
-#: widgets/RokMenu/themes/fusion/options.php:128
-msgid "Sine.easeOut"
-msgstr "Sine.easeOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:85
-#: widgets/RokMenu/themes/fusion/options.php:129
-msgid "Sine.easeIn"
-msgstr "Sine.easeIn"
-
-#: widgets/RokMenu/themes/fusion/options.php:86
-#: widgets/RokMenu/themes/fusion/options.php:130
-msgid "Sine.easeInOut"
-msgstr "Sine.easeInOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:87
-#: widgets/RokMenu/themes/fusion/options.php:131
-msgid "Back.easeOut"
-msgstr "Back.easeOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:88
-#: widgets/RokMenu/themes/fusion/options.php:132
-msgid "Back.easeIn"
-msgstr "Back.easeIn"
-
-#: widgets/RokMenu/themes/fusion/options.php:89
-#: widgets/RokMenu/themes/fusion/options.php:133
-msgid "Back.easeInOut"
-msgstr "Back.easeInOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:90
-#: widgets/RokMenu/themes/fusion/options.php:134
-msgid "Bounce.easeOut"
-msgstr "Bounce.easeOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:91
-#: widgets/RokMenu/themes/fusion/options.php:135
-msgid "Bounce.easeIn"
-msgstr "Bounce.easeIn"
-
-#: widgets/RokMenu/themes/fusion/options.php:92
-#: widgets/RokMenu/themes/fusion/options.php:136
-msgid "Bounce.easeInOut"
-msgstr "Bounce.easeInOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:93
-#: widgets/RokMenu/themes/fusion/options.php:137
-msgid "Elastic.easeOut"
-msgstr "Elastic.easeOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:94
-#: widgets/RokMenu/themes/fusion/options.php:138
-msgid "Elastic.easeIn"
-msgstr "Elastic.easeIn"
-
-#: widgets/RokMenu/themes/fusion/options.php:95
-#: widgets/RokMenu/themes/fusion/options.php:139
-msgid "Elastic.easeInOut"
-msgstr "Elastic.easeInOut"
-
-#: widgets/RokMenu/themes/fusion/options.php:98
-msgid "Menu Duration:"
-msgstr "Menu Duration:"
-
-#: widgets/RokMenu/themes/fusion/options.php:101
-msgid "Enable Pill:"
-msgstr "Enable Pill:"
-
-#: widgets/RokMenu/themes/fusion/options.php:107
-msgid "Pill Animation:"
-msgstr "Pill Animation:"
-
-#: widgets/RokMenu/themes/fusion/options.php:142
-msgid "Pill Duration:"
-msgstr "Pill Duration:"
-
-#: widgets/RokMenu/themes/fusion/options.php:145
-msgid "Centered Dropdowns:"
-msgstr "Centered Dropdowns:"
-
-#: widgets/RokMenu/themes/fusion/options.php:151
-msgid "Level 2 X Offset:"
-msgstr "Level 2 X Offset:"
-
-#: widgets/RokMenu/themes/fusion/options.php:154
-msgid "Level 2 Y Offset:"
-msgstr "Level 2 Y Offset:"
-
-#: widgets/RokMenu/themes/fusion/options.php:157
-msgid "Submenus X Offset:"
-msgstr "Submenus X Offset:"
-
-#: widgets/RokMenu/themes/fusion/options.php:160
-msgid "Submenus Y Offset:"
-msgstr "Submenus Y Offset:"
-
-#: widgets/RokMenu/themes/fusion/options.php:163
-msgid "Enable Active ID:"
-msgstr "Enable Active ID:"
-
-#: widgets/divider.php:25
-msgid "Gantry Divider Widget"
-msgstr "Gantry Divider Widget"
-
-#: widgets/divider.php:27
-msgid "Gantry Divider"
-msgstr "Gantry Divider"
-
-#: widgets/rokmenu.php:35
-msgid "RocketTheme RokMenu Widget"
-msgstr "RocketTheme RokMenu Widget"
-
-#: widgets/rokmenu.php:37
-msgid "RokMenu"
-msgstr "RokMenu"
-
-#: widgets/rokmenu.php:107
-msgid "Show Home Menu Item:"
-msgstr "Show Home Menu Item:"
-
-#: widgets/rokmenu.php:115
-msgid "Home Menu Text:"
-msgstr "Home Menu Text:"
-
-#: widgets/rokmenu.php:119
-msgid "Limit Levels:"
-msgstr "Limit Levels:"
-
-#: widgets/rokmenu.php:126
-msgid "Start Level:"
-msgstr "Start Level:"
-
-#: widgets/rokmenu.php:130
-msgid "End Level:"
-msgstr "End Level:"
-
-#: widgets/rokmenu.php:134
-msgid "Show All Children:"
-msgstr "Show All Children:"
-
-#: widgets/rokmenu.php:141
-msgid "Maximum Depth:"
-msgstr "Maximum Depth:"
-
-#: widgets/rokmenu.php:145
-msgid "Exclude Pages:"
-msgstr "Exclude Pages:"
-
-msgid "Widgets"
-msgstr "Widgets"
-
+msgid "SAVE_AS_COPY_SUFFIX"
+msgstr "Duplicate Override"

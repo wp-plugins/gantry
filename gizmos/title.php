@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: title.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: title.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -31,8 +31,8 @@ class GantryGizmoTitle extends GantryGizmo
 		global $gantry, $post, $s, $wp_query;
 
 		$aioseo_options = get_option('aioseop_options');
-		$aioseo_title   = get_post_meta($post->ID, '_aioseop_title', true);
-		$title          = trim($gantry->get('title-format'));
+		if( $post !== null ) $aioseo_title   = get_post_meta($post->ID, '_aioseop_title', true);
+		$title = trim($gantry->get('title-format'));
 
 		if ($aioseo_options != false && $aioseo_options['aiosp_home_title'] != '' && (is_home() || is_front_page())) {
 

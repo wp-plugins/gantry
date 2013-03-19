@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: commentstempl_basic.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: commentstempl_basic.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  */
@@ -24,6 +24,7 @@ class GantryLayoutCommentsTempl_Basic extends GantryLayout
 	function render($params = array())
 	{
 		global $wp_query, $withcomments, $post, $wpdb, $id, $comment, $user_login, $user_ID, $user_identity, $overridden_cpage;
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$fparams             = $this->_getParams($params);
@@ -49,7 +50,8 @@ class GantryLayoutCommentsTempl_Basic extends GantryLayout
 			<div class="contentheading"><?php comments_number(_g('No Comments'), _g('1 Comment'), _g('% Comments'));?></div>
 		</div>
 		<ol class="commentlist">
-			<?php wp_list_comments(array('style'     => 'ol',
+			<?php wp_list_comments(array(
+			                            'style'      => 'ol',
 			                            'callback'   => array($className, 'render_comment'),
 			                            'reply_text' => _g('Reply')
 			                       )); ?>

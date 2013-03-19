@@ -1,13 +1,13 @@
 <?php
 /**
- * @version $Id: php.php 58595 2012-12-11 19:59:45Z btowles $
- * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
+ * @version        $Id: php.php 59361 2013-03-13 23:10:27Z btowles $
+ * @author         RocketTheme http://www.rockettheme.com
+ * @copyright      Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @license        http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * derived from Joomla with original copyright and license
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright      Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 // No direct access
 defined('GANTRY_VERSION') or die;
@@ -15,19 +15,21 @@ defined('GANTRY_VERSION') or die;
 /**
  * PHP class format handler for GantryRegistry
  *
- * @package		Joomla.Framework
- * @subpackage	Registry
- * @since		1.5
+ * @package        Joomla.Framework
+ * @subpackage     Registry
+ * @since          1.5
  */
-class GantryRegistryFormatPHP extends GantryRegistryFormat {
+class GantryRegistryFormatPHP extends GantryRegistryFormat
+{
 
 	/**
 	 * Converts an object into a php class string.
-	 *	- NOTE: Only one depth level is supported.
+	 *    - NOTE: Only one depth level is supported.
 	 *
-	 * @param	object	Data Source Object
-	 * @param	array	Parameters used by the formatter
-	 * @return	string	Config class formatted string
+	 * @param    object    Data Source Object
+	 * @param    array     Parameters used by the formatter
+	 *
+	 * @return    string    Config class formatted string
 	 */
 	public function objectToString($object, $params = array())
 	{
@@ -35,13 +37,13 @@ class GantryRegistryFormatPHP extends GantryRegistryFormat {
 		$vars = '';
 		foreach (get_object_vars($object) as $k => $v) {
 			if (is_scalar($v)) {
-				$vars .= "\tpublic $". $k . " = '" . addcslashes($v, '\\\'') . "';\n";
+				$vars .= "\tpublic $" . $k . " = '" . addcslashes($v, '\\\'') . "';\n";
 			} else if (is_array($v)) {
-				$vars .= "\tpublic $". $k . " = " . $this->_getArrayString($v) . ";\n";
+				$vars .= "\tpublic $" . $k . " = " . $this->_getArrayString($v) . ";\n";
 			}
 		}
 
-		$str = "<?php\nclass ".$params['class']." {\n";
+		$str = "<?php\nclass " . $params['class'] . " {\n";
 		$str .= $vars;
 		$str .= "}";
 
@@ -58,7 +60,7 @@ class GantryRegistryFormatPHP extends GantryRegistryFormat {
 	 *
 	 * @return boolean True
 	 */
-	function stringToObject($data, $namespace='')
+	function stringToObject($data, $namespace = '')
 	{
 		return true;
 	}
@@ -69,11 +71,11 @@ class GantryRegistryFormatPHP extends GantryRegistryFormat {
 		$i = 0;
 		foreach ($a as $k => $v) {
 			$s .= ($i) ? ', ' : '';
-			$s .= '"'.$k.'" => ';
+			$s .= '"' . $k . '" => ';
 			if (is_array($v)) {
 				$s .= $this->_getArrayString($v);
 			} else {
-				$s .= '"'.addslashes($v).'"';
+				$s .= '"' . addslashes($v) . '"';
 			}
 			$i++;
 		}

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: body_mainbody.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: body_mainbody.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2012 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  */
@@ -29,29 +29,32 @@ class GantryLayoutBody_MainBody extends GantryBodyLayout
 
 	function render($params = array())
 	{
+		/** @global $gantry Gantry */
 		global $gantry;
 
 		$fparams = $this->_getParams($params);
 
 		// logic to determine if the component should be displayed
+		$display_mainbody = !($gantry->get("mainbody-enabled", true) == false);
 		$display_component = !($gantry->get("component-enabled", true) == false);
 		ob_start();
 		// XHTML LAYOUT
 		?>
+		<?php if ($display_mainbody) : ?>
 		<div id="rt-main" class="<?php echo $fparams->classKey; ?>">
 			<div class="rt-container">
 				<div class="rt-grid-<?php echo $fparams->schema['mb']; ?> <?php echo $fparams->pushPull[0]; ?>">
-					<?php if (isset($fparams->contentTop)) : ?>
 
-						<div id="rt-content-top">
-							<?php echo $fparams->contentTop; ?>
-						</div>
+					<?php if (isset($fparams->contentTop)) : ?>
+					<div id="rt-content-top">
+						<?php echo $fparams->contentTop; ?>
+					</div>
 					<?php endif; ?>
 
+					<?php if ($display_component) : ?>
 					<div class="rt-block">
-						<?php if ($display_component) : ?>
-
-							<div id="rt-mainbody">
+						<div id="rt-mainbody">
+							<div class="component-content">
 								<?php
 								if ('' == $fparams->component_content) {
 									$this->include_type();
@@ -60,20 +63,22 @@ class GantryLayoutBody_MainBody extends GantryBodyLayout
 								}
 								?>
 							</div>
-						<?php endif; ?>
-					</div>
-					<?php if (isset($fparams->contentBottom)) : ?>
-
-						<div id="rt-content-bottom">
-							<?php echo $fparams->contentBottom; ?>
 						</div>
+					</div>
 					<?php endif; ?>
+
+					<?php if (isset($fparams->contentBottom)) : ?>
+					<div id="rt-content-bottom">
+						<?php echo $fparams->contentBottom; ?>
+					</div>
+					<?php endif; ?>
+
 				</div>
 				<?php echo $fparams->sidebars; ?>
-
 				<div class="clear"></div>
 			</div>
 		</div>
+		<?php endif; ?>
 		<?php
 		return ob_get_clean();
 	}
