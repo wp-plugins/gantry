@@ -2,9 +2,9 @@
 Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
-Requires at least: 3.0
+Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -12,10 +12,13 @@ Gantry is a comprehensive set of building blocks to enable the rapid development
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform theme.
 
+* Please visit http://gantry-framework.org to download a FREE WordPress Gantry default theme which can be used as a base for your own themes!
+
 Gantry is packed full of features to empower the development of designs into fully functional layouts with the absolute minimum of effort and fuss.
 
 * True "Drag and Drop" page builder
 * Support for Responsive Layouts
+* Syntax highlight support via Google Code Prettify
 * 960 Grid System
 * Stunning Administrator interface
 * XML driven and with overrides for unprecedented levels of customization
@@ -63,7 +66,7 @@ Please note that Gantry Framework plugin doesn't come up with the default theme.
 
 We try to ensure that any Gantry theme and the Gantry Plugin specifically will work with any modern and secure server environment. The recommended minimum requirements are :
 
-* WordPress 3.0 or higher
+* WordPress 3.2 or higher
 * PHP 5.2+
 * MySQL 3.23 (5+ recommended)
 * Apache 1.3 (2.2+ recommended)
@@ -80,6 +83,10 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 4.0.1 =
+* Next Gantry Framework Major Release. Please always do a full backup (files + database) of your site before upgrading!
+* Fixed incompatibility with PHP 5.2
 
 = 4.0.0 =
 * Next Gantry Framework Major Release. Please always do a full backup (files + database) of your site before upgrading!
@@ -295,6 +302,9 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Changelog Creation
 
 == Upgrade Notice ==
+
+= 4.0.1 =
+Please remember to create a full site backup (files + database) before performing update.
 
 = 4.0.0 =
 Please remember to create a full site backup (files + database) before performing update.

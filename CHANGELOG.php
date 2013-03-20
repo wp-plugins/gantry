@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 59402 2013-03-19 09:38:21Z jakub $
+ * @version   $Id: CHANGELOG.php 59418 2013-03-20 20:36:24Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -27,14 +27,17 @@ Legend:
 - -> Removed
 ! -> Note
 
-------- 4.0 Release [] ------
+------- 4.0.1 Release [] ------
+# Fixed incompatibility with PHP 5.2
+
+------- 4.0.0 Release [] ------
 ! Next Gantry Framework Major Release. Please always do a full backup of your site before upgrading!
 + LESS support
 + Responsive layouts are fully supported
 + Brand new Admin UI
 + Caching improvements
 + Filtering in the Assignments tab
-+ Ability to chose a chrome per widget
++ Ability to choose a chrome per widget
 + Support for the new Dropdown menu
 + New Search Highlight gizmo to allow to highlight search query without losing page content formatting
 + Added back the gantryjson.class.php file for backwards compatibility with Crystalline

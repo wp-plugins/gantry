@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: Builder.php 58836 2013-01-15 01:40:58Z btowles $
+ * @version   $Id: Builder.php 59417 2013-03-20 16:50:35Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -237,56 +237,51 @@ class Gantry_Uri_Builder
 
 		if ($components & Gantry_Uri_Components::SCHEME) {
 			$cmp = $uri->getScheme();
-
-			if (empty($cmp)) goto AUTHORITY_START;
-
-			$result .= "{$cmp}:";
+			if (!empty($cmp)){
+				$result .= "{$cmp}:";
+			}
 		}
-
-		AUTHORITY_START:
+		// Authority Start
 		if ($components & Gantry_Uri_Components::AUTHORITY_START)
 		{
 			$result .= "//";
 		}
 
-		USER_INFO:
+		//User info
 		if ($components & Gantry_Uri_Components::USERINFO) {
 			$cmp = $uri->getUserInfo();
+			if (!empty($cmp)){
+				if ($esc && (strpos($cmp, ':') !== false)) {
+					$parts = explode(':', $cmp, 2);
 
-			if (empty($cmp)) goto HOST;
+					$result .= rawurlencode($parts[0]) . ':' . rawurlencode($parts[1]);
+				} else if ($esc) {
+					$result .= rawurlencode($cmp);
+				} else {
+					$result .= $cmp;
+				}
 
-			if ($esc && (strpos($cmp, ':') !== false)) {
-				$parts = explode(':', $cmp, 2);
-
-				$result .= rawurlencode($parts[0]) . ':' . rawurlencode($parts[1]);
-			} else if ($esc) {
-				$result .= rawurlencode($cmp);
-			} else {
-				$result .= $cmp;
+				$result .= '@';
 			}
-
-			$result .= '@';
 		}
 
-		HOST:
+		//HOST:
 		if ($components & Gantry_Uri_Components::HOST) {
 			$cmp = $uri->getHost();
 
-			if (empty($cmp)) goto PORT;
-
-			$result .= $cmp;
+			if (!empty($cmp)){
+				$result .= $cmp;
+			}
 		}
 
-		PORT:
+		//PORT:
 		if (($components & Gantry_Uri_Components::STRONG_PORT) || ($components & Gantry_Uri_Components::PORT)) {
 			$cmp = $uri->getPort();
 
-			if (($cmp === -1) || (($components & Gantry_Uri_Components::PORT) && $uri->isDefaultPort())) goto RESULT;
-
-			$result .= ":{$cmp}";
+			if (!(($cmp === -1) || (($components & Gantry_Uri_Components::PORT) && $uri->isDefaultPort()))){
+				$result .= ":{$cmp}";
+			}
 		}
-
-		RESULT:
 		return $result;
 	}
 
@@ -318,31 +313,33 @@ class Gantry_Uri_Builder
 		if ($components & Gantry_Uri_Components::QUERY) {
 			$cmp = $uri->getQuery();
 
-			if (empty($cmp)) goto FRAGMENT;
+			if (!empty($cmp)){
 
-			if ($esc) {
-				parse_str($cmp, $cmp);
+				if ($esc) {
+					parse_str($cmp, $cmp);
 
-				$result .= '?' . str_replace('+', '%20', http_build_query($cmp, null, '&'));
-			} else {
-				$result .= "?{$cmp}";
+					$result .= '?' . str_replace('+', '%20', http_build_query($cmp, null, '&'));
+				} else {
+					$result .= "?{$cmp}";
+				}
 			}
 		}
 
-		FRAGMENT:
+		//FRAGMENT:
 		if ($components & Gantry_Uri_Components::FRAGMENT) {
 			$cmp = $uri->getFragment();
 
-			if (empty($cmp)) goto RESULT;
+			if (!empty($cmp)){
 
-			if ($esc) {
-				$result .= '#' . rawurlencode($cmp);
-			} else {
-				$result .= "#{$cmp}";
+				if ($esc) {
+					$result .= '#' . rawurlencode($cmp);
+				} else {
+					$result .= "#{$cmp}";
+				}
 			}
 		}
 
-		RESULT:
+//		RESULT:
 		return $result;
 	}
 }

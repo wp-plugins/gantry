@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: Util.php 59350 2013-03-13 17:14:16Z btowles $
+ * @version   $Id: Util.php 59417 2013-03-20 16:50:35Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -188,4 +188,18 @@ class Gantry_Uri_Util
 		return $return_uri->getComponents($type);
 	}
 
+}
+
+if(false === function_exists('lcfirst'))
+{
+    /**
+     * Make a string's first character lowercase
+     *
+     * @param string $str
+     * @return string the resulting string.
+     */
+    function lcfirst( $str ) {
+        $str[0] = strtolower($str[0]);
+        return (string)$str;
+    }
 }
