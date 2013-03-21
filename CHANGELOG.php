@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 59418 2013-03-20 20:36:24Z jakub $
+ * @version   $Id: CHANGELOG.php 59430 2013-03-21 16:39:12Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,9 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.0.2 Release [] ------
+# Reverted some CSS changes in gantry.css which could cause some bad color appearance in couple themes
 
 ------- 4.0.1 Release [] ------
 # Fixed incompatibility with PHP 5.2
