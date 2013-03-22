@@ -84,7 +84,7 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 
 == Changelog ==
 
-= 4.0.4
+= 4.0.4 =
 * Fixed a bug introduced in 4.0.3 where CSS files could load with double slashes
 
 = 4.0.3 =
