@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 59441 2013-03-22 21:42:59Z jakub $
+ * @version   $Id: CHANGELOG.php 59447 2013-03-22 23:08:26Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,9 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.0.4 Release [] ------
+# Fixed a bug introduced in 4.0.3 where CSS files could load with double slashes
 
 ------- 4.0.3 Release [] ------
 # Fixed compatibility with WordPress Multi Site installations

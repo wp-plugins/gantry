@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantry.class.php 59439 2013-03-22 21:16:00Z btowles $
+ * @version   $Id: gantry.class.php 59446 2013-03-22 22:53:05Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -276,7 +276,7 @@ class Gantry
 		$urlinfo           = parse_url(get_bloginfo('template_url'));
 		$this->templateUrl = $urlinfo["path"];
 		$this->templateUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"],'/') : '';
-		$this->templateUrl .= "/";
+
 
 		$this->uriutil = new Gantry_Uri_Util(Gantry_Uri_Util::cleanFilesystemPath(ABSPATH),get_option('siteurl'));
 
@@ -374,7 +374,6 @@ class Gantry
 		$urlinfo           = parse_url(get_bloginfo('template_url'));
 		$this->templateUrl = $urlinfo["path"];
 		$this->templateUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"],'/') : '';
-		$this->templateUrl .= "/";
 
 
 		$this->_initContentTypePaths();
@@ -1045,7 +1044,7 @@ class Gantry
 						$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 					}
 					$filename = strtolower(basename($path, '.css')) . rand(0, 1000);
-					wp_enqueue_style($filename, $path, array(), '4.0.3');
+					wp_enqueue_style($filename, $path, array(), '4.0.4');
 					$deps[] = $path;
 				}
 			}
@@ -1058,11 +1057,11 @@ class Gantry
 			if ($this->baseUrl != "/") {
 				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 			}
-			wp_enqueue_script($path, $path, $deps, '4.0.3');
+			wp_enqueue_script($path, $path, $deps, '4.0.4');
 			$deps[] = $path;
 		}
 		foreach ($this->_full_scripts as $strSrc) {
-			wp_enqueue_script($strSrc, $strSrc, $deps, '4.0.3');
+			wp_enqueue_script($strSrc, $strSrc, $deps, '4.0.4');
 			$deps[] = $strSrc;
 		}
 
@@ -1630,7 +1629,7 @@ class Gantry
 				if (!defined('GANTRY_FINALIZED')) {
 					$this->_styles[$priority][] = $link;
 				} else {
-					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.0.3');
+					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.0.4');
 				}
 			}
 		}
@@ -1734,7 +1733,7 @@ class Gantry
 					if (!defined('GANTRY_FINALIZED')) {
 						$this->_scripts[$full_path] = $check_url_path . $query_string;
 					} else {
-						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.3');
+						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.4');
 					}
 					break;
 				}
@@ -1768,7 +1767,7 @@ class Gantry
 						if (!defined('GANTRY_FINALIZED')) {
 							$this->_scripts[$check_path] = $check_url_path . $query_string;
 						} else {
-							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.3');
+							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.4');
 						}
 						break(2);
 					}

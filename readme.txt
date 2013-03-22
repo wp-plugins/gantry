@@ -4,7 +4,7 @@ Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 4.0.2
+Stable tag: 4.0.4
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -83,6 +83,9 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 4.0.4
+* Fixed a bug introduced in 4.0.3 where CSS files could load with double slashes
 
 = 4.0.3 =
 * Fixed compatibility with WordPress Multi Site installations
@@ -309,6 +312,9 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Changelog Creation
 
 == Upgrade Notice ==
+
+= 4.0.4 =
+Please remember to create a full site backup (files + database) before performing update.
 
 = 4.0.3 =
 Please remember to create a full site backup (files + database) before performing update.
