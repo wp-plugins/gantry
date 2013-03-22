@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 59430 2013-03-21 16:39:12Z jakub $
+ * @version   $Id: CHANGELOG.php 59441 2013-03-22 21:42:59Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,10 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.0.3 Release [] ------
+# Fixed compatibility with WordPress Multi Site installations
+# Fixed a notice where siteurl option didn't had path set
 
 ------- 4.0.2 Release [] ------
 # Reverted some CSS changes in gantry.css which could cause some bad color appearance in couple themes

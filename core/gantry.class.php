@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantry.class.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: gantry.class.php 59439 2013-03-22 21:16:00Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -258,7 +258,7 @@ class Gantry
 		global $gantry_path;
 		// load the base gantry path
 		$this->gantryPath = $gantry_path;
-		$this->gantryUrl  = WP_PLUGIN_URL . '/' . basename($this->gantryPath);
+		$this->gantryUrl  = rtrim(WP_PLUGIN_URL,'/') . '/' . basename($this->gantryPath);
 
 		// set the base class vars
 		$this->basePath                  = Gantry_Uri_Util::cleanFilesystemPath(ABSPATH);
@@ -268,10 +268,15 @@ class Gantry
 		$this->custom_menuitemparams_dir = $this->custom_dir . DS . 'menuitemparams';
 		$this->custom_presets_file       = $this->custom_dir . DS . 'presets.ini';
 
-		$urlinfo           = parse_url(get_option('siteurl'));
-		$this->baseUrl     = $urlinfo["path"] . "/";
+		// Set the call specific URL vars
+		$urlinfo       = parse_url(get_option('siteurl'));
+		$this->baseUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"],'/') : '';
+		$this->baseUrl .= "/";
+
 		$urlinfo           = parse_url(get_bloginfo('template_url'));
 		$this->templateUrl = $urlinfo["path"];
+		$this->templateUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"],'/') : '';
+		$this->templateUrl .= "/";
 
 		$this->uriutil = new Gantry_Uri_Util(Gantry_Uri_Util::cleanFilesystemPath(ABSPATH),get_option('siteurl'));
 
@@ -361,10 +366,15 @@ class Gantry
 		$this->language = get_bloginfo('language');
 
 		// Set the call specific URL vars
-		$urlinfo           = parse_url(get_option('siteurl'));
-		$this->baseUrl     = $urlinfo["path"] . "/";
+		// Set the call specific URL vars
+		$urlinfo       = parse_url(get_option('siteurl'));
+		$this->baseUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"],'/') : '';
+		$this->baseUrl .= "/";
+
 		$urlinfo           = parse_url(get_bloginfo('template_url'));
 		$this->templateUrl = $urlinfo["path"];
+		$this->templateUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"],'/') : '';
+		$this->templateUrl .= "/";
 
 
 		$this->_initContentTypePaths();
@@ -1035,7 +1045,7 @@ class Gantry
 						$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 					}
 					$filename = strtolower(basename($path, '.css')) . rand(0, 1000);
-					wp_enqueue_style($filename, $path, array(), '4.0.2');
+					wp_enqueue_style($filename, $path, array(), '4.0.3');
 					$deps[] = $path;
 				}
 			}
@@ -1048,11 +1058,11 @@ class Gantry
 			if ($this->baseUrl != "/") {
 				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 			}
-			wp_enqueue_script($path, $path, $deps, '4.0.2');
+			wp_enqueue_script($path, $path, $deps, '4.0.3');
 			$deps[] = $path;
 		}
 		foreach ($this->_full_scripts as $strSrc) {
-			wp_enqueue_script($strSrc, $strSrc, $deps, '4.0.2');
+			wp_enqueue_script($strSrc, $strSrc, $deps, '4.0.3');
 			$deps[] = $strSrc;
 		}
 
@@ -1327,7 +1337,16 @@ class Gantry
 			$css_append = '-' . $options_md5;
 		}
 
-		$default_compiled_css_dir = $this->templatePath . '/css-compiled';
+
+		if (is_multisite())
+		{
+			$uploads = wp_upload_dir();
+			$default_compiled_css_dir = rtrim($uploads['basedir'],'/\\').'/css-compiled';
+		}
+		else {
+			$default_compiled_css_dir = $this->templatePath . '/css-compiled';
+		}
+
 		if (!file_exists($default_compiled_css_dir)) {
 			@mkdir($default_compiled_css_dir, 0775,true);
 			if (!file_exists($default_compiled_css_dir)) {
@@ -1530,11 +1549,15 @@ class Gantry
 			}
 
 			// set up the full path checks
-			$css_search_paths = array(
-				$this->gantryUrl . '/css/'            => $this->gantryPath . '/css/',
-				$this->templateUrl . '/css-compiled/' => $this->templatePath . '/css-compiled/'
-			);
-
+			$css_search_paths = array();
+			$css_search_paths[$this->gantryUrl . '/css/'] = $this->gantryPath . '/css/';
+			if (is_multisite()){
+				$uploads = wp_upload_dir();
+				$css_search_paths[rtrim($uploads['baseurl'],'/\\').'/css-compiled/'] = rtrim($uploads['basedir'],'/\\') . '/css-compiled/';
+			}
+			else {
+				$css_search_paths[$this->templateUrl . '/css-compiled/'] = $this->templatePath . '/css-compiled/';
+			}
 			$css_search_paths = array_merge($css_search_paths, $template_css_search_paths);
 
 
@@ -1607,7 +1630,7 @@ class Gantry
 				if (!defined('GANTRY_FINALIZED')) {
 					$this->_styles[$priority][] = $link;
 				} else {
-					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.0.2');
+					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.0.3');
 				}
 			}
 		}
@@ -1711,7 +1734,7 @@ class Gantry
 					if (!defined('GANTRY_FINALIZED')) {
 						$this->_scripts[$full_path] = $check_url_path . $query_string;
 					} else {
-						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.2');
+						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.3');
 					}
 					break;
 				}
@@ -1745,7 +1768,7 @@ class Gantry
 						if (!defined('GANTRY_FINALIZED')) {
 							$this->_scripts[$check_path] = $check_url_path . $query_string;
 						} else {
-							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.2');
+							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.3');
 						}
 						break(2);
 					}
