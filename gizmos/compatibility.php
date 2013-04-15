@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: compatibility.php 59404 2013-03-19 18:47:39Z jakub $
+ * @version   $Id: compatibility.php 59501 2013-04-11 19:36:39Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -28,6 +28,15 @@ class GantryGizmoCompatibility extends GantryGizmo
 	 *     Copyright (C) 2012 Jakub Baran & Hassan Derakhshandeh
 	 *      Contains parts of code from the WooCommerce plugin by WooThemes
 	 */
+	
+	function admin_init() {
+
+		/**
+		 * WooCommerce Compatibility
+		 */
+
+		add_theme_support( 'woocommerce' );
+	}
 
 	function init()
 	{
@@ -69,6 +78,14 @@ class GantryGizmoCompatibility extends GantryGizmo
 		 */
 
 		remove_action( 'jigoshop_sidebar', 'jigoshop_get_sidebar', 10 );
+
+		/**
+		 * WP SEO Compatibility
+		 */
+		
+		if( function_exists( 'get_wpseo_options' ) ) {
+			add_action( 'init', array( &$this, 'wp_seo_fix_force_rewrite_titles' ) );
+		}
 
 	}
 
@@ -138,4 +155,16 @@ class GantryGizmoCompatibility extends GantryGizmo
 		}
 		return $tmpl;
 	}
+
+	/**
+	 * WP SEO - Fix for the bad rendering of page when "Force Rewrite Titles" is enabled
+	 */
+	
+	function wp_seo_fix_force_rewrite_titles() {
+		global $wpseo_front;
+
+		remove_action( 'get_header', array( $wpseo_front, 'force_rewrite_output_buffer' ) );
+		remove_action( 'wp_footer', array( $wpseo_front, 'flush_cache' ) );
+	}
+
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: title.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: title.php 59499 2013-04-11 19:23:03Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -37,11 +37,13 @@ class GantryGizmoTitle extends GantryGizmo
 		if ($aioseo_options != false && $aioseo_options['aiosp_home_title'] != '' && (is_home() || is_front_page())) {
 
 			$title             = $aioseo_options['aiosp_home_title'];
+			$title = apply_filters('wp_title', $title);
 			$gantry->pageTitle = trim($title);
 
 		} elseif (is_singular() && !empty($aioseo_title) && $aioseo_title != '') {
 
 			$title             = $aioseo_title;
+			$title = apply_filters('wp_title', $title);
 			$gantry->pageTitle = trim($title);
 
 		} elseif ($title != '') {
@@ -218,6 +220,7 @@ class GantryGizmoTitle extends GantryGizmo
 
 			}
 
+			$title = apply_filters('wp_title', $title);
 			$gantry->pageTitle = trim($title);
 
 
@@ -251,6 +254,7 @@ class GantryGizmoTitle extends GantryGizmo
 				$title = wp_title('', false) . ' | ' . get_bloginfo('name');
 			}
 
+			$title = apply_filters('wp_title', $title);
 			$gantry->pageTitle = apply_filters('gantry_title_gizmo', $title);
 
 		}

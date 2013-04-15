@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   4.0.4 March 22, 2013
+ * @version   4.0.5 April 15, 2013
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -35,7 +35,7 @@ class GantryWidgetBreadcrumbs extends GantryWidget {
 
 	    	<?php if ($instance['prefix'] != '') echo '<span class="showHere">' . $instance['prefix'] . '</span>'; ?>
 	    
-		    <a href="<?php echo site_url(); ?>" class="pathway"><?php _re('Home'); ?></a>
+		    <a href="<?php echo home_url(); ?>" class="pathway"><?php _re('Home'); ?></a>
 		    
 		    <?php if ((is_page() || is_single()) && !is_front_page() && !is_home()) : ?>
 																		

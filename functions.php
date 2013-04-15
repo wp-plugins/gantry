@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: functions.php 59365 2013-03-14 09:13:58Z jakub $
+ * @version   $Id: functions.php 59490 2013-04-11 14:45:04Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -168,7 +168,7 @@ function gantry_construct()
 		/**
 		 * @name GANTRY_VERSION
 		 */
-		define('GANTRY_VERSION', '4.0.4');
+		define('GANTRY_VERSION', '4.0.5');
 
 
 		if (!defined('DS')) {
@@ -198,9 +198,13 @@ function gantry_construct()
 			$cache->set('gantry', $gantry);
 		}
 
-		load_theme_textdomain('gantry');
-		load_theme_textdomain('gantry', $gantry->templatePath . '/languages');
-		load_plugin_textdomain('gantry', false, basename($gantry_path) . '/languages/');
+		$domain = 'gantry';
+		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+
+		load_theme_textdomain($domain);
+		load_theme_textdomain($domain, $gantry->templatePath . '/languages');
+		load_textdomain($domain, WP_LANG_DIR . '/gantry/' . $domain . '-' . $locale . '.mo');
+		load_plugin_textdomain($domain, false, basename($gantry_path) . '/languages/');
 
 		// Load the widget positions for the template
 		$gantry->loadWidgetPositions();

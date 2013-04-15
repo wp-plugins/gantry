@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: admin_functions.php 59376 2013-03-14 19:43:34Z btowles $
+ * @version   $Id: admin_functions.php 59475 2013-04-08 18:32:06Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -627,7 +627,7 @@ function gantry_widgets_admin_insert_override_header()
 		}
 		$gantry->addStyle($gantry->gantryUrl . '/admin/widgets/gantry-widgets.css');
 		$gantry->addScript($gantry->gantryUrl . '/admin/widgets/gantry-widgets.js');
-		$gantry->addInlineScript("var AdminURI = '" . $ajaxurl . "';var GantryLang = {'are_you_sure': '" . _g('This will delete all widgets and settins for this override.  Are you sure you want to do this?') . "'};");
+		$gantry->addInlineScript("var AdminURI = '" . $ajaxurl . "';var GantryLang = {'are_you_sure': '" . _g('This will delete all widgets and settings for this override.  Are you sure you want to do this?') . "'};");
 
 		$buffer = "";
 		$buffer .= "<div id=\"gantry-overrides\">\n";

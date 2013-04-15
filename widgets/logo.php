@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: logo.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: logo.php 59493 2013-04-11 15:33:32Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -37,7 +37,7 @@ global $gantry;
 		// located in {template}/images/logo/styleX/logo.png
 		if (isset($instance['autosize']) && $instance['autosize']) {
 
-			$path    = $gantry->templatePath . DS . 'images' . DS . 'logo';
+			$path    = $gantry->templatePath . '/images/' . 'logo';
 			$logocss = $instance['css'];
 
 			// get proper path based on perstyle param
@@ -56,7 +56,7 @@ global $gantry;
 		ob_start();
 
 		?>
-		<a href="<?php bloginfo('url'); ?>" id="rt-logo"></a>
+		<a href="<?php echo home_url(); ?>" id="rt-logo"></a>
 		<?php
 		echo ob_get_clean();
 	}

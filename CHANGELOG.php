@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 59447 2013-03-22 23:08:26Z jakub $
+ * @version   $Id: CHANGELOG.php 59502 2013-04-11 19:40:00Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,13 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.0.5 Release [] ------
+# Fixed Google WebFonts and breaking fonts caused by s: and g: added to font body class
++ You can now keep your Gantry Framework translation files (.mo) in the WordPress languages directory ie. wp-content/languages/gantry/
++ Gantry is now going to automatically add the templateName-custom.css file if found under css/ directory
++ Added fix for the WP SEO when "Force Rewrite Titles" enabled
+^ Title gizmo should now respect the wp_title filter
 
 ------- 4.0.4 Release [] ------
 # Fixed a bug introduced in 4.0.3 where CSS files could load with double slashes
