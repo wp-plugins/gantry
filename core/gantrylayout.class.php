@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantrylayout.class.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: gantrylayout.class.php 59702 2013-05-17 21:54:07Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -44,7 +44,7 @@ class GantryLayout
 				$instance_params = $instances[$widget_info['params'][0]['number']];
 			}
 		} else {
-			$instance_params = $wp_registered_widgets[$id]['params'];
+			$instance_params = $wp_registered_widgets[$widget_id]['params'];
 		}
 		if (empty($instance_params)) $instance_params = array();
 		return $instance_params;

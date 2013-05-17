@@ -13,6 +13,9 @@ msgstr ""
 msgid "MISSING_MENU_THEME_MESSAGE"
 msgstr "In order to get your theme working properly, please go to the <strong>Admin Dashboard &rarr; Appearance &rarr; Widgets</strong> and re-save all of your <strong>Gantry Menu</strong> widget instances."
 
+msgid "JNONE"
+msgstr "None"
+
 msgid "SETTINGS"
 msgstr "Settings"
 
@@ -189,6 +192,9 @@ msgstr "Displays pagination between the content type pages."
 
 msgid "PAGINATION_SHOW_RESULTS"
 msgstr "Show Results"
+
+msgid "PAGINATION_SHOW_COUNT"
+msgstr "Show Count"
 
 msgid "PAGINATION_SHOW_RESULTS_DESC"
 msgstr "Displays the number of current and all available pages."
@@ -419,6 +425,9 @@ msgstr "Full Width Positions"
 msgid "TOP_POS"
 msgstr "Top Positions"
 
+msgid "NAV_POS"
+msgstr "Navigation Positions"
+
 msgid "HEADER_POS"
 msgstr "Header Positions"
 
@@ -515,7 +524,7 @@ msgid "COMPONENT_ENABLED_DESC"
 msgstr "Enable or disable the content output."
 
 msgid "MAINBODY_ENABLED"
-msgstr "Mainbody Enabled"
+msgstr "Display Mainbody"
 
 msgid "MAINBODY_ENABLED_DESC"
 msgstr ""

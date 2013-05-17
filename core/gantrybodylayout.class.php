@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantrybodylayout.class.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: gantrybodylayout.class.php 59696 2013-05-17 16:35:23Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -504,6 +504,35 @@ class GantryBodyLayout extends GantryLayout
 	}
 
 	/**
+	 * get the current page context
+	 * @return string
+	 */
+	function getContext() {
+		if( isset( $this->context ) )
+			return $this->context;
+
+		if( is_home() ) {
+			$this->context = 'blog';
+		} elseif( is_single() ) {
+			$this->context = 'single';
+		} elseif( is_page() ) {
+			$this->context = 'page';
+		} elseif( is_category() ) {
+			$this->context = 'category';
+		} elseif( is_tag() ) {
+			$this->context = 'tag';
+		} elseif( is_archive() ) {
+			$this->context = 'archive';
+		} elseif( is_search() ) {
+			$this->context = 'search';
+		} elseif( is_404() ) {
+			$this->context = '404';
+		}
+
+		return $this->context;
+	}
+
+	/**
 	 * Retrieve the name of the highest priority template file that exists.
 	 *
 	 * Searches in the STYLESHEETPATH before TEMPLATEPATH so that themes which
@@ -590,6 +619,54 @@ class GantryBodyLayout extends GantryLayout
 		$templates = array();
 		if ( isset($name) )
 			$templates[] = "{$slug}-{$name}.php";
+
+		$templates[] = "{$slug}.php";
+
+		$this->locate_type($templates, true, false);
+	}
+
+	/**
+	 * Load a template part into a template
+	 *
+	 * Includes the named template part for a theme or if a name is specified then a
+	 * specialised part will be included. If the theme contains no {slug}.php file
+	 * then no template will be included.
+	 *
+	 * The template is included using require, not require_once, so you may include the
+	 * same template part multiple times.
+	 *
+	 * For the $name parameter, if the file is called "{slug}-special.php" then specify
+	 * "special".
+	 *
+	 * Function supports third parameter which let's you allow the check for the post
+	 * formats and post types.
+	 *
+	 * @param string $slug The slug name for the generic template.
+	 * @param string $name The name of the specialised template.
+	 * @param boolean $post_types_formats Enables the check for the post formats and post types
+	 */
+	function get_content_template( $slug, $name = null, $post_types_formats = true ) {
+
+		/** for Custom Post Types, allow different template files in different contexts */
+		$context = $this->getContext();
+
+		$templates = array();
+
+		if( $post_types_formats ) {
+			$post_supports = post_type_supports( get_post_type(), 'post-formats' ) ? get_post_format() : get_post_type();
+
+			if( $post_supports !== false && isset( $context ) )
+				$templates[] = "{$slug}-{$context}-{$post_supports}.php";
+
+			if( $post_supports !== false)
+				$templates[] = "{$slug}-{$post_supports}.php";
+		}
+
+		if( isset( $name ) && $name !== false )
+			$templates[] = "{$slug}-{$name}.php";
+
+		if( $name !== $context )
+			$templates[] = "{$slug}-{$context}.php";
 
 		$templates[] = "{$slug}.php";
 

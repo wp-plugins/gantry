@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: GantryMenuProviderWordpress.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: GantryMenuProviderWordpress.php 59703 2013-05-17 23:08:37Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -53,6 +53,8 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 				$node->setTitle($menu_item->title);
 				$node->setLink($menu_item->url);
 				$node->setTarget($menu_item->target);
+				$node->setItemId($menu_item->object_id);
+				$node->setItemType($menu_item->object);
 				if (!empty($menu_item->description)) $node->addAttribute('description', $menu_item->description);
 				if (!empty($menu_item->xfn)) $node->addLinkAttrib('rel', $menu_item->xfn);
 				if (!empty($menu_item->attr_title)) $node->addLinkAttrib('title', $menu_item->attr_title);
@@ -77,9 +79,10 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 
 		public function getMenuTree()
 		{
+			global $wp_query;
 			gantry_import('core.utilities.gantrycache');
 			$cache_handler = GantryCache::getCache('gantry-menu', 0, true);
-			$menu_id       = 'menu-' . md5(implode('-', $this->args));
+			$menu_id       = 'menu-' . md5(implode('-', $this->args) . get_locale());
 			$menu          = $cache_handler->get($menu_id);
 			if ($menu == false) {
 				$menu = $this->getRealMenuTree();
@@ -91,6 +94,16 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 			$nodeIterator = new RecursiveIteratorIterator($menu, RecursiveIteratorIterator::SELF_FIRST);
 			/** @var $node RokMenuNode */
 			foreach ($nodeIterator as $node) {
+
+				if ((int)$node->getItemId() == (int)$wp_query->queried_object_id) {
+					if (post_type_exists($node->getItemType()) && isset($wp_query->queried_object->post_type) && $wp_query->queried_object->post_type == $node->getItemType()) {
+						$this->current_node = $node->getId();
+						break;
+					} else if (taxonomy_exists($node->getItemType()) && isset($wp_query->queried_object->taxonomy) && $wp_query->queried_object->taxonomy == $node->getItemType()) {
+						$this->current_node = $node->getId();
+						break;
+					}
+				}
 				if ($node->getLink() == $this->current_url && $this->current_node == 0) {
 					$this->current_node = $node->getId();
 					break;
@@ -117,6 +130,7 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 
 		protected function createMenuTree(&$nodes, $maxdepth)
 		{
+
 			$menu = new RokMenuNodeTree(self::ROOT_ID);
 			// TODO: move maxdepth to higher processing level?
 			if (!empty($nodes)) {

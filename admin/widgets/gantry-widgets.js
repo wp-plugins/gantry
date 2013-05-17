@@ -1,5 +1,5 @@
 /**
- * @version $Id: gantry-widgets.js 58623 2012-12-15 22:01:32Z btowles $
+ * @version $Id: gantry-widgets.js 59698 2013-05-17 18:08:39Z djamil $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -476,8 +476,10 @@ String.implement({
 		if (vars.length) vars.each(function(val){
 			var index = val.indexOf('='),
 				keys = index < 0 ? [''] : val.substr(0, index).match(/[^\]\[]+/g),
-				value = decodeURIComponent(val.substr(index + 1)).replace(/\+/g, " "),
+				value = val.substr(index + 1).replace(/\+/g, " "),
 				obj = res;
+
+			value = decodeURIComponent(value);
 			keys.each(function(key, i){
 				key = decodeURIComponent(key);
 				var current = obj[key];

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: html.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: html.php 59671 2013-05-06 13:14:15Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -34,6 +34,9 @@ class GantryFormFieldHTML extends GantryFormField
 
 		// preview
 		$html = str_replace("{template_preview}", $gantry->templateUrl . '/screenshot.png', $html);
+
+		// preview big
+		$html = str_replace("{template_preview_big}", $gantry->templateUrl . '/template-thumb-big.png', $html);
 
 		return "<div class='html'>" . $html . "</div>";
 	}

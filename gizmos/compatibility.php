@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: compatibility.php 59501 2013-04-11 19:36:39Z jakub $
+ * @version   $Id: compatibility.php 59677 2013-05-11 15:25:53Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -85,6 +85,14 @@ class GantryGizmoCompatibility extends GantryGizmo
 		
 		if( function_exists( 'get_wpseo_options' ) ) {
 			add_action( 'init', array( &$this, 'wp_seo_fix_force_rewrite_titles' ) );
+		}
+
+		/**
+		 * Cart66 Compatibility
+		 */
+		
+		if( class_exists( 'Cart66' ) ) {
+			add_action( 'template_redirect', array( 'Cart66', 'enqueueScripts' ) );
 		}
 
 	}

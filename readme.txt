@@ -4,7 +4,7 @@ Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.2
 Tested up to: 3.5.1
-Stable tag: 4.0.5
+Stable tag: 4.0.6
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -83,6 +83,16 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 4.0.6 =
+* Cart66 support added to compatibility gizmo
+* Shopp plugin compatibility fix
+* Fixed parseQueryString method on override widgets that wasn't allowing the "+" caracther in text
+* Google Web Fonts should now use proper protocol when SSL detected
+* Filter in Title gizmo should now have all required parameters
+* Changed the way how Gantry outputs header and footer which can solve potential issues with scripts and regular expressions
+* Gantry Menu cache should now respect the get_locale();
+* Other minor improvements
 
 = 4.0.5 =
 * Fixed Google WebFonts and breaking fonts caused by s: and g: added to font body class
@@ -319,6 +329,9 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Changelog Creation
 
 == Upgrade Notice ==
+
+= 4.0.6 =
+Please remember to create a full site backup (files + database) before performing update.
 
 = 4.0.5 =
 Please remember to create a full site backup (files + database) before performing update.

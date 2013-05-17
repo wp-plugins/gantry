@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 59502 2013-04-11 19:40:00Z jakub $
+ * @version   $Id: CHANGELOG.php 59701 2013-05-17 21:43:33Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,16 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.0.6 Release [] ------
++ Cart66 support added to compatibility gizmo
+# Shopp plugin compatibility fix
+# Fixed parseQueryString method on override widgets that wasn't allowing the "+" caracther in text 
+# Google Web Fonts should now use proper protocol when SSL detected
+# Filter in Title gizmo should now have all required parameters
+# Changed the way how Gantry outputs header and footer which can solve potential issues with scripts and regular expressions
+^ Gantry Menu cache should now respect the get_locale();
+^ Other minor improvements
 
 ------- 4.0.5 Release [] ------
 # Fixed Google WebFonts and breaking fonts caused by s: and g: added to font body class

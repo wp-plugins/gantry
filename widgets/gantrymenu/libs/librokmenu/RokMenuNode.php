@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: RokMenuNode.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: RokMenuNode.php 59703 2013-05-17 23:08:37Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -31,6 +31,44 @@ if (!class_exists('RokMenuNode')) {
 		protected $_li_classes = array();
 		protected $_a_classes = array();
 		protected $_span_classes = array();
+
+		protected $item_id;
+		protected $item_type;
+
+		/**
+		 * @param mixed $item_id
+		 */
+		public function setItemId($item_id)
+		{
+			$this->item_id = $item_id;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getItemId()
+		{
+			return $this->item_id;
+		}
+
+		/**
+		 * @param mixed $item_type
+		 */
+		public function setItemType($item_type)
+		{
+			$this->item_type = $item_type;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getItemType()
+		{
+			return $this->item_type;
+		}
+
+
+
 
 		/**
 		 * Gets the title
