@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: menu.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: menu.class.php 59858 2013-08-29 19:38:24Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -22,11 +22,22 @@ class GantryFactMenu extends GantryOverrideFact
 
 	private function setupBaseInfo()
 	{
+		static $menu_objects;
+		if (!$menu_objects) {
+			$menu_objects = array();
+		}
+
 		if (null == $this->current_url) {
 			$this->current_url = GantryFactMenu::_curPageURL();
 		}
 		if (null == $this->menu_items) {
-			$this->menu_items = wp_get_nav_menu_items(wp_get_nav_menu_object($this->type));
+			if (isset($menu_objects[$this->type])) {
+				$this->menu_items = $menu_objects[$this->type];
+			} else {
+				$o = wp_get_nav_menu_object($this->type);
+				$this->menu_items = wp_get_nav_menu_items($o);
+				$menu_objects[$this->type] = $this->menu_items;
+			}
 		}
 		if (null == $this->fact_menu_item) {
 			foreach ($this->menu_items as $item) {

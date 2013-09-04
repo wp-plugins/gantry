@@ -3,8 +3,8 @@ Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful
 Requires at least: 3.2
-Tested up to: 3.5.1
-Stable tag: 4.0.6
+Tested up to: 3.6
+Stable tag: 4.0.7
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -18,6 +18,7 @@ Gantry is packed full of features to empower the development of designs into ful
 
 * True "Drag and Drop" page builder
 * Support for Responsive Layouts
+* LESS support
 * Syntax highlight support via Google Code Prettify
 * 960 Grid System
 * Stunning Administrator interface
@@ -83,6 +84,12 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 4.0.7 =
+* Added support for Font Awesome 3.2.1
+* Added in performance improvement for Menus in the Rules Engine (thanks David Fritsch)
+* Added Gantry Mobile Dectect core utility (required by some premium templates ie. Lumiere)
+* Added two new admin form fields - filelist and imagelist
 
 = 4.0.6 =
 * Cart66 support added to compatibility gizmo
@@ -329,6 +336,9 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Changelog Creation
 
 == Upgrade Notice ==
+
+= 4.0.7 =
+Please remember to create a full site backup (files + database) before performing update.
 
 = 4.0.6 =
 Please remember to create a full site backup (files + database) before performing update.

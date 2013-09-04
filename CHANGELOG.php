@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 59701 2013-05-17 21:43:33Z jakub $
+ * @version   $Id: CHANGELOG.php 59867 2013-09-03 10:55:11Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,12 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.0.7 Release [] ------
++ Added support for Font Awesome 3.2.1
+^ Added in performance improvement for Menus in the Rules Engine (thanks David Fritsch)
++ Added Gantry Mobile Dectect core utility (required by some premium templates ie. Lumiere)
++ Added two new admin form fields - filelist and imagelist
 
 ------- 4.0.6 Release [] ------
 + Cart66 support added to compatibility gizmo
