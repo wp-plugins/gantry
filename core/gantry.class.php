@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantry.class.php 59689 2013-05-16 18:00:23Z jakub $
+ * @version   $Id: gantry.class.php 59952 2013-10-02 17:16:02Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -1045,7 +1045,7 @@ class Gantry
 						$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 					}
 					$filename = strtolower(basename($path, '.css')) . rand(0, 1000);
-					wp_enqueue_style($filename, $path, array(), '4.0.7');
+					wp_enqueue_style($filename, $path, array(), '4.0.8');
 					$deps[] = $path;
 				}
 			}
@@ -1058,11 +1058,11 @@ class Gantry
 			if ($this->baseUrl != "/") {
 				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 			}
-			wp_enqueue_script($path, $path, $deps, '4.0.7');
+			wp_enqueue_script($path, $path, $deps, '4.0.8');
 			$deps[] = $path;
 		}
 		foreach ($this->_full_scripts as $strSrc) {
-			wp_enqueue_script($strSrc, $strSrc, $deps, '4.0.7');
+			wp_enqueue_script($strSrc, $strSrc, $deps, '4.0.8');
 			$deps[] = $strSrc;
 		}
 
@@ -1154,7 +1154,7 @@ class Gantry
 			$this->pageTitle = wp_title('&raquo;', false);
 		}
 
-		$this->pageTitle = str_replace('$', '\$', $this->pageTitle);
+		$this->pageTitle = str_replace('$', chr(36), $this->pageTitle);
 		$title           = '<title>' . $this->pageTitle . '</title>' . chr(13);
 		return $title;
 	}
@@ -1630,7 +1630,7 @@ class Gantry
 				if (!defined('GANTRY_FINALIZED')) {
 					$this->_styles[$priority][] = $link;
 				} else {
-					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.0.7');
+					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.0.8');
 				}
 			}
 		}
@@ -1734,7 +1734,7 @@ class Gantry
 					if (!defined('GANTRY_FINALIZED')) {
 						$this->_scripts[$full_path] = $check_url_path . $query_string;
 					} else {
-						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.7');
+						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.8');
 					}
 					break;
 				}
@@ -1768,7 +1768,7 @@ class Gantry
 						if (!defined('GANTRY_FINALIZED')) {
 							$this->_scripts[$check_path] = $check_url_path . $query_string;
 						} else {
-							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.7');
+							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.0.8');
 						}
 						break(2);
 					}

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: compatibility.php 59677 2013-05-11 15:25:53Z jakub $
+ * @version   $Id: compatibility.php 59947 2013-10-01 17:38:04Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -94,6 +94,14 @@ class GantryGizmoCompatibility extends GantryGizmo
 		if( class_exists( 'Cart66' ) ) {
 			add_action( 'template_redirect', array( 'Cart66', 'enqueueScripts' ) );
 		}
+
+		/**
+		 * NextGen Gallery Compatibility
+		 */
+		
+		if( class_exists( 'C_Photocrati_Resource_Manager' ) ) { 
+			remove_action( 'init', array( C_Photocrati_Resource_Manager::$instance, 'start_buffer' ), 1 ); 
+		} 
 
 	}
 

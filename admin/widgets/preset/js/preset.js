@@ -456,7 +456,7 @@ var Scroller = {
 			if (!labels.get(keyPreset)) labels.set(keyPreset, []);
 			var type = el.get('tag');
 
-			var panel = el.getParent('.g4-panel').className.replace(/[panel|\-|\s|g4]/g, '').toInt() - 1;
+			var panel = el.getParent('.g4-panel').className.replace(/panel|\-|\s|g4/g, '').toInt() - 1;
 
 			if (!currentParams[panel]) currentParams[panel] = 0;
 			currentParams[panel]++;

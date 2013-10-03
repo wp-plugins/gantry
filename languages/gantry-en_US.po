@@ -8,8 +8,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Poedit 1.5.7\n"
 
+# ------------------- ADMIN ------------------- #
 msgid "MISSING_MENU_THEME_MESSAGE"
 msgstr ""
 "In order to get your theme working properly, please go to the <strong>Admin "
@@ -198,6 +199,9 @@ msgstr "Show Results"
 
 msgid "PAGINATION_SHOW_COUNT"
 msgstr "Show Count"
+
+msgid "PAGINATION_SHOW_COUNT_DESC"
+msgstr "Displays the number of all available pages"
 
 msgid "PAGINATION_SHOW_RESULTS_DESC"
 msgstr "Displays the number of current and all available pages."
@@ -725,3 +729,109 @@ msgstr "Search View"
 
 msgid "SAVE_AS_COPY_SUFFIX"
 msgstr "Duplicate Override"
+
+# ------------------- GIZMOS ------------------- #
+#: gizmos/buddypress.php:110
+msgid "BuddyPress Blogs Component"
+msgstr ""
+
+#: gizmos/buddypress.php:111
+msgid "BuddyPress Activity Component"
+msgstr ""
+
+#: gizmos/buddypress.php:112
+msgid "BuddyPress Profile Component"
+msgstr ""
+
+#: gizmos/buddypress.php:113
+msgid "BuddyPress Messages Component"
+msgstr ""
+
+#: gizmos/buddypress.php:114
+msgid "BuddyPress Friends Component"
+msgstr ""
+
+#: gizmos/buddypress.php:115
+msgid "BuddyPress Members Component"
+msgstr ""
+
+#: gizmos/buddypress.php:116
+msgid "BuddyPress Groups Component"
+msgstr ""
+
+#: gizmos/buddypress.php:117
+msgid "BuddyPress Forums Component"
+msgstr ""
+
+#: gizmos/buddypress.php:118
+msgid "BuddyPress Settings Component"
+msgstr ""
+
+#: gizmos/buddypress.php:146
+msgid ""
+"The Gantry BuddyPress plugin is no longer required starting with Gantry "
+"Framework 4.0.8. You will need to deactivate and/or remove it for this new "
+"built-in support to work. This change affects BuddyPress 1.8+."
+msgstr ""
+
+# ------------------- WIDGETS ------------------- #
+#: widgets/breadcrumbs.php:38
+msgid "Home"
+msgstr ""
+
+#: widgets/archives.php:59
+msgid "Select Date"
+msgstr ""
+
+#: widgets/meta.php:63
+msgid "Logout"
+msgstr ""
+
+#: widgets/meta.php:67
+msgid "Login"
+msgstr ""
+
+#: widgets/meta.php:71
+msgid "Syndicate this site using RSS 2.0"
+msgstr ""
+
+#: widgets/meta.php:71
+msgid "Entries <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr ""
+
+#: widgets/meta.php:74
+msgid "The latest comments to all posts in RSS"
+msgstr ""
+
+#: widgets/meta.php:74
+msgid "Comments <abbr title=\"Really Simple Syndication\">RSS</abbr>"
+msgstr ""
+
+#: widgets/meta.php:77
+msgid ""
+"Powered by WordPress, state-of-the-art semantic personal publishing platform."
+msgstr ""
+
+#: widgets/loginform.php:50
+msgid "User Name"
+msgstr ""
+
+#: widgets/loginform.php:54
+msgid "Password"
+msgstr ""
+
+#: widgets/loginform.php:58
+msgid "Remember Me"
+msgstr ""
+
+#: widgets/loginform.php:61
+msgid "Log in"
+msgstr ""
+
+#: widgets/loginform.php:65
+msgid "Forgot your password?"
+msgstr ""
+
+#: widgets/loginform.php:69
+msgid "Register"
+msgstr ""

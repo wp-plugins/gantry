@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: admin_assignments.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: admin_assignments.php 59954 2013-10-02 17:54:24Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -52,17 +52,20 @@
 								<?php
 								} else {
 									foreach ($value as $item_id) {
+
 										$data  = $archetype . '::' . $type . '::' . $item_id;
-										$title = $gantry_override_assignment_info[$data]->title;
-										?>
-										<li class="list-type clearfix">
-											<span class="type"><?php echo $gantry_override_assignment_info[$data]->single_label;?></span>
-											<span class="delete-assigned">&times;</span>
-											<span class="link">
-												<a class="no-link-item" href="#" rel="<?php echo $data;?>"><?php echo $title;?></a>
-											</span>
-										</li>
+										if (isset($gantry_override_assignment_info[$data])){
+											$title = $gantry_override_assignment_info[$data]->title;
+											?>
+											<li class="list-type clearfix">
+												<span class="type"><?php echo $gantry_override_assignment_info[$data]->single_label;?></span>
+												<span class="delete-assigned">&times;</span>
+												<span class="link">
+													<a class="no-link-item" href="#" rel="<?php echo $data;?>"><?php echo $title;?></a>
+												</span>
+											</li>
 									<?php
+										}
 									}
 								}
 							}

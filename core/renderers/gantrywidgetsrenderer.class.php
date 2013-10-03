@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantrywidgetsrenderer.class.php 59376 2013-03-14 19:43:34Z btowles $
+ * @version   $Id: gantrywidgetsrenderer.class.php 59955 2013-10-02 18:05:06Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -164,6 +164,8 @@ class GantryWidgetsRenderer
 	 */
 	public static function filterWidget($params)
 	{
+		if( !isset( $params[0]['widget_map'] )) return $params;
+		
 		/** @global $gantry Gantry */
 		global $gantry;
 

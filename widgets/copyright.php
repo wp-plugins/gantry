@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: copyright.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: copyright.php 59939 2013-09-27 11:44:21Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -35,14 +35,24 @@ class GantryWidgetCopyright extends GantryWidget
 		parent::render_widget_open($args, $instance);
 	}
 
-	function render($args, $instance)
-	{
-		/** @global $gantry Gantry */
-global $gantry;
-		ob_start();
+	function render($args, $instance) {
+	/** @global $gantry Gantry */
+	global $gantry;
+
+		ob_start(); 
 		?>
+
 		<a href="http://www.rockettheme.com/" title="rockettheme.com" id="rocket"></a>
-		<?php echo $instance['text']; ?>
+		<?php 
+
+		$text = $instance['text'];
+		$text = str_replace( '%YEAR%', date( 'Y' ), $text );
+		$text = str_replace( '%year%', date( 'y' ), $text );
+		
+		echo $text; 
+
+		?>
+		
 		<?php
 		echo ob_get_clean();
 	}

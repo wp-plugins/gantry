@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 59867 2013-09-03 10:55:11Z jakub $
+ * @version   $Id: CHANGELOG.php 59959 2013-10-02 19:17:45Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,14 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.0.8 Release [] ------
++ Added core support for the BuddyPress 1.8+ - Gantry BuddyPress plugin is no longer required and has been deprecated
+# Fix for the Gizmo options not being saved/loaded in the Presets of the theme
++ Compatibility fix for the NextGen Gallery plugin
+# Fixed rendering of the dollar sign ($) in the site title
++ You can now use the %YEAR% and %year% in the Gantry Copyright widget to display the current year
+# Fix for the bad path to the font files of the FontAwesome 3.2.1
 
 ------- 4.0.7 Release [] ------
 + Added support for Font Awesome 3.2.1
