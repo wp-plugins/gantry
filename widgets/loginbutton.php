@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   4.0.8 October 3, 2013
+ * @version   4.1.0 December 12, 2013
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -52,7 +52,7 @@ class GantryWidgetLoginButton extends GantryWidget {
 		<div id="<?php echo $this->id; ?>" class="widget <?php echo $this->css_classname; ?> rt-block">
 			<div class="rt-popupmodule-button">
 			<?php if(!is_user_logged_in()) : ?>
-				<a href="#" class="buttontext button" rel="rokbox[385 160][module=rt-popuplogin]">
+				<?php echo $this->_renderRokBoxLink(); ?>
 					<span class="desc"><?php echo $instance['logintext']; ?></span>
 				</a>
 			<?php else : ?>
@@ -67,5 +67,18 @@ class GantryWidgetLoginButton extends GantryWidget {
 		
 		echo ob_get_clean();
 	
+	}
+
+	function _renderRokBoxLink(){
+		$isRokBox2 = @file_exists(ABSPATH . 'wp-content/plugins/wp_rokbox/tinymce/tinymce.php');
+		$output = array();
+
+		if ($isRokBox2){
+			$output[] = '<a data-rokbox data-rokbox-element="#rt-popuplogin" href="#" class="buttontext button">';
+		} else {
+			$output[] = '<a href="#" class="buttontext button" rel="rokbox[385 200][module=rt-popuplogin]">';
+		}
+
+		return implode("\n", $output);
 	}
 }

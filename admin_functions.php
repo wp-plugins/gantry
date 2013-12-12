@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: admin_functions.php 59475 2013-04-08 18:32:06Z jakub $
+ * @version   $Id: admin_functions.php 60294 2013-12-10 19:52:14Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -92,6 +92,24 @@ function gantryLang()
 //			'are_you_sure': '" . _g('This will delete all widgets and settings for this override.  Are you sure you want to do this?') . "'
 //        };
 //    ";
+}
+
+function gantry_add_old_ui_class( $classes ) {
+    if ( version_compare( $GLOBALS['wp_version'], '3.8-alpha', '<' ) ) {
+        $classes = explode( " ", $classes );
+        if ( ! in_array( 'gantry-pre-mp6', $classes ) ) {
+            $classes[] = 'gantry-pre-mp6';
+        }
+        $classes = implode( " ", $classes );
+    } else {
+    	$classes = explode( " ", $classes );
+        if ( ! in_array( 'gantry-mp6', $classes ) ) {
+            $classes[] = 'gantry-mp6';
+        }
+        $classes = implode( " ", $classes );
+    }
+
+    return $classes;
 }
 
 function gantry_admin_menu()
@@ -613,6 +631,13 @@ function gantry_widgets_admin_add_page_title_filter()
 function gantry_widgets_admin_insert_override_header()
 {
 	global $current_screen, $gantry, $ajaxurl;
+
+	if ( version_compare( $GLOBALS['wp_version'], '3.8-alpha', '<' ) ) {
+		$spinner = 'wpspin_light.gif';
+	} else {
+		$spinner = 'spinner.gif';
+	}
+
 	if ($current_screen->id == 'widgets') {
 		$isDefault        = !(isset($_GET['override_id']));
 		$override_id      = 0;
@@ -661,7 +686,7 @@ function gantry_widgets_admin_insert_override_header()
 			$buffer .= "			<a class=\"overrides-button button-del\"
                href=\"" . admin_url('admin-post.php?action=gantry_theme_delete_override&amp;from=widgets&amp;override_id=' . $override_id) . "\"><span>Delete</span></a>\n
             						<div class=\"overrides-button button-edit\"></div>\n
-									<img width=\"16\" height=\"16\" src=\"images/wpspin_light.gif\" style=\"display: none;\" class=\"ajax-loading\">\n";
+									<img width=\"16\" height=\"16\" src=\"images/$spinner\" style=\"display: none;\" class=\"ajax-loading\">\n";
 		}
 		$buffer .= "		</div>\n";
 		$buffer .= "		<div id=\"overrides-switch\">\n";

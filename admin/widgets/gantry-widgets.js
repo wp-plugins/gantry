@@ -1,5 +1,5 @@
 /**
- * @version $Id: gantry-widgets.js 59698 2013-05-17 18:08:39Z djamil $
+ * @version $Id: gantry-widgets.js 60296 2013-12-10 22:31:32Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -193,7 +193,7 @@ var GantryWidgets = {
 			else topbar = $(topbar);
 
 			topbar.click(function(){
-				var c = $(this).siblings('.widgets-sortables'), p = $(this).parent();
+				var c = $(this).siblings('.widgets-sortables'), p = $(this).parent('.widgets-holder-wrap') || $(this).parent();
 				if ( !p.hasClass('closed') ) {
 					c.sortable('disable');
 					p.addClass('closed');

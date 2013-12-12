@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: selectbox.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: selectbox.php 60288 2013-12-10 13:10:52Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -88,7 +88,7 @@ class GantryFormFieldSelectBox extends GantryFormField
 
 		// $html .= "		<div class='selectbox-top'>";
 		// $html .= "			<div class='selected'><span>" . $activeElement . "</span></div>";
-		// $html .= "			<div class='arrow'></div>";
+		// $html .= "			<div class='rt-arrow'></div>";
 		// $html .= "		</div>";
 		// $html .= "		<div class='selectbox-dropdown'>";
 		// $html .= "			<ul>" . $lis . "</ul>";

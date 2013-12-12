@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: override.php 59366 2013-03-14 09:59:08Z jakub $
+ * @version   $Id: override.php 60288 2013-12-10 13:10:52Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -132,7 +132,7 @@ if ($override !== false) {
 	<div id="g4-master" class="<?php echo $flag; ?> g4-size-13">
 		<div id="g4-flag">
 			<?php echo $flag_text; ?>
-			<span class="arrow"><span></span></span>
+			<span class="rt-arrow"><span></span></span>
 		</div>
 	</div>
 	<div id="g4-details"<?php echo $presetsShowing; ?>>
@@ -222,13 +222,13 @@ if ($override !== false) {
 							<li class="<?php echo $tabs[$name];?>">
 								<span class="badge"><?php echo get_badges_layout($involved);?></span>
 								<?php echo _g($fieldSet->label);?>
-								<span class="arrow"><span><span></span></span></span>
+								<span class="rt-arrow"><span><span></span></span></span>
 							</li>
 						<?php endforeach;?>
 						<li class="assignments">
 							<span class="badge"><?php echo get_badges_layout($involved);?></span>
 							<?php _ge('Assignments');?>
-							<span class="arrow"><span><span></span></span></span>
+							<span class="rt-arrow"><span><span></span></span></span>
 						</li>
 					</ul>
 				</div>

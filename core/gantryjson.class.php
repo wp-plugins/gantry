@@ -351,7 +351,7 @@ class GantryJSON
 		} while ($position !== false && GantryJSON::_slashedChar($encode, $position -1));
 
 		if ($position === false) {
-			//JError::raiseWorning(500, 'Invalid JSON');
+			//JError::raiseWarning(500, 'Invalid JSON');
             return false;
 		}
 		return $position - $pos;

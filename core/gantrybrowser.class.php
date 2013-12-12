@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantrybrowser.class.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: gantrybrowser.class.php 60217 2013-11-14 18:24:22Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -159,7 +159,13 @@ class GantryBrowser
 			$result        = explode(' ', stristr(str_replace(';', ' ', $this->user_agent), 'msie'));
 			$this->name    = 'ie';
 			$this->version = $result[1];
-		} // Firefox
+		}
+		//IE 11+
+		elseif (preg_match('#Trident\/.*rv:([0-9]{1,}[\.0-9]{0,})#i',$this->user_agent,$matches)) {
+			$this->name    = 'ie';
+			$this->version = $matches[1];
+		}
+		 // Firefox
 		elseif (preg_match('/Firefox/', $this->user_agent)) {
 			$result        = explode('/', stristr($this->user_agent, 'Firefox'));
 			$version       = explode(' ', $result[1]);

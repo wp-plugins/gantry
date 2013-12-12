@@ -3,8 +3,8 @@ Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful, buddypress
 Requires at least: 3.2
-Tested up to: 3.6.1
-Stable tag: 4.0.8
+Tested up to: 3.8
+Stable tag: 4.1.0
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -84,6 +84,19 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 4.1.0 =
+* Compatibility fix in the MooRainbow for the Visual Composer plugin
+* RokBox 2 support in the Login Button widget
+* Fix for the multiple body classes in Page Suffix gizmo
+* Updated IE11 detection
+* Updated Pretty Print JS files
+* Fixed font style issues caused by FontAwesome 3.2.1 icons
+* Added Font Awesome 4 assets for future use
+* Fixed missing special characters with Google fonts ie. Polish characters
+* Removed RocketTheme references in Copyright widget
+* Fixed the display of overrided options in the theme settings
+* Gantry admin UI fixes for the WordPress 3.8
 
 = 4.0.8 =
 * Added core support for the BuddyPress 1.8+ - Gantry BuddyPress plugin is no longer required and has been deprecated
@@ -344,6 +357,9 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Changelog Creation
 
 == Upgrade Notice ==
+
+= 4.1.0 =
+Please remember to create a full site backup (files + database) before performing update.
 
 = 4.0.8 =
 Please remember to create a full site backup (files + database) before performing update.

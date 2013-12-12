@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: index.php 59366 2013-03-14 09:59:08Z jakub $
+ * @version   $Id: index.php 60302 2013-12-11 13:17:14Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -151,7 +151,7 @@ if ($override) {
 	<div id="g4-master" class="<?php echo $flag; ?> g4-size-13">
 		<div id="g4-flag">
 			<?php echo $flag_text; ?>
-			<span class="arrow"><span></span></span>
+			<span class="rt-arrow"><span></span></span>
 		</div>
 	</div>
 	<div id="g4-details"<?php echo $presetsShowing; ?>>
@@ -229,9 +229,16 @@ if ($override) {
 							foreach ($fields as $fname => $field) {
 								$position = $field->panel_position;
 
-								if ($field->type != 'hidden' && $field->setinoverride && $field->variance) $involved++;
-								if ($field->type == 'hidden') $position = 'hiddens';
-								if (!isset($positions[$position][$name])) $positions[$position][$name] = array();
+								if($field->type != 'hidden' && $field->type != 'innertabs' && $field->setinoverride && $field->variance) $involved++;
+								if($field->type == 'innertabs') {
+									foreach($field->fields as $inner_tab) {
+										foreach($inner_tab->fields as $inner_field) {
+											if($inner_field->type != 'hidden' && $inner_field->setinoverride && $inner_field->variance) $involved++;
+										}
+									}
+								}
+								if($field->type == 'hidden') $position = 'hiddens';
+								if(!isset($positions[$position][$name])) $positions[$position][$name] = array();
 								array_push($positions[$position][$name], $field //array("name" => $field->name, "label" => $field->label, "input" => $field->input, "show_label" => $field->show_label, 'type' => $field->type)
 								);
 							}
@@ -243,17 +250,25 @@ if ($override) {
 							if ($name == 'toolbar-panel') continue;
 							?>
 							<li class="<?php echo $tabs[$name];?>">
-								<span class="badge"><?php echo get_badges_layout($involved);?></span>
+								<span class="badge"><?php echo get_badges_layout($involvedCounts[$name]);?></span>
 								<?php echo _g($fieldSet->label);?>
-								<span class="arrow"><span><span></span></span></span>
+								<span class="rt-arrow"><span><span></span></span></span>
 							</li>
 						<?php endforeach;?>
 						<?php if ($override): ?>
 							<?php $active_assignments = $activeTab == count($fieldSets) ? ' active' : ''; ?>
+							<?php
+							$assigned_to = 0;
+							if(is_array($override_assignments)) {
+								foreach(new RecursiveIteratorIterator(new RecursiveArrayIterator($override_assignments), RecursiveIteratorIterator::LEAVES_ONLY) as $countable_item) {
+									$assigned_to++;
+								};
+							}
+							?>
 							<li class="assignments<?php echo $active_assignments; ?>">
-								<span class="badge"><?php echo get_badges_layout($involved);?></span>
+								<span class="badge"><?php echo get_badges_layout($assigned_to);?></span>
 								<?php _ge('Assignments');?>
-								<span class="arrow"><span><span></span></span></span>
+								<span class="rt-arrow"><span><span></span></span></span>
 							</li>
 						<?php endif;?>
 					</ul>

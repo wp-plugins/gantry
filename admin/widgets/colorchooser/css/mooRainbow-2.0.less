@@ -4,7 +4,7 @@
 	position: absolute;
 	z-index: 500;
 	width: 285px;
-	height: 153px;
+	height: 155px;
 	.border-radius(4px);
 	#gradient > .vertical(rgba(95, 95, 95, 0.9), rgba(51, 51, 51, 0.9));
 	.box-shadow(0 0 20px rgba(0, 0, 0, 0.5));
@@ -14,7 +14,7 @@
 	font-size: 0.82em;
 	visibility: hidden;
 
-	.arrow {
+	.rt-arrow {
 		#CSSArrow > .right(6px, rgba(95, 95, 95, 0.9));
 		position: absolute;
 		left: -6px;
@@ -132,7 +132,7 @@
 				border: 1px solid #444;
 				margin: 0 4px;
 				.border-radius(2px);
-				font-size: 1em;
+				font-size: 0.9em;
 				line-height: 1em;
 			}
 
@@ -220,6 +220,21 @@ div.picker {
 			background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAfCAYAAADwbH0HAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAVdEVYdENyZWF0aW9uIFRpbWUANy8xNC8xMpnf8k4AAAFkSURBVEiJ7ddPagIxFMfxb7ROopuMLmRw5w16A3uEXqYUeqoeoT2BO7fuHN1MoqBOZsDXhRVK6R8pE6HgbxVCyIeXQHhRzjkpy5KiKKiqiphJkoTBYIAxBpXnuaxWK3q9HtZaOp0OSqnG0bquKYqC/X5PlmWo2Wwm7Xab4XDogfs0TV8bVwHv/UREnpfLZQrQCiFgrSUmCpCm6atS6r7f7xNCoAXHs4+JfsSNMQBHOMad/pbWxcUrfIWv8BX+t/BNE5uc+9Y7525P44tV/I6+XBT+gNqLwV+h0eHv0KjwT2g0+DP6+PAUH/6t0lNuAEQkCvpVpaeo6XQqWZZhjLn7a6eplDq70hACeZ7T0lqzXq8RkWfv/eQv8Lno+1q01ijvvcznc7rdLtba42TD7e7hcKCua7bbLZvNhvF4jNrtdlJVFYvFghBCo+DnaK0ZjUYkSYJyzonW+viDi9zYiwhlWRJC4A3cB6lbL5JlLQAAAABJRU5ErkJggg==);
 			background-repeat: no-repeat;
 			.size(31px, 30px);
+		}
+	}
+}
+
+/** WordPress < 3.8 Compatibility **/
+
+.gantry-pre-mp6 {
+	.moor-layout {
+		height: 153px;
+	}
+	.moor-inputs {
+		.moor-inputs-block {
+			input {
+				font-size: 1em;
+			}
 		}
 	}
 }

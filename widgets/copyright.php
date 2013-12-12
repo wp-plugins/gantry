@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: copyright.php 59939 2013-09-27 11:44:21Z jakub $
+ * @version   $Id: copyright.php 60231 2013-11-20 22:27:14Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -42,7 +42,6 @@ class GantryWidgetCopyright extends GantryWidget
 		ob_start(); 
 		?>
 
-		<a href="http://www.rockettheme.com/" title="rockettheme.com" id="rocket"></a>
 		<?php 
 
 		$text = $instance['text'];

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: pagesuffix.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: pagesuffix.php 60211 2013-11-14 00:02:42Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -25,8 +25,12 @@ class GantryGizmoPageSuffix extends GantryGizmo
 		/** @global $gantry Gantry */
 		global $gantry;
 
+		$classes = explode(' ', $gantry->get('pagesuffix-class'));
+
 		//add body class suffix
-		$gantry->addBodyClass($gantry->get('pagesuffix-class'));
+		foreach($classes as $class) {
+			$gantry->addBodyClass($class);
+		}
 
 	}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: admin_functions.php 59376 2013-03-14 19:43:34Z btowles $
+ * @version   $Id: admin_functions.php 60288 2013-12-10 13:10:52Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -178,7 +178,7 @@ function  gantry_admin_render_edit_override_item($element)
 	$buffer .= $label;
 	$buffer .= "</div>";
 	$buffer .= "<div class=\"g4-cell g4-col2\"><div class=\"g4-col2-wrap\">\n";
-	$buffer .= "<span class=\"arrow\"><span></span></span>";
+	$buffer .= "<span class=\"rt-arrow\"><span></span></span>";
 	$buffer .= $element->getInput() . "\n";
 	$buffer .= "</div></div>\n";
 	$buffer .= "</div>\n";
@@ -197,7 +197,7 @@ function gantry_admin_render_edit_item($element)
 	$buffer .= $label;
 	$buffer .= "</div>";
 	$buffer .= "<div class=\"g4-cell g4-col2\"><div class=\"g4-col2-wrap\">\n";
-	$buffer .= "<span class=\"arrow\"><span></span></span>";
+	$buffer .= "<span class=\"rt-arrow\"><span></span></span>";
 	$buffer .= $element->getInput() . "\n";
 	$buffer .= "</div></div>\n";
 	$buffer .= "</div>\n";

@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 59959 2013-10-02 19:17:45Z jakub $
+ * @version   $Id: CHANGELOG.php 60307 2013-12-12 11:28:57Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,19 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.1.0 Release [] ------
+# Compatibility fix in the MooRainbow for the Visual Composer plugin
+^ RokBox 2 support in the Login Button widget
+# Fix for the multiple body classes in Page Suffix gizmo
+# Updated IE11 detection
+^ Updated Pretty Print JS files
+# Fixed font style issues caused by Font Awesome 3.2.1 icons
++ Added Font Awesome 4 assets for future use
+# Fixed missing special characters with Google fonts ie. Polish characters
+^ Removed RocketTheme references in Copyright widget
+# Fixed the display of overrided options in the theme settings
+# Gantry admin UI fixes for the WordPress 3.8
 
 ------- 4.0.8 Release [] ------
 + Added core support for the BuddyPress 1.8+ - Gantry BuddyPress plugin is no longer required and has been deprecated

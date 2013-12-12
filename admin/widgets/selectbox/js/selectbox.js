@@ -56,7 +56,7 @@ var SelectBox = new Class({
 			selected: element.getElement('.selectbox-top .selected span'),
 			top: element.getElement('.selectbox-top'),
 			dropdown: element.getElement('.selectbox-dropdown'),
-			arrow: element.getElement('.arrow'),
+			arrow: element.getElement('.rt-arrow'),
 			ul: element.getElement('ul'),
 			list: element.getElements('li'),
 			real: element.getParent().getElement('select'),

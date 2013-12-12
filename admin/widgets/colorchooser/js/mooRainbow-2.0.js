@@ -269,7 +269,11 @@
 			};
 
 			this.sets = {rgb: rgb, hsb: hsb, hex: hex};
-			hue = new Color([this.sets.hsb[0], 100, 100]).hsbToRgb(true);
+			if (Color.prototype.toHsv){
+				hue = new Color({h: hsb[0], s: 100, v: 100}).toString();
+			} else {
+				hue = new Color([this.sets.hsb[0], 100, 100]).hsbToRgb(true);
+			}
 
 			['red', 'green', 'blue', 'hue', 'saturation', 'brightness', 'hex'].each(function(set, i){
 				input = this.layout.getElement('[data-moorainbow-input-'+set+']');
@@ -347,7 +351,7 @@
 
 				buttons = new Element('div.moor-buttons').inject(layout),
 
-				indicator = new Element('span.arrow').inject(layout);
+				indicator = new Element('span.rt-arrow').inject(layout);
 
 			['red', 'green', 'blue', 'hue', 'saturation', 'brightness', 'hex'].each(function(type){
 				label = (type != 'hex') ? type[0].capitalize() : '# ' + type;
@@ -433,7 +437,9 @@
 		_hsbToHex: function(hsb){
 			hsb = hsb || this._getHSB();
 
-			return hsb.hsbToRgb().rgbToHex();
+			var toRgb = hsb.hsbToRgb() || hsb.toRgb(),
+				toHex = toRgb.rgbToHex() || toRgb.toString();
+			return toHex;
 		},
 
 		_hexToHsb: function(hex){

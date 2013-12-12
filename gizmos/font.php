@@ -96,7 +96,7 @@ class GantryGizmoFont extends GantryGizmo
 		$variant = $variant ? $variant : '';
 
 		$protocol = is_ssl() ? 'https' : 'http';
-		$gantry->addStyle("{$protocol}://fonts.googleapis.com/css?family=" . str_replace(" ", "+", $name) . $variant);
+		$gantry->addStyle("{$protocol}://fonts.googleapis.com/css?family=" . str_replace(" ", "+", $name) . "&subset=latin,latin-ext" . $variant);
 		$gantry->addInlineStyle("h1, h2 { font-family: '" . $name . "', 'Helvetica', arial, serif; }");
 	}
 

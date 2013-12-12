@@ -1,5 +1,5 @@
 /**
- * @version $Id: assignments.js 59361 2013-03-13 23:10:27Z btowles $
+ * @version $Id: assignments.js 60303 2013-12-11 20:16:29Z djamil $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -324,6 +324,9 @@ Gantry.Assignments = {
 		if (tab) {
 			var badgeWrap = tab.getElement('.overrides-involved');
 			var badge = badgeWrap.getElement('span');
+
+			var isInnerTab = el.getParent('.inner-panel');
+
 			var value = badge.get('text').toInt();
 			if (type == '+') value += 1;
 			else value -= 1;
@@ -340,6 +343,34 @@ Gantry.Assignments = {
 				else badgeWrap.getParent('.badges-involved').removeClass('double-badge');
 				badgeWrap.setStyles({'display': 'block', 'opacity': 1, 'visibility': 'visible'});
 			}
+
+			// badges in inner tabs
+			if (isInnerTab){
+				var index          = isInnerTab.getParent('.inner-panels').getChildren().indexOf(isInnerTab),
+					innerPanelTab  = isInnerTab.getParent('.inner-panels').getPrevious('.inner-tabs').getElements('ul > li')[index],
+					innerBadgeWrap = innerPanelTab.getElement('.overrides-involved'),
+					innerBadge     = innerBadgeWrap.getElement('span');
+
+				value = innerBadge.get('text').toInt();
+
+				if (type == '+') value += 1;
+				else value -= 1;
+
+				if (value < 0) value = 0;
+
+				innerBadge.set('text', value);
+
+				if (!value) {
+					innerBadgeWrap.getParent('.badges-involved').removeClass('double-badge');
+					innerBadgeWrap.setStyle('display', 'none');
+				}
+				else {
+					if (innerBadgeWrap.getPrevious('.presets-involved').getStyle('display') == 'block') innerBadgeWrap.getParent('.badges-involved').addClass('double-badge');
+					else innerBadgeWrap.getParent('.badges-involved').removeClass('double-badge');
+					innerBadgeWrap.setStyles({'display': 'block', 'opacity': 1, 'visibility': 'visible'});
+				}
+			}
+
 		}
 	},
 

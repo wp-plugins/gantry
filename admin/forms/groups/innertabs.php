@@ -31,14 +31,24 @@ class GantryFormGroupInnerTabs extends GantryFormGroup
 				<ul>
 					<?php
 					$i = 0;
+					$involvedCounts = array();
 					foreach ($this->fields as $field):
+						$involved = 0;
+						$name = $field->name;
 						$classes = '';
 						if (!$i) $classes .= "first active";
 						if ($i == count($this->fields) - 1) $classes .= ' last';
+						foreach ($field->fields as $inner_field) {
+							if ($inner_field->type != 'hidden' && $inner_field->type != 'innertabs' && $inner_field->setinoverride && $inner_field->variance) $involved++;
+						}
+						$involvedCounts[$name] = $involved;
 						?>
 						<li class="<?php echo $classes;?>">
-							<span class="g4-cell g4-col1"><?php _ge($field->getLabel());?></span></li>
-
+							<span class="g4-cell g4-col1">
+								<span class="badge"><?php echo get_badges_layout($involvedCounts[$name]); ?></span>
+								<?php _ge($field->getLabel());?>
+							</span>
+						</li>
 						<?php
 						$i++;
 					endforeach;

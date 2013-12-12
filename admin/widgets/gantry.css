@@ -1,5 +1,5 @@
 #gantry-panel .gantry-field > label/**
- * @version $Id: gantry.css 58595 2012-12-11 19:59:45Z btowles $
+ * @version $Id: gantry.css 60288 2013-12-10 13:10:52Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -304,7 +304,7 @@ body #overrides-first a {background: url(images/overrides-default.png) 0 50% no-
 .selectbox {float: left;}
 .selectbox ul {margin:0;padding:0;list-style:none;}
 .selectbox-top .selected {background: url(selectbox/images/select-left.png) top left no-repeat;height:23px;padding:0 10px;white-space:nowrap;}
-.selectbox-top .arrow {background: url(selectbox/images/select-right.png) center left no-repeat;height:23px;width:24px;right:-24px;top:0;position:absolute;}
+.selectbox-top .rt-arrow {background: url(selectbox/images/select-right.png) center left no-repeat;height:23px;width:24px;right:-24px;top:0;position:absolute;}
 .selectbox-dropdown {background: url(selectbox/images/dropdown-left.png) top left no-repeat;position:absolute;margin-top: 0px;visibility:hidden;z-index:200;}
 .selectbox-dropdown-bottom {background: url(selectbox/images/dropdown-left.png) bottom left no-repeat;height: 5px;position:relative;}
 .selectbox-dropdown-bottomright {background: url(selectbox/images/dropdown-right.png) bottom left no-repeat;height: 5px;position:absolute;right:0;bottom:0;z-index:2;width:5px;}
@@ -318,10 +318,10 @@ body #overrides-first a {background: url(images/overrides-default.png) 0 50% no-
 .selectbox-dropdown ul li.google span {background: url(images/google_favicon.png) 4px center no-repeat;}
 
 .selectbox-wrapper.disabled .selectbox-top .selected {background-position: top left;}
-.selectbox-wrapper.disabled .selectbox-top .arrow {background-position: top left;}
+.selectbox-wrapper.disabled .selectbox-top .rt-arrow {background-position: top left;}
 
 .selectbox-wrapper.pushed .selectbox-top .selected {background-position: bottom left;color:#d06712;}
-.selectbox-wrapper.pushed .selectbox-top .arrow {background-position: bottom left;}
+.selectbox-wrapper.pushed .selectbox-top .rt-arrow {background-position: bottom left;}
 
 /* InputText */
 body .text-short, body .text-medium, body .text-regular, body .text-long,body .text-color, body .text-textarea {-moz-box-sizing: inherit; -webkit-box-sizing: inherit; -ms-box-sizing: inherit; box-sizing: inherit; -moz-border-radius: 0; -moz-border-radius: 0px; -khtml-border-radius: 0px; -webkit-border-radius: 0px; border-radius: 0px; border: none;}
