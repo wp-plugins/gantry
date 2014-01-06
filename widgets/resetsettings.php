@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: resetsettings.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: resetsettings.php 60342 2014-01-03 17:12:22Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -28,7 +28,7 @@ class GantryWidgetResetSettings extends GantryWidget
 	var $width = 200;
 	var $height = 400;
 
-	function init()
+	static function init()
 	{
 		register_widget("GantryWidgetResetSettings");
 	}

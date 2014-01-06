@@ -1,7 +1,7 @@
 /**
- * @version $Id: assignments.js 60303 2013-12-11 20:16:29Z djamil $
+ * @version $Id: assignments.js 60355 2014-01-06 19:26:48Z djamil $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -488,6 +488,7 @@ Gantry.Assignments = {
 		if (Assigned[data.archetype][data.type].length == 1 && Assigned[data.archetype][data.type][0] == -1) Assigned[data.archetype][data.type] = true;
 
 		if (!load) document.id('assigned_override_items').set('text', serialize(Assigned));
+		Gantry.Assignments.updateBadge('+', item);
 	},
 
 	exclude: function(item, load) {
@@ -508,6 +509,7 @@ Gantry.Assignments = {
 		if (GantryObjIsEmpty(Assigned[data.archetype])) delete Assigned[data.archetype];
 
 		if (!load) document.id('assigned_override_items').set('text', serialize(Assigned));
+		Gantry.Assignments.updateBadge('-', item);
 	}
 };
 
@@ -516,4 +518,4 @@ var GantryObjIsEmpty = function(obj) {
 	return true;
 };
 
-window.addEvent('domready', Gantry.Assignments.init);
+window.addEvent('load', Gantry.Assignments.init);

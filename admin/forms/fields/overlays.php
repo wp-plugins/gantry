@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: overlays.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: overlays.php 60350 2014-01-03 23:31:45Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -25,7 +25,8 @@ class GantryFormFieldOverlays extends GantryFormField
 		global $gantry;
 		$output = '';
 
-		$this->template = end(explode('/', $gantry->templatePath));
+		$expl_path = explode('/', $gantry->templatePath);
+		$this->template = end($expl_path);
 
 		$class        = $this->element['class'] ? $this->element['class'] : '';
 		$preview      = $this->element['preview'] ? $this->element['preview'] : "false";

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: assignment_functions.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: assignment_functions.php 60344 2014-01-03 22:06:04Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -18,7 +18,7 @@ class GantryAssignmentWalker extends Walker
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of page. Used for padding.
 	 */
-	function start_lvl(&$output, $depth)
+	function start_lvl(&$output, $depth = 0, $args = array())
 	{
 		$indent = str_repeat("\t", $depth);
 		$output .= "\n$indent<ul class=\"sub-menu\">\n";
@@ -31,7 +31,7 @@ class GantryAssignmentWalker extends Walker
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of page. Used for padding.
 	 */
-	function end_lvl(&$output, $depth)
+	function end_lvl(&$output, $depth = 0, $args = array())
 	{
 		$indent = str_repeat("\t", $depth);
 		$output .= "$indent</ul>\n";
@@ -47,7 +47,7 @@ class GantryAssignmentWalker extends Walker
 	 * @param int    $current_page Menu item ID.
 	 * @param object $args
 	 */
-	function start_el(&$output, $item, $depth, $args)
+	function start_el(&$output, $item, $depth = 0, $args = array(), $current_object_id = 0)
 	{
 		global $wp_query;
 		global $gantry_override_assignment_info;
@@ -106,7 +106,7 @@ class GantryAssignmentWalker extends Walker
 	 * @param object $item   Page data object. Not used.
 	 * @param int    $depth  Depth of page. Not Used.
 	 */
-	function end_el(&$output, $item, $depth)
+	function end_el(&$output, $item, $depth = 0, $args = array())
 	{
 		$output .= "</li>\n";
 	}

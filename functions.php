@@ -2,7 +2,7 @@
 /**
  * @version   $Id: functions.php 59490 2013-04-11 14:45:04Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -168,7 +168,7 @@ function gantry_construct()
 		/**
 		 * @name GANTRY_VERSION
 		 */
-		define('GANTRY_VERSION', '4.1.0');
+		define('GANTRY_VERSION', '4.1.1');
 
 
 		if (!defined('DS')) {

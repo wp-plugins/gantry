@@ -2,7 +2,7 @@
 /**
  * @version   $Id: webfonts.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -96,7 +96,7 @@ class GantryGizmoFont extends GantryGizmo
 		$variant = $variant ? $variant : '';
 
 		$protocol = is_ssl() ? 'https' : 'http';
-		$gantry->addStyle("{$protocol}://fonts.googleapis.com/css?family=" . str_replace(" ", "+", $name) . "&subset=latin,latin-ext" . $variant);
+		$gantry->addStyle("{$protocol}://fonts.googleapis.com/css?family=" . str_replace(" ", "+", $name) . $variant . "&amp;subset=latin,latin-ext");
 		$gantry->addInlineStyle("h1, h2 { font-family: '" . $name . "', 'Helvetica', arial, serif; }");
 	}
 

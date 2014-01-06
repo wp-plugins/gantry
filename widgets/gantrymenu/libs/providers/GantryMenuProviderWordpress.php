@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: GantryMenuProviderWordpress.php 59703 2013-05-17 23:08:37Z btowles $
+ * @version   $Id: GantryMenuProviderWordpress.php 60340 2014-01-03 15:16:32Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -95,7 +95,7 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 			/** @var $node RokMenuNode */
 			foreach ($nodeIterator as $node) {
 
-				if ((int)$node->getItemId() == (int)$wp_query->queried_object_id) {
+				if (isset($wp_query->queried_object_id) && (int)$node->getItemId() == (int)$wp_query->queried_object_id) {
 					if (post_type_exists($node->getItemType()) && isset($wp_query->queried_object->post_type) && $wp_query->queried_object->post_type == $node->getItemType()) {
 						$this->current_node = $node->getId();
 						break;

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: recentcomments.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: recentcomments.php 60343 2014-01-03 18:16:44Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * Widget based on the WordPress core Recent Comments Widget.
@@ -26,12 +26,12 @@ class GantryWidgetRecentComments extends GantryWidget
 	var $width = 200;
 	var $height = 400;
 
-	function gantry_flush_widget_cache()
+	static function gantry_flush_widget_cache()
 	{
 		wp_cache_delete('gantry_recentcomments', 'widget');
 	}
 
-	function init()
+	static function init()
 	{
 		register_widget("GantryWidgetRecentComments");
 	}

@@ -2,9 +2,9 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 60307 2013-12-12 11:28:57Z jakub $
+ * @version   $Id: CHANGELOG.php 60353 2014-01-04 13:10:15Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 die();
@@ -26,6 +26,14 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.1.1 Release [] ------
+# Fix for the JS error when editing Widgets in the overrides which could cause widgets to disappear
+# Fix for the gantryUrl that could prevent some scripts from using SSL
+^ Changed CSS margins for the Gantry Widget forms to fix spacing
+# Fixed loading font variants for Google Fonts
++ Updated Google Fonts catalogue to support all currently available fonts and variants
+# Fixes for the Strict Standard notices in PHP 5.4 when debug mode enabled
 
 ------- 4.1.0 Release [] ------
 # Compatibility fix in the MooRainbow for the Visual Composer plugin

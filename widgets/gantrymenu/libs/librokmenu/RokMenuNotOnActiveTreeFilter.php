@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: RokMenuNotOnActiveTreeFilter.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: RokMenuNotOnActiveTreeFilter.php 60342 2014-01-03 17:12:22Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -20,8 +20,8 @@ class RokMenuNotOnActiveTreeFilter extends RecursiveFilterIterator
 
 	public function accept()
 	{
-
-		if (!array_key_exists($this->current()->getId(), $this->active_tree) && $this->current()->getParent() == end(array_keys($this->active_tree))) {
+		$keys = array_keys($this->active_tree);
+		if (!array_key_exists($this->current()->getId(), $this->active_tree) && $this->current()->getParent() == end($keys)) {
 			$this->active_tree[$this->current()->getId()] = $this->current();
 		}
 		if (array_key_exists($this->current()->getId(), $this->active_tree) && $this->current()->getLevel() > $this->level + 1) {

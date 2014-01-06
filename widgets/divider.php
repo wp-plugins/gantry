@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: divider.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: divider.php 60345 2014-01-03 22:12:32Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -17,7 +17,7 @@ class GantryWidgetDivider extends WP_Widget
 {
 	var $_defaults = array();
 
-	function init()
+	static function init()
 	{
 		register_widget("GantryWidgetDivider");
 	}
@@ -40,7 +40,7 @@ class GantryWidgetDivider extends WP_Widget
 		return "noform";
 	}
 
-	function addHeaders()
+	static function addHeaders()
 	{
 		/** @global $gantry Gantry */
 global $gantry;

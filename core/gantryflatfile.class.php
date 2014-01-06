@@ -1,9 +1,9 @@
 <?php
 defined('GANTRY_VERSION') or die();
 /**
- * @version   $Id: gantryflatfile.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: gantryflatfile.class.php 60342 2014-01-03 17:12:22Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 /*
@@ -668,7 +668,7 @@ if (!defined('GANTRY_FLATFILE')) {
 			$this->regexp = '/^' . str_replace('%', '.*', preg_quote($value)) . '$/i';
 		}
 
-		function testRow($tablerow)
+		function testRow($tablerow, $rowSchema = null)
 		{
 			return preg_match($this->regexp, $tablerow[$this->field]);
 		}

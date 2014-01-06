@@ -4,7 +4,7 @@ Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful, buddypress
 Requires at least: 3.2
 Tested up to: 3.8
-Stable tag: 4.1.0
+Stable tag: 4.1.1
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -84,6 +84,14 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 4.1.1 =
+* Fix for the JS error when editing Widgets in the overrides which could cause widgets to disappear
+* Fix for the gantryUrl that could prevent some scripts from using SSL
+* Changed CSS margins for the Gantry Widget forms to fix spacing
+* Fixed loading font variants for Google Fonts
+* Updated Google Fonts catalogue to support all currently available fonts and variants
+* Fixes for the Strict Standard notices in PHP 5.4 when debug mode enabled
 
 = 4.1.0 =
 * Compatibility fix in the MooRainbow for the Visual Composer plugin
@@ -357,6 +365,9 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Changelog Creation
 
 == Upgrade Notice ==
+
+= 4.1.1 =
+Please remember to create a full site backup (files + database) before performing update.
 
 = 4.1.0 =
 Please remember to create a full site backup (files + database) before performing update.

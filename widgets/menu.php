@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: menu.php 59389 2013-03-15 20:02:32Z jakub $
+ * @version   $Id: menu.php 60354 2014-01-04 17:50:59Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -230,7 +230,7 @@ class GantryWidgetMenu extends GantryWidget
 
 	}
 
-	public function setupWalker($walker_class, $menu_id)
+	public static function setupWalker($walker_class, $menu_id)
 	{
 		/** @global $gantry Gantry */
 		global $gantry;
@@ -238,13 +238,13 @@ class GantryWidgetMenu extends GantryWidget
 		return 'RokMenuWalkerNavMenuEdit';
 	}
 
-	public function addThemeFormOptions($item_id, $item, $depth, $args)
+	public static function addThemeFormOptions($item_id, $item, $depth, $args)
 	{
 		$theme_info = self::getItemFieldsInstance();
 		$theme_info->renderFields($item_id, $item, $depth, $args);
 	}
 
-	public function updateNavMenuItems($menu_id, $menu_item_db_id, $args)
+	public static function updateNavMenuItems($menu_id, $menu_item_db_id, $args)
 	{
 		$menu = wp_get_nav_menu_object($menu_id);
 		if ($menu) {
@@ -265,21 +265,21 @@ class GantryWidgetMenu extends GantryWidget
 		update_option('gantry_menu_items', $gantry_menu_items);
 	}
 
-	public function clearMenuCache($menu_id)
+	public static function clearMenuCache($menu_id)
 	{
 		gantry_import('core.utilities.gantrycache');
 		$cache_handler = GantryCache::getCache('gantry-menu', 0, true);
 		$cache_handler->clearGroupCache();
 	}
 
-	public function loadMootools()
+	public static function loadMootools()
 	{
 		/** @global $gantry Gantry */
 		global $gantry;
 		$gantry->addScript('mootools.js');
 	}
 
-	public function deleteNavMenuItem($post_id)
+	public static function deleteNavMenuItem($post_id)
 	{
 		if (is_nav_menu_item($post_id)) {
 			$rokmenu_menu_items = get_option('gantry_menu_items');
@@ -292,7 +292,7 @@ class GantryWidgetMenu extends GantryWidget
 		}
 	}
 
-	public function deleteNavMenu($term, $tt_id, $taxonomy, $deleted_term)
+	public static function deleteNavMenu($term, $tt_id, $taxonomy, $deleted_term)
 	{
 		if ($taxonomy == 'nav_menu') {
 			$rokmenu_menu_items = get_option('gantry_menu_items');
@@ -303,7 +303,7 @@ class GantryWidgetMenu extends GantryWidget
 		}
 	}
 
-	public function getNavMenuItems($items, $menu, $args)
+	public static function getNavMenuItems($items, $menu, $args)
 	{
 		$rokmenu_menu_items = get_option('gantry_menu_items');
 		if ($rokmenu_menu_items == false || !isset($rokmenu_menu_items[$menu->slug])) return $items;
@@ -322,7 +322,7 @@ class GantryWidgetMenu extends GantryWidget
 		return $modded_items;
 	}
 
-	function getItemFieldsInstance()
+	static function getItemFieldsInstance()
 	{
 		/** @global $gantry Gantry */
 		global $gantry;

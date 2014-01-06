@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrymainbodyrenderer.class.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: gantrymainbodyrenderer.class.php 60342 2014-01-03 17:12:22Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -187,7 +187,7 @@ class GantryMainBodyRenderer
 	 *
 	 * @return string
 	 */
-	public function filterWidget($params)
+	public static function filterWidget($params)
 	{
 		/** @global $gantry Gantry */
 		global $gantry;
@@ -199,9 +199,10 @@ class GantryMainBodyRenderer
 		foreach ($params[0]['widget_map'] as $pos => $position_info) {
 			$position_widgets = $position_info['widgets'];
 			if (empty($position_widgets) || !array_key_exists($widget_id, $position_widgets)) continue;
+			$keys				   = array_keys($position_widgets);
 			$params[0]['position'] = $pos;
-			$params[0]['end']      = end(array_keys($position_widgets));
-			$params[0]['start']    = reset(array_keys($position_widgets));
+			$params[0]['end']      = end($keys);
+			$params[0]['start']    = reset($keys);
 			break;
 		}
 
@@ -214,7 +215,7 @@ class GantryMainBodyRenderer
 	 *
 	 * @return int
 	 */
-	protected function countSidebars($widgets)
+	protected static function countSidebars($widgets)
 	{
 		/** @global $gantry Gantry */
 		global $gantry;

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: preset.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: preset.php 60350 2014-01-03 23:31:45Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -47,7 +47,8 @@ class GantryFormFieldPreset extends GantryFormField
 
 		if (!defined('GANTRY_PRESET')) {
 
-			$this->template = end(explode(DS, $gantry->templatePath));
+			$expl_path = explode(DS, $gantry->templatePath);
+			$this->template = end($expl_path);
 			$gantry->addScript($gantry->gantryUrl . '/admin/widgets/preset/js/preset.js');
 			$gantry->addScript($gantry->gantryUrl . '/admin/widgets/preset/js/preset-saver.js');
 			$gantry->addInlineScript('var Presets = {};var PresetsKeys = {};');

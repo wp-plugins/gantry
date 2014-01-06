@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: RokMenuWalkerNavMenuEdit.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: RokMenuWalkerNavMenuEdit.php 60346 2014-01-03 22:17:55Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  *
  * Based on Wordpress core code
@@ -24,7 +24,7 @@ class RokMenuWalkerNavMenuEdit extends Walker_Nav_Menu
 	 * @param string $output Passed by reference.
 	 * @param int    $depth  Depth of page.
 	 */
-	function start_lvl(&$output)
+	function start_lvl(&$output, $depth = 0, $args = array())
 	{
 	}
 
@@ -35,7 +35,7 @@ class RokMenuWalkerNavMenuEdit extends Walker_Nav_Menu
 	 * @param string $output Passed by reference.
 	 * @param int    $depth  Depth of page.
 	 */
-	function end_lvl(&$output)
+	function end_lvl(&$output, $depth = 0, $args = array())
 	{
 	}
 
@@ -49,7 +49,7 @@ class RokMenuWalkerNavMenuEdit extends Walker_Nav_Menu
 	 * @param int    $current_page Menu item ID.
 	 * @param object $args
 	 */
-	function start_el(&$output, $item, $depth, $args)
+	function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0)
 	{
 		global $_wp_nav_menu_max_depth;
 		$_wp_nav_menu_max_depth = $depth > $_wp_nav_menu_max_depth ? $depth : $_wp_nav_menu_max_depth;

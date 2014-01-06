@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantryloader.class.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: gantryloader.class.php 60342 2014-01-03 17:12:22Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -16,7 +16,7 @@ class GantryLoader
 	 *
 	 * @return void
 	 */
-	function import($filePath)
+	static function import($filePath)
 	{
 		static $paths;
 		$base = gantry_clean_path(realpath(dirname(__FILE__) . '/..'));

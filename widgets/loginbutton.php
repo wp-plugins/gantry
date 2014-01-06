@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   4.1.0 December 12, 2013
+ * @version   4.1.1 January 6, 2014
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
  
@@ -21,7 +21,7 @@ class GantryWidgetLoginButton extends GantryWidget {
 	var $width = 200;
 	var $height = 400;
 
-	function init() {
+	static function init() {
 		register_widget("GantryWidgetLoginButton");
 	}
 	
@@ -70,7 +70,7 @@ class GantryWidgetLoginButton extends GantryWidget {
 	}
 
 	function _renderRokBoxLink(){
-		$isRokBox2 = @file_exists(ABSPATH . 'wp-content/plugins/wp_rokbox/tinymce/tinymce.php');
+		$isRokBox2 = @file_exists(WP_PLUGIN_DIR . '/wp_rokbox/tinymce/tinymce.php');
 		$output = array();
 
 		if ($isRokBox2){

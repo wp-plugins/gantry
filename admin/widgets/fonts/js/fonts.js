@@ -21,9 +21,13 @@
 					onSuccess: function(response){
 						for (var i = 0, l = response.items.length; i < l; i++) {
 							value = response.items[i].family;
-							variant = "";
-							if (!response.items[i].variants.contains('regular')){
-								variant = ':' + response.items[i].variants[0];
+							variant = ':';
+							for (var j = 0, k = response.items[i].variants.length; j < k; j++) {
+								if (j < k - 1) {
+									variant = variant + response.items[i].variants[j] + ',';
+								} else {
+									variant = variant + response.items[i].variants[j];
+								}
 								//console.log(value, variant);
 							}
 							option = new Element('option', {text: value, value: delim + value + variant}).inject(optgroup);

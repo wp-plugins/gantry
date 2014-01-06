@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrywidgetsrenderer.class.php 59955 2013-10-02 18:05:06Z btowles $
+ * @version   $Id: gantrywidgetsrenderer.class.php 60342 2014-01-03 17:12:22Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -74,9 +74,9 @@ class GantryWidgetsRenderer
 		$count = count($widget_map);
 		if ($showAllParam == 1) $count = $showMaxParam;
 
-
-		$end         = end(array_keys($widget_map));
-		$start       = reset(array_keys($widget_map));
+		$keys  		 = array_keys($widget_map);
+		$end         = end($keys);
+		$start       = reset($keys);
 		$prefixCount = 0;
 
 
@@ -176,9 +176,10 @@ class GantryWidgetsRenderer
 		foreach ($params[0]['widget_map'] as $pos => $position_info) {
 			$position_widgets = $position_info['widgets'];
 			if (!array_key_exists($widget_id, $position_widgets)) continue;
+			$keys				   = array_keys($position_widgets);
 			$params[0]['position'] = $pos;
-			$params[0]['end']      = end(array_keys($position_widgets));
-			$params[0]['start']    = reset(array_keys($position_widgets));
+			$params[0]['end']      = end($keys);
+			$params[0]['start']    = reset($keys);
 			break;
 		}
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: logo.php 59493 2013-04-11 15:33:32Z jakub $
+ * @version   $Id: logo.php 60342 2014-01-03 17:12:22Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -22,7 +22,7 @@ class GantryWidgetLogo extends GantryWidget
 	var $width = 200;
 	var $height = 400;
 
-	function init()
+	static function init()
 	{
 		register_widget("GantryWidgetLogo");
 	}

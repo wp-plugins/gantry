@@ -1,7 +1,7 @@
 /**
- * @version $Id: gantry-widgets.js 60296 2013-12-10 22:31:32Z jakub $
+ * @version $Id: gantry-widgets.js 60333 2013-12-31 00:32:10Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -381,14 +381,14 @@ var GantryWidgets = {
 									});
 								} else {
 									widget.remove();
-									wpWidgets.resize();
+									if (wpWidgets.resize) wpWidgets.resize();
 								}
 							} else {
 								$('.ajax-feedback, .spinner').css('visibility', 'hidden');
 								if (response && response.length > 2) {
 									$('div.widget-content', widget).html(response);
 									wpWidgets.appendTitle(widget);
-									wpWidgets.fixLabels(widget);
+									if (wpWidgets.fixLabels) wpWidgets.fixLabels(widget);
 								}
 							}
 							if (order) wpWidgets.saveOrder();
@@ -442,7 +442,7 @@ var GantryWidgets = {
 				onSuccess: function() {
 					var spinners = document.getElements('img.ajax-feedback, .spinner');
 					spinners.setStyles({'visibility': 'hidden', display: 'none'});
-					wpWidgets.resize();
+					if (wpWidgets.resize) wpWidgets.resize();
 				}
 			}).post(post);
 		};

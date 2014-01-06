@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: viewswitcher.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: viewswitcher.php 60342 2014-01-03 17:12:22Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -28,20 +28,20 @@ class GantryWidgetViewSwitcher extends GantryWidget
 	var $width = 200;
 	var $height = 400;
 
-	function render_widget_open()
+	function render_widget_open($args, $instance)
 	{
 	}
 
-	function render_widget_close()
+	function render_widget_close($args, $instance)
 	{
 	}
 
-	function init()
+	static function init()
 	{
 		register_widget("GantryWidgetViewSwitcher");
 	}
 
-	function gantry_init()
+	static function gantry_init()
 	{
 		/** @global $gantry Gantry */
 global $gantry;
@@ -82,7 +82,7 @@ global $gantry;
 		}
 	}
 
-	function _js($cookie, $cookiename)
+	static function _js($cookie, $cookiename)
 	{
 		/** @global $gantry Gantry */
 global $gantry;

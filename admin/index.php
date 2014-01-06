@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: index.php 60302 2013-12-11 13:17:14Z jakub $
+ * @version   $Id: index.php 60344 2014-01-03 22:06:04Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -96,7 +96,8 @@ GantryForm::addFormPath($gantry->templatePath);
 GantryForm::addFieldPath($gantry->templatePath . '/fields');
 GantryForm::addFieldPath($gantry->templatePath . '/admin/forms/fields');
 
-$form = GantryForm::getInstance($gantry->_template->getTemplateInfo(), 'template-options', 'templateDetails', array(), true, '//config');
+$template_info = $gantry->_template->getTemplateInfo();
+$form = GantryForm::getInstance($template_info, 'template-options', 'templateDetails', array(), true, '//config');
 $form->bind($data);
 
 $fieldSets = $form->getFieldsets('template-options');
@@ -259,7 +260,7 @@ if ($override) {
 							<?php $active_assignments = $activeTab == count($fieldSets) ? ' active' : ''; ?>
 							<?php
 							$assigned_to = 0;
-							if(is_array($override_assignments)) {
+							if(isset($override_assignments) && is_array($override_assignments)) {
 								foreach(new RecursiveIteratorIterator(new RecursiveArrayIterator($override_assignments), RecursiveIteratorIterator::LEAVES_ONLY) as $countable_item) {
 									$assigned_to++;
 								};

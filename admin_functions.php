@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: admin_functions.php 60294 2013-12-10 19:52:14Z jakub $
+ * @version   $Id: admin_functions.php 60332 2013-12-31 00:29:56Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -800,6 +800,7 @@ function gantry_widget_admin_register_combined_widget_settings($sidebars_widgets
 {
 	$widget_base_types = array();
 	foreach ($sidebars_widgets as $sidebar) {
+		if(is_null($sidebar)) continue;
 		foreach ($sidebar as $widget_instance) {
 			$widget_base_types[] = substr($widget_instance, 0, strrpos($widget_instance, '-'));
 		}

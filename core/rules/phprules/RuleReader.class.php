@@ -20,12 +20,19 @@ class RuleReader
 				$line = fgets($fh);
 				if (preg_match('/^rule "{0,1}([^"]*)"{0,1}\s+(.*)$/', $line, $matches)) {
 
-					if (trim($rawRule) != '') $rb->addRule($this->buildRule($ruleInfo, $rawRule));
+					if (trim($rawRule) != '') {
+						$rule = $this->buildRule($ruleInfo, $rawRule);
+						$rb->addRule($rule);
+					}
 
 					$ruleInfo = $matches;
 					$rawRule  = '';
-				} else if (feof($fh)) $rb->addRule($this->buildRule($ruleInfo, $rawRule . $line)); else
+				} else if (feof($fh)) {
+					$rule = $this->buildRule($ruleInfo, $rawRule . $line);
+					$rb->addRule($rule);
+				} else {
 					$rawRule .= $line;
+				}
 			}
 			fclose($fh);
 		}
