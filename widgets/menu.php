@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: menu.php 60354 2014-01-04 17:50:59Z jakub $
+ * @version   $Id: menu.php 60832 2014-05-12 09:47:23Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -108,7 +108,7 @@ class GantryWidgetMenu extends GantryWidget
 				$title = ob_get_clean();
 				if (!empty($title)) {
 					$this->render_title_open($args, $instance);
-					echo $title;
+                    echo apply_filters( 'widget_title', $title, $instance );
 					$this->render_title_close($args, $instance);
 				}
 				$this->pre_render($args, $instance);

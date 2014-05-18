@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: archive.class.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: archive.class.php 60811 2014-05-08 09:28:29Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -34,7 +34,7 @@ class GantryFactArchive extends GantryOverrideFact
 		if (!$query->is_archive) return false;
 		if ($query->is_tax) {
 			if ($this->type != $query->query_vars['taxonomy']) return false;
-			$term = get_term_by('slug', $query->query['term'], $query->query_vars['taxonomy'], OBJECT, 'raw');
+			$term = get_term_by('slug', $query->query_vars['term'], $query->query_vars['taxonomy'], OBJECT, 'raw');
 			if ($term === false) return false;
 			if ($term->term_id == $this->id) return true;
 
@@ -58,7 +58,7 @@ class GantryFactArchive extends GantryOverrideFact
 
 		if ($query->is_tax) {
 			$taxonomy = $query->query_vars['taxonomy'];
-			$term     = get_term_by('slug', $query->query['term'], $query->query_vars['taxonomy'], OBJECT, 'raw');
+			$term     = get_term_by('slug', $query->query_vars['term'], $query->query_vars['taxonomy'], OBJECT, 'raw');
 			if ($term === false) return false;
 			$term_id = $term->term_id;
 		} else if ($query->is_category) {
@@ -77,7 +77,7 @@ class GantryFactArchive extends GantryOverrideFact
 		$taxonomy = null;
 		$term_id  = null;
 		if ($query->is_tax) {
-			$term = get_term_by('slug', $query->query['term'], $query->query_vars['taxonomy'], OBJECT, 'raw');
+			$term = get_term_by('slug', $query->query_vars['term'], $query->query_vars['taxonomy'], OBJECT, 'raw');
 			if ($term === false) return false;
 			$term_id = $term->term_id;
 		} else if ($query->is_category) {

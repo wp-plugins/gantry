@@ -107,15 +107,16 @@ class GantryGizmoBuddyPress extends GantryGizmo {
 	// add BuddyPress component types to the Assignements tab in the admin
 	function bp_add_page_types_to_admin( $page_types ) {
 		$bp_page_types = array(
-			'bp_blogs' => _g( 'BuddyPress Blogs Component' ),
-			'bp_activity' => _g( 'BuddyPress Activity Component' ),
-			'bp_profile' => _g( 'BuddyPress Profile Component' ),
-			'bp_messages' => _g( 'BuddyPress Messages Component' ),
-			'bp_friends' => _g( 'BuddyPress Friends Component' ),
-			'bp_members' => _g( 'BuddyPress Members Component' ),
-			'bp_groups' => _g( 'BuddyPress Groups Component' ),
-			'bp_forums' => _g( 'BuddyPress Forums Component' ),
-			'bp_settings' => _g( 'BuddyPress Settings Component' )
+			'bp_blogs'          => _g( 'BuddyPress Blogs Component' ),
+			'bp_activity'       => _g( 'BuddyPress Activity Component' ),
+			'bp_profile'        => _g( 'BuddyPress Profile Component' ),
+			'bp_messages'       => _g( 'BuddyPress Messages Component' ),
+			'bp_friends'        => _g( 'BuddyPress Friends Component' ),
+			'bp_members'        => _g( 'BuddyPress Members Component' ),
+			'bp_groups'         => _g( 'BuddyPress Groups Component' ),
+			'bp_forums'         => _g( 'BuddyPress Forums Component' ),
+            'bp_notifications'  => _g( 'BuddyPress Notifications Component' ),
+			'bp_settings'       => _g( 'BuddyPress Settings Component' )
 		);
 
 		$page_types = $page_types + $bp_page_types;

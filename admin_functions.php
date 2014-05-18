@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: admin_functions.php 60332 2013-12-31 00:29:56Z jakub $
+ * @version   $Id: admin_functions.php 60853 2014-05-14 23:05:36Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -153,27 +153,49 @@ function gantry_show_theme_override_settings()
 function gantry_add_widget_styles_action(&$instance, &$return, $values)
 {
 	if ($return != "noform") {
+
 		/** @global $gantry Gantry */
 		global $gantry;
+
 		$widget_styles = $gantry->getWidgetStyles();
-		foreach ($widget_styles as $style_info) :
-			if (!array_key_exists($style_info['name'], $values)) $values[$style_info['name']] = '';
-			?>
-			<p>
-				<label for="<?php echo $instance->get_field_id($style_info['name']); ?>"><?php _ge($style_info['label']);?></label>
-				<select id="<?php echo $instance->get_field_id($style_info['name']); ?>"
-				        name="<?php echo $instance->get_field_name($style_info['name']) ?>">
-					<option value="" <?php if (empty($values[$style_info['name']])): ?>
-						selected="selected"<?php endif;?>>-
-					</option>
-					<?php foreach ($style_info['styles'] as $style_name => $style_label): ?>
-						<option value="<?php echo $style_name; ?>" <?php if ($values[$style_info['name']] == $style_name): ?>
-							selected="selected"<?php endif;?>><?php _re($style_label);?></option>
-					<?php endforeach; ?>
-				</select>
-			</p>
-		<?php
-		endforeach;
+
+        if( $gantry->get('dropdown_widget_variations') ) {
+            if( !empty( $widget_styles ) ) { ?>
+                <p class="widget-variations-select">
+                    <label for="<?php echo $instance->get_field_id('variations'); ?>"><?php _ge('Widget Variations');?></label>
+                    <select data-select-variations id="<?php echo $instance->get_field_id('variations'); ?>" name="<?php echo $instance->get_field_name('variations') ?>[]" class="gantry-multiselect gantry-variations-multiselect" multiple="multiple">
+                        <?php foreach ($widget_styles as $style_info) :
+                            if (!array_key_exists($style_info['name'], $values)) $values[$style_info['name']] = ''; ?>
+                            <optgroup label="<?php _ge($style_info['label']); ?>"><?php _ge($style_info['label']); ?></optgroup>
+                            <?php
+                            foreach ($style_info['styles'] as $style_name => $style_label) {
+                                if (!array_key_exists('variations', $values)) $values['variations'] = array();
+                                (in_array($style_name, $values['variations'])) ? $selected = ' selected="selected"' : $selected = ''; ?>
+                                <option value="<?php echo $style_name; ?>"<?php echo $selected; ?>><?php _re($style_label); ?></option>
+                            <?php
+                            }
+                        endforeach; ?>
+                    </select>
+                </p>
+        <?php
+            }
+        } else {
+            foreach ($widget_styles as $style_info) :
+                if (!array_key_exists($style_info['name'], $values)) $values[$style_info['name']] = '';
+                ?>
+                <p>
+                    <label for="<?php echo $instance->get_field_id($style_info['name']); ?>"><?php _ge($style_info['label']);?></label>
+                    <select id="<?php echo $instance->get_field_id($style_info['name']); ?>" name="<?php echo $instance->get_field_name($style_info['name']) ?>">
+                        <option value="" <?php if (empty($values[$style_info['name']])): ?> selected="selected"<?php endif;?>>-</option>
+                        <?php foreach ($style_info['styles'] as $style_name => $style_label): ?>
+                            <option value="<?php echo $style_name; ?>" <?php if ($values[$style_info['name']] == $style_name): ?>selected="selected"<?php endif;?>><?php _re($style_label);?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </p>
+                <?php
+            endforeach;
+        }
+
 		$widget_chromes = $gantry->_template->getWidgetChromes();
 		if (!empty($widget_chromes)):
 			if (!array_key_exists('widget_chrome', $values)) $values['widget_chrome'] = '';?>
@@ -191,10 +213,11 @@ function gantry_add_widget_styles_action(&$instance, &$return, $values)
 				</select>
 			</p>
 		<?php endif;
+
 		if ($gantry->get('custom_widget_variations')) : ?>
 			<p>
 				<label for="<?php echo $instance->get_field_id('custom-variations'); ?>"><?php _ge('Custom Variations'); ?></label>
-				<input type="text" id="<?php echo $instance->get_field_id('custom-variations'); ?>" name="<?php echo $instance->get_field_name('custom-variations') ?>" value="<?php if (isset($values['custom-variations'])) echo $values['custom-variations']; ?>" size="25"/>
+				<input type="text" id="<?php echo $instance->get_field_id('custom-variations'); ?>" name="<?php echo $instance->get_field_name('custom-variations') ?>" value="<?php if (isset($values['custom-variations'])) echo $values['custom-variations']; ?>" size="25" />
 			</p>
 		<?php endif;
 
@@ -214,18 +237,27 @@ function gantry_widget_style_udpate_filter($instance, $new_instance, $old_instan
 {
 	/** @global $gantry Gantry */
 	global $gantry;
+
 	$widget_styles = $gantry->_template->getWidgetStyles();
+
 	foreach ($widget_styles as $style_info) {
 		if (array_key_exists($style_info['name'], $new_instance)) {
 			$instance[$style_info['name']] = $new_instance[$style_info['name']];
 		}
 	}
+
+    if (array_key_exists('variations', $new_instance)) {
+        $instance['variations'] = iterator_to_array(new RecursiveIteratorIterator(new RecursiveArrayIterator($new_instance['variations'])), FALSE);
+    }
+
 	if (array_key_exists('custom-variations', $new_instance)) {
 		$instance['custom-variations'] = $new_instance['custom-variations'];
 	}
+
 	if (array_key_exists('widget_chrome', $new_instance)) {
 		$instance['widget_chrome'] = $new_instance['widget_chrome'];
 	}
+
 	return $instance;
 }
 
@@ -650,7 +682,16 @@ function gantry_widgets_admin_insert_override_header()
 			$next_override = (count($override_catalog) > 0) ? max(array_keys($override_catalog)) + 1 : 1;
 			$override_name = sprintf(_g('Custom Override %d'), $next_override);
 		}
-		$gantry->addStyle($gantry->gantryUrl . '/admin/widgets/gantry-widgets.css');
+
+        $widget_styles = $gantry->getWidgetStyles();
+
+        if( !empty( $widget_styles ) && $gantry->get( 'dropdown_widget_variations' ) ) {
+            $gantry->addStyle($gantry->gantryUrl . '/admin/widgets/bootstrap-multiselect.css');
+            $gantry->addScript($gantry->gantryUrl . '/admin/widgets/bootstrap-2.3.2.min.js');
+            $gantry->addScript($gantry->gantryUrl . '/admin/widgets/bootstrap-multiselect.js');
+        }
+
+        $gantry->addStyle($gantry->gantryUrl . '/admin/widgets/gantry-widgets.css');
 		$gantry->addScript($gantry->gantryUrl . '/admin/widgets/gantry-widgets.js');
 		$gantry->addInlineScript("var AdminURI = '" . $ajaxurl . "';var GantryLang = {'are_you_sure': '" . _g('This will delete all widgets and settings for this override.  Are you sure you want to do this?') . "'};");
 

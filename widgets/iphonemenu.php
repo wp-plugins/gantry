@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: iphonemenu.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: iphonemenu.php 60832 2014-05-12 09:47:23Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -35,7 +35,7 @@ class GantryWidgetiPhoneMenu extends GantryWidgetMenu
 	public static function init()
 	{
 		/** @global $gantry Gantry */
-global $gantry;
+        global $gantry;
 		register_widget("GantryWidgetiPhoneMenu");
 		/*		$gantry->addInlineScript("var animation = '" . $gantry->get('touchmenu-animation', 'cube') . "';");
 				$gantry->addScript('imenu.js');*/
@@ -45,7 +45,7 @@ global $gantry;
 	public function render($args, $instance)
 	{
 		/** @global $gantry Gantry */
-global $gantry;
+        global $gantry;
 		if ($gantry->browser->platform == 'iphone' || $gantry->browser->platform == 'android') {
 			parent::render($args, $instance);
 		}
@@ -56,7 +56,7 @@ global $gantry;
 		gantry_import('core.config.gantryform');
 
 		/** @global $gantry Gantry */
-global $gantry;
+        global $gantry;
 
 		$defaults = $this->_defaults;
 

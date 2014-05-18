@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: spacer.php 58623 2012-12-15 22:01:32Z btowles $
+ * @version   $Id: spacer.php 60813 2014-05-08 11:41:06Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -42,7 +42,10 @@ class GantryFormFieldSpacer extends GantryFormField
 	{
 		echo '<div class="clr"></div>';
 		if ((string)$this->element['hr'] == 'true') {
-			return '<hr />';
+            return '<hr />';
+        } elseif ((string)$this->element['empty'] == 'true') {
+            (isset($this->element['height']) && (string)$this->element['height'] != '') ? $height = $this->element['height'] : $height = 5;
+            return '<div class="empty-spacer" style="height: ' . $height . 'px"></div>';
 		} else {
 			return parent::getLabel();
 		}

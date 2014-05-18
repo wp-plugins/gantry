@@ -3,8 +3,8 @@ Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful, buddypress
 Requires at least: 3.2
-Tested up to: 3.8
-Stable tag: 4.1.1
+Tested up to: 3.9.1
+Stable tag: 4.1.2
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -84,6 +84,24 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 4.1.2 =
+* Fixed FontAwesome font files paths in the WordPress Multisite
+* Modified get_content_template to support only current page context, leaving the post formats to the template
+* Modified the Gantry Breadcrumbs widget to support more formats and support filters
+* Fixed issue when wp_enqueue_scripts hook was fired too late
+* It is now possible to load scripts in the footer using addScript(s), addInlineScript, addDomReadyScript and addLoadScript
+* Revamped the Widget Variation Chooser to be much more flexible and usable (requires minor theme changes)
+* Widget input fields should now properly use data allowed in wp_filter_post_kses ie. some HTML code
+* Fixed assigning taxonomy archives to overrides
+* $gantry->displayBodyTag() allows now to use the same parameters as body_class()
+* Added widget_title filter to the Gantry Framework core widgets
+* Added compatibility for the WP Menu Cart plugin
+* Added missing BuddyPress Notifications Component to the possible Assignments list
+* Moved Analytics to Universal Analytics
+* Possible fix for some minor Font Awesome 3.0 issues
+* Fixed compatibility for NextGen Gallery
+* Minor UI improvements
 
 = 4.1.1 =
 * Fix for the JS error when editing Widgets in the overrides which could cause widgets to disappear
@@ -365,6 +383,9 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Changelog Creation
 
 == Upgrade Notice ==
+
+= 4.1.2 =
+Please remember to create a full site backup (files + database) before performing update.
 
 = 4.1.1 =
 Please remember to create a full site backup (files + database) before performing update.

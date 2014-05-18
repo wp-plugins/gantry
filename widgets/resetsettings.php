@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: resetsettings.php 60342 2014-01-03 17:12:22Z jakub $
+ * @version   $Id: resetsettings.php 60832 2014-05-12 09:47:23Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -44,7 +44,7 @@ class GantryWidgetResetSettings extends GantryWidget
 	function render($args, $instance)
 	{
 		/** @global $gantry Gantry */
-global $gantry;
+        global $gantry;
 		ob_start();
 		?>
 		<div class="clear"></div>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: Util.php 59417 2013-03-20 16:50:35Z btowles $
+ * @version   $Id: Util.php 60706 2014-04-07 16:57:27Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -168,14 +168,14 @@ class Gantry_Uri_Util
 		$return_uri = clone $this->site_uri;
 		// check if the path seems to be in the instances  or  server path
 		// leave it as is if not one of the two
-		if (strpos($clean_uri_path, $this->site_root_path) === 0) {
+		if (!empty($this->site_root_path) && strpos($clean_uri_path, $this->site_root_path) === 0) {
 			// its an instance path
 			$return_uri->appendPath(str_replace($this->site_root_path, '', $clean_uri_path));
-		} elseif (!is_null($this->server_root_path) && strpos($clean_uri_path, $this->server_root_path) === 0) {
+		} elseif (!empty($this->server_root_path) && strpos($clean_uri_path, $this->server_root_path) === 0) {
 			// its a server path
 			$return_uri->setPath(str_replace($this->server_root_path, '', $clean_uri_path));
 		}
-		else if (is_null($this->server_root_path) && !isset($_SERVER['DOCUMENT_ROOT']))
+		else if (empty($this->server_root_path) && !isset($_SERVER['DOCUMENT_ROOT']))
 		{
 			trigger_error('No $_SERVER[\'DOCUMENT_ROOT\'] value is set.  Unable to find path to map to URL. Assuming root.',E_USER_NOTICE);
 			$return_uri = $uri;

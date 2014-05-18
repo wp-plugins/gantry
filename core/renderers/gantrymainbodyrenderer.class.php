@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantrymainbodyrenderer.class.php 60342 2014-01-03 17:12:22Z jakub $
+ * @version   $Id: gantrymainbodyrenderer.class.php 60373 2014-01-09 20:57:44Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -43,7 +43,7 @@ class GantryMainBodyRenderer
 
 		// get sidebar count
 		$sidebars_widgets = wp_get_sidebars_widgets();
-		$sidebarCount     = GantryMainBodyRenderer::countSidebars($sidebars_widgets['sidebar']);
+		(isset($sidebars_widgets['sidebar'])) ? $sidebarCount = GantryMainBodyRenderer::countSidebars($sidebars_widgets['sidebar']) : $sidebarCount = 0;
 		$columnCount      = $sidebarCount + 1;
 
 		//here we would see if the mainbody schema was set to soemthing else
@@ -83,9 +83,8 @@ class GantryMainBodyRenderer
 		// clean to max sidebars
 		$filtered_widgets = GantryWidgetsRenderer::filterWidgetCount($sidebars_widgets);
 
-		$widgets = $filtered_widgets['sidebar'];
+		(isset($filtered_widgets['sidebar'])) ? $widgets = $filtered_widgets['sidebar'] : $widgets = array();
 
-		if (null == $widgets) $widgets = array();
 		// Map widgets to sidebars without the dividers
 		$widget_map   = array();
 		$pos          = 1;

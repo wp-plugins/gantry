@@ -238,8 +238,8 @@ Gantry.PresetsSaver = {
 				if (i>1) return;
 				else {
 					presetvalue.each(function(param, paramkey) {
-						var paramkeyUnderscore = paramkey.replace(/-/, '_'),
-							paramkeyDash = paramkey.replace(/_/, '-');
+						var paramkeyUnderscore = paramkey.replace(/-/g, '_'),
+							paramkeyDash = paramkey.replace(/_/g, '-');
 						if (document.id(GantryParamsPrefix+paramkeyUnderscore)) storing[key][inputs[j][1].value][paramkeyDash] = document.id(GantryParamsPrefix+paramkeyUnderscore).get('value') || '';
 					});
 				}

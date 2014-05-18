@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 60353 2014-01-04 13:10:15Z jakub $
+ * @version   $Id: CHANGELOG.php 60857 2014-05-16 08:38:19Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,24 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.1.2 Release [] ------
+# Fixed FontAwesome font files paths in the WordPress Multisite
+^ Modified get_content_template to support only current page context, leaving the post formats to the template
+^ Modified the Gantry Breadcrumbs widget to support more formats and support filters
+# Fixed issue when wp_enqueue_scripts hook was fired too late
++ It is now possible to load scripts in the footer using addScript(s), addInlineScript, addDomReadyScript and addLoadScript
++ Revamped the Widget Variation Chooser to be much more flexible and usable (requires minor theme changes)
+^ Widget input fields should now properly use data allowed in wp_filter_post_kses ie. some HTML code
+# Fixed assigning taxonomy archives to overrides
++ $gantry->displayBodyTag() allows now to use the same parameters as body_class()
++ Added widget_title filter to the Gantry Framework core widgets
++ Added compatibility for the WP Menu Cart plugin
++ Added missing BuddyPress Notifications Component to the possible Assignments list
+^ Moved Analytics to Universal Analytics
+# Possible fix for some minor Font Awesome 3.0 issues
+# Fixed compatibility for NextGen Gallery
+^ Minor UI improvements
 
 ------- 4.1.1 Release [] ------
 # Fix for the JS error when editing Widgets in the overrides which could cause widgets to disappear

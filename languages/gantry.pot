@@ -6,7 +6,7 @@ msgstr ""
 "Last-Translator: Jakub Baran <jakub@rockettheme.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
 
@@ -303,6 +303,12 @@ msgstr "Enable"
 
 msgid "ANALYTICS_CODE"
 msgstr "UA Code"
+
+msgid "ANALYTICS_PLUGINS"
+msgstr "Analytics Plugins"
+
+msgid "ANALYTICS_PLUGINS_DESC"
+msgstr "Additional Analytics Plugins separated by space ie. displayfeatures linker"
 
 msgid "MENU"
 msgstr "Menu"

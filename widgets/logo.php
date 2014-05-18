@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: logo.php 60342 2014-01-03 17:12:22Z jakub $
+ * @version   $Id: logo.php 60832 2014-05-12 09:47:23Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -30,7 +30,7 @@ class GantryWidgetLogo extends GantryWidget
 	function render($args, $instance)
 	{
 		/** @global $gantry Gantry */
-global $gantry;
+        global $gantry;
 		extract($args);
 
 		// default location for custom icon is {template}/images/logo/logo.png, with 'perstyle' it's

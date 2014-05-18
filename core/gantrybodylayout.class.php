@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantrybodylayout.class.php 59696 2013-05-17 16:35:23Z jakub $
+ * @version   $Id: gantrybodylayout.class.php 60387 2014-01-13 12:21:14Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -617,12 +617,13 @@ class GantryBodyLayout extends GantryLayout
 		do_action( "get_template_part_{$slug}", $slug, $name );
 
 		$templates = array();
-		if ( isset($name) )
+		$name = (string) $name;
+		if ( '' !== $name )
 			$templates[] = "{$slug}-{$name}.php";
 
 		$templates[] = "{$slug}.php";
 
-		$this->locate_type($templates, true, false);
+		$this->locate_type( $templates, true, false );
 	}
 
 	/**
@@ -643,29 +644,24 @@ class GantryBodyLayout extends GantryLayout
 	 *
 	 * @param string $slug The slug name for the generic template.
 	 * @param string $name The name of the specialised template.
-	 * @param boolean $post_types_formats Enables the check for the post formats and post types
+	 * @param boolean $use_context Adds the context to the template name for more flexibility
 	 */
-	function get_content_template( $slug, $name = null, $post_types_formats = true ) {
+	function get_content_template( $slug, $name = null, $use_context = true ) {
+		do_action( "get_content_template_{$slug}", $slug, $name );
 
 		/** for Custom Post Types, allow different template files in different contexts */
 		$context = $this->getContext();
 
 		$templates = array();
+		$name = (string) $name;
 
-		if( $post_types_formats ) {
-			$post_supports = post_type_supports( get_post_type(), 'post-formats' ) ? get_post_format() : get_post_type();
+		if( $use_context && isset( $context ) && $name !== '' )
+			$templates[] = "{$slug}-{$context}-{$name}.php";
 
-			if( $post_supports !== false && isset( $context ) )
-				$templates[] = "{$slug}-{$context}-{$post_supports}.php";
-
-			if( $post_supports !== false)
-				$templates[] = "{$slug}-{$post_supports}.php";
-		}
-
-		if( isset( $name ) && $name !== false )
+		if ( '' !== $name )
 			$templates[] = "{$slug}-{$name}.php";
 
-		if( $name !== $context )
+		if( $use_context && isset( $context ) && $name !== $context )
 			$templates[] = "{$slug}-{$context}.php";
 
 		$templates[] = "{$slug}.php";

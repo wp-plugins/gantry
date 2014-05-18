@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: overridesmap.php 60342 2014-01-03 17:12:22Z jakub $
+ * @version   $Id: overridesmap.php 60832 2014-05-12 09:47:23Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -36,16 +36,16 @@ class GantryWidgetOverridesMap extends GantryWidget
 	function render_title($args, $instance)
 	{
 		/** @global $gantry Gantry */
-global $gantry;
+        global $gantry;
 		if ($instance['title'] != '') :
-			echo $instance['title'];
+            echo apply_filters( 'widget_title', $instance['title'], $instance );
 		endif;
 	}
 
 	function render($args, $instance)
 	{
 		/** @global $gantry Gantry */
-global $gantry;
+        global $gantry;
 
 		$catalog       = gantry_get_override_catalog($gantry->templateName);
 		$override_tree = $gantry->_override_tree;

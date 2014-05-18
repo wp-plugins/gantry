@@ -1,5 +1,5 @@
 /**
- * @version $Id: gantry-widgets.css 60321 2013-12-16 20:39:41Z jakub $
+ * @version $Id: gantry-widgets.css 60834 2014-05-12 09:54:08Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -45,7 +45,7 @@ h3 input.override-checkbox {float:none;margin:-4px 4px 0 -3px;}
 .gantry-mp6 #overrides-toolbar .overrides-button.button-del {border-left: 1px solid #CCC;}
 .gantry-mp6 #overrides-toolbar .overrides-button.button-del:before {content: "\f158";font: normal 20px/1 'dashicons';speak: none;display: inline-block;top: 2px;left: 4px;position: relative;vertical-align: middle;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;text-decoration: none !important;}
 .gantry-mp6 #overrides-toolbar .overrides-button.button-edit {border-left: 1px solid #CCC;}
-.gantry-mp6 #overrides-toolbar .overrides-button.button-edit:before {content: "\f327";font: normal 16px/1 'dashicons';speak: none;display: inline-block;top: 2px;left: 6px;position: relative;vertical-align: middle;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;text-decoration: none !important;}
+.gantry-mp6 #overrides-toolbar .overrides-button.button-edit:before {content: "\f327";font: normal 16px/1 'dashicons';speak: none;display: inline-block;top: 2px;left: 7px;position: relative;vertical-align: middle;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;text-decoration: none !important;}
 
 #overrides-switch {float:left;margin:10px 0 0 10px;position:relative;border: 1px solid #CCC;box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.1);}
 

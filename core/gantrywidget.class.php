@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantrywidget.class.php 60342 2014-01-03 17:12:22Z jakub $
+ * @version   $Id: gantrywidget.class.php 60823 2014-05-12 08:17:30Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -99,13 +99,18 @@ class GantryWidget extends WP_Widget
 	 *
 	 * @return array|string
 	 */
-	function _cleanOutputVariable($variable, $value)
-	{
-		if (is_string($value)) {
-			return htmlspecialchars($value);
-		} elseif (is_array($value)) {
-			foreach ($value as $subvariable => $subvalue) {
-				$value[$subvariable] = GantryWidget::_cleanOutputVariable($subvariable, $subvalue);
+	function _cleanOutputVariable( $variable, $value ) {
+		if ( is_string( $value ) ) {
+			if( $variable == 'title' ) return strip_tags( $value );
+
+            if ( current_user_can( 'unfiltered_html' ) ) {
+                return $value;
+            } else {
+                return stripslashes( wp_filter_post_kses( addslashes( $value ) ) ); // wp_filter_post_kses() expects slashed
+            }
+		} elseif ( is_array( $value ) ) {
+			foreach ( $value as $subvariable => $subvalue ) {
+				$value[$subvariable] = GantryWidget::_cleanOutputVariable( $subvariable, $subvalue );
 			}
 			return $value;
 		}

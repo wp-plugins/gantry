@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: GantryMenuProviderWordpress.php 60340 2014-01-03 15:16:32Z jakub $
+ * @version   $Id: GantryMenuProviderWordpress.php 60817 2014-05-11 11:31:40Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -43,7 +43,7 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 		{
 			$nav_menu_name = $args['nav_menu'];
 			if (wp_get_nav_menu_object($nav_menu_name) == false) return array();
-			$menu_items  = wp_get_nav_menu_items($nav_menu_name);
+			$menu_items = apply_filters('gantry_nav_menu_' . $nav_menu_name . '_items', wp_get_nav_menu_items($nav_menu_name), $args);
 			$outputNodes = array();
 			foreach ($menu_items as $menu_item) {
 				//Create the new Node
@@ -74,7 +74,8 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 				if ($node->getLink() == $this->current_url && $this->current_node == 0) $this->current_node = $node->getId();
 				$outputNodes[$node->getId()] = $node;
 			}
-			return $outputNodes;
+
+			return apply_filters('gantry_nav_menu_' . $nav_menu_name . '_output_nodes', $outputNodes, $args);
 		}
 
 		public function getMenuTree()
@@ -82,8 +83,18 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 			global $wp_query;
 			gantry_import('core.utilities.gantrycache');
 			$cache_handler = GantryCache::getCache('gantry-menu', 0, true);
-			$menu_id       = 'menu-' . md5(implode('-', $this->args) . get_locale());
-			$menu          = $cache_handler->get($menu_id);
+            $menu_args = array();
+            foreach( $this->args as $key => $value ) {
+                if( is_array( $value ) ) {
+                    foreach( $value as $k => $v ) {
+                        $menu_args[$key . '-' . $k] = $v;
+                    }
+                } else {
+                    $menu_args[$key] = $value;
+                }
+            }
+			$menu_id = apply_filters( 'gantry_menu_cache_menu_id', 'menu-' . md5( implode( '-', $menu_args ) . get_locale() ) );
+			$menu = $cache_handler->get($menu_id);
 			if ($menu == false) {
 				$menu = $this->getRealMenuTree();
 				$cache_handler->set($menu_id, $menu);
@@ -113,7 +124,6 @@ if (!class_exists('GantryMenuProviderWordpress')) {
 			$this->active_branch = $this->findActiveBranch($this->menu, $this->current_node);
 			return $this->menu;
 		}
-
 
 		/**
 		 * @return RokMenuNodeTree

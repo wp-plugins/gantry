@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: viewswitcher.php 60342 2014-01-03 17:12:22Z jakub $
+ * @version   $Id: viewswitcher.php 60832 2014-05-12 09:47:23Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -44,7 +44,7 @@ class GantryWidgetViewSwitcher extends GantryWidget
 	static function gantry_init()
 	{
 		/** @global $gantry Gantry */
-global $gantry;
+        global $gantry;
 		$platform = $gantry->browser->platform;
 
 		$prefix     = $gantry->get('template_prefix');
@@ -65,7 +65,7 @@ global $gantry;
 	function render($args, $instance)
 	{
 		/** @global $gantry Gantry */
-global $gantry;
+        global $gantry;
 		$platform = $gantry->browser->platform;
 		if ($gantry->get($platform . '-enabled')) {
 
@@ -85,7 +85,7 @@ global $gantry;
 	static function _js($cookie, $cookiename)
 	{
 		/** @global $gantry Gantry */
-global $gantry;
+        global $gantry;
 		if ($cookie === false || $cookie == '1' || $gantry->retrieveTemp('platform', $cookiename) == "1") $cookie = 0; else $cookie = 1;
 
 		return "

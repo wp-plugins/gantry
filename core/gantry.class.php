@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantry.class.php 60341 2014-01-03 15:46:39Z jakub $
+ * @version   $Id: gantry.class.php 60838 2014-05-12 19:11:30Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -138,6 +138,7 @@ class Gantry
 	public $_adminajaxmodels = array();
 	public $_layouts = array();
 	public $_bodyclasses = array();
+	public $_custom_bodyclasses = array();
 	public $_classesbytag = array();
 	public $_ignoreQueryParams = array('reset-settings');
 	public $_config_vars = array(
@@ -161,15 +162,19 @@ class Gantry
 
 
 	// reseetable noncache
-	public $_scripts = array();
+	public $_headerscripts = array();
+	public $_footerscripts = array();
 	public $_styles = array();
 	public $_styles_available = array();
-	public $_full_scripts = array();
+	public $_header_full_scripts = array();
+	public $_footer_full_scripts = array();
 	public $_domready_script = '';
+    public $_footer_domready_script = '';
 	public $_loadevent_script = '';
+    public $_footer_loadevent_script = '';
 	public $_inline_script = '';
+    public $_footer_inline_script = '';
 	public $_inline_style = '';
-
 
 
 	public $_override_tree = array();
@@ -217,6 +222,7 @@ class Gantry
 		'_adminajaxmodels',
 		'_layouts',
 		'_bodyclasses',
+		'_custom_bodyclasses',
 		'_classesbytag',
 		'_ignoreQueryParams',
 		'_config_vars',
@@ -270,15 +276,15 @@ class Gantry
 
 		// Set the call specific URL vars
 		$urlinfo       = parse_url(get_option('siteurl'));
-		$this->baseUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"],'/') : '';
+		$this->baseUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"], '/') : '';
 		$this->baseUrl .= "/";
 
 		$urlinfo           = parse_url(get_bloginfo('template_url'));
 		$this->templateUrl = $urlinfo["path"];
-		$this->templateUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"],'/') : '';
+		$this->templateUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"], '/') : '';
 
 
-		$this->uriutil = new Gantry_Uri_Util(Gantry_Uri_Util::cleanFilesystemPath(ABSPATH),get_option('siteurl'));
+		$this->uriutil = new Gantry_Uri_Util(Gantry_Uri_Util::cleanFilesystemPath(ABSPATH), get_option('siteurl'));
 
 		$this->loadConfig();
 
@@ -368,12 +374,12 @@ class Gantry
 		// Set the call specific URL vars
 		// Set the call specific URL vars
 		$urlinfo       = parse_url(get_option('siteurl'));
-		$this->baseUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"],'/') : '';
+		$this->baseUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"], '/') : '';
 		$this->baseUrl .= "/";
 
 		$urlinfo           = parse_url(get_bloginfo('template_url'));
 		$this->templateUrl = $urlinfo["path"];
-		$this->templateUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"],'/') : '';
+		$this->templateUrl = isset($urlinfo["path"]) ? rtrim($urlinfo["path"], '/') : '';
 
 
 		$this->_initContentTypePaths();
@@ -489,13 +495,18 @@ class Gantry
 	protected function reset()
 	{
 		if (defined('GANTRY_FINALIZED')) return;
-		$this->_scripts          = array();
-		$this->_full_scripts     = array();
-		$this->_domready_script  = '';
-		$this->_loadevent_script = '';
-		$this->_inline_script    = '';
-		$this->_inline_style     = '';
-		$this->_styles           = array();
+		$this->_headerscripts           = array();
+		$this->_header_full_scripts     = array();
+		$this->_footerscripts           = array();
+		$this->_footer_full_scripts     = array();
+		$this->_domready_script         = '';
+        $this->_footer_domready_script  = '';
+		$this->_loadevent_script        = '';
+        $this->_footer_loadevent_script = '';
+		$this->_inline_script           = '';
+        $this->_footer_inline_script    = '';
+		$this->_inline_style            = '';
+		$this->_styles                  = array();
 
 		$this->basicLoad();
 		$this->_postParseLoad();
@@ -693,7 +704,7 @@ class Gantry
 	 */
 	public function getAjaxUrl()
 	{
-		return  admin_url('admin-ajax.php');
+		return admin_url('admin-ajax.php');
 	}
 
 	/**
@@ -1008,7 +1019,7 @@ class Gantry
 				}
 			}
 		}
-
+		do_action('gantry_enqueue_scripts');
 		do_action('get_header', null);
 
 		echo "<gantry:header/>";
@@ -1032,7 +1043,6 @@ class Gantry
 		// get line endings
 		$strHtml = '';
 
-
 		// Enqueue Styles
 		$deps = array();
 		ksort($this->_styles);
@@ -1045,7 +1055,7 @@ class Gantry
 						$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 					}
 					$filename = strtolower(basename($path, '.css')) . rand(0, 1000);
-					wp_enqueue_style($filename, $path, array(), '4.1.1');
+					wp_enqueue_style($filename, $path, array(), '4.1.2');
 					$deps[] = $path;
 				}
 			}
@@ -1053,16 +1063,16 @@ class Gantry
 
 		// Add scripts to the header
 		$deps = array();
-		foreach ($this->_scripts as $strSrc) {
+		foreach ($this->_headerscripts as $strSrc) {
 			$path = parse_url($strSrc, PHP_URL_PATH);
 			if ($this->baseUrl != "/") {
 				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 			}
-			wp_enqueue_script($path, $path, $deps, '4.1.1');
+			wp_enqueue_script($path, $path, $deps, '4.1.2');
 			$deps[] = $path;
 		}
-		foreach ($this->_full_scripts as $strSrc) {
-			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.1');
+		foreach ($this->_header_full_scripts as $strSrc) {
+			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.2');
 			$deps[] = $strSrc;
 		}
 
@@ -1096,8 +1106,27 @@ class Gantry
 	protected function _displayFooter(&$output)
 	{
 		ob_start();
-		if (!$this->isAdmin()) wp_footer();
+		$deps = array();
+		foreach ($this->_footerscripts as $strSrc) {
+			$path = parse_url($strSrc, PHP_URL_PATH);
+			if ($this->baseUrl != "/") {
+				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
+			}
+			wp_enqueue_script($path, $path, $deps, '4.1.2', true);
+			$deps[] = $path;
+		}
+		foreach ($this->_footer_full_scripts as $strSrc) {
+			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.2', true);
+			$deps[] = $strSrc;
+		}
+
+		if (!$this->isAdmin()) {
+            add_action('wp_footer', array($this, '_renderFooterRemoteScripts'), 9);
+            wp_footer();
+        }
+
 		$strHtml = ob_get_clean();
+        $strHtml .= $this->_renderScriptsFooter();
 		$output  = str_replace('<gantry:footer/>', $strHtml, $output);
 	}
 
@@ -1118,21 +1147,35 @@ class Gantry
 		echo ob_get_clean();
 	}
 
+    /**
+     *
+     */
+    public function _renderRemoteScripts()
+    {
+        ob_start();
+        /** @var $strSrc GantryStyleLink */
+        foreach ($this->_headerscripts as $strSrc) {
+            if (is_object($strSrc) && $strSrc->getType() == 'url') {
+                echo sprintf('<script  type="text/javascript" src="%s"></script>', $strSrc->getUrl());
+            }
+        }
+        echo ob_get_clean();
+    }
+
 	/**
 	 *
 	 */
-	public function _renderRemoteScripts()
+	public function _renderFooterRemoteScripts()
 	{
 		ob_start();
 		/** @var $strSrc GantryStyleLink */
-		foreach ($this->_scripts as $strSrc) {
+		foreach ($this->_footerscripts as $strSrc) {
 			if (is_object($strSrc) && $strSrc->getType() == 'url') {
 				echo sprintf('<script  type="text/javascript" src="%s"></script>', $strSrc->getUrl());
 			}
 		}
 		echo ob_get_clean();
 	}
-
 
 	/**
 	 * @return string
@@ -1194,9 +1237,46 @@ class Gantry
 			$strHtml .= $tab . '//]]></script>' . $lnEnd;
 		}
 
-
 		return $strHtml;
 	}
+
+    /**
+     * @return string
+     */
+    protected function _renderScriptsFooter()
+    {
+        // get line endings
+        $lnEnd   = "\12";
+        $tab     = "\11";
+        $strHtml = '';
+
+
+        // Generate inline script
+        if (isset($this->_footer_inline_script) && strlen(trim($this->_footer_inline_script)) > 0) {
+            $strHtml .= $tab . '<script type="text/javascript">' . $lnEnd;
+            // This is for full XHTML support.
+            $strHtml .= $this->_footer_inline_script . $lnEnd;
+            $strHtml .= $tab . '</script>' . $lnEnd;
+        }
+
+        // Generate domready script
+        if (isset($this->_footer_domready_script) && !empty($this->_footer_domready_script) && count($this->_footer_domready_script)) {
+            $strHtml .= $tab . '<script type="text/javascript">//<![CDATA[' . $lnEnd;
+            // This is for full XHTML support.
+            $strHtml .= 'window.addEvent(\'domready\', function() {' . $this->_footer_domready_script . $lnEnd . '});';
+            $strHtml .= $tab . '//]]></script>' . $lnEnd;
+        }
+
+        // Generate load script
+        if (isset($this->_footer_loadevent_script) && !empty($this->_footer_loadevent_script) && count($this->_footer_loadevent_script)) {
+            $strHtml .= $tab . '<script type="text/javascript">//<![CDATA[' . $lnEnd;
+            // This is for full XHTML support.
+            $strHtml .= 'window.addEvent(\'load\', function() {' . $this->_footer_loadevent_script . $lnEnd . '});';
+            $strHtml .= $tab . '//]]></script>' . $lnEnd;
+        }
+
+        return $strHtml;
+    }
 
 	/**
 	 * @return string
@@ -1223,8 +1303,21 @@ class Gantry
 	/**
 	 * @return string
 	 */
-	public function displayBodyTag()
+	public function displayBodyTag( $class = '' )
 	{
+		$classes = array();
+
+		if ( ! empty( $class ) ) {
+			if ( !is_array( $class ) )
+				$class = preg_split( '#\s+#', $class );
+			$classes = array_merge( $classes, $class );
+		} else {
+			// Ensure that we always coerce class to being an array.
+			$class = array();
+		}
+
+		$this->_custom_bodyclasses = $classes;
+
 		if (defined('GANTRY_FINALIZED')) return '';
 		return "<gantry:bodytag/>";
 	}
@@ -1234,7 +1327,7 @@ class Gantry
 	 */
 	function _displayBodyTag(&$output)
 	{
-		$body_classes = get_body_class();
+		$body_classes = get_body_class($this->_custom_bodyclasses);
 		foreach ($this->_bodyclasses as $param) {
 			$param_value = $this->get($param);
 			if ($param_value != "") {
@@ -1244,9 +1337,9 @@ class Gantry
 			}
 		}
 		$body_tag = $this->renderLayout('doc_body', array(
-		                                                 'classes' => implode(" ", $body_classes),
-		                                                 'id'      => $this->_bodyId
-		                                            ));
+			'classes' => implode(" ", $body_classes),
+			'id'      => $this->_bodyId
+		));
 		$output   = preg_replace("#<gantry:bodytag/>#", $body_tag, $output);
 	}
 
@@ -1288,6 +1381,47 @@ class Gantry
 	}
 
 	/**
+	 * Returns the relative path from one location to another
+	 *
+	 * @param $from
+	 * @param $to
+	 *
+	 * @return string
+	 */
+	function getRelativePath($from, $to)
+	{
+		// some compatibility fixes for Windows paths
+		$from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
+		$to   = is_dir($to)   ? rtrim($to, '\/') . '/'   : $to;
+		$from = str_replace('\\', '/', $from);
+		$to   = str_replace('\\', '/', $to);
+
+		$from     = explode('/', $from);
+		$to       = explode('/', $to);
+		$relPath  = $to;
+
+		foreach($from as $depth => $dir) {
+			// find first non-matching dir
+			if($dir === $to[$depth]) {
+				// ignore this directory
+				array_shift($relPath);
+			} else {
+				// get number of remaining dirs to $from
+				$remaining = count($from) - $depth;
+				if($remaining > 1) {
+					// add traversals up to first matching dir
+					$padLength = (count($relPath) + $remaining - 1) * -1;
+					$relPath = array_pad($relPath, $padLength, '..');
+					break;
+				} else {
+					$relPath[0] = './' . $relPath[0];
+				}
+			}
+		}
+		return implode('/', $relPath);
+	}
+
+	/**
 	 * @param string $lessfile
 	 * @param bool   $cssfile
 	 * @param int    $priority
@@ -1315,7 +1449,7 @@ class Gantry
 				}
 			}
 		}
-		$lessfile_uri = new Gantry_Uri($lessfile);
+		$lessfile_uri   = new Gantry_Uri($lessfile);
 		$less_file_path = $this->uriutil->getFilesystemPath($lessfile_uri);
 		$less_file_url  = $this->uriutil->getUrlForPath($lessfile_uri);
 
@@ -1338,17 +1472,15 @@ class Gantry
 		}
 
 
-		if (is_multisite())
-		{
-			$uploads = wp_upload_dir();
-			$default_compiled_css_dir = rtrim($uploads['basedir'],'/\\').'/css-compiled';
-		}
-		else {
+		if (is_multisite()) {
+			$uploads                  = wp_upload_dir();
+			$default_compiled_css_dir = rtrim($uploads['basedir'], '/\\') . '/css-compiled';
+		} else {
 			$default_compiled_css_dir = $this->templatePath . '/css-compiled';
 		}
 
 		if (!file_exists($default_compiled_css_dir)) {
-			@mkdir($default_compiled_css_dir, 0775,true);
+			@mkdir($default_compiled_css_dir, 0775, true);
 			if (!file_exists($default_compiled_css_dir)) {
 				throw new Exception(sprintf('Unable to create default directory (%s) for compiled less files.  Please check your filesystem permissions.', $default_compiled_css_dir));
 			}
@@ -1370,7 +1502,7 @@ class Gantry
 		$cssfile_md5 = md5($css_file_path);
 
 		// set base compile modes
-		$force_compile  = false;
+		$force_compile = false;
 
 		if (!$this->isAdmin()) {
 			$cachegroup = self::LESS_SITE_CACHE_GROUP;
@@ -1379,7 +1511,7 @@ class Gantry
 		}
 
 
-		$runcompile    = false;
+		$runcompile = false;
 
 		gantry_import('core.utilities.gantrycache');
 		$cache_handler = GantryCache::getCache($cachegroup, 0, true);
@@ -1420,7 +1552,7 @@ class Gantry
 			$less->addImportDir($this->gantryPath . '/assets');
 
 			if (!empty($options)) {
-				$less->setVariables($options);
+				$less->setVariables(apply_filters('gantry_less_compile_options', $options, $default_compiled_css_dir));
 			}
 
 			if ($this->get('less-compression', true)) {
@@ -1464,7 +1596,7 @@ class Gantry
 				} else {
 					@rename($tmp_ouput_file, $css_file_path);
 				}
-				@chmod($css_file_path,0644);
+				@chmod($css_file_path, 0644);
 			}
 			$quick_expire_cache->clear($cssfile_md5 . '-compiling');
 		}
@@ -1549,13 +1681,12 @@ class Gantry
 			}
 
 			// set up the full path checks
-			$css_search_paths = array();
+			$css_search_paths                             = array();
 			$css_search_paths[$this->gantryUrl . '/css/'] = $this->gantryPath . '/css/';
-			if (is_multisite()){
-				$uploads = wp_upload_dir();
-				$css_search_paths[rtrim($uploads['baseurl'],'/\\').'/css-compiled/'] = rtrim($uploads['basedir'],'/\\') . '/css-compiled/';
-			}
-			else {
+			if (is_multisite()) {
+				$uploads                                                                = wp_upload_dir();
+				$css_search_paths[rtrim($uploads['baseurl'], '/\\') . '/css-compiled/'] = rtrim($uploads['basedir'], '/\\') . '/css-compiled/';
+			} else {
 				$css_search_paths[$this->templateUrl . '/css-compiled/'] = $this->templatePath . '/css-compiled/';
 			}
 			$css_search_paths = array_merge($css_search_paths, $template_css_search_paths);
@@ -1630,7 +1761,7 @@ class Gantry
 				if (!defined('GANTRY_FINALIZED')) {
 					$this->_styles[$priority][] = $link;
 				} else {
-					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.1.1');
+					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.1.2');
 				}
 			}
 		}
@@ -1689,7 +1820,7 @@ class Gantry
 	 *
 	 * @return void
 	 */
-	public function addScript($file = '')
+	public function addScript($file = '', $in_footer = false)
 	{
 		if (is_array($file)) {
 			$this->addScripts($file);
@@ -1714,12 +1845,18 @@ class Gantry
 
 		$query_string = '';
 		// check to see if this is a full path file
-		$dir = dirname($file);
+		$dir      = dirname($file);
 		$file_uri = new Gantry_Uri($file);
 		if ($dir != ".") {
 			// For remote url just add the url
 			if ($this->uriutil->isExternal($file_uri)) {
-				$this->_full_scripts[] = $file;
+				if (!$in_footer)
+				{
+					$this->_header_full_scripts[] = $file;
+				}
+				else {
+					$this->_footer_full_scripts[] = $file;
+				}
 				return;
 			}
 
@@ -1732,9 +1869,13 @@ class Gantry
 				if ($full_path !== false && file_exists($full_path)) {
 					$check_url_path = $url_path . '/' . basename($url_file);
 					if (!defined('GANTRY_FINALIZED')) {
-						$this->_scripts[$full_path] = $check_url_path . $query_string;
+						if (!$in_footer) {
+							$this->_headerscripts[$full_path] = $check_url_path . $query_string;
+						} else {
+							$this->_footerscripts[$full_path] = $check_url_path . $query_string;
+						}
 					} else {
-						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.1');
+						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.2', $in_footer);
 					}
 					break;
 				}
@@ -1766,9 +1907,13 @@ class Gantry
 					$check_url_path = $baseurl . "/" . $check;
 					if (file_exists($check_path) && is_readable($check_path)) {
 						if (!defined('GANTRY_FINALIZED')) {
-							$this->_scripts[$check_path] = $check_url_path . $query_string;
+						    if (!$in_footer) {
+						        $this->_headerscripts[$check_path] = $check_url_path . $query_string;
+						    } else {
+						        $this->_footerscripts[$check_path] = $check_url_path . $query_string;
+						    }
 						} else {
-							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.1');
+							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.2', $in_footer);
 						}
 						break(2);
 					}
@@ -1781,49 +1926,73 @@ class Gantry
 	/**
 	 * @param array $scripts
 	 */
-	public function addScripts($scripts = array())
+	public function addScripts($scripts = array(), $in_footer = false)
 	{
 		if (defined('GANTRY_FINALIZED')) return;
-		foreach ($scripts as $script) $this->addScript($script);
+		foreach ($scripts as $script) $this->addScript($script, $in_footer);
 	}
 
 	/**
 	 * @param string $js
 	 */
-	public function addInlineScript($js = '')
+	public function addInlineScript($js = '', $in_footer = false)
 	{
 		if (defined('GANTRY_FINALIZED')) return;
-		if (!isset($this->_inline_script)) {
-			$this->_inline_script = $js;
-		} else {
-			$this->_inline_script .= chr(13) . $js;
-		}
+        if(!$in_footer) {
+            if (!isset($this->_inline_script)) {
+                $this->_inline_script = $js;
+            } else {
+                $this->_inline_script .= chr(13) . $js;
+            }
+        } else {
+            if (!isset($this->_footer_inline_script)) {
+                $this->_footer_inline_script = $js;
+            } else {
+                $this->_footer_inline_script .= chr(13) . $js;
+            }
+        }
 	}
 
 	/**
 	 * @param string $js
 	 */
-	public function addDomReadyScript($js = '')
+	public function addDomReadyScript($js = '', $in_footer = false)
 	{
 		if (defined('GANTRY_FINALIZED')) return;
-		if (!isset($this->_domready_script)) {
-			$this->_domready_script = $js;
-		} else {
-			$this->_domready_script .= chr(13) . $js;
-		}
+        if(!$in_footer) {
+            if (!isset($this->_domready_script)) {
+                $this->_domready_script = $js;
+            } else {
+                $this->_domready_script .= chr(13) . $js;
+            }
+        } else {
+            if (!isset($this->_footer_domready_script)) {
+                $this->_footer_domready_script = $js;
+            } else {
+                $this->_footer_domready_script .= chr(13) . $js;
+            }
+        }
 	}
 
 	/**
 	 * @param string $js
 	 */
-	public function addLoadScript($js = '')
+	public function addLoadScript($js = '', $in_footer = false)
 	{
 		if (defined('GANTRY_FINALIZED')) return;
-		if (!isset($this->_loadevent_script)) {
-			$this->_loadevent_script = $js;
-		} else {
-			$this->_loadevent_script .= chr(13) . $js;
-		}
+        if(!$in_footer) {
+            if (!isset($this->_loadevent_script)) {
+                $this->_loadevent_script = $js;
+            } else {
+                $this->_loadevent_script .= chr(13) . $js;
+            }
+        } else {
+            if (!isset($this->_footer_loadevent_script)) {
+                $this->_footer_loadevent_script = $js;
+            } else {
+                $this->_footer_loadevent_script .= chr(13) . $js;
+            }
+        }
 	}
 
 	/**
@@ -1977,14 +2146,14 @@ class Gantry
 			foreach ($positions as $position) {
 				$positionInfo = $this->getPositionInfo($position);
 				register_sidebars(1, array(
-				                          'name'          => _g($positionInfo->name),
-				                          'id'            => $positionInfo->id,
-				                          'description'   => _g($positionInfo->description),
-				                          'before_widget' => '',
-				                          'after_widget'  => '',
-				                          'before_title'  => '',
-				                          'after_title'   => '',
-				                     ));
+					'name'          => _g($positionInfo->name),
+					'id'            => $positionInfo->id,
+					'description'   => _g($positionInfo->description),
+					'before_widget' => '',
+					'after_widget'  => '',
+					'before_title'  => '',
+					'after_title'   => '',
+				));
 			}
 		}
 	}
