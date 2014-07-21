@@ -14,6 +14,8 @@ Gantry is a comprehensive set of building blocks to enable the rapid development
 
 * Please visit http://gantry-framework.org to download a FREE WordPress Gantry default theme which can be used as a base for your own themes!
 
+* For official RocketTheme Gantry forum please visit http://www.rockettheme.com/forum/gantry-framework
+
 Gantry is packed full of features to empower the development of designs into fully functional layouts with the absolute minimum of effort and fuss.
 
 * True "Drag and Drop" page builder
