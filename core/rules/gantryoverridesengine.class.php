@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantryoverridesengine.class.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: gantryoverridesengine.class.php 61153 2014-11-20 20:09:41Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -23,6 +23,7 @@ gantry_import('core.rules.facttypes.menu');
 gantry_import('core.rules.facttypes.post_type');
 gantry_import('core.rules.facttypes.taxonomy');
 gantry_import('core.rules.facttypes.templatepage');
+gantry_import('core.rules.facttypes.wpmllang');
 
 /**
  *

@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantry.class.php 60838 2014-05-12 19:11:30Z jakub $
+ * @version   $Id: gantry.class.php 61284 2015-01-28 12:11:17Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -1055,7 +1055,7 @@ class Gantry
 						$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 					}
 					$filename = strtolower(basename($path, '.css')) . rand(0, 1000);
-					wp_enqueue_style($filename, $path, array(), '4.1.2');
+					wp_enqueue_style($filename, $path, array(), '4.1.3');
 					$deps[] = $path;
 				}
 			}
@@ -1068,11 +1068,11 @@ class Gantry
 			if ($this->baseUrl != "/") {
 				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 			}
-			wp_enqueue_script($path, $path, $deps, '4.1.2');
+			wp_enqueue_script($path, $path, $deps, '4.1.3');
 			$deps[] = $path;
 		}
 		foreach ($this->_header_full_scripts as $strSrc) {
-			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.2');
+			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.3');
 			$deps[] = $strSrc;
 		}
 
@@ -1112,11 +1112,11 @@ class Gantry
 			if ($this->baseUrl != "/") {
 				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 			}
-			wp_enqueue_script($path, $path, $deps, '4.1.2', true);
+			wp_enqueue_script($path, $path, $deps, '4.1.3', true);
 			$deps[] = $path;
 		}
 		foreach ($this->_footer_full_scripts as $strSrc) {
-			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.2', true);
+			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.3', true);
 			$deps[] = $strSrc;
 		}
 
@@ -1453,6 +1453,9 @@ class Gantry
 		$less_file_path = $this->uriutil->getFilesystemPath($lessfile_uri);
 		$less_file_url  = $this->uriutil->getUrlForPath($lessfile_uri);
 
+		if (preg_match('/^WIN/', PHP_OS)){
+			$less_file_path = str_replace('%20', ' ', $less_file_path);
+		}
 
 		// abort if the less file isnt there
 		if (!is_file($less_file_path)) {
@@ -1761,7 +1764,7 @@ class Gantry
 				if (!defined('GANTRY_FINALIZED')) {
 					$this->_styles[$priority][] = $link;
 				} else {
-					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.1.2');
+					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.1.3');
 				}
 			}
 		}
@@ -1875,7 +1878,7 @@ class Gantry
 							$this->_footerscripts[$full_path] = $check_url_path . $query_string;
 						}
 					} else {
-						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.2', $in_footer);
+						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.3', $in_footer);
 					}
 					break;
 				}
@@ -1913,7 +1916,7 @@ class Gantry
 						        $this->_footerscripts[$check_path] = $check_url_path . $query_string;
 						    }
 						} else {
-							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.2', $in_footer);
+							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.3', $in_footer);
 						}
 						break(2);
 					}

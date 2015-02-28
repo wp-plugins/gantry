@@ -2,9 +2,9 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 60857 2014-05-16 08:38:19Z jakub $
+ * @version   $Id: CHANGELOG.php 61346 2015-02-27 12:09:53Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 die();
@@ -26,6 +26,14 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.1.3 Release [] ------
+^ Updated FontAwesome to 4.3.0
+# Updated compatibility for the bbPress
+# Fix for the Warning in GantryGZipper
+# Fixed issue that could prevent LESS from compiling on Windows machines when site directory had spaces in the name
++ Improved WPML compatibility ie. assigning overrides per language, translatable Gantry Widget input fields, Widget Variations for WPML Language Switcher widget etc.
+^ Reverted language strings in Gantry Default Theme to WP core native approach with hardcoded text domains for WPML compatibility (some themes will require update) - please check Gantry Framework documentation for more info
 
 ------- 4.1.2 Release [] ------
 # Fixed FontAwesome font files paths in the WordPress Multisite

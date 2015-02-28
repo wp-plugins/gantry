@@ -68,6 +68,13 @@ rule "Has a parent menu item of" priority=1
 	    $action['output']->addOverride(new GantryOverrideItem($gof->override_id, 2, $gof->getDepthToChild($call->query), $rule->name, $gof->getMatchData(), $gof->getNiceName()));
 	end
 
+rule "Is WPML language" priority=1
+	context GantryPageCallFact $call, GantryFactWPMLLang $gof
+	if $gof->matchesCallWPMLLang($call->query)
+	then
+	    $action['output']->addOverride(new GantryOverrideItem($gof->override_id, 2, 0, $rule->name, $gof->getMatchData(), $gof->type));
+	end
+
 rule "Is template page type" priority=1
 	context GantryPageCallFact $call, GantryFactTemplatePage $gof
 	if $gof->matchesCallPageType($call->query)

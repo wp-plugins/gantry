@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   4.1.2 May 18, 2014
+ * @version   4.1.3 February 28, 2015
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
  
@@ -47,26 +47,26 @@ class GantryWidgetLoginForm extends GantryWidget {
 				<?php endif; ?>
 				<fieldset class="userdata">
 					<p id="form-login-username">
-						<label for="modlgn-username"><?php _re('User Name'); ?></label>
+						<label for="modlgn-username"><?php _e('User Name', 'gantry'); ?></label>
 						<input id="modlgn-username" type="text" name="log" class="inputbox" alt="username" size="18" value="" />
 					</p>
 					<p id="form-login-password">
-						<label for="modlgn-passwd"><?php _re('Password'); ?></label>
+						<label for="modlgn-passwd"><?php _e('Password', 'gantry'); ?></label>
 						<input id="modlgn-passwd" type="password" name="pwd" class="inputbox" size="18" alt="password" value="" />
 					</p>
 					<p id="form-login-remember">
-						<label for="modlgn-remember"><?php _re('Remember Me'); ?></label>
+						<label for="modlgn-remember"><?php _e('Remember Me', 'gantry'); ?></label>
 						<input id="modlgn-remember" type="checkbox" name="rememberme" class="inputbox" />
 					</p>
-					<input type="submit" value="<?php _re('Log in'); ?>" class="button" name="submit" />
+					<input type="submit" value="<?php _e('Log in', 'gantry'); ?>" class="button" name="submit" />
 				</fieldset>				
 				<ul>
 					<li>
-						<a href="<?php echo wp_lostpassword_url(); ?>"><?php _re('Forgot your password?'); ?></a>
+						<a href="<?php echo wp_lostpassword_url(); ?>"><?php _e('Forgot your password?', 'gantry'); ?></a>
 					</li>
 					<?php if(get_option('users_can_register')) : ?>
 					<li>
-						<a href="<?php echo site_url('/wp-login.php?action=register&redirect_to=' . get_permalink()); ?>"><?php _re('Register'); ?></a>
+						<a href="<?php echo site_url('/wp-login.php?action=register&redirect_to=' . get_permalink()); ?>"><?php _e('Register', 'gantry'); ?></a>
 					</li>
 					<?php endif; ?>
 				</ul>
@@ -84,7 +84,7 @@ class GantryWidgetLoginForm extends GantryWidget {
 					<p><?php echo $instance['user_greeting']; ?> <?php echo $current_user->display_name; ?></p>
 				</div>
 				<div class="logout-button">
-					<input type="submit" name="Submit" class="button" value="<?php _re('Log out'); ?>" />
+					<input type="submit" name="Submit" class="button" value="<?php _e('Log out', 'gantry'); ?>" />
 				</div>
 			</form>
 		

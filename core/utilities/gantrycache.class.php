@@ -2,7 +2,7 @@
 /**
  * @version   $Id: gantrycache.class.php 59361 2013-03-13 23:10:27Z btowles $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -26,7 +26,7 @@ class GantryCache
 	/**
 	 *
 	 */
-	const ADMIN_GROUP_NAME = 'GantryAdmin-4.1.2';
+	const ADMIN_GROUP_NAME = 'GantryAdmin-4.1.3';
 
 	const ADMIN_LIFETIME = 86400;
 
@@ -122,7 +122,7 @@ class GantryCache
 			$this->cache->addDriver('frontend',  new WpTransientCacheDriver($this->group, $this->lifetime));
 		} elseif (is_admin()) {
 			// TODO get lifetime for backend cache
-			$this->group = self::ADMIN_GROUP_NAME . '-4.1.2';
+			$this->group = self::ADMIN_GROUP_NAME . '-4.1.3';
 			$this->cache->addDriver('admin',  new WpTransientCacheDriver($this->group, self::ADMIN_LIFETIME));
 		}
 	}

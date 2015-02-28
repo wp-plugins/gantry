@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: fontsizer.php 60832 2014-05-12 09:47:23Z jakub $
+ * @version   $Id: fontsizer.php 61343 2015-02-25 13:31:01Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -69,10 +69,10 @@ global $gantry;
 		ob_start();
 		?>
 		<div id="rt-accessibility">
-			<div class="rt-desc"><?php _ge($instance['text']); ?></div>
+			<div class="rt-desc"><?php echo $instance['text']; ?></div>
 			<div id="rt-buttons">
-				<a href="<?php echo $gantry->addQueryStringParams($gantry->getCurrentUrl(array('reset-settings')), array('font-size' => 'smaller')); ?>" title="<?php echo _g('Decrease Font Size'); ?>" class="small"><span class="button"></span></a>
-				<a href="<?php echo $gantry->addQueryStringParams($gantry->getCurrentUrl(array('reset-settings')), array('font-size' => 'larger')); ?>" title="<?php echo _g('Increase Font Size'); ?>" class="large"><span class="button"></span></a>
+				<a href="<?php echo $gantry->addQueryStringParams($gantry->getCurrentUrl(array('reset-settings')), array('font-size' => 'smaller')); ?>" title="<?php _e('Decrease Font Size', 'gantry'); ?>" class="small"><span class="button"></span></a>
+				<a href="<?php echo $gantry->addQueryStringParams($gantry->getCurrentUrl(array('reset-settings')), array('font-size' => 'larger')); ?>" title="<?php _e('Increase Font Size', 'gantry'); ?>" class="large"><span class="button"></span></a>
 			</div>
 		</div>
 		<div class="clear"></div>

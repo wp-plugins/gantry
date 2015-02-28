@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   4.1.2 May 18, 2014
+ * @version   4.1.3 February 28, 2015
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined( 'GANTRY_VERSION' ) or die();
@@ -13,7 +13,7 @@ add_action( 'widgets_init', array( 'GantryWidgetBreadcrumbs', 'init' ) );
 
 class GantryWidgetBreadcrumbs extends GantryWidget {
 	var $short_name = 'breadcrumbs';
-	var $wp_name = 'gantry_breakcrumbs';
+	var $wp_name = 'gantry_breadcrumbs';
 	var $long_name = 'Gantry Breadcrumbs';
 	var $description = 'Gantry Breadcrumbs Widget';
 	var $css_classname = 'widget_gantry_breadcrumbs';
@@ -32,7 +32,7 @@ class GantryWidgetBreadcrumbs extends GantryWidget {
 				'after_breadcrumbs' => '</div>',
 				'before' => '',
 				'after' => '',
-				'home' => _r( 'Home' ),
+				'home' => __( 'Home' ),
 				'delimiter' => '<img alt="" class="breadcrumbs-delimiter" src="' . $gantry->templateUrl . '/images/arrow.png" />'
 			) );
 
@@ -118,8 +118,10 @@ class GantryWidgetBreadcrumbs extends GantryWidget {
 						$the_category = get_the_category();
 						$cat = current( $the_category );
 						$cat_parents = get_category_parents( $cat, true, $delimiter );
-						$cat_parents = str_replace( '<a', '<a class="pathway"', $cat_parents );
-						echo $cat_parents;
+						if( is_string( $cat_parents ) ) {
+							$cat_parents = str_replace( '<a', '<a class="pathway"', $cat_parents );
+							echo $cat_parents;
+						}
 						echo $before . '<span>' . get_the_title() . '</span>' . $after;
 
 					}

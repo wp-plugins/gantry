@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrymainbodyrenderer.class.php 60373 2014-01-09 20:57:44Z jakub $
+ * @version   $Id: gantrymainbodyrenderer.class.php 60976 2014-06-21 16:36:53Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -196,7 +196,9 @@ class GantryMainBodyRenderer
 
 		// find the widget and its position
 		foreach ($params[0]['widget_map'] as $pos => $position_info) {
-			$position_widgets = $position_info['widgets'];
+			if(isset($position_info['widgets'])) {
+				$position_widgets = $position_info['widgets'];
+			}
 			if (empty($position_widgets) || !array_key_exists($widget_id, $position_widgets)) continue;
 			$keys				   = array_keys($position_widgets);
 			$params[0]['position'] = $pos;

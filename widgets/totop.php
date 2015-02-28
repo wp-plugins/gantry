@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: totop.php 60823 2014-05-12 08:17:30Z jakub $
+ * @version   $Id: totop.php 61343 2015-02-25 13:31:01Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -46,7 +46,7 @@ class GantryWidgetToTop extends GantryWidget {
 
 		ob_start();
 		?>
-		<a href="#" id="gantry-totop"><?php echo _g($instance['text']); ?></a>
+		<a href="#" id="gantry-totop"><?php echo $instance['text']; ?></a>
 		<?php
 		echo ob_get_clean();
 	}

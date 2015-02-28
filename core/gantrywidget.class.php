@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrywidget.class.php 60823 2014-05-12 08:17:30Z jakub $
+ * @version   $Id: gantrywidget.class.php 61341 2015-02-24 19:42:57Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -199,9 +199,20 @@ class GantryWidget extends WP_Widget
 
 		// clean up the input
 		$tmp_instance = array();
+
+		// Check for WPML translation allowed inputs
+		if(array_key_exists('wpml_inputs', $new_instance) && $new_instance['wpml_inputs'] != '') {
+			$wpml_allowed_inputs = explode(' ', $new_instance['wpml_inputs']);
+		}
+
 		foreach ($new_instance as $key => $value) {
 			$clean_val          = GantryWidget::_cleanInputVariable($key, $value);
 			$tmp_instance[$key] = $clean_val;
+
+			// Register allowed WPML input strings
+			if (function_exists( 'icl_register_string' ) && !empty($wpml_allowed_inputs) && in_array($key, $wpml_allowed_inputs)) {
+				icl_register_string( 'Gantry Widgets', $this->long_name . '-' . $this->id . '-' . $key, $tmp_instance[$key] );
+			}
 		}
 		return $tmp_instance;
 	}
@@ -219,6 +230,11 @@ class GantryWidget extends WP_Widget
 		foreach ($instance as $variable => $value) {
 			$$variable           = GantryWidget::_cleanOutputVariable($variable, $value);
 			$instance[$variable] = $$variable;
+
+			// Get WPML translated widget inputs
+			if( function_exists( 'icl_t' ) ) {
+				$instance[$variable] = icl_t('Gantry Widgets', $this->long_name . '-' . $this->id . '-' . $variable, $value);
+			}
 		}
 		ob_start();
 		$this->render_position_open($args, $instance);

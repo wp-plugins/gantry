@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantrygzipper.class.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: gantrygzipper.class.php 60921 2014-06-01 09:47:27Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 defined('GANTRY_VERSION') or die();
@@ -142,9 +142,11 @@ class GantryGZipper
 
 		$script_tags = $gantry->_scripts;
 
-		foreach ($script_tags as $filepath => $file) {
-			$md5sum .= md5($filepath);
-			$ordered_files[] = array(dirname($filepath), basename($filepath), $file);
+		if(isset($script_tags)) {
+			foreach ( $script_tags as $filepath => $file ) {
+				$md5sum .= md5( $filepath );
+				$ordered_files[] = array( dirname( $filepath ), basename( $filepath ), $file );
+			}
 		}
 
 		if (!is_writable($cache_dir)) {

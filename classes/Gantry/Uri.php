@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: Uri.php 59350 2013-03-13 17:14:16Z btowles $
+ * @version   $Id: Uri.php 61282 2015-01-27 19:45:43Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -466,6 +466,7 @@ class Gantry_Uri
 
 		if (preg_match('/^WIN/', PHP_OS)){
 			$uriString = str_replace('\\', '/',$uriString);
+			$uriString = str_replace(' ', '%20',$uriString);
 			$this->originalString = $uriString;
 		}
 

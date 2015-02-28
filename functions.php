@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: functions.php 59490 2013-04-11 14:45:04Z jakub $
+ * @version   $Id: functions.php 61146 2014-11-10 18:10:43Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -168,7 +168,7 @@ function gantry_construct()
 		/**
 		 * @name GANTRY_VERSION
 		 */
-		define('GANTRY_VERSION', '4.1.2');
+		define('GANTRY_VERSION', '4.1.3');
 
 
 		if (!defined('DS')) {
@@ -185,13 +185,14 @@ function gantry_construct()
 
 		$options        = get_option(get_template() . "-template-options");
 
-
-
 		// Get the gantry instance
 		gantry_import('core.gantry');
 
 		gantry_import('core.utilities.gantrycache');
 		$cache = GantryCache::getInstance(is_admin());
+
+		do_action('gantry_before_setting_cache');
+
 		$gantry = $cache->get('gantry');
 		if (is_null($gantry) || $gantry === false) {
 			$gantry = Gantry::getInstance();
@@ -212,7 +213,6 @@ function gantry_construct()
 	}
 }
 
-
 function gantry_load_template_lang_action()
 {
 	if (defined('NONGANTRY_TEMPLATE')) return;
@@ -227,6 +227,7 @@ function gantry_init_action()
 	if (defined('NONGANTRY_TEMPLATE')) return;
 	/** @global $gantry Gantry */
 	global $gantry;
+
 	$gantry->init();
 	$gantry->basicLoad();
 }
@@ -495,3 +496,21 @@ function gantry_pretty_print($text)
 	return $text;
 }
 
+function wpml_language_switch_clear_cache() {
+	global $gantry, $sitepress;
+
+	if( class_exists( 'SitePress' ) && isset( $sitepress ) ) {
+
+		$original_language = $sitepress->get_language_cookie();
+		$current_language  = $sitepress->get_current_language();
+
+		if( ( isset( $original_language ) && isset( $current_language ) ) && $original_language !== $current_language ) {
+			gantry_import('core.utilities.gantrycache');
+
+			$cache_handler = GantryCache::getCache( 'gantry', 0, true );
+			$cache_handler->clearGroupCache();
+
+		}
+
+	}
+}

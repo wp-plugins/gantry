@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: overridesmap.php 60832 2014-05-12 09:47:23Z jakub $
+ * @version   $Id: overridesmap.php 61343 2015-02-25 13:31:01Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -51,7 +51,7 @@ class GantryWidgetOverridesMap extends GantryWidget
 		$override_tree = $gantry->_override_tree;
 		ob_start();
 
-		echo 'Overrides in Order Applied';
+		_e('Overrides in Order Applied', 'gantry');
 
 		?>
 		<ol>

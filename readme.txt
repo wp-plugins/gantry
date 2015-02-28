@@ -3,8 +3,8 @@ Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful, buddypress
 Requires at least: 3.2
-Tested up to: 4.1
-Stable tag: 4.1.2
+Tested up to: 4.1.1
+Stable tag: 4.1.3
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -86,6 +86,14 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 4.1.3 =
+* Updated FontAwesome to 4.3.0
+* Updated compatibility for the bbPress
+* Fix for the Warning in GantryGZipper
+* Fixed issue that could prevent LESS from compiling on Windows machines when site directory had spaces in the name
+* Improved WPML compatibility ie. assigning overrides per language, translatable Gantry Widget input fields, Widget Variations for WPML Language Switcher widget etc.
+* Reverted language strings in Gantry Default Theme to WP core native approach with hardcoded text domains for WPML compatibility (some themes will require update) - please check Gantry Framework documentation for more info
 
 = 4.1.2 =
 * Fixed FontAwesome font files paths in the WordPress Multisite

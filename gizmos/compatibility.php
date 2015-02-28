@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: compatibility.php 60857 2014-05-16 08:38:19Z jakub $
+ * @version   $Id: compatibility.php 60974 2014-06-18 12:01:07Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -66,20 +66,6 @@ class GantryGizmoCompatibility extends GantryGizmo {
 
 	}
 
-	function query_parsed_init() {
-		/** @global $gantry Gantry */
-		global $gantry;
-
-		/**
-		 * BBPress Compatibility
-		 */
-
-		if( function_exists( 'bbpress' ) && is_bbpress() ) {
-			add_filter( 'gantry_mainbody_include', array( &$this, 'bb_fix_archive_page' ) );
-		}
-
-	}
-
 	/**
 	 * WP E-Commerce  - Ability to override plugin theme files
 	 */
@@ -98,19 +84,6 @@ class GantryGizmoCompatibility extends GantryGizmo {
 		$file = basename( $tmpl );
 		if( file_exists( trailingslashit( get_template_directory() ) . $file ) ) {
 			return trailingslashit( get_template_directory() ) . $file;
-		}
-		return $tmpl;
-	}
-
-	/**
-	 * BBPress - Fix for the Forum archive post type
-	 */
-
-	function bb_fix_archive_page( $tmpl ) {
-		if( is_post_type_archive( 'forum' ) ) {
-			foreach( array( 'archive-forum.php', 'page.php' ) as $template ) {
-				if( file_exists( get_template_directory() . '/html/' . $template ) ) return get_template_directory() . '/html/' . $template;
-			}
 		}
 		return $tmpl;
 	}

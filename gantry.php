@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: gantry.php 60694 2014-03-26 16:16:53Z btowles $
+ * @version   $Id: gantry.php 61146 2014-11-10 18:10:43Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -10,7 +10,7 @@
 Plugin Name: Gantry Template Framework
 Plugin URI: http://www.gantry-framework.org/
 Description: This is a Framework to support easily modifiable themes that are very extensible.
-Version: 4.1.2
+Version: 4.1.3
 Author: RocketTheme
 Author URI: http://www.rockettheme.com/wordpress
 License: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -45,6 +45,7 @@ if (file_exists($gantry_templatepath)) {
 	if (!is_admin()) { // Main Site
 		add_action('wp', 'gantry_setup_override_widget_instances', 2);
 		add_action('after_setup_theme', 'gantry_init_action', -9999);
+		add_action('gantry_before_setting_cache', 'wpml_language_switch_clear_cache');
 		add_action('plugins_loaded', 'gantry_change_widiget_init_action', 2);
 		add_action('wp', 'gantry_post_parse_load_action', -10000);
 		add_filter('template_include', 'gantry_template_include_filter', 1, 1);

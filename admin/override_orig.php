@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: override_orig.php 59366 2013-03-14 09:59:08Z jakub $
+ * @version   $Id: override_orig.php 61153 2014-11-20 20:09:41Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -26,6 +26,7 @@ gantry_assignment_template_pages_meta_boxes();
 gantry_assignment_menus_meta_boxes();
 gantry_assignment_post_type_meta_boxes();
 gantry_assignment_archives_meta_boxes();
+do_action('gantry_assignment_custom_meta_boxes');
 /* _EOF_ */
 
 

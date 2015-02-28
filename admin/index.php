@@ -1,8 +1,8 @@
 <?php
 /**
- * @version   $Id: index.php 60344 2014-01-03 22:06:04Z jakub $
+ * @version   $Id: index.php 61153 2014-11-20 20:09:41Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
- * @copyright Copyright (C) 2007 - 2014 RocketTheme, LLC
+ * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
@@ -52,6 +52,7 @@ if ($override) {
 	gantry_assignment_menus_meta_boxes();
 	gantry_assignment_post_type_meta_boxes();
 	gantry_assignment_archives_meta_boxes();
+	do_action('gantry_assignment_custom_meta_boxes');
 
 	//$gantry->addScript($gantry->gantryUrl . '/admin/widgets/radios/js/radios.js');
 	$gantry->addScript($gantry->gantryUrl . '/admin/widgets/assignments/js/assignments.js');
