@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: widgets.php 59361 2013-03-13 23:10:27Z btowles $
+ * @version   $Id: widgets.php 61350 2015-03-10 10:40:16Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -100,6 +100,12 @@ switch ($action) {
 		die();
 		break;
 	case 'widgets-mass-actions':
+		check_ajax_referer('save-sidebar-widgets', 'savewidgets');
+
+		if (!current_user_can('edit_theme_options')) die('-1');
+
+		unset($_POST['savewidgets'], $_POST['action']);
+
 		$tmp  = array();
 		$data = stripcslashes($_POST['data']);
 		foreach (json_decode($data) as $d) {

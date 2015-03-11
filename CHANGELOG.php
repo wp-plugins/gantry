@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 61346 2015-02-27 12:09:53Z jakub $
+ * @version   $Id: CHANGELOG.php 61350 2015-03-10 10:40:16Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,9 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.1.4 Release [] ------
+* Fixed potential security risk
 
 ------- 4.1.3 Release [] ------
 ^ Updated FontAwesome to 4.3.0

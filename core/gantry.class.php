@@ -1055,7 +1055,7 @@ class Gantry
 						$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 					}
 					$filename = strtolower(basename($path, '.css')) . rand(0, 1000);
-					wp_enqueue_style($filename, $path, array(), '4.1.3');
+					wp_enqueue_style($filename, $path, array(), '4.1.4');
 					$deps[] = $path;
 				}
 			}
@@ -1068,11 +1068,11 @@ class Gantry
 			if ($this->baseUrl != "/") {
 				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 			}
-			wp_enqueue_script($path, $path, $deps, '4.1.3');
+			wp_enqueue_script($path, $path, $deps, '4.1.4');
 			$deps[] = $path;
 		}
 		foreach ($this->_header_full_scripts as $strSrc) {
-			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.3');
+			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.4');
 			$deps[] = $strSrc;
 		}
 
@@ -1112,11 +1112,11 @@ class Gantry
 			if ($this->baseUrl != "/") {
 				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 			}
-			wp_enqueue_script($path, $path, $deps, '4.1.3', true);
+			wp_enqueue_script($path, $path, $deps, '4.1.4', true);
 			$deps[] = $path;
 		}
 		foreach ($this->_footer_full_scripts as $strSrc) {
-			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.3', true);
+			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.4', true);
 			$deps[] = $strSrc;
 		}
 
@@ -1764,7 +1764,7 @@ class Gantry
 				if (!defined('GANTRY_FINALIZED')) {
 					$this->_styles[$priority][] = $link;
 				} else {
-					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.1.3');
+					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.1.4');
 				}
 			}
 		}
@@ -1878,7 +1878,7 @@ class Gantry
 							$this->_footerscripts[$full_path] = $check_url_path . $query_string;
 						}
 					} else {
-						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.3', $in_footer);
+						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.4', $in_footer);
 					}
 					break;
 				}
@@ -1916,7 +1916,7 @@ class Gantry
 						        $this->_footerscripts[$check_path] = $check_url_path . $query_string;
 						    }
 						} else {
-							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.3', $in_footer);
+							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.4', $in_footer);
 						}
 						break(2);
 					}

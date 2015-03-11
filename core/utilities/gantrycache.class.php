@@ -26,7 +26,7 @@ class GantryCache
 	/**
 	 *
 	 */
-	const ADMIN_GROUP_NAME = 'GantryAdmin-4.1.3';
+	const ADMIN_GROUP_NAME = 'GantryAdmin-4.1.4';
 
 	const ADMIN_LIFETIME = 86400;
 
@@ -122,7 +122,7 @@ class GantryCache
 			$this->cache->addDriver('frontend',  new WpTransientCacheDriver($this->group, $this->lifetime));
 		} elseif (is_admin()) {
 			// TODO get lifetime for backend cache
-			$this->group = self::ADMIN_GROUP_NAME . '-4.1.3';
+			$this->group = self::ADMIN_GROUP_NAME . '-4.1.4';
 			$this->cache->addDriver('admin',  new WpTransientCacheDriver($this->group, self::ADMIN_LIFETIME));
 		}
 	}
