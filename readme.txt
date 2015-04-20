@@ -3,7 +3,7 @@ Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful, buddypress
 Requires at least: 3.2
-Tested up to: 4.1.1
+Tested up to: 4.2
 Stable tag: 4.1.4
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
