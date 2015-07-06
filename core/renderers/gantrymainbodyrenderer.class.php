@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantrymainbodyrenderer.class.php 60976 2014-06-21 16:36:53Z jakub $
+ * @version   $Id: gantrymainbodyrenderer.class.php 61394 2015-07-04 09:48:11Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -57,7 +57,7 @@ class GantryMainBodyRenderer
 		}
 
 		// If RTL then flip the array
-		if (get_bloginfo('text_direction') == 'rtl' && $gantry->get('rtl-enabled')) {
+		if (is_rtl() && $gantry->get('rtl-enabled')) {
 			$schema = $gantry->flipBodyPosition($schema);
 		}
 
@@ -84,13 +84,14 @@ class GantryMainBodyRenderer
 		$filtered_widgets = GantryWidgetsRenderer::filterWidgetCount($sidebars_widgets);
 
 		(isset($filtered_widgets['sidebar'])) ? $widgets = $filtered_widgets['sidebar'] : $widgets = array();
+		$widgets = apply_filters('gantry_renderer_filtered_widgets', $widgets);
 
 		// Map widgets to sidebars without the dividers
 		$widget_map   = array();
 		$pos          = 1;
 		$pos_info_set = false;
 
-		if (get_bloginfo('text_direction') == 'rtl' && $gantry->get('rtl-enabled')) {
+		if (is_rtl() && $gantry->get('rtl-enabled')) {
 			$main_body_pp = array_shift($pushPull);
 			$pushPull     = array_reverse($pushPull);
 			array_unshift($pushPull, $main_body_pp);
@@ -115,7 +116,7 @@ class GantryMainBodyRenderer
 
 
 		$sidebars = "";
-		if (get_bloginfo('text_direction') == 'rtl' && $gantry->get('rtl-enabled')) {
+		if (is_rtl() && $gantry->get('rtl-enabled')) {
 			add_filter('sidebars_widgets', array('GantryMainBodyRenderer', 'invertPositionOrder'));
 		}
 		add_filter('dynamic_sidebar_params', array('GantryMainBodyRenderer', 'filterWidget'));
@@ -123,7 +124,7 @@ class GantryMainBodyRenderer
 		dynamic_sidebar('sidebar');
 		$sidebars .= ob_get_clean();
 		remove_filter('dynamic_sidebar_params', array('GantryMainBodyRenderer', 'filterWidget'));
-		if (get_bloginfo('text_direction') == 'rtl' && $gantry->get('rtl-enabled')) {
+		if (is_rtl() && $gantry->get('rtl-enabled')) {
 			remove_filter('sidebars_widgets', array('GantryMainBodyRenderer', 'invertPositionOrder'));
 		}
 
@@ -154,7 +155,7 @@ class GantryMainBodyRenderer
 	 *
 	 * @return array
 	 */
-	public function invertPositionOrder($sidebar_widgets)
+	public static function invertPositionOrder($sidebar_widgets)
 	{
 
 		$inverted_sidebar_widgets = array();

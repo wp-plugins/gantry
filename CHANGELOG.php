@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 61350 2015-03-10 10:40:16Z jakub $
+ * @version   $Id: CHANGELOG.php 61395 2015-07-04 09:53:17Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,13 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.1.5 Release [] ------
+# Fixed layout issues when using WPML and multilingual widgets
+# Fixed strict standards error in invertPositionOrder for RTL languages
+# Fixed Warning caused by $gantry being null when using WPTouch
+# Fixed RTL notices caused by using deprecated get_bloginfo calls
++ Added wp_nonce_field() to the Login Form widget
 
 ------- 4.1.4 Release [] ------
 * Fixed potential security risk

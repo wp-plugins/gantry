@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: functions.php 61146 2014-11-10 18:10:43Z jakub $
+ * @version   $Id: functions.php 61393 2015-07-03 07:47:35Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -168,7 +168,7 @@ function gantry_construct()
 		/**
 		 * @name GANTRY_VERSION
 		 */
-		define('GANTRY_VERSION', '4.1.4');
+		define('GANTRY_VERSION', '4.1.5');
 
 
 		if (!defined('DS')) {
@@ -449,8 +449,10 @@ function gantry_addUrlVars($aVars)
 {
 	/** @global $gantry Gantry */
 	global $gantry;
-	foreach ($gantry->_setbyurl as $queryvar) {
-		$aVars[] = $queryvar;
+	if( $gantry !== null ) {
+		foreach( $gantry->_setbyurl as $queryvar ) {
+			$aVars[] = $queryvar;
+		}
 	}
 	$aVars[] = 'reset-settings';
 	return $aVars;

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantryorderedmainbodyrenderer.class.php 60342 2014-01-03 17:12:22Z jakub $
+ * @version   $Id: gantryorderedmainbodyrenderer.class.php 61394 2015-07-04 09:48:11Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -58,7 +58,7 @@ class GantryOrderedMainBodyRenderer
 		$end   = end(array_keys($schema));
 		$start = reset(array_keys($schema));
 
-		$rtl_enabled = (get_bloginfo('text_direction') == 'rtl' && $gantry->get('rtl-enabled')) ? true : false;
+		$rtl_enabled = (is_rtl() && $gantry->get('rtl-enabled')) ? true : false;
 
 		// If RTL then flip the array
 		if ($rtl_enabled) {
@@ -88,7 +88,8 @@ class GantryOrderedMainBodyRenderer
 		// clean to max sidebars
 		$filtered_widgets = GantryWidgetsRenderer::filterWidgetCount($sidebars_widgets);
 
-		$widgets = $filtered_widgets['sidebar'];
+		(isset($filtered_widgets['sidebar'])) ? $widgets = $filtered_widgets['sidebar'] : $widgets = array();
+		$widgets = apply_filters('gantry_renderer_filtered_widgets', $widgets);
 
 		if (null == $widgets) $widgets = array();
 		// Map widgets to sidebars without the dividers

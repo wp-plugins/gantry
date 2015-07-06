@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   4.1.4 March 11, 2015
+ * @version   4.1.5 July 6, 2015
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -40,6 +40,7 @@ class GantryWidgetLoginForm extends GantryWidget {
     	<?php if(!is_user_logged_in()) : ?>
 		
 			<form action="<?php echo wp_login_url($_SERVER['REQUEST_URI']); ?>" method="post" id="login-form">
+				<?php wp_nonce_field(); ?>
 				<?php if ($instance['pretext'] != ''): ?>
 				<div class="pretext">
 					<p><?php echo $instance['pretext']; ?></p>
@@ -80,6 +81,7 @@ class GantryWidgetLoginForm extends GantryWidget {
 		<?php else : ?>
 		
 			<form action="<?php echo wp_logout_url($_SERVER['REQUEST_URI']); ?>" method="post" id="login-form">
+				<?php wp_nonce_field(); ?>
 				<div class="login-greeting">
 					<p><?php echo $instance['user_greeting']; ?> <?php echo $current_user->display_name; ?></p>
 				</div>

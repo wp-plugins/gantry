@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantrywidgetsrenderer.class.php 60342 2014-01-03 17:12:22Z jakub $
+ * @version   $Id: gantrywidgetsrenderer.class.php 61394 2015-07-04 09:48:11Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -56,7 +56,9 @@ class GantryWidgetsRenderer
 		$sidebar['showmax']  = $showMaxParam;
 
 		$filtered_widgets = GantryWidgetsRenderer::filterWidgetCount($sidebars_widgets);
+
 		$widgets          = $filtered_widgets[$positionStub];
+		$widgets          = apply_filters('gantry_renderer_filtered_widgets', $widgets);
 
 		// Map widgets to positions without the dividers
 		$widget_map = array();
@@ -109,7 +111,7 @@ class GantryWidgetsRenderer
 
 		$sidebar['widget_map'] = $widget_map;
 
-		if (get_bloginfo('text_direction') == 'rtl' && $gantry->get('rtl-enabled')) {
+		if (is_rtl() && $gantry->get('rtl-enabled')) {
 			add_filter('sidebars_widgets', array('GantryWidgetsRenderer', 'invertPositionOrder'));
 		}
 		add_filter('dynamic_sidebar_params', array('GantryWidgetsRenderer', 'filterWidget'));
@@ -119,7 +121,7 @@ class GantryWidgetsRenderer
 		$output = ob_get_clean();
 		remove_filter('dynamic_sidebar_params', array('GantryWidgetsRenderer', 'filterWidget'));
 
-		if (get_bloginfo('text_direction') == 'rtl' && $gantry->get('rtl-enabled')) {
+		if (is_rtl() && $gantry->get('rtl-enabled')) {
 			remove_filter('sidebars_widgets', array('GantryWidgetsRenderer', 'invertPositionOrder'));
 		}
 		return $output;

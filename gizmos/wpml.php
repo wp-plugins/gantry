@@ -38,6 +38,9 @@ class GantryGizmoWPML extends GantryGizmo {
 
 			// add WPML language conditional to WP_Query
 			add_action( 'parse_query', array( &$this, 'query_add_wpml_language_conditionals' ) );
+
+			// remove widgets that won't get displayed (for current language) from the widget list to make layout appear properly
+			add_filter( 'gantry_renderer_filtered_widgets', array( &$this, 'remove_unnecessary_widgets_from_list' ) );
 		}
 
 	}
@@ -131,10 +134,54 @@ class GantryGizmoWPML extends GantryGizmo {
 
 	}
 
+	/**
+	 * Remove widgets that won't get displayed (for current language) from the widget list to make layout appear properly
+	 *
+	 * @param $widgets
+	 *
+	 * @return mixed
+	 */
+	function remove_unnecessary_widgets_from_list( $widgets ) {
+		global $gantry;
+
+		if( class_exists( 'WP_Widget_Text_Icl' ) || class_exists( 'WPML_Widgets' ) ) {
+			if( !empty( $widgets ) ) {
+				foreach( $widgets as $widget_id ) {
+					$widget_instance = $this->getWidgetInstanceParams( $widget_id );
+					if( ( isset( $widget_instance['icl_language'] ) && ( $widget_instance['icl_language'] != 'multilingual' && $widget_instance['icl_language'] != ICL_LANGUAGE_CODE ) )
+				        || ( isset( $widget_instance['wpml_language'] ) && ( $widget_instance['wpml_language'] != 'all' && $widget_instance['wpml_language'] != ICL_LANGUAGE_CODE ) ) ) {
+						$found = array_search( $widget_id, $widgets );
+						unset( $widgets[ $found ] );
+					}
+				}
+			}
+		}
+
+		return $widgets;
+	}
+
 	// Re-registers ICL Language Switcher widget to extend it for missing form needed for widget variations
 	function reregister_language_switcher_widget() {
 		unregister_widget( 'ICL_Language_Switcher' );
 		register_widget( 'Gantry_ICL_Language_Switcher' );
+	}
+
+	// Helper function to get the widget instance
+	function getWidgetInstanceParams( $widget_id ) {
+		global $wp_registered_widgets;
+		$widget_info =& $wp_registered_widgets[$widget_id];
+
+		if ( is_array( $widget_info['callback'] ) ) {
+			$widget =& $widget_info['callback'][0];
+			if ( is_object( $widget ) && $widget instanceof WP_Widget ) {
+				$instances       = $widget->get_settings();
+				$instance_params = $instances[$widget_info['params'][0]['number']];
+			}
+		} else {
+			$instance_params = $wp_registered_widgets[$widget_id]['params'];
+		}
+		if ( empty( $instance_params ) ) $instance_params = array();
+		return $instance_params;
 	}
 
 }
