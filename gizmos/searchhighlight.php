@@ -28,7 +28,7 @@ class GantryGizmoSearchHighlight extends GantryGizmo
 		global $gantry, $s;
 		if(is_search()) {
 			$gantry->addScript( 'gantry-search-highlight.js' );
-			$js = 'window.addEvent(\'domready\', function() { highlight(\'' . $s . '\'); });';
+			$js = 'window.addEvent(\'domready\', function() { highlight(\'' . esc_attr($s) . '\'); });';
 			$gantry->addInlineScript( $js );
 		}
 	}

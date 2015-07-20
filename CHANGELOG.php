@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 61395 2015-07-04 09:53:17Z jakub $
+ * @version   $Id: CHANGELOG.php 61405 2015-07-20 08:11:28Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,10 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.1.6 Release [] ------
+* Fixed XSS security vulnerability - thanks to Ingo Chao @ingochao for reporting
+# Replaced .live deprecated jQuery call in gantry-widgets.js
 
 ------- 4.1.5 Release [] ------
 # Fixed layout issues when using WPML and multilingual widgets

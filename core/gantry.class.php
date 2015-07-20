@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: gantry.class.php 61394 2015-07-04 09:48:11Z jakub $
+ * @version   $Id: gantry.class.php 61405 2015-07-20 08:11:28Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -570,7 +570,8 @@ class Gantry
 		$this->_displayHead($output);
 		$this->_displayFooter($output);
 		$this->_displayBodyTag($output);
-		echo $output;
+
+		echo apply_filters('gantry_before_render_output', $output);
 	}
 
 	/**
@@ -1055,7 +1056,7 @@ class Gantry
 						$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 					}
 					$filename = strtolower(basename($path, '.css')) . rand(0, 1000);
-					wp_enqueue_style($filename, $path, array(), '4.1.5');
+					wp_enqueue_style($filename, $path, array(), '4.1.6');
 					$deps[] = $path;
 				}
 			}
@@ -1068,11 +1069,11 @@ class Gantry
 			if ($this->baseUrl != "/") {
 				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 			}
-			wp_enqueue_script($path, $path, $deps, '4.1.5');
+			wp_enqueue_script($path, $path, $deps, '4.1.6');
 			$deps[] = $path;
 		}
 		foreach ($this->_header_full_scripts as $strSrc) {
-			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.5');
+			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.6');
 			$deps[] = $strSrc;
 		}
 
@@ -1112,11 +1113,11 @@ class Gantry
 			if ($this->baseUrl != "/") {
 				$path = '/' . preg_replace('#^' . quotemeta($this->baseUrl) . '#', "", $path);
 			}
-			wp_enqueue_script($path, $path, $deps, '4.1.5', true);
+			wp_enqueue_script($path, $path, $deps, '4.1.6', true);
 			$deps[] = $path;
 		}
 		foreach ($this->_footer_full_scripts as $strSrc) {
-			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.5', true);
+			wp_enqueue_script($strSrc, $strSrc, $deps, '4.1.6', true);
 			$deps[] = $strSrc;
 		}
 
@@ -1764,7 +1765,7 @@ class Gantry
 				if (!defined('GANTRY_FINALIZED')) {
 					$this->_styles[$priority][] = $link;
 				} else {
-					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.1.5');
+					wp_enqueue_style($link->getUrl(), $link->getUrl(), array(), '4.1.6');
 				}
 			}
 		}
@@ -1878,7 +1879,7 @@ class Gantry
 							$this->_footerscripts[$full_path] = $check_url_path . $query_string;
 						}
 					} else {
-						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.5', $in_footer);
+						wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.6', $in_footer);
 					}
 					break;
 				}
@@ -1916,7 +1917,7 @@ class Gantry
 						        $this->_footerscripts[$check_path] = $check_url_path . $query_string;
 						    }
 						} else {
-							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.5', $in_footer);
+							wp_enqueue_script($check_url_path, $check_url_path, array(), '4.1.6', $in_footer);
 						}
 						break(2);
 					}

@@ -1,5 +1,5 @@
 /**
- * @version $Id: gantry-widgets.js 60855 2014-05-15 21:42:30Z jakub $
+ * @version $Id: gantry-widgets.js 61404 2015-07-13 09:22:40Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -25,7 +25,7 @@ var GantryWidgets = {
 
         new Tips('.rok-tips', {title: 'data-tips'});
         (function($){
-            $('a.widget-action').live('click', function(){
+            $(document).on('click', 'a.widget-action', function(){
                 new Tips('.rok-tips', {title: 'data-tips'});
             });
         })(jQuery);
