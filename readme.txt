@@ -3,8 +3,8 @@ Contributors: gantry
 Author URI: http://gantry-framework.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful, buddypress
 Requires at least: 3.2
-Tested up to: 4.2.2
-Stable tag: 4.1.6
+Tested up to: 4.3
+Stable tag: 4.1.7
 
 Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
@@ -86,6 +86,9 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 4.1.7 =
+* Updated FontAwesome to 4.4.0
 
 = 4.1.6 =
 * Fixed XSS security vulnerability - thanks to Ingo Chao @ingochao for reporting
@@ -407,6 +410,9 @@ Once you downloaded and installed Gantry Framework plugin, please download also 
 * Changelog Creation
 
 == Upgrade Notice ==
+
+= 4.1.7 =
+Please remember to create a full site backup (files + database) before performing update.
 
 = 4.1.6 =
 This update fixes XSS security vulnerability. Please update your Gantry Framework!
