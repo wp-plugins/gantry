@@ -1,22 +1,22 @@
-=== Gantry Template Framework ===
+=== Gantry 4 Framework ===
 Contributors: gantry
-Author URI: http://gantry-framework.org
+Author URI: http://gantry.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful, buddypress
 Requires at least: 3.2
 Tested up to: 4.3
 Stable tag: 4.1.7
 
-Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
+Gantry 4 is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
 == Description ==
 
-Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform theme.
+Gantry 4 is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform theme.
 
-* Please visit http://gantry-framework.org to download a FREE WordPress Gantry default theme which can be used as a base for your own themes!
+* Please visit http://gantry.org to download a FREE WordPress Gantry 4 default theme which can be used as a base for your own themes!
 
 * For official RocketTheme Gantry forum please visit http://www.rockettheme.com/forum/gantry-framework
 
-Gantry is packed full of features to empower the development of designs into fully functional layouts with the absolute minimum of effort and fuss.
+Gantry 4 is packed full of features to empower the development of designs into fully functional layouts with the absolute minimum of effort and fuss.
 
 * True "Drag and Drop" page builder
 * Support for Responsive Layouts
@@ -42,7 +42,7 @@ Gantry is packed full of features to empower the development of designs into ful
 * ini-based configuration storage for easy portability
 * Automatic per-browser-level CSS and JS control
 
-For video tutorials and documentation please visit official [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
+For video tutorials and documentation please visit official [Gantry Framework](http://gantry.org/ "Gantry Framework") site.
 
 == Installation ==
 
@@ -61,13 +61,13 @@ Using FTP :
 1. Upload the plugin directory to the wp-content/plugins/
 1. Activate the plugin in Admin Dashboard > Plugins
 
-Please note that Gantry Framework plugin doesn't come up with the default theme. In order to download the Gantry Default theme please go to the [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
+Please note that Gantry 4 Framework plugin doesn't come up with the default theme. In order to download the Gantry Default theme please go to the [Gantry Framework](http://gantry.org/ "Gantry Framework") site.
 
 == Frequently Asked Questions ==
 
 = What are the requirements of the plugin ? =
 
-We try to ensure that any Gantry theme and the Gantry Plugin specifically will work with any modern and secure server environment. The recommended minimum requirements are :
+We try to ensure that any Gantry 4 theme and the Gantry Plugin specifically will work with any modern and secure server environment. The recommended minimum requirements are :
 
 * WordPress 3.2 or higher
 * PHP 5.2+
@@ -79,11 +79,11 @@ We try to ensure that any Gantry theme and the Gantry Plugin specifically will w
 
 = Where are the options of the plugin ? =
 
-The plugin itself doesn't have any options as everything is theme powered. Gantry Framework plugin is working in the background providing the functionality to the Gantry powered themes allowing them to control everything per-theme basis . You can download a basic Gantry theme from the official [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
+The plugin itself doesn't have any options as everything is theme powered. Gantry Framework plugin is working in the background providing the functionality to the Gantry powered themes allowing them to control everything per-theme basis . You can download a basic Gantry theme from the official [Gantry Framework](http://gantry.org/ "Gantry Framework") site.
 
 = How can I test it ? =
 
-Once you downloaded and installed Gantry Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry-framework.org/ "Gantry Framework") site.
+Once you downloaded and installed Gantry 4 Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry.org/ "Gantry Framework") site.
 
 == Changelog ==
 
