@@ -2,7 +2,7 @@
 /**
  * Gantry For Wordpress
  *
- * @version   $Id: CHANGELOG.php 61427 2015-08-02 10:28:08Z jakub $
+ * @version   $Id: CHANGELOG.php 61601 2015-09-18 17:02:04Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -26,6 +26,11 @@ Legend:
 ^ -> Change
 - -> Removed
 ! -> Note
+
+------- 4.1.8 Release [] ------
+# Fixed fallback to en_US language file if the localized .mo file doesn't exist
+# Fixed Fatal Error that could occur when WPML ICL_Language_Switcher class is missing
+^ Changed display of plugin name to Gantry 4 Framework
 
 ------- 4.1.7 Release [] ------
 ^ Updated FontAwesome to 4.4.0

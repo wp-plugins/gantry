@@ -55,7 +55,9 @@ class GantryGizmoWPML extends GantryGizmo {
 			add_action( 'gantry_assignment_custom_meta_boxes', array( &$this, 'gantry_assignment_wpml_languages_meta_boxes' ) );
 
 			// re-registers ICL Language Switcher widget to extend it for missing form needed for widget variations
-			add_action( 'widgets_init', array( &$this, 'reregister_language_switcher_widget' ), 11 );
+			if( class_exists( 'ICL_Language_Switcher' ) ) {
+				add_action( 'widgets_init', array( &$this, 'reregister_language_switcher_widget' ), 11 );
+			}
 
 			// remove possibility of converting regular text widgets to multilingual ones so it wouldn't break Gantry widget structure
 			if( defined( 'ICL_SITEPRESS_VERSION' ) && ! ICL_PLUGIN_INACTIVE ) {

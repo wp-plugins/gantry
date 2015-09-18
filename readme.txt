@@ -3,12 +3,14 @@ Contributors: gantry
 Author URI: http://gantry.org
 Tags: gantry, framework, template, theme, widgets, flexible, extensible, configurable, 960px, grid, columns, powerful, buddypress
 Requires at least: 3.2
-Tested up to: 4.3
-Stable tag: 4.1.7
+Tested up to: 4.3.1
+Stable tag: 4.1.8
 
-Gantry 4 is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
+Gantry is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform
 
 == Description ==
+
+> Gantry 5 is now available for WordPress! Please visit [Gantry 5](https://wordpress.org/plugins/gantry5/ "Gantry 5") plugin page for more informations.
 
 Gantry 4 is a comprehensive set of building blocks to enable the rapid development and realization of a design into a flexible and powerful web platform theme.
 
@@ -86,6 +88,11 @@ The plugin itself doesn't have any options as everything is theme powered. Gantr
 Once you downloaded and installed Gantry 4 Framework plugin, please download also a default theme (that is intended to be used as a basis for building your own themes) from [Gantry Framework](http://gantry.org/ "Gantry Framework") site.
 
 == Changelog ==
+
+= 4.1.8 =
+* Fixed fallback to en_US language file if the localized .mo file doesn't exist
+* Fixed Fatal Error that could occur when WPML ICL_Language_Switcher class is missing
+* Changed display of plugin name to Gantry 4 Framework
 
 = 4.1.7 =
 * Updated FontAwesome to 4.4.0
@@ -410,6 +417,9 @@ Once you downloaded and installed Gantry 4 Framework plugin, please download als
 * Changelog Creation
 
 == Upgrade Notice ==
+
+= 4.1.8 =
+Please remember to create a full site backup (files + database) before performing update.
 
 = 4.1.7 =
 Please remember to create a full site backup (files + database) before performing update.

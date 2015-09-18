@@ -1,16 +1,16 @@
 <?php
 /**
- * @version   $Id: gantry.php 61146 2014-11-10 18:10:43Z jakub $
+ * @version   $Id: gantry.php 61592 2015-09-04 10:11:08Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
  */
 
 /*
-Plugin Name: Gantry Template Framework
-Plugin URI: http://www.gantry-framework.org/
+Plugin Name: Gantry 4 Framework
+Plugin URI: http://www.gantry.org/
 Description: This is a Framework to support easily modifiable themes that are very extensible.
-Version: 4.1.7
+Version: 4.1.8
 Author: RocketTheme
 Author URI: http://www.rockettheme.com/wordpress
 License: http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only

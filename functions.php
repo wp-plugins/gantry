@@ -1,6 +1,6 @@
 <?php
 /**
- * @version   $Id: functions.php 61393 2015-07-03 07:47:35Z jakub $
+ * @version   $Id: functions.php 61594 2015-09-04 10:30:15Z jakub $
  * @author    RocketTheme http://www.rockettheme.com
  * @copyright Copyright (C) 2007 - 2015 RocketTheme, LLC
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 only
@@ -168,7 +168,7 @@ function gantry_construct()
 		/**
 		 * @name GANTRY_VERSION
 		 */
-		define('GANTRY_VERSION', '4.1.7');
+		define('GANTRY_VERSION', '4.1.8');
 
 
 		if (!defined('DS')) {
@@ -201,16 +201,38 @@ function gantry_construct()
 
 		$domain = 'gantry';
 		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+		$languages_path = basename($gantry_path) . '/languages/';
+		$theme_languages_path = $gantry->templatePath . '/languages';
 
 		load_theme_textdomain($domain);
-		load_theme_textdomain($domain, $gantry->templatePath . '/languages');
+
+		if( load_theme_textdomain($domain, $theme_languages_path) === false ) {
+			add_filter( 'theme_locale', 'gantry_modify_locale', 10, 2 );
+		}
+
+		load_theme_textdomain($domain, $theme_languages_path);
+
 		load_textdomain($domain, WP_LANG_DIR . '/gantry/' . $domain . '-' . $locale . '.mo');
-		load_plugin_textdomain($domain, false, basename($gantry_path) . '/languages/');
+
+		if( load_plugin_textdomain( $domain, false, $languages_path ) === false ) {
+			add_filter( 'plugin_locale', 'gantry_modify_locale', 10, 2 );
+		}
+
+		load_plugin_textdomain($domain, false, $languages_path);
 
 		// Load the widget positions for the template
 		$gantry->loadWidgetPositions();
 		//add_filter('query_vars', array('GantryTemplate', 'addUrlVars'));
 	}
+}
+
+function gantry_modify_locale( $locale, $domain ) {
+	// Revert the gantry domain locale to en_US
+	if( isset( $domain ) && $domain == 'gantry' ) {
+		$locale = 'en_US';
+	}
+
+	return $locale;
 }
 
 function gantry_load_template_lang_action()
